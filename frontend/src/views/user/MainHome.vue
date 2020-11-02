@@ -1,5 +1,5 @@
 <template>
-  <div class="echarts">
+  <div>
     <!-- <IEcharts
       :option="bar"
       :loading="loading"
@@ -7,18 +7,18 @@
       @click="onClick"
     />
     <button @click="doRandom">Random</button> -->
-    <OracleStorage />
+    <OracleResource />
   </div>
 </template>
 
 <script type="text/babel">
 // import IEcharts from "vue-echarts-v3/src/full.js";
-import OracleStorage from "@/components/oracle-status/OracleStorage.vue";
+import OracleResource from "@/components/oracle-status/OracleResource.vue";
 export default {
   name: "view",
   components: {
     // IEcharts,
-    OracleStorage
+    OracleResource
   },
   props: {},
   data: () => ({

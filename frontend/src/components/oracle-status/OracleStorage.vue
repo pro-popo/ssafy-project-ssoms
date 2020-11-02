@@ -1,6 +1,14 @@
 <template>
-  <div class="echart">
-    <IEcharts :option="option" />
+  <div>
+    <h2>Oracle Storage</h2>
+    <div class="oracle-storage-chart">
+      <v-icon size="20" color="var(--main-sub-color)"
+        >mdi-file-cog-outline</v-icon
+      >
+      <span> File </span>
+
+      <IEcharts :option="option" />
+    </div>
   </div>
 </template>
 
@@ -17,7 +25,7 @@ export default {
       physicalReadsPerSec: 0.0, // (mb / 초)
       physicalWritesPerSec: 0.33, // (mb / 초)
       option: {
-        title: { text: "Storage" },
+        // title: { text: "Storage" },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -53,8 +61,13 @@ export default {
 </script>
 
 <style>
-.echart {
-  width: 400px;
+.oracle-storage-chart {
+  width: auto;
   height: 300px;
+  border: 1px solid var(--font-sub-color);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 300px;
+  color: var(--font-sub2-color);
 }
 </style>
