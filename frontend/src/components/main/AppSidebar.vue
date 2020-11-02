@@ -9,19 +9,19 @@
       <AppAdminSidebar v-if="isAdmin" />
       <AppUserSidebar v-if="!isAdmin" />
     </div>
-    <Logout />
+    <v-btn class="logout-btn" color="primary" @click="userLogout">
+      LOGOUT
+    </v-btn>
   </div>
 </template>
 
 <script>
-import Logout from "@/components/account/Logout.vue";
 import AppAdminSidebar from "@/components/main/AppAdminSidebar.vue";
 import AppUserSidebar from "@/components/main/AppUserSidebar.vue";
-
+import { mapActions } from "vuex";
 export default {
   name: "AppSidebar",
   components: {
-    Logout,
     AppAdminSidebar,
     AppUserSidebar
   },
@@ -35,6 +35,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions("Account", ["logout"]),
+    userLogout() {
+      this.logout();
+    },
     getMyProfile() {
       this.$emit("user-profile");
     }
@@ -47,14 +51,13 @@ export default {
   font-size: 25px;
 }
 .user-side-bar {
-  /* margin-top: 60px; */
-  padding-top: 70px;
-  height: 100%;
+  padding-top: 20px;
+  /* height: 100%; */
   width: 220px;
-  position: absolute;
+  /* position: absolute;
   z-index: 1;
   top: 0;
-  left: 0;
+  left: 0; */
   background-color: rgb(221, 221, 221);
 }
 .user-side-bar hr {

@@ -28,19 +28,19 @@ export default {
 }
 .user-side-bar {
   /* margin-top: 60px; */
-  padding-top: 70px;
+  /* padding-top: 70px; */
   height: 100%;
   width: 220px;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
+  /* position: absolute; */
+  /* z-index: 1; */
+  /* top: 0; */
+  /* left: 0; */
   background-color: rgb(221, 221, 221);
 }
 .user-side-bar hr {
   margin: 0px;
 }
-.user-side-bar a {
+/* .user-side-bar a {
   padding: 8px 0px 8px 32px;
   text-decoration: none;
   font-size: 20px;
@@ -60,5 +60,5 @@ export default {
   font-size: 17px;
   cursor: pointer;
   display: flex;
-}
+} */
 </style>

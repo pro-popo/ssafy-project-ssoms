@@ -1,8 +1,16 @@
 <template>
   <div class="home-container">
-    <app-navbar />
-    <AppSidebar :isAdmin="isAdmin" @user-profile="getMyProfile" />
-    <AppMain />
+    <div class="home-navbar">
+      <app-navbar />
+    </div>
+    <div class="home-main-container">
+      <div class="home-sidebar">
+        <AppSidebar :isAdmin="isAdmin" @user-profile="getMyProfile" />
+      </div>
+      <div class="home-main">
+        <AppMain />
+      </div>
+    </div>
 
     <MyProfile
       v-if="requestProfile"
@@ -89,6 +97,22 @@ export default {
 
 <style>
 .home-container {
-  height: 100px;
+  height: 100vh;
+}
+.home-navbar {
+  width: 100%;
+}
+.home-sidebar {
+  height: 100%;
+}
+
+.home-main-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+.home-main {
+  width: 100%;
+  height: 100%;
 }
 </style>

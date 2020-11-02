@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SignUpForm from "@/components/account/SignUpForm.vue";
+import SignUpForm from "@/components/non-account/SignUpForm.vue";
 
 export default {
   name: "SignUpUser",
@@ -29,5 +29,6 @@ export default {
 .user-signup-container {
   width: 100%;
   height: 100%;
+  padding-top: 30px;
 }
 </style>

@@ -15,7 +15,7 @@
 // import Home from "@/views/Home.vue";
 
 import { mapGetters, mapActions } from "vuex";
-import SignUpAdmin from "@/components/account/SignUpAdmin.vue";
+import SignUpAdmin from "@/components/non-account/SignUpAdmin.vue";
 
 export default {
   name: "App",
@@ -48,5 +48,9 @@ export default {
 .main-container {
   width: 100%;
   height: 100%;
+}
+html {
+  overflow-y: hidden !important;
+  -ms-overflow-style: none;
 }
 </style>
