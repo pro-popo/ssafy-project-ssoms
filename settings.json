@@ -1,1 +1,1 @@
-{"schema":[{"userID":""}],"oracleDB":{"oracleEdition":"XE","oraclePassword":"sAef32Eq93fasdC","oracleID":"sys as sysdba","oracleURL":"k3b303.p.ssafy.io:8000"}}
+{"schema":[{"userID":"C##TESTDB"},{"userID":"C##TESTDB2"}],"oracleDB":{"oracleEdition":"XE","oraclePassword":"sAef32Eq93fasdC","oracleID":"sys as sysdba","oracleURL":"k3b303.p.ssafy.io:8000"}}

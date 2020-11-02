@@ -10,12 +10,12 @@
 <title>frontend</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-<link href="css/app.485c0caf.css" rel="preload" as="style">
+<link href="css/app.fbc83cf0.css" rel="preload" as="style">
 <link href="css/chunk-vendors.5eb29652.css" rel="preload" as="style">
-<link href="js/app.ee5b3fed.js" rel="preload" as="script">
-<link href="js/chunk-vendors.41a75cda.js" rel="preload" as="script">
+<link href="js/app.e865b66b.js" rel="preload" as="script">
+<link href="js/chunk-vendors.d1d98cb3.js" rel="preload" as="script">
 <link href="css/chunk-vendors.5eb29652.css" rel="stylesheet">
-<link href="css/app.485c0caf.css" rel="stylesheet">
+<link href="css/app.fbc83cf0.css" rel="stylesheet">
 </head>
 <body>
 	<noscript>
@@ -23,7 +23,7 @@
 			without JavaScript enabled. Please enable it to continue.</strong>
 	</noscript>
 	<div id="app"></div>
-	<script src="js/chunk-vendors.41a75cda.js"></script>
-	<script src="js/app.ee5b3fed.js"></script>
+	<script src="js/chunk-vendors.d1d98cb3.js"></script>
+	<script src="js/app.e865b66b.js"></script>
 </body>
 </html>

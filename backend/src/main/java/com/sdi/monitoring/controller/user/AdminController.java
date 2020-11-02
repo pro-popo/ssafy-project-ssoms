@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.sdi.monitoring.domain.SuccessResponse;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.user.dto.UserDTO;
@@ -124,11 +125,17 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/Schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody(required = true) JSONArray userID) {
+	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-
-		boolean save = adminService.setSettingsSchema(userID);
+		JSONParser parser = new JSONParser();
+		JSONArray jlist = null;
+		try {
+			jlist = (JSONArray)parser.parse(userID);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		boolean save = adminService.setSettingsSchema(jlist);
 		result.status = true;
 		result.result = save ? "success" : "fail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
