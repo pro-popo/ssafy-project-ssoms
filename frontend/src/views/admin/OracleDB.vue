@@ -1,6 +1,10 @@
 <template>
   <div>
     <h2 class="mb-3">Oracle DB설정</h2>
+    <v-btn color="error" @click="test">TEST</v-btn>
+    <div class="zz">
+      {{ testString }}
+    </div>
     <form>
       <div class="input-group-oracle">
         <span class="setting-oracle-font">Oracle URL</span>
