@@ -101,7 +101,7 @@ export default {
 
 <style>
 .oracle-status-container {
-  width: auto;
+  width: 50%;
   display: flex;
   flex-direction: column;
   color: var(--font-sub2-color);

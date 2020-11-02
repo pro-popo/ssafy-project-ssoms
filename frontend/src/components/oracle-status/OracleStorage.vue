@@ -62,12 +62,12 @@ export default {
 
 <style>
 .oracle-storage-chart {
-  width: auto;
+  width: 50%;
   height: 300px;
   border: 1px solid var(--font-sub-color);
   border-radius: 10px;
   padding: 10px;
-  margin-bottom: 300px;
+  margin-bottom: 30px;
   color: var(--font-sub2-color);
 }
 </style>
