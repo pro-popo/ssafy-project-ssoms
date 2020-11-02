@@ -62,7 +62,6 @@ public class OracleRepoImpl implements OracleRepo{
 			oracleStatusDTO.setUserCommitsPerSec(map.get("User Commits Per Sec"));
 			oracleStatusDTO.setPhysicalReadsPerSec(map.get("Physical Reads Per Sec"));
 			oracleStatusDTO.setPhysicalWritesPerSec(map.get("Physical Writes Per Sec"));
-			System.out.println(oracleStatusDTO.toString());
 		} catch(Exception e){
 			e.printStackTrace();
 		}finally {
@@ -130,7 +129,6 @@ public class OracleRepoImpl implements OracleRepo{
 				schemaStasticsDTO.setElapsedTimeMax(rs.getDouble("elapsed_time_max"));
 				schemaStasticsDTO.setCpuTimeTot(rs.getDouble("cpu_time_tot"));
 				schemaStasticsDTO.setElasedTimeTot(rs.getDouble("elapsed_time_tot"));
-				System.out.println(schemaStasticsDTO.toString());
 				list.add(schemaStasticsDTO);
 			}
 
@@ -200,7 +198,6 @@ public class OracleRepoImpl implements OracleRepo{
 				schemaQueryDTO.setRowsProcessed(rs.getDouble("rows_processed"));
 				schemaQueryDTO.setCpuTimeAvg(rs.getDouble("cpu_time_avg"));
 				schemaQueryDTO.setElapsedTimeAvg(rs.getDouble("elapsed_time_avg"));
-				System.out.println(schemaQueryDTO.toString());
 				list.add(schemaQueryDTO);
 			}
 
@@ -262,7 +259,6 @@ public class OracleRepoImpl implements OracleRepo{
 				timePerusedBySchemaDTO.setTimePerSec(rs.getDouble("cpu_time_per_sec"));
 				timePerusedBySchemaDTO.setTimeRatio(rs.getDouble("cpu_time_ratio"));
 				timePerusedBySchemaDTO.setSql(rs.getString("sql_full_text"));
-				System.out.println(timePerusedBySchemaDTO.toString());
 				list.add(timePerusedBySchemaDTO);
 			}
 
@@ -324,7 +320,6 @@ public class OracleRepoImpl implements OracleRepo{
 				timePerusedBySchemaDTO.setTimePerSec(rs.getDouble("elapsed_time_per_sec"));
 				timePerusedBySchemaDTO.setTimeRatio(rs.getDouble("elapsed_time_ratio"));
 				timePerusedBySchemaDTO.setSql(rs.getString("sql_full_text"));
-				System.out.println(timePerusedBySchemaDTO.toString());
 				list.add(timePerusedBySchemaDTO);
 			}
 		} catch(Exception e){
@@ -385,7 +380,6 @@ public class OracleRepoImpl implements OracleRepo{
 				amountUsedBySchemaDTO.setAmount(rs.getDouble("buffer_gets"));
 				amountUsedBySchemaDTO.setAmountRatio(rs.getDouble("buffer_gets_ratio"));
 				amountUsedBySchemaDTO.setSql(rs.getString("sql_full_text"));
-				System.out.println(amountUsedBySchemaDTO.toString());
 				list.add(amountUsedBySchemaDTO);
 			}
 

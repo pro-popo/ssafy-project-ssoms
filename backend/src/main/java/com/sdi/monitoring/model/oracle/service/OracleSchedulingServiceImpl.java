@@ -1,6 +1,8 @@
 package com.sdi.monitoring.model.oracle.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.converter.StringMessageConverter;
@@ -44,33 +46,42 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		List<String> schemaList = JsonParser.getSchemaInfo();
 		StopWatch stopWatch = new StopWatch();
 	    stopWatch.start();
-	    String msg = "{";
-	    Gson gson = new Gson();
+	    Map<String, Object> map = new HashMap<>();
+	    //String msg = "{";
+	    //Gson gson = new Gson();
 		System.out.println("========== Oracle 전체 상태 ==========");
-		msg += "\"OracleStastics\":" + gson.toJson(oracleRepoImpl.findOracleStastics())+ ",";
+		map.put("OracleStastics", oracleRepoImpl.findOracleStastics());
+		//msg += "\"OracleStastics\":" + gson.toJson(oracleRepoImpl.findOracleStastics())+ ",";
 		
 		System.out.println("========== 전체 스키마 정보 ==========");
-		msg += "\"AllSchemaStastics\":" + gson.toJson(oracleRepoImpl.findAllSchemaStastics(schemaList))+ ",";
+		map.put("AllSchemaStastics", oracleRepoImpl.findAllSchemaStastics(schemaList));
+		//msg += "\"AllSchemaStastics\":" + gson.toJson(oracleRepoImpl.findAllSchemaStastics(schemaList))+ ",";
 		
 		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
-		msg += "\"AllScehmaQueryInfo\":" + gson.toJson(oracleRepoImpl.findAllScehmaQueryInfo(schemaList))+ ",";
+		map.put("AllScehmaQueryInfo", oracleRepoImpl.findAllScehmaQueryInfo(schemaList));
+		//msg += "\"AllScehmaQueryInfo\":" + gson.toJson(oracleRepoImpl.findAllScehmaQueryInfo(schemaList))+ ",";
 		
 		
 		for(String schemaName : schemaList) {
-			msg += "\""+schemaName+"\":{";
+			Map<String, Object> temp = new HashMap<>();
+			//msg += "\""+schemaName+"\":{";
 			System.out.println("========== " + schemaName + ":: cpu 대비 스키마별 top query ==========");
-			msg += "\"CpuUsedBySchema\":" + gson.toJson(oracleRepoImpl.findCpuUsedBySchema(schemaName)) + ",";
+			temp.put("CpuUsedBySchema", oracleRepoImpl.findCpuUsedBySchema(schemaName));
+			//msg += "\"CpuUsedBySchema\":" + gson.toJson(oracleRepoImpl.findCpuUsedBySchema(schemaName)) + ",";
 			
 			System.out.println("========== " + schemaName + ":: 실행시간 대비 스키마별 top query ==========");
-			msg += "\"ElapsedTimeBySchema\":" + gson.toJson(oracleRepoImpl.findElapsedTimeBySchema(schemaName)) + ",";
+			temp.put("ElapsedTimeBySchema", oracleRepoImpl.findElapsedTimeBySchema(schemaName));
+			//msg += "\"ElapsedTimeBySchema\":" + gson.toJson(oracleRepoImpl.findElapsedTimeBySchema(schemaName)) + ",";
 			System.out.println("========== " + schemaName + ":: 리소스 대비 스키마별 top query ==========");
-			msg += "\"BufferGetsBySchema\":" + gson.toJson(oracleRepoImpl.findBufferGetsBySchema(schemaName)) + "";
-			msg+= "},";
+			temp.put("BufferGetsBySchema", oracleRepoImpl.findBufferGetsBySchema(schemaName));
+			//msg += "\"BufferGetsBySchema\":" + gson.toJson(oracleRepoImpl.findBufferGetsBySchema(schemaName)) + "";
+			//msg+= "},";
+			map.put("schemaName", temp);
 		}
-		msg +="}";
-		stopWatch.stop();
-		messagingTemplate.setMessageConverter(new StringMessageConverter());
-        messagingTemplate.convertAndSend("/sendData/schedulerM", msg);
+		//msg +="}";
+		
+        messagingTemplate.convertAndSend("/sendData/schedulerM", map);
+        stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
 	}
 
