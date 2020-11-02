@@ -1,0 +1,3 @@
+필수 구성 요소: JAVA, MariaDB...
+OS : windows10 x64
+문의 : IHKim.dev@gmail.com
