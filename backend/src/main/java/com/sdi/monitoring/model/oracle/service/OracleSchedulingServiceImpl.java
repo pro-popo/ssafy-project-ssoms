@@ -38,7 +38,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		System.out.println("========== 전체 스키마 정보 =========="); //1
 		oracleRepoImpl.findAllSchemaStastics(schemaList);
 		System.out.println("========== cpu 기준 전체 스키마 top query =========="); // 1
-		oracleRepoImpl.findAllScehmaQueryInfo(schemaList); 
+		oracleRepoImpl.findAllScehmaQueryInfo(schemaList);
 		for(String schemaName : schemaList) {
 			System.out.println("========== " + schemaName + ":: cpu 대비 스키마별 top query ==========");// * 스키마(5)
 			oracleRepoImpl.findCpuUsedBySchema(schemaName);
