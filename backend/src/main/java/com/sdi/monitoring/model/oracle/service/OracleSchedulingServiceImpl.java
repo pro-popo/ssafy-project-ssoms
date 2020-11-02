@@ -33,18 +33,18 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		List<String> schemaList = JsonParser.getSchemaInfo();
 		StopWatch stopWatch = new StopWatch();
 	    stopWatch.start();
-		System.out.println("========== Oracle 전체 상태 ==========");
+		System.out.println("========== Oracle 전체 상태 =========="); //1
 		oracleRepoImpl.findOracleStastics();
-		System.out.println("========== 전체 스키마 정보 ==========");
+		System.out.println("========== 전체 스키마 정보 =========="); //1
 		oracleRepoImpl.findAllSchemaStastics(schemaList);
-		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
-		oracleRepoImpl.findAllScehmaQueryInfo(schemaList);
+		System.out.println("========== cpu 기준 전체 스키마 top query =========="); // 1
+		oracleRepoImpl.findAllScehmaQueryInfo(schemaList); 
 		for(String schemaName : schemaList) {
-			System.out.println("========== " + schemaName + ":: cpu 대비 스키마별 top query ==========");
+			System.out.println("========== " + schemaName + ":: cpu 대비 스키마별 top query ==========");// * 스키마(5)
 			oracleRepoImpl.findCpuUsedBySchema(schemaName);
-			System.out.println("========== " + schemaName + ":: 실행시간 대비 스키마별 top query ==========");
+			System.out.println("========== " + schemaName + ":: 실행시간 대비 스키마별 top query ==========");// * 스키마(5)
 			oracleRepoImpl.findElapsedTimeBySchema(schemaName);
-			System.out.println("========== " + schemaName + ":: 리소스 대비 스키마별 top query ==========");
+			System.out.println("========== " + schemaName + ":: 리소스 대비 스키마별 top query ==========");// * 스키마(5)
 			oracleRepoImpl.findBufferGetsBySchema(schemaName);
 		}
 		stopWatch.stop();
