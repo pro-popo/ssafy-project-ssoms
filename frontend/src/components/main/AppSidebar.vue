@@ -51,14 +51,13 @@ export default {
   font-size: 25px;
 }
 .user-side-bar {
-  /* margin-top: 60px; */
-  padding-top: 70px;
-  height: 100%;
+  padding-top: 20px;
+  /* height: 100%; */
   width: 220px;
-  position: absolute;
+  /* position: absolute;
   z-index: 1;
   top: 0;
-  left: 0;
+  left: 0; */
   background-color: rgb(221, 221, 221);
 }
 .user-side-bar hr {

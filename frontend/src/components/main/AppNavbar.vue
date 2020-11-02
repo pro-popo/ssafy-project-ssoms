@@ -19,12 +19,13 @@ export default {
 .nav-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: whitesmoke;
   height: 60px;
-  line-height: 60px;
-  padding: 0px 50px 0px 50px;
-  position: sticky;
-  top: 0px;
-  z-index: 100;
+  /* line-height: 60px; */
+  padding: 0px 30px;
+  /* position: sticky; */
+  /* top: 0px;
+  z-index: 100; */
 }
 </style>

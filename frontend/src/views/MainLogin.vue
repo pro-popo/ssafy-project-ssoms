@@ -44,7 +44,7 @@
       >
         Sign Up
       </v-btn>
-      <p class="find-pw-link">Forgot your password?</p>
+      <!-- <p class="find-pw-link">Forgot your password?</p> -->
     </div>
 
     <div class="overlay-container" id="overlay">
