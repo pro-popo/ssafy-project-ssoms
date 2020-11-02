@@ -3,9 +3,13 @@ package com.sdi.monitoring.model.oracle.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.converter.StringMessageConverter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
+import com.google.gson.Gson;
+import com.sdi.monitoring.model.oracle.dto.SocketDTO;
 import com.sdi.monitoring.model.oracle.repository.OracleRepoImpl;
 import com.sdi.monitoring.util.JsonParser;
 import com.sdi.monitoring.util.Scheduler;
@@ -18,6 +22,14 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	
 	@Autowired
 	private OracleRepoImpl oracleRepoImpl;
+	
+	private SimpMessagingTemplate messagingTemplate; 
+
+    @Autowired
+    public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
+	
 	@Override
 	public void start() {
 		scheduler.startScheduler();
@@ -49,5 +61,16 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		}
 		stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
+	}
+
+	@Override
+	public void socketMethod() {
+		System.out.println("test");
+    	SocketDTO socketVO = new SocketDTO("SERVER", "TEST");
+    	Gson gson = new Gson();
+    	String msg = gson.toJson(socketVO);
+        messagingTemplate.setMessageConverter(new StringMessageConverter());
+        messagingTemplate.convertAndSend("/sendData/schedulerM", msg);
+        System.out.println("test");
 	}
 }

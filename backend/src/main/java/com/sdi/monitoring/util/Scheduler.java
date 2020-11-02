@@ -30,7 +30,8 @@ public class Scheduler {
  
     private Runnable getRunnable(){
         return () -> {
-        	oss.sampleMethod();
+        	//oss.sampleMethod();
+        	oss.socketMethod();
         };
     }
  
