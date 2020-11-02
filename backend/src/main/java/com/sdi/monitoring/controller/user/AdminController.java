@@ -124,17 +124,11 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/Schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody(required = true) String userID) {
+	public ResponseEntity setSettingsSchema(@RequestBody(required = true) JSONArray userID) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		JSONParser parser = new JSONParser();
-		JSONArray jlist = null;
-		try {
-			jlist = (JSONArray)parser.parse(userID);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		boolean save = adminService.setSettingsSchema(jlist);
+
+		boolean save = adminService.setSettingsSchema(userID);
 		result.status = true;
 		result.result = save ? "success" : "fail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);

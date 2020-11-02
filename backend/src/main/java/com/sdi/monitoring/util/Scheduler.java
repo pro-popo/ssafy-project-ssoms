@@ -37,6 +37,6 @@ public class Scheduler {
     private Trigger getTrigger() {
         // 작업 주기 설정 
 //    	return (Trigger) new FixedDelay(5000);
-        return new PeriodicTrigger(5, TimeUnit.MINUTES); // 5분
+        return new PeriodicTrigger(5, TimeUnit.SECONDS);
     }
 }
