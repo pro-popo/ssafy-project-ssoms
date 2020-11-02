@@ -1,21 +1,11 @@
 <template>
   <div id="app">
-    유저이름: 
-    <input
-      v-model="userName"
-      type="text"
-    >
-    내용: <input
-      v-model="message"
-      type="text"
-      @keyup="sendMessage"
-    >
+    
     <div
       v-for="(item, idx) in recvList"
       :key="idx"
     >
-      <h3>유저이름: {{ item.userName }}</h3>
-      <h3>내용: {{ item.content }}</h3>
+      <h3>{{ item }}</h3>
     </div>
   </div>
 </template>
@@ -46,22 +36,6 @@ export default {
         .catch((err) => console.log(err)); 
   },
   methods: {
-    sendMessage (e) {
-      if(e.keyCode === 13 && this.userName !== '' && this.message !== ''){
-        this.send()
-        this.message = ''
-      }
-    },    
-    send() {
-      console.log("Send message:" + this.message);
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          userName: this.userName,
-          content: this.message 
-        };
-        this.stompClient.send("/receive", JSON.stringify(msg), {});
-      }
-    },    
     connect() {
       const serverURL = "http://localhost:8080/ssoms/stomp"
       let socket = new SockJS(serverURL);

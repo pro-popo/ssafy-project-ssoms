@@ -6,5 +6,4 @@ public interface OracleSchedulingService {
 	public void start();
 	public void stop();
 	public void sampleMethod();
-	public void socketMethod();
 }
