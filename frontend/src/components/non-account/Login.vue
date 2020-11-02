@@ -62,23 +62,28 @@ export default {
   methods: {
     login() {
       this.loginSuccess = true;
-      if (this.$refs.form.validate()) {
-        axios
-          .post(SERVER.URL + SERVER.ROUTES.signin, this.account)
-          .then((res) => {
-            console.log(res);
-            if (res.data.result == "success") {
-              sessionStorage.setItem("loginSession", this.account.email);
-              this.$refs.form.reset();
-              this.$router.push({ name: "Home" });
-            } else if (res.data.result == "fail") {
-              this.loginSuccess = false;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      setTimeout(
+        function() {
+          if (this.$refs.form.validate()) {
+            axios
+              .post(SERVER.URL + SERVER.ROUTES.signin, this.account)
+              .then((res) => {
+                console.log(res);
+                if (res.data.result == "success") {
+                  sessionStorage.setItem("loginSession", this.account.email);
+                  this.$refs.form.reset();
+                  this.$router.push({ name: "Home" });
+                } else if (res.data.result == "fail") {
+                  this.loginSuccess = false;
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        }.bind(this),
+        100
+      );
     },
     openSignUp() {
       this.$emit("open-signup");

@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import Login from "@/components/account/Login.vue";
-import SignUpUser from "@/components/account/SignUpUser.vue";
+import Login from "@/components/non-account/Login.vue";
+import SignUpUser from "@/components/non-account/SignUpUser.vue";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "MainLogin",
