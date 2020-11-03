@@ -2,14 +2,14 @@ package com.sdi.monitoring.model.user.entity;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Document("user_visit_times")
+@Builder
+@Document("user")
 public class UserVisitTimes {
 	private List<String> time;
 

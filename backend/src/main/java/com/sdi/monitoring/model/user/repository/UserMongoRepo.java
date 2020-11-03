@@ -1,0 +1,20 @@
+package com.sdi.monitoring.model.user.repository;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+
+import com.sdi.monitoring.model.user.entity.UserEntity;
+
+public interface UserMongoRepo extends MongoRepository<UserEntity, Integer>{
+//	@Query(value = "{'_id': ?0}", fields = "{note: {'content' : false}}")
+//	NoteEntity findNoteDetailList(int groupNo);
+//
+//	@Query(value = "{'_id': ?0}", fields = "{note : {$elemMatch : {_id : ?1}}}")
+//	NoteEntity findNoteDetailContent(int groupNo, int noteNo);
+	
+	@Query(value = "{'email' : ?0}")
+	UserEntity findUserByEmail(String email);
+	
+	@Query(value = "{'info' : {$elemMatch : {'admin' : true}}}")
+	UserEntity findAdmin();
+}

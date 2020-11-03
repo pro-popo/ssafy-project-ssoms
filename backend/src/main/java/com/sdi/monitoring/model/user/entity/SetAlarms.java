@@ -1,14 +1,14 @@
 package com.sdi.monitoring.model.user.entity;
 
-import javax.persistence.Entity;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Document("set_alarms")
-public class SetAlarmsEntity {
+@Builder
+@Document("user")
+public class SetAlarms {
 	private boolean cpu90percent;
 	private boolean cpu80percent;
 	private boolean cpu70percent;
@@ -16,9 +16,9 @@ public class SetAlarmsEntity {
 	private boolean memory80percent;
 	private boolean memory70percent;
 
-	public SetAlarmsEntity() {}
+	public SetAlarms() {}
 	
-	public SetAlarmsEntity(boolean cpu90percent, boolean cpu80percent, boolean cpu70percent, boolean memory90percent,
+	public SetAlarms(boolean cpu90percent, boolean cpu80percent, boolean cpu70percent, boolean memory90percent,
 			boolean memory80percent, boolean memory70percent) {
 		this.cpu90percent = cpu90percent;
 		this.cpu80percent = cpu80percent;

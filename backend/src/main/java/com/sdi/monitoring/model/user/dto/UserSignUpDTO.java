@@ -10,4 +10,6 @@ public class UserSignUpDTO {
 	private String employeeId;
 	private String phoneNumber;
 	private boolean admin;
+	
+	
 }
