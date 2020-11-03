@@ -32,7 +32,7 @@ public class DBUtil {
 	public static Connection checkConnection(OracleDBSettingsDTO oracleDB) {
 		try {
 			String id = oracleDB.getOracleID();
-			String url = "jdbc:oracle:thin:@" + oracleDB.getOracleURL() + ":" + oracleDB.getOracleEdition();
+			String url = "jdbc:oracle:thin:@" + oracleDB.getOracleURL() + ":" + oracleDB.getOracleSID();
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			return DriverManager.getConnection(url, id, oracleDB.getOraclePassword());
 		} catch (Exception e) {

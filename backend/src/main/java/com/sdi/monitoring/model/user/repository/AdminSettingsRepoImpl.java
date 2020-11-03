@@ -29,13 +29,6 @@ public class AdminSettingsRepoImpl implements AdminSettingsRepo{
 
 	@Override
 	public boolean setOracleDB(OracleDBSettingsDTO OracleData) throws Exception {
-		if(OracleData.getOracleURL().length() == 0 || OracleData.getOraclePassword().length() == 0)
-			return false;
-		Connection con = DBUtil.checkConnection(OracleData);
-		if(con == null) {
-			return false;
-		}
-		con.close();
 		JSONParser parser = new JSONParser();
 		FileReader readfile = new FileReader(SetupPath+"/settings.json");
 		
@@ -46,7 +39,7 @@ public class AdminSettingsRepoImpl implements AdminSettingsRepo{
 		jsonObject.put("oracleURL", OracleData.getOracleURL());
 		jsonObject.put("oracleID", OracleData.getOracleID());
 		jsonObject.put("oraclePassword", OracleData.getOraclePassword());
-		jsonObject.put("oracleEdition", OracleData.getOracleEdition());
+		jsonObject.put("oracleSID", OracleData.getOracleSID());
 		obj.put("oracleDB",jsonObject);
 		FileWriter file = new FileWriter(SetupPath+"/settings.json");
 		file.write(obj.toJSONString());
@@ -71,6 +64,16 @@ public class AdminSettingsRepoImpl implements AdminSettingsRepo{
 		file.flush();
 		file.close();
 		readfile.close();
+		return true;
+	}
+
+	@Override
+	public boolean checkConnection(OracleDBSettingsDTO OracleData) throws Exception {
+		Connection con = DBUtil.checkConnection(OracleData);
+		if(con == null) {
+			return false;
+		}
+		con.close();
 		return true;
 	}
 	
