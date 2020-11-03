@@ -15,6 +15,8 @@ public interface UserMongoRepo extends MongoRepository<UserEntity, Integer>{
 	
 	UserEntity findUserByEmail(String email);
 	
+	void deleteByEmail(String email);
+	
 	@Query(value = "{'info.admin' : {$eq : true}}")
 	UserEntity findAdmin();
 	

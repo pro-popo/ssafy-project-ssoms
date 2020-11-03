@@ -96,14 +96,14 @@ public class UserController {
 //		return response;
 //	}
 //
-//	@PostMapping("/")
-//	public ResponseEntity deleteUser(@RequestBody(required = true) UserPrimitiveDTO userPrimitiveDTO) {
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		boolean isDelete = userService.deleteUser(userPrimitiveDTO);
-//		result.status = true;
-//		result.result = isDelete ? "success" : "fail";
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
+	@PostMapping("/")
+	public ResponseEntity deleteUser(@RequestBody(required = true) UserPrimitiveDTO userPrimitiveDTO) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean isDelete = userService.deleteUser(userPrimitiveDTO);
+		result.status = true;
+		result.result = isDelete ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
 }

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.sdi.monitoring.exception.BadRequestException;
 import com.sdi.monitoring.model.user.dto.UserDTO;
+import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
-import com.sdi.monitoring.model.user.entity.UserInfo;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
 import com.sdi.monitoring.util.Mapper;
 
@@ -59,18 +59,20 @@ public class UserServiceImpl implements UserService{
 //		return true;
 //	}
 //
-//	@Override
-//	public boolean deleteUser(UserPrimitiveDTO userPrimitiveDTO) {
-//		Optional<UserEntity> optional = userRepo.findUserByEmail(userPrimitiveDTO.getEmail());
-//		if(!optional.isPresent())
-//			return false;
-//		
-//		if(!cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), optional.get().getPw()))
-//			return false;
-//		
-//		userRepo.deleteById(userPrimitiveDTO.getEmail());
-//		return true;
-//	}
+	@Override
+	public boolean deleteUser(UserPrimitiveDTO userPrimitiveDTO) {
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(userPrimitiveDTO.getEmail());
+		
+		if(userEntity == null)
+			return false;
+		
+		if(!cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), userEntity.getInfo().getPw()))
+			return false;
+		
+		userMongoRepo.deleteByEmail(userPrimitiveDTO.getEmail());
+		return true;
+	}
 //	
 	
 	public UserDTO EntityToDTO(UserEntity userEntity) {
