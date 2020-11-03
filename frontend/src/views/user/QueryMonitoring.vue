@@ -11,7 +11,7 @@
       <div class="query-calendar">
         <span><input type="date" id="startDate"/></span>
         <span><input type="date" id="endDate"/></span>
-        <button class="query-button">조회</button>
+        <button class="query-button" @click="queryData">조회</button>
       </div>
     </div>
     <div class="main-query-box">
@@ -39,7 +39,13 @@ export default {
     TopQuery,
     DetailQuery
   },
-  methods: {},
+  methods: {
+    queryData() {
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      console.log(start, end);
+    }
+  },
   computed: {
     ...mapGetters("Query", ["schemaName"])
   },
