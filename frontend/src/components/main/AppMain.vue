@@ -31,7 +31,7 @@ export default {
 <style>
 .app-main {
   margin-left: 220px;
-  padding: 50px 100px 0px 100px;
+  padding: 50px 80px 0px 80px;
 }
 .zz {
   border: 3px solid gray;
