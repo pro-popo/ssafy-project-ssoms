@@ -1,5 +1,5 @@
 <template>
-  <div class="query-margin">
+  <div>
     <div class="mb-3">
       <b>
         <span>Top Query</span> &
@@ -18,6 +18,7 @@
       <WholeQuery class="query-box1" />
       <TimeQuery class="query-box2" />
       <TopQuery class="query-box3" />
+      <DetailQuery class="query-box4" />
     </div>
   </div>
 </template>
@@ -26,6 +27,7 @@
 import WholeQuery from "@/components/query/WholeQuery.vue";
 import TimeQuery from "@/components/query/TimeQuery.vue";
 import TopQuery from "@/components/query/TopQuery.vue";
+import DetailQuery from "@/components/query/DetailQuery.vue";
 
 import { mapGetters } from "vuex";
 
@@ -34,7 +36,8 @@ export default {
   components: {
     WholeQuery,
     TimeQuery,
-    TopQuery
+    TopQuery,
+    DetailQuery
   },
   methods: {},
   computed: {
@@ -52,13 +55,10 @@ export default {
 </script>
 
 <style>
-.query-margin {
-  margin: -10px -20px 0px -20px;
-}
 .main-query-box {
   display: grid;
   grid-template-columns: 300px 390px 450px;
-  grid-template-rows: 120px 180px;
+  grid-template-rows: 90px 20px 200px 180px;
 }
 .query-box1 {
   grid-column-start: 1;
@@ -69,14 +69,20 @@ export default {
 .query-box2 {
   grid-column-start: 3;
   grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
 }
 .query-box3 {
   grid-column-start: 1;
   grid-column-end: 3;
-  grid-row-start: 2;
-  grid-row-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+.query-box4 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 4;
+  grid-row-end: 5;
 }
 
 .query-calendar {
