@@ -15,6 +15,7 @@
           {{
             schema.userID
           }}
+          <button @click="setSettingsSchema(schema.userID)">삭제</button>
         </ol>
         <hr />
       </div>
@@ -40,7 +41,7 @@
     <v-btn
       color="primary"
       class="setting-schema-save-button"
-      @click="setSettingsSchema"
+      @click="setSettingsSchema(1)"
     >
       저장
     </v-btn>
@@ -60,13 +61,27 @@ export default {
     };
   },
   methods: {
-    setSettingsSchema() {
-      this.schemaList.push({ userID: this.userID });
+    setSettingsSchema(type) {
+      if (type === 1) {
+        this.schemaList.push({ userID: this.userID });
+      } else {
+        const itemToFind = this.schemaList.find(function(item) {
+          return item.userID === type;
+        });
+        const idx = this.schemaList.indexOf(itemToFind);
+        if (idx > -1) {
+          this.schemaList.splice(idx, 1);
+        }
+      }
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
         .then(() => {
           this.userID = "";
-          alert("정보를 저장하였습니다.");
+          if (type === 1) {
+            alert("저장하였습니다.");
+          } else {
+            alert("삭제하였습니다.");
+          }
         })
         .catch((err) => console.log(err));
     },
@@ -103,6 +118,10 @@ export default {
 .schema-list ol {
   padding-top: 7px;
   margin-bottom: 7px;
+}
+.schema-list > ol > button {
+  float: right;
+  margin-right: 10px;
 }
 .schema-box {
   overflow: scroll;
