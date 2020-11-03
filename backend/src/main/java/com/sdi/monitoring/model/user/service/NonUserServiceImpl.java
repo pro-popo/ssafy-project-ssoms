@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
 import com.sdi.monitoring.model.user.entity.SetAlarms;
 import com.sdi.monitoring.model.user.entity.UserEntity;
@@ -45,14 +46,16 @@ public class NonUserServiceImpl implements NonUserService{
 		userMongoRepo.save(userEntityBuilder(userSignUpDTO));
 	}
 
-//	@Override
-//	public boolean login(UserPrimitiveDTO userPrimitiveDTO) {
-//		Optional<UserEntity> optional = userRepo.findUserByEmail(userPrimitiveDTO.getEmail());
-//		if(!optional.isPresent())
-//			return false;
-//		
-//		return cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), optional.get().getPw());
-//	}
+	@Override
+	public boolean login(UserPrimitiveDTO userPrimitiveDTO) {
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(userPrimitiveDTO.getEmail());
+		
+		if(userEntity == null)
+			return false;
+		System.out.println(userEntity.toString());
+		return cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), userEntity.getInfo().getPw());
+	}
 //	
 	public UserEntity userEntityBuilder(UserSignUpDTO userSignUpDTO) {
 		return UserEntity.builder()

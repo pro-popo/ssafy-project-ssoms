@@ -10,5 +10,5 @@ public interface NonUserService {
 
 	public void signUp(UserSignUpDTO userSignUpDTO);
 
-//	public boolean login(UserPrimitiveDTO userPrimitiveDTO);
+	public boolean login(UserPrimitiveDTO userPrimitiveDTO);
 }
