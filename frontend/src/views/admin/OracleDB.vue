@@ -101,7 +101,6 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getSettingsOracleDB)
         .then((res) => {
-          console.log(res.data.map);
           this.oracleData.oracleURL = res.data.map.oracleDB.oracleURL;
           this.oracleData.oraclePassword = res.data.map.oracleDB.oraclePassword;
           this.oracleData.oracleID = res.data.map.oracleDB.oracleID;

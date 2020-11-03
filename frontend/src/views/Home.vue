@@ -38,6 +38,11 @@ import EditUser from "@/components/account/EditUser.vue";
 import SERVER from "@/api/spring.js";
 import axios from "axios";
 
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
+
+import { mapMutations } from "vuex";
+
 export default {
   name: "Home",
   components: {
@@ -87,10 +92,33 @@ export default {
     },
     closeEditUser() {
       this.requestEditUser = false;
-    }
+    },
+    connect() {
+      const serverURL = "http://localhost:8080/ssoms/stomp";
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      // console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+      this.stompClient.connect(
+        {},
+        (frame) => {
+          this.connected = true;
+          console.log("소켓 연결 성공", frame);
+          this.stompClient.subscribe("/sendData/schedulerM", (res) => {
+            this.SET_LIST(JSON.parse(res.body).OracleStastics);
+          });
+        },
+        (error) => {
+          // 소켓 연결 실패
+          console.log("소켓 연결 실패", error);
+          this.connected = false;
+        }
+      );
+    },
+    ...mapMutations("Oracle", ["SET_LIST"])
   },
   created() {
     this.checkIsAdmin();
+    this.connect();
   }
 };
 </script>
