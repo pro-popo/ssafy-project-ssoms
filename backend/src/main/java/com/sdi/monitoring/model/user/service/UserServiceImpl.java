@@ -1,24 +1,14 @@
 package com.sdi.monitoring.model.user.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sdi.monitoring.exception.BadRequestException;
-import com.sdi.monitoring.exception.UnAuthorizationException;
 import com.sdi.monitoring.model.user.dto.UserDTO;
-import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
-import com.sdi.monitoring.model.user.dto.UserUpdateDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
+import com.sdi.monitoring.model.user.entity.UserInfo;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
-import com.sdi.monitoring.model.user.repository.UserRepo;
 import com.sdi.monitoring.util.Mapper;
 
 @Service
@@ -30,30 +20,34 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private Mapper mapper;
 	
+	@SuppressWarnings("null")
 	@Override
 	public boolean isAdminCheck(String email) {
 		UserEntity userEntity = null;
 		userEntity = userMongoRepo.findUserByEmail(email);
+		
 		if(userEntity != null) {
 			throw new BadRequestException("isAdminCheck method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
 		}
 		
 		return userEntity.getInfo().isAdmin();
 	}
-//
-//
-//	@Override
-//	public UserDTO getUserProfile(String email) {
-////		if(!email.equals((String)httpServletRequest.getSession().getAttribute("loginSession")))
-////			throw new UnAuthorizationException("getUserProfile method throw Exception(UnAuthorizationException)\n" + "missmatch with session : " + email);
-//		
-//		Optional<UserEntity> optional = userRepo.findUserByEmail(email);
-//		if(!optional.isPresent())
-//			throw new BadRequestException("isAdminCheck method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
-//
-//		return EntityToDTO(optional.get());
-//	}
-//
+	
+	@SuppressWarnings("null")
+	@Override
+	public UserDTO getUserProfile(String email) {
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(email);
+		
+		if(userEntity != null) {
+			throw new BadRequestException("getUserProfile method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
+		}
+		
+		UserDTO userDTO = EntityToDTO(userEntity.getInfo());
+		userDTO.setEmail(email);
+		return userDTO;
+	}
+
 //	@Override
 //	public boolean updateUser(UserUpdateDTO userUpdateDTO) {
 //			
@@ -91,11 +85,11 @@ public class UserServiceImpl implements UserService{
 //		
 //		return userDTOList; 
 //	}
-//	
-//	public UserDTO EntityToDTO(UserEntity userEntity) {
-//		return mapper.convertToDTO(userEntity, UserDTO.class);
-//	}
-//	
+	
+	public UserDTO EntityToDTO(UserInfo userInfo) {
+		return mapper.convertToDTO(userInfo, UserDTO.class);
+	}
+	
 //	public UserEntity userEntityBuilderToUpdate(UserUpdateDTO userUpdateDTO) {
 //		return UserEntity.builder()
 //				.email(userUpdateDTO.getEmail())
@@ -105,12 +99,12 @@ public class UserServiceImpl implements UserService{
 //				.name(userUpdateDTO.getName())
 //				.build();
 //	}
-//	
-//	public String encryptionPassword(String pw) {
-//		return BCrypt.hashpw(pw, BCrypt.gensalt());
-//	}
-//	
-//	public boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
-//		return BCrypt.checkpw(cmp1, cmp2);
-//	}
+	
+	public String encryptionPassword(String pw) {
+		return BCrypt.hashpw(pw, BCrypt.gensalt());
+	}
+	
+	public boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
+		return BCrypt.checkpw(cmp1, cmp2);
+	}
 }

@@ -55,34 +55,34 @@ public class UserController {
 		return response;
 	}
 	
-//	@GetMapping("/authorization/{email}")
-//	public ResponseEntity authorization(@PathVariable(name = "email") String email) {
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		boolean isAdmin = userService.isAdminCheck(email);
-//		result.status = true;
-//		result.result = isAdmin ? "yes" : "no";
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
-//
-//	// dto null 반환될때 체크
-//	// logout 했는데 유저 프로필 정보 잘가져옴 - interceptor 를 안들어감
-//	@GetMapping("/profile/{email}")
-//	public ResponseEntity getUserProfile(@PathVariable(name = "email") String email) {
-//		System.out.println("========== alluser entered... ==========");
-//		System.out.println("email : " + email);
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		UserDTO userDTO = userService.getUserProfile(email);
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("userProfile", userDTO);
-//		result.status = true;
-//		result.result = "success";
-//		result.map = map;
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
+	@GetMapping("/authorization/{email}")
+	public ResponseEntity authorization(@PathVariable(name = "email") String email) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean isAdmin = userService.isAdminCheck(email);
+		result.status = true;
+		result.result = isAdmin ? "yes" : "no";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+
+	// dto null 반환될때 체크
+	// logout 했는데 유저 프로필 정보 잘가져옴 - interceptor 를 안들어감
+	@GetMapping("/profile/{email}")
+	public ResponseEntity getUserProfile(@PathVariable(name = "email") String email) {
+		System.out.println("========== alluser entered... ==========");
+		System.out.println("email : " + email);
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		UserDTO userDTO = userService.getUserProfile(email);
+		Map<String, Object> map = new HashMap<>();
+		map.put("userProfile", userDTO);
+		result.status = true;
+		result.result = "success";
+		result.map = map;
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
 //
 //	// 권한맞는지 check
 //	@PutMapping("/")
