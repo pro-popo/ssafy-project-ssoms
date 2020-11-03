@@ -1,8 +1,7 @@
 package com.sdi.monitoring.model.user.entity;
 
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Builder;

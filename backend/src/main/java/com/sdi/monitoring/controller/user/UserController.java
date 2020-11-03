@@ -83,19 +83,19 @@ public class UserController {
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
-//
-//	// 권한맞는지 check
-//	@PutMapping("/")
-//	public ResponseEntity updateUser(@RequestBody(required = true) UserUpdateDTO userUpdateDTO) {
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		boolean checkCanUpdateUserInfo = userService.updateUser(userUpdateDTO);
-//		result.status = true;
-//		result.result = checkCanUpdateUserInfo ? "success" : "fail";
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
-//
+
+	// 권한맞는지 check
+	@PutMapping("/")
+	public ResponseEntity updateUser(@RequestBody(required = true) UserUpdateDTO userUpdateDTO) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean checkCanUpdateUserInfo = userService.updateUser(userUpdateDTO);
+		result.status = true;
+		result.result = checkCanUpdateUserInfo ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+
 	@PostMapping("/")
 	public ResponseEntity deleteUser(@RequestBody(required = true) UserPrimitiveDTO userPrimitiveDTO) {
 		ResponseEntity response = null;

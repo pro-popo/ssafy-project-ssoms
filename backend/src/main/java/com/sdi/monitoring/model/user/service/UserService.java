@@ -14,8 +14,8 @@ public interface UserService {
 
 	public UserDTO getUserProfile(String email);
 
-//	public boolean updateUser(UserUpdateDTO userUpdateDTO);
-//
+	public boolean updateUser(UserUpdateDTO userUpdateDTO);
+
 	public boolean deleteUser(UserPrimitiveDTO userPrimitiveDTO);
 
 }

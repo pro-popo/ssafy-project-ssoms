@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.Query;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
 
-public interface UserMongoRepo extends MongoRepository<UserEntity, Integer>{
+public interface UserMongoRepo extends MongoRepository<UserEntity, String>{
 //	@Query(value = "{'_id': ?0}", fields = "{note: {'content' : false}}")
 //	NoteEntity findNoteDetailList(int groupNo);
 //

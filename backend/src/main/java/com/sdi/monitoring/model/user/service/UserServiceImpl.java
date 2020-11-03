@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.sdi.monitoring.exception.BadRequestException;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
+import com.sdi.monitoring.model.user.dto.UserUpdateDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
 import com.sdi.monitoring.util.Mapper;
@@ -43,22 +44,23 @@ public class UserServiceImpl implements UserService{
 		return EntityToDTO(userEntity);
 	}
 
-//	@Override
-//	public boolean updateUser(UserUpdateDTO userUpdateDTO) {
-//			
-//		Optional<UserEntity> optional = userRepo.findUserByEmail(userUpdateDTO.getEmail());
-//		if(!optional.isPresent())
-//			return false;
-//		
-//		if(!cmpPasswordWithEncryptionPassword(userUpdateDTO.getPw(), optional.get().getPw()))
-//			return false;
-//		
-//		if(userUpdateDTO.getNewPw()!=null) userUpdateDTO.setPw(userUpdateDTO.getNewPw());
-//		
-//		userRepo.save(userEntityBuilderToUpdate(userUpdateDTO));
-//		return true;
-//	}
-//
+	@Override
+	public boolean updateUser(UserUpdateDTO userUpdateDTO) {
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(userUpdateDTO.getEmail());
+		
+		if(userEntity == null)
+			return false;
+		
+		if(!cmpPasswordWithEncryptionPassword(userUpdateDTO.getPw(), userEntity.getInfo().getPw()))
+			return false;
+		
+		if(userUpdateDTO.getNewPw()!=null) userUpdateDTO.setPw(userUpdateDTO.getNewPw());
+		
+		userMongoRepo.save(userEntityBuilderToUpdate(userEntity, userUpdateDTO));
+		return true;
+	}
+
 	@Override
 	public boolean deleteUser(UserPrimitiveDTO userPrimitiveDTO) {
 		UserEntity userEntity = null;
@@ -81,15 +83,19 @@ public class UserServiceImpl implements UserService{
 		return userDTO;
 	}
 	
-//	public UserEntity userEntityBuilderToUpdate(UserUpdateDTO userUpdateDTO) {
-//		return UserEntity.builder()
-//				.email(userUpdateDTO.getEmail())
-//				.pw(encryptionPassword(userUpdateDTO.getPw()))
-//				.employeeId(userUpdateDTO.getEmployeeId())
-//				.phoneNumber(userUpdateDTO.getPhoneNumber())
-//				.name(userUpdateDTO.getName())
-//				.build();
-//	}
+	public UserEntity userEntityBuilderToUpdate(UserEntity userEntity, UserUpdateDTO userUpdateDTO) {
+		userEntity.getInfo().setPw(encryptionPassword(userUpdateDTO.getPw()));
+		userEntity.getInfo().setEmployeeId(userUpdateDTO.getEmployeeId());
+		userEntity.getInfo().setPhoneNumber(userUpdateDTO.getPhoneNumber());
+		userEntity.getInfo().setName(userUpdateDTO.getName());
+		
+		return UserEntity.builder()
+				.email(userUpdateDTO.getEmail())
+				.info(userEntity.getInfo())
+				.alarms(userEntity.getAlarms())
+				.visit(userEntity.getVisit())
+				.build();
+	}
 	
 	public String encryptionPassword(String pw) {
 		return BCrypt.hashpw(pw, BCrypt.gensalt());
