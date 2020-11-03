@@ -23,11 +23,10 @@ public class NonUserServiceImpl implements NonUserService{
 	
 	@Override
 	public boolean hasAdmin() {
-		System.out.println(userMongoRepo.findAdmin().toString());
-//		if()
-		return true;
+		if(userMongoRepo.findOneAdmin() == null)
+			return true;
 		
-//		return false;
+		return false;
 	}
 	
 	@Override
@@ -43,7 +42,7 @@ public class NonUserServiceImpl implements NonUserService{
 
 	@Override
 	public void signUp(UserSignUpDTO userSignUpDTO) {
-		userRepo.insertUser(userEntityBuilder(userSignUpDTO));
+		userMongoRepo.save(userEntityBuilder(userSignUpDTO));
 	}
 
 //	@Override

@@ -14,6 +14,11 @@ public class UserRepoImpl implements UserRepo{
     private MongoTemplate mongoTemplate;
 	
 	@Override
+	public UserEntity findUserByEmail(String email) {
+		return null;
+	}
+	
+	@Override
 	public void insertUser(UserEntity userEntity) {
     	mongoTemplate.insert(userEntity);
 	}
