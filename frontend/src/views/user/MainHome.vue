@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ showlist }}
     <SchemaChart />
     <OracleResource />
   </div>
@@ -8,6 +9,8 @@
 <script type="text/babel">
 import SchemaChart from "@/components/pc-resource/SchemaChart.vue";
 import OracleResource from "@/components/oracle-status/OracleResource.vue";
+import { mapGetters } from "vuex";
+
 export default {
   name: "view",
   components: {
@@ -58,6 +61,9 @@ export default {
     onClick() {
       console.log(arguments);
     }
+  },
+  computed: {
+    ...mapGetters("Oracle", ["showlist"])
   }
 };
 </script>
