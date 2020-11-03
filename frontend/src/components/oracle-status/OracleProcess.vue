@@ -30,7 +30,10 @@ export default {
       userCommitsPerSec: 0.83, //- 커밋 비율 (커밋 / 초)
 
       option1: {
-        // title: { text: "Storage" },
+        title: {
+          text: "Executions",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -40,7 +43,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["executions"]
+          data: ["executions"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -48,14 +52,17 @@ export default {
         series: [
           {
             name: "executions",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [3.86, 3.35, 3.43, 3.24, 2.52, 2.83, 3.31, 3.3],
             type: "line",
             color: "#2196F3"
           }
         ]
       },
       option2: {
-        // title: { text: "Storage" },
+        title: {
+          text: "TotalParseCount",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -65,7 +72,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["totalParseCount"]
+          data: ["totalParseCount"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -73,14 +81,17 @@ export default {
         series: [
           {
             name: "totalParseCount",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [1.24, 1.35, 1.43, 1.44, 1.52, 1.33, 1.31, 1.3],
             type: "line",
             color: "#2196F3"
           }
         ]
       },
       option3: {
-        // title: { text: "Storage" },
+        title: {
+          text: "OpenCursors",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -90,7 +101,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["openCursors"]
+          data: ["openCursors"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -98,14 +110,17 @@ export default {
         series: [
           {
             name: "openCursors",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [1.44, 1.35, 1.43, 1.44, 1.42, 1.33, 1.31, 1.3],
             type: "line",
             color: "#2196F3"
           }
         ]
       },
       option4: {
-        // title: { text: "Storage" },
+        title: {
+          text: "UserCommits",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -115,7 +130,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["userCommits"]
+          data: ["userCommits"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -123,7 +139,7 @@ export default {
         series: [
           {
             name: "userCommits",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [0.83, 0.65, 0.73, 0.74, 0.72, 0.75, 0.81, 0.82],
             type: "line",
             color: "#2196F3"
           }

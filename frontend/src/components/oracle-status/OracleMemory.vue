@@ -26,7 +26,10 @@ export default {
       redoGeneratedPerSec: 792.25, //- 생성된 리두(바이트 / 초) T
 
       option1: {
-        // title: { text: "Storage" },
+        title: {
+          text: "BlockGets",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -36,7 +39,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["BlockGets"]
+          data: ["BlockGets"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -51,7 +55,10 @@ export default {
         ]
       },
       option2: {
-        // title: { text: "Storage" },
+        title: {
+          text: "LogicalReads",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -61,7 +68,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["logicalReads"]
+          data: ["logicalReads"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -76,7 +84,10 @@ export default {
         ]
       },
       option3: {
-        // title: { text: "Storage" },
+        title: {
+          text: "RedoGenerated",
+          subtext: "PerSec"
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -86,7 +97,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["redoGenerated"]
+          data: ["redoGenerated"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
