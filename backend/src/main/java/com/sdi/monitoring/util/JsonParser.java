@@ -33,11 +33,11 @@ public class JsonParser {
 			OracleHostInfo oracleHostInfo = null;
 			JSONObject jsonObject = (JSONObject) obj.get("oracleDB");
 			String url = (String) jsonObject.get("oracleURL");
-			String edition = (String) jsonObject.get("oracleEdition");
+			String sid = (String) jsonObject.get("oracleSID");
 			String id = (String) jsonObject.get("oracleID");
 			String pw = (String) jsonObject.get("oraclePassword");
 
-			oracleHostInfo = new OracleHostInfo(url, edition, id, pw);
+			oracleHostInfo = new OracleHostInfo(url, sid, id, pw);
 			return oracleHostInfo;
 		} catch (JSONException | IOException | ParseException e) {
 			e.printStackTrace();

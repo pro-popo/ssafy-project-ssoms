@@ -7,5 +7,5 @@ public class OracleDBSettingsDTO {
 	private String oracleURL;
 	private String oracleID;
 	private String oraclePassword;
-	private String oracleEdition;
+	private String oracleSID;
 }

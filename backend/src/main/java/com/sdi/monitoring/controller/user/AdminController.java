@@ -92,12 +92,25 @@ public class AdminController {
 		return response;
 	}
 	
+	@PostMapping("/settings/OracleDB/check")
+	public ResponseEntity checkConOracleDB(@RequestBody(required = true) OracleDBSettingsDTO OracleData) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean check = adminService.checkConnection(OracleData);
+				
+		result.status = true;
+		result.result = check ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
 	@PostMapping("/settings/OracleDB/save")
 	public ResponseEntity setSettingsOracleDB(@RequestBody(required = true) OracleDBSettingsDTO OracleData) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		
 		boolean save = adminService.setSettingsOracleDB(OracleData);
+	
 		result.status = true;
 		result.result = save ? "success" : "fail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);

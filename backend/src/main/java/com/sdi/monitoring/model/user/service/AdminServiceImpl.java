@@ -46,4 +46,15 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	@Override
+	public boolean checkConnection(OracleDBSettingsDTO OracleData) {
+		boolean result = false;
+		try {
+			result = settingRepo.checkConnection(OracleData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 }

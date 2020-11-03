@@ -9,4 +9,5 @@ public interface AdminService {
 	public JSONObject getSettings();
 	public boolean setSettingsOracleDB(OracleDBSettingsDTO OracleData);
 	public boolean setSettingsSchema(JSONArray jlist);
+	public boolean checkConnection(OracleDBSettingsDTO OracleData);
 }
