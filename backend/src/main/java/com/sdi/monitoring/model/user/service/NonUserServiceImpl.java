@@ -20,7 +20,7 @@ public class NonUserServiceImpl implements NonUserService{
 	
 	@Override
 	public boolean hasAdmin() {
-		if(userMongoRepo.findOneAdmin() == null)
+		if(userMongoRepo.findAdmin() == null)
 			return true;
 		
 		return false;

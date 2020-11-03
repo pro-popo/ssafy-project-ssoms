@@ -20,32 +20,27 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private Mapper mapper;
 	
-	@SuppressWarnings("null")
 	@Override
 	public boolean isAdminCheck(String email) {
 		UserEntity userEntity = null;
 		userEntity = userMongoRepo.findUserByEmail(email);
 		
-		if(userEntity != null) {
+		if(userEntity == null) {
 			throw new BadRequestException("isAdminCheck method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
 		}
 		
 		return userEntity.getInfo().isAdmin();
 	}
 	
-	@SuppressWarnings("null")
 	@Override
 	public UserDTO getUserProfile(String email) {
 		UserEntity userEntity = null;
 		userEntity = userMongoRepo.findUserByEmail(email);
-		
-		if(userEntity != null) {
+		if(userEntity == null) {
 			throw new BadRequestException("getUserProfile method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
 		}
 		
-		UserDTO userDTO = EntityToDTO(userEntity.getInfo());
-		userDTO.setEmail(email);
-		return userDTO;
+		return EntityToDTO(userEntity);
 	}
 
 //	@Override
@@ -77,17 +72,11 @@ public class UserServiceImpl implements UserService{
 //		return true;
 //	}
 //	
-//	public List<UserDTO> EntityListToDTOList(List<UserEntity> userEntityList){
-//		List<UserDTO> userDTOList = new ArrayList<UserDTO>();
-//		for (UserEntity userEntity : userEntityList) {
-//			userDTOList.add(mapper.convertToDTO(userEntity, UserDTO.class));
-//		}
-//		
-//		return userDTOList; 
-//	}
 	
-	public UserDTO EntityToDTO(UserInfo userInfo) {
-		return mapper.convertToDTO(userInfo, UserDTO.class);
+	public UserDTO EntityToDTO(UserEntity userEntity) {
+		UserDTO userDTO = mapper.convertToDTO(userEntity.getInfo(), UserDTO.class);
+		userDTO.setEmail(userEntity.getEmail());
+		return userDTO;
 	}
 	
 //	public UserEntity userEntityBuilderToUpdate(UserUpdateDTO userUpdateDTO) {
