@@ -1,4 +1,4 @@
-package com.sdi.monitoring.controller.user;
+package com.sdi.monitoring.controller.admin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,17 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.sdi.monitoring.domain.SuccessResponse;
+import com.sdi.monitoring.model.admin.service.AdminService;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateAdminDTO;
-import com.sdi.monitoring.model.user.service.AdminService;
 import com.sdi.monitoring.model.user.service.UserService;
 
 @RequestMapping("/admin")
 @RestController
 public class AdminController {
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private AdminService adminService;
@@ -48,7 +46,7 @@ public class AdminController {
 	public ResponseEntity changeAdmin(@RequestBody(required = true) UserUpdateAdminDTO userUpdateAdminDTO) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		boolean checkCanChangeAdmin = userService.changeAdmin(userUpdateAdminDTO.getPrevAdmin(),
+		boolean checkCanChangeAdmin = adminService.changeAdmin(userUpdateAdminDTO.getPrevAdmin(),
 				userUpdateAdminDTO.getNextAdmin());
 		result.status = true;
 		result.result = checkCanChangeAdmin ? "success" : "fail";
@@ -56,21 +54,7 @@ public class AdminController {
 		return response;
 	}
 
-	// 리스트 null 반환될때 체크
-	@GetMapping("/alluser")
-	public ResponseEntity getAllUserList() {
-		System.out.println("========== alluser entered... ==========");
-		ResponseEntity response = null;
-		final SuccessResponse result = new SuccessResponse();
-		List<UserDTO> userDTOList = userService.getAllUserList();
-		Map<String, Object> map = new HashMap<>();
-		map.put("userList", userDTOList);
-		result.status = true;
-		result.result = "success";
-		result.map = map;
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-		return response;
-	}
+	
 	
 	@GetMapping("/settings/OracleDB")
 	public ResponseEntity getSettingsOracleDB() {

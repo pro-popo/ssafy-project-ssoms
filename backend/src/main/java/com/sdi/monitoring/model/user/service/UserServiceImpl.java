@@ -29,9 +29,6 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private Mapper mapper;
 	
-	@Autowired
-	private HttpServletRequest httpServletRequest;
-
 	@Override
 	public boolean isAdminCheck(String email) {
 		Optional<UserEntity> optional = userRepo.findUserByEmail(email);
@@ -41,15 +38,6 @@ public class UserServiceImpl implements UserService{
 		return optional.get().isAdmin();
 	}
 
-	@Override
-	public List<UserDTO> getAllUserList() {
-		return EntityListToDTOList(userRepo.getAllUserList()); // 아무것도 없을 때 test
-	}
-
-	@Override
-	public List<String> getUserVisitedHistory(String email) {
-		return null;
-	}
 
 	@Override
 	public UserDTO getUserProfile(String email) {
