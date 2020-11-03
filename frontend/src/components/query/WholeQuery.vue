@@ -2,23 +2,23 @@
   <div class="whole-query-box1">
     <div>
       SQL cnt
-      <div class="ttest">{{ wholeQuery.sqlCount }}</div>
+      <div class="whole-text">{{ wholeQuery.sqlCount }}</div>
     </div>
-    <div>
+    <div class="border-left">
       executions
-      <div class="ttest">{{ wholeQuery.executions }}</div>
+      <div class="whole-text">{{ wholeQuery.executions }}</div>
     </div>
-    <div>
+    <div class="border-left">
       bufferGetsAvg
-      <div class="ttest">{{ wholeQuery.bufferGetsAvg }}</div>
+      <div class="whole-text">{{ wholeQuery.bufferGetsAvg }}</div>
     </div>
-    <div>
+    <div class="border-left">
       diskReadsAvg
-      <div class="ttest">{{ wholeQuery.diskReadsAvg }}</div>
+      <div class="whole-text">{{ wholeQuery.diskReadsAvg }}</div>
     </div>
-    <div>
+    <div class="border-left">
       rowProcessedAvg
-      <div class="ttest">{{ wholeQuery.rowsProcessedAvg }}</div>
+      <div class="whole-text">{{ wholeQuery.rowsProcessedAvg }}</div>
     </div>
   </div>
 </template>
@@ -37,30 +37,19 @@ export default {
 <style>
 .whole-query-box1 {
   /* background-color: rgba(135, 207, 235, 0.247); */
-  background-color: yellow;
-  height: 130px;
+  /* background-color: yellow; */
   display: flex;
-  justify-content: space-between;
   padding: 5px;
 }
-.whole-query-box2 {
-  /* background-color: rgba(135, 207, 235, 0.247); */
-  background-color: red;
-  height: 170px;
-  display: flex;
-  justify-content: space-between;
-  /* float: right; */
+.whole-query-box1 > div {
+  width: 20%;
 }
-.whole-query-box3 {
-  /* background-color: rgba(135, 207, 235, 0.247); */
-  background-color: yellow;
-  height: 170px;
-  display: flex;
-  justify-content: space-between;
-  /* float: right; */
+.border-left {
+  border-left: 1px solid black;
+  padding-left: 10px;
 }
-.ttt {
-  /* font-size: 30px; */
-  float: right;
+.whole-text {
+  font-size: 40px;
+  font-weight: 600;
 }
 </style>
