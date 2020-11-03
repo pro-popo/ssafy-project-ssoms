@@ -1,12 +1,11 @@
 <template>
   <div>
     <h2>Oracle Storage</h2>
+    <v-icon size="20" color="var(--main-sub-color)"
+      >mdi-file-cog-outline</v-icon
+    >
+    <span> File </span>
     <div class="oracle-storage-chart">
-      <v-icon size="20" color="var(--main-sub-color)"
-        >mdi-file-cog-outline</v-icon
-      >
-      <span> File </span>
-
       <IEcharts :option="option" />
     </div>
   </div>
@@ -66,7 +65,7 @@ export default {
   height: 300px;
   border: 1px solid var(--font-sub-color);
   border-radius: 10px;
-  padding: 10px;
+  padding: 15px 10px;
   margin-bottom: 30px;
   color: var(--font-sub2-color);
 }

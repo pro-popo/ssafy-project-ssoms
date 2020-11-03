@@ -1,23 +1,17 @@
 <template>
   <div>
-    <!-- <IEcharts
-      :option="bar"
-      :loading="loading"
-      @ready="onReady"
-      @click="onClick"
-    />
-    <button @click="doRandom">Random</button> -->
+    <SchemaChart />
     <OracleResource />
   </div>
 </template>
 
 <script type="text/babel">
-// import IEcharts from "vue-echarts-v3/src/full.js";
+import SchemaChart from "@/components/pc-resource/SchemaChart.vue";
 import OracleResource from "@/components/oracle-status/OracleResource.vue";
 export default {
   name: "view",
   components: {
-    // IEcharts,
+    SchemaChart,
     OracleResource
   },
   props: {},

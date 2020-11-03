@@ -12,10 +12,12 @@
       </div>
       <v-divider></v-divider>
       <div class="oracle-status-chart">
-        <v-icon size="20" color="var(--main-sub-color)"
-          >mdi-desktop-classic</v-icon
-        >
-        <span> CpuTime & WaitTime Ratio</span>
+        <div style="margin-bottom:10px">
+          <v-icon size="20" color="var(--main-sub-color)"
+            >mdi-desktop-classic</v-icon
+          >
+          <span> CpuTime & WaitTime Ratio</span>
+        </div>
         <IEcharts :option="pie" />
       </div>
     </div>
@@ -101,7 +103,7 @@ export default {
 
 <style>
 .oracle-status-container {
-  width: 50%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   color: var(--font-sub2-color);
@@ -124,8 +126,11 @@ export default {
 }
 .oracle-status-chart {
   margin: 20px 0px;
-  width: 450px;
+  width: 100%;
   height: 300px;
   padding: 0px 10px;
-}</style
->s
+}
+.oracle-status-chart > span {
+  margin-bottom: 100px;
+}
+</style>
