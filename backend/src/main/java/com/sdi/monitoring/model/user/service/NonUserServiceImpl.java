@@ -11,13 +11,9 @@ import com.sdi.monitoring.model.user.entity.UserEntity;
 import com.sdi.monitoring.model.user.entity.UserInfo;
 import com.sdi.monitoring.model.user.entity.UserVisitTimes;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
-import com.sdi.monitoring.model.user.repository.UserRepo;
 
 @Service
 public class NonUserServiceImpl implements NonUserService{
-	
-	@Autowired
-	private UserRepo userRepo;
 	
 	@Autowired
 	private UserMongoRepo userMongoRepo;

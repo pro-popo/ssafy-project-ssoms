@@ -17,6 +17,7 @@ import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
+import com.sdi.monitoring.model.user.repository.UserMongoRepo;
 import com.sdi.monitoring.model.user.repository.UserRepo;
 import com.sdi.monitoring.util.Mapper;
 
@@ -24,19 +25,21 @@ import com.sdi.monitoring.util.Mapper;
 public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private UserRepo userRepo;
+	private UserMongoRepo userMongoRepo;
 	
 	@Autowired
 	private Mapper mapper;
 	
-//	@Override
-//	public boolean isAdminCheck(String email) {
-//		Optional<UserEntity> optional = userRepo.findUserByEmail(email);
-//		if(!optional.isPresent())
-//			throw new BadRequestException("isAdminCheck method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
-//			
-//		return optional.get().isAdmin();
-//	}
+	@Override
+	public boolean isAdminCheck(String email) {
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(email);
+		if(userEntity != null) {
+			throw new BadRequestException("isAdminCheck method throw Exception(BadRequestException exception)\n" + "This User is not found : " + email);
+		}
+		
+		return userEntity.getInfo().isAdmin();
+	}
 //
 //
 //	@Override

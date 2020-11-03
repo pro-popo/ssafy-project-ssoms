@@ -10,8 +10,8 @@ import com.sdi.monitoring.model.user.entity.UserEntity;
 
 public interface UserService {
 
-//	public boolean isAdminCheck(String email);
-//
+	public boolean isAdminCheck(String email);
+
 //	public UserDTO getUserProfile(String email);
 //
 //	public boolean updateUser(UserUpdateDTO userUpdateDTO);
