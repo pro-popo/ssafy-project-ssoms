@@ -3,6 +3,7 @@ package com.sdi.monitoring.model.oracle.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,11 @@ import com.sdi.monitoring.util.DBUtil;
 @Repository
 public class OracleRepoImpl implements OracleRepo{
 	@Override
-	public void findOracleStastics() {
+	public OracleStatusDTO findOracleStastics() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		OracleStatusDTO oracleStatusDTO = null;
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -47,7 +49,7 @@ public class OracleRepoImpl implements OracleRepo{
 			while(rs.next()) {
 				map.put(rs.getString("METRIC_NAME"), rs.getDouble("value"));
 			}
-			OracleStatusDTO oracleStatusDTO = new OracleStatusDTO();
+			oracleStatusDTO = new OracleStatusDTO();
 			oracleStatusDTO.setDatabaseCpuTimeRatio(map.get("Database CPU Time Ratio"));
 			oracleStatusDTO.setDatabaseWaitTimeRatio(map.get("Database Wait Time Ratio"));
 			oracleStatusDTO.setActiveSerialSessions(map.get("Active Serial Sessions"));
@@ -60,7 +62,6 @@ public class OracleRepoImpl implements OracleRepo{
 			oracleStatusDTO.setUserCommitsPerSec(map.get("User Commits Per Sec"));
 			oracleStatusDTO.setPhysicalReadsPerSec(map.get("Physical Reads Per Sec"));
 			oracleStatusDTO.setPhysicalWritesPerSec(map.get("Physical Writes Per Sec"));
-			System.out.println(oracleStatusDTO.toString());
 		} catch(Exception e){
 			e.printStackTrace();
 		}finally {
@@ -68,13 +69,15 @@ public class OracleRepoImpl implements OracleRepo{
 			DBUtil.close(pstmt);
 			DBUtil.close(con);
 		}
+		return oracleStatusDTO;
 	}
 	
 	@Override
-	public void findAllSchemaStastics(List<String> schemaList) {
+	public List<SchemaStasticsDTO> findAllSchemaStastics(List<String> schemaList) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<SchemaStasticsDTO> list = new ArrayList<SchemaStasticsDTO>();
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -126,7 +129,7 @@ public class OracleRepoImpl implements OracleRepo{
 				schemaStasticsDTO.setElapsedTimeMax(rs.getDouble("elapsed_time_max"));
 				schemaStasticsDTO.setCpuTimeTot(rs.getDouble("cpu_time_tot"));
 				schemaStasticsDTO.setElasedTimeTot(rs.getDouble("elapsed_time_tot"));
-				System.out.println(schemaStasticsDTO.toString());
+				list.add(schemaStasticsDTO);
 			}
 
 		} catch(Exception e){
@@ -135,14 +138,16 @@ public class OracleRepoImpl implements OracleRepo{
 			DBUtil.close(rs);
 			DBUtil.close(pstmt);
 			DBUtil.close(con);
-		}		
+		}
+		return list;
 	}
 	
 	@Override
-	public void findAllScehmaQueryInfo(List<String> schemaList) {
+	public List<SchemaQueryDTO> findAllScehmaQueryInfo(List<String> schemaList) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<SchemaQueryDTO> list = new ArrayList<SchemaQueryDTO>();
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -193,7 +198,7 @@ public class OracleRepoImpl implements OracleRepo{
 				schemaQueryDTO.setRowsProcessed(rs.getDouble("rows_processed"));
 				schemaQueryDTO.setCpuTimeAvg(rs.getDouble("cpu_time_avg"));
 				schemaQueryDTO.setElapsedTimeAvg(rs.getDouble("elapsed_time_avg"));
-				System.out.println(schemaQueryDTO.toString());
+				list.add(schemaQueryDTO);
 			}
 
 		} catch(Exception e){
@@ -203,13 +208,15 @@ public class OracleRepoImpl implements OracleRepo{
 			DBUtil.close(pstmt);
 			DBUtil.close(con);
 		}
+		return list;
 	}
 	
 	@Override
-	public void findCpuUsedBySchema(String schemaName) {
+	public List<TimePerUsedBySchemaDTO> findCpuUsedBySchema(String schemaName) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<TimePerUsedBySchemaDTO> list = new ArrayList<TimePerUsedBySchemaDTO>();
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -252,7 +259,7 @@ public class OracleRepoImpl implements OracleRepo{
 				timePerusedBySchemaDTO.setTimePerSec(rs.getDouble("cpu_time_per_sec"));
 				timePerusedBySchemaDTO.setTimeRatio(rs.getDouble("cpu_time_ratio"));
 				timePerusedBySchemaDTO.setSql(rs.getString("sql_full_text"));
-				System.out.println(timePerusedBySchemaDTO.toString());
+				list.add(timePerusedBySchemaDTO);
 			}
 
 		} catch(Exception e){
@@ -261,14 +268,16 @@ public class OracleRepoImpl implements OracleRepo{
 			DBUtil.close(rs);
 			DBUtil.close(pstmt);
 			DBUtil.close(con);
-		}				
+		}			
+		return list;
 	}
 	
 	@Override
-	public void findElapsedTimeBySchema(String schemaName) {
+	public List<TimePerUsedBySchemaDTO> findElapsedTimeBySchema(String schemaName) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<TimePerUsedBySchemaDTO> list = new ArrayList<TimePerUsedBySchemaDTO>();
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -311,7 +320,7 @@ public class OracleRepoImpl implements OracleRepo{
 				timePerusedBySchemaDTO.setTimePerSec(rs.getDouble("elapsed_time_per_sec"));
 				timePerusedBySchemaDTO.setTimeRatio(rs.getDouble("elapsed_time_ratio"));
 				timePerusedBySchemaDTO.setSql(rs.getString("sql_full_text"));
-				System.out.println(timePerusedBySchemaDTO.toString());
+				list.add(timePerusedBySchemaDTO);
 			}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -320,13 +329,15 @@ public class OracleRepoImpl implements OracleRepo{
 			DBUtil.close(pstmt);
 			DBUtil.close(con);
 		}		
+		return list;
 	}
 	
 	@Override
-	public void findBufferGetsBySchema(String schemaName) {
+	public List<AmountUsedBySchemaDTO> findBufferGetsBySchema(String schemaName) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<AmountUsedBySchemaDTO> list = new ArrayList<AmountUsedBySchemaDTO>();
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
@@ -369,7 +380,7 @@ public class OracleRepoImpl implements OracleRepo{
 				amountUsedBySchemaDTO.setAmount(rs.getDouble("buffer_gets"));
 				amountUsedBySchemaDTO.setAmountRatio(rs.getDouble("buffer_gets_ratio"));
 				amountUsedBySchemaDTO.setSql(rs.getString("sql_full_text"));
-				System.out.println(amountUsedBySchemaDTO.toString());
+				list.add(amountUsedBySchemaDTO);
 			}
 
 		} catch(Exception e){
@@ -379,5 +390,6 @@ public class OracleRepoImpl implements OracleRepo{
 			DBUtil.close(pstmt);
 			DBUtil.close(con);
 		}
+		return list;
 	}
 }

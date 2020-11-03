@@ -1,9 +1,5 @@
 <template>
   <div class="app-main">
-    <!-- <v-btn color="error" @click="test">TEST</v-btn>
-    <div class="zz">
-      {{ testString }}
-    </div> -->
     <router-view />
   </div>
 </template>
@@ -29,10 +25,6 @@ export default {
 </script>
 
 <style>
-.app-main {
-  margin-left: 220px;
-  padding: 50px 80px 0px 80px;
-}
 .zz {
   border: 3px solid gray;
   width: 500px;

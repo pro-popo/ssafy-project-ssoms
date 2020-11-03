@@ -91,6 +91,7 @@ export default {
       this.dialog = true;
     },
     dialog: function() {
+      this.$refs.form.resetValidation();
       if (this.account.email != "" || this.account.pw != "") {
         this.$refs.form.reset();
         this.deleteSuccess = true;

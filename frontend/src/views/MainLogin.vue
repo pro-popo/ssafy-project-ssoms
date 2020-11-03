@@ -44,7 +44,7 @@
       >
         Sign Up
       </v-btn>
-      <p class="find-pw-link">Forgot your password?</p>
+      <!-- <p class="find-pw-link">Forgot your password?</p> -->
     </div>
 
     <div class="overlay-container" id="overlay">
@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import Login from "@/components/account/Login.vue";
-import SignUpUser from "@/components/account/SignUpUser.vue";
+import Login from "@/components/non-account/Login.vue";
+import SignUpUser from "@/components/non-account/SignUpUser.vue";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "MainLogin",
