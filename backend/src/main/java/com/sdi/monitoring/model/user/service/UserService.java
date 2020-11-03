@@ -12,8 +12,6 @@ public interface UserService {
 
 	public boolean isAdminCheck(String email);
 
-	public boolean changeAdmin(String prevAdmin, String nextAdmin);
-
 	public List<UserDTO> getAllUserList();
 
 	public List<String> getUserVisitedHistory(String email);

@@ -1,4 +1,4 @@
-package com.sdi.monitoring.controller;
+package com.sdi.monitoring.controller.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

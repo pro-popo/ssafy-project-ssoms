@@ -1,25 +1,22 @@
 package com.sdi.monitoring.model.user.entity;
 
-import javax.persistence.Column;
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Table(name = "user_visit_times")
+@Document("user_visit_times")
 public class UserVisitTimes {
-	@Id
-	@Column(nullable = false, name = "email")
-	private String email;
-	@Column(nullable = false, name = "time")
-	private String time;
+	private List<String> time;
+
+	public UserVisitTimes() {}
+
+	public UserVisitTimes(List<String> time) {
+		this.time = time;
+	}
+
 }
