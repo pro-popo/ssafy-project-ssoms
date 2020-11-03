@@ -1,6 +1,26 @@
 <template>
   <div>
-    <IEcharts :option="option" />
+    <h2>Oracle Status</h2>
+    <div class="oracle-status-container">
+      <div class="serial-session">
+        <v-icon size="20" color="var(--main-sub-color)">mdi-connection</v-icon>
+        <span> Active Serial Sessions</span>
+        <h1 class="session-cnt">
+          {{ activeSerialSessions }}
+          <span style="font-size:30px;">cnt</span>
+        </h1>
+      </div>
+      <v-divider></v-divider>
+      <div class="oracle-status-chart">
+        <div style="margin-bottom:10px">
+          <v-icon size="20" color="var(--main-sub-color)"
+            >mdi-desktop-classic</v-icon
+          >
+          <span> CpuTime & WaitTime Ratio</span>
+        </div>
+        <IEcharts :option="pie" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -8,26 +28,15 @@
 import IEcharts from "vue-echarts-v3/src/full.js";
 
 export default {
-  name: "SchemaChart",
+  name: "OracleStatus",
   components: {
     IEcharts
   },
   data() {
     return {
-      schemaName: "C##TESTDB2",
-
-      cpu: [
-        {
-          percent: 0.0,
-          date: "2020-11-02 11:20:30"
-        }
-      ],
-      memory: [
-        {
-          value: 14000,
-          data: "2020-11-02 11:20:30"
-        }
-      ],
+      databaseCpuTimeRatio: 93.59, // (%)
+      databaseWaitTimeRatio: 6.41, //(%)
+      activeSerialSessions: 1.0, //(cnt)
       pie: {
         // title: {
         //   text: "Status"
@@ -92,4 +101,36 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.oracle-status-container {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  color: var(--font-sub2-color);
+  border: 1px solid var(--font-sub-color);
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.serial-session {
+  /* background: #f0f0f0; */
+  border-radius: 10px;
+  width: 250px;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.session-cnt {
+  color: #2196f3;
+  padding-left: 25px;
+  font-size: 50px;
+}
+.oracle-status-chart {
+  margin: 20px 0px;
+  width: 100%;
+  height: 300px;
+  padding: 0px 10px;
+}
+.oracle-status-chart > span {
+  margin-bottom: 100px;
+}
+</style>
