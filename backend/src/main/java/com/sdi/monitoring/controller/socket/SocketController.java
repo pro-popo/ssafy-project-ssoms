@@ -1,4 +1,4 @@
-package com.sdi.monitoring.controller;
+package com.sdi.monitoring.controller.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdi.monitoring.domain.SuccessResponse;
 import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 
-@RequestMapping("/Socket")
+@RequestMapping("/socket")
 @RestController
 public class SocketController {
 	

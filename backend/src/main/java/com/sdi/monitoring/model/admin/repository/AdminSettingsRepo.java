@@ -1,4 +1,4 @@
-package com.sdi.monitoring.model.user.repository;
+package com.sdi.monitoring.model.admin.repository;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
