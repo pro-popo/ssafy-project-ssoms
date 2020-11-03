@@ -72,7 +72,7 @@ public class NonUserController {
 		result.status = true;
 		if (checkCanLogin) {
 			result.result = "success";
-//			oss.start();
+			oss.start();
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
 		} else {
 			result.result = "fail";
