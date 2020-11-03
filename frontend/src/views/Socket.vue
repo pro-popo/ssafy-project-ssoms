@@ -6,6 +6,7 @@
     >
       <h3>{{ item }}</h3>
     </div> -->
+    {{ testList }}
   </div>
 </template>
 
@@ -15,13 +16,16 @@ import SockJS from "sockjs-client";
 import SERVER from "@/api/spring.js";
 import axios from "axios";
 
+import { mapMutations } from "vuex";
+
 export default {
   name: "Socket",
   data() {
     return {
       userName: "",
       message: "",
-      recvList: []
+      recvList: [],
+      testList: []
     };
   },
   created() {
@@ -29,8 +33,8 @@ export default {
     this.connect();
     axios
       .get(SERVER.URL + "/Socket/test")
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        console.log("연결");
       })
       .catch((err) => console.log(err));
   },
@@ -58,7 +62,11 @@ export default {
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             this.recvList.push(JSON.parse(res.body));
             console.log("===============================");
-            console.log(this.recvList[0].AllSchemaStastics);
+            console.log(
+              this.recvList[this.recvList.length - 1].OracleStastics
+                .databaseCpuTimeRatio
+            );
+            console.log(this.recvList.length - 1);
             console.log("===============================");
           });
         },
@@ -68,6 +76,16 @@ export default {
           this.connected = false;
         }
       );
+    },
+    ...mapMutations("Oracle", ["SET_LIST"])
+  },
+  watch: {
+    recvList: function() {
+      // this.$store.this.testList.push(
+      // this.recvList[this.recvList.length - 1].OracleStastics
+      //   .databaseCpuTimeRatio
+      // );
+      this.SET_LIST(this.recvList[this.recvList.length - 1].OracleStastics);
     }
   }
 };
