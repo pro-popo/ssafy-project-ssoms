@@ -113,8 +113,8 @@ export default {
 }
 .home-main {
   width: 100%;
-  height: 100%;
+  height: 90%;
   overflow-y: auto;
-  padding: 50px 80px 0px 80px;
+  padding: 50px 80px;
 }
 </style>

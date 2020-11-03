@@ -73,7 +73,8 @@ export default {
         oracleID: "",
         oraclePassword: "",
         oracleEdition: ""
-      }
+      },
+      testString: ""
     };
   },
   methods: {
@@ -96,6 +97,11 @@ export default {
           this.oracleData.oracleEdition = res.data.map.oracleDB.oracleEdition;
         })
         .catch((err) => console.log(err));
+    },
+    test() {
+      axios
+        .get(SERVER.URL + "/admin/test")
+        .then((res) => (this.testString = res));
     }
   },
   created() {
