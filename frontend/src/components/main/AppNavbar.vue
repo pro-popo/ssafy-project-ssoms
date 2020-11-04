@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="nav-bar" dense dark>
+  <v-app-bar class="nav-bar" dense dark color="#202021">
     <v-toolbar-title class="logo" onclick="location.href=''"
       ><img class="logo-back" src=@/assets/logoBack.png> SSOMS</v-toolbar-title
     >

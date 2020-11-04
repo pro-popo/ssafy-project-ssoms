@@ -9,7 +9,7 @@
 import SchemaChart from "@/components/pc-resource/SchemaChart.vue";
 import OracleResource from "@/components/oracle-status/OracleResource.vue";
 export default {
-  name: "view",
+  name: "MainHome",
   components: {
     SchemaChart,
     OracleResource

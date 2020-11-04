@@ -9,17 +9,15 @@
         <v-list-item-title>Schema</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <div class="sidebar-schema">
-      <v-list-item v-for="(schema, index) in getSchemaList" :key="index" link>
-        <v-list-item-icon>
-          <v-icon> mdi-database</v-icon>
-        </v-list-item-icon>
+    <v-list-item v-for="(schema, index) in getSchemaList" :key="index" link>
+      <v-list-item-icon>
+        <v-icon> mdi-database</v-icon>
+      </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-list-item-title>{{ schema.userID }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </div>
+      <v-list-item-content>
+        <v-list-item-title>{{ schema.userID }}</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
     <v-divider style="margin:10px 0px;"></v-divider>
     <v-list-item link>
       <v-list-item-icon>
@@ -49,8 +47,14 @@ export default {
   name: "AppUserSidebar",
   data() {
     return {
-      model: 0
+      model: 0,
+      page: ["QueryMonitoring", "MainHome", "PCResource", "RealMonitoring"]
     };
+  },
+  watch: {
+    model: function() {
+      this.$router.push({ name: this.page[this.model] });
+    }
   },
   created() {
     this.getSettingSchema();

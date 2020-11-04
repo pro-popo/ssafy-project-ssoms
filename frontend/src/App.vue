@@ -52,7 +52,8 @@ export default {
   height: 100%;
 }
 #app {
-  overflow-y: hidden !important;
+  overflow: hidden !important;
+
   -ms-overflow-style: none;
   background: #f3f3f3;
 }

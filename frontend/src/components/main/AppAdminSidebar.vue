@@ -51,9 +51,7 @@ export default {
       page: ["OracleDB", "Schema", "Member"]
     };
   },
-  methods: {
-    movePage() {}
-  },
+
   watch: {
     model: function() {
       this.$router.push({ name: this.page[this.model] });

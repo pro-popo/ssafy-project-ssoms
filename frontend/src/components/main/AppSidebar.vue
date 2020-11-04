@@ -71,9 +71,7 @@ export default {
   props: {
     isAdmin: Boolean
   },
-  created() {
-    console.log("무슨일이지???????");
-  },
+
   methods: {
     ...mapActions("Account", ["logout"]),
     userLogout() {
