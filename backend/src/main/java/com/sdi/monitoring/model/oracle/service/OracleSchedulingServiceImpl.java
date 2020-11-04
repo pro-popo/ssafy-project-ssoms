@@ -85,5 +85,4 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
         stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
 	}
-
 }

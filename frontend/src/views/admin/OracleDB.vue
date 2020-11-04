@@ -32,10 +32,10 @@
           ></v-text-field>
         </span>
         <span style="display:inline-block; width: 350px"
-          >Oracle Edition
+          >Oracle SID
           <v-text-field
-            label="오라클 버전을 입력해주세요."
-            v-model="oracleData.oracleEdition"
+            label="오라클 SID을 입력해주세요."
+            v-model="oracleData.oracleSID"
           ></v-text-field>
         </span>
       </div>
@@ -52,7 +52,14 @@
     </form>
     <v-btn
       color="primary"
-      class="setting-oracle-save-button"
+      class="setting-oracle-save-button1"
+      @click="checkConOracleDB"
+    >
+      연결
+    </v-btn>
+    <v-btn
+      color="primary"
+      class="setting-oracle-save-button2"
       @click="setSettingsOracleDB"
     >
       저장
@@ -72,17 +79,21 @@ export default {
         oracleURL: "",
         oracleID: "",
         oraclePassword: "",
-        oracleEdition: ""
-      }
+        oracleSID: ""
+      },
+      testString: ""
     };
   },
   methods: {
     setSettingsOracleDB() {
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsOracleDB, this.oracleData)
-        .then(() => {
-          console.log(this.oracleData);
-          alert("정보를 저장하였습니다.");
+        .then((res) => {
+          if (res.data.result === "success") {
+            alert("저장에 성공하였습니다.");
+          } else if (res.data.result === "fail") {
+            alert("저장에 실패하였습니다.");
+          }
         })
         .catch((err) => console.log(err));
     },
@@ -93,9 +104,26 @@ export default {
           this.oracleData.oracleURL = res.data.map.oracleDB.oracleURL;
           this.oracleData.oraclePassword = res.data.map.oracleDB.oraclePassword;
           this.oracleData.oracleID = res.data.map.oracleDB.oracleID;
-          this.oracleData.oracleEdition = res.data.map.oracleDB.oracleEdition;
+          this.oracleData.oracleSID = res.data.map.oracleDB.oracleSID;
         })
         .catch((err) => console.log(err));
+    },
+    checkConOracleDB() {
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.checkConOracleDB, this.oracleData)
+        .then((res) => {
+          if (res.data.result === "success") {
+            alert("연결에 성공하였습니다.");
+          } else if (res.data.result === "fail") {
+            alert("연결에 실패하였습니다.");
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    test() {
+      axios
+        .get(SERVER.URL + "/admin/test")
+        .then((res) => (this.testString = res));
     }
   },
   created() {
@@ -120,9 +148,16 @@ export default {
 .setting-right {
   margin-right: 120px;
 }
-.setting-oracle-save-button {
+.setting-oracle-save-button1 {
   margin-top: 50px;
   margin-right: 50px;
+  padding: 15px 20px !important;
+  font-size: 15px !important;
+  float: right;
+}
+.setting-oracle-save-button2 {
+  margin-top: 50px;
+  margin-right: 10px;
   padding: 15px 20px !important;
   font-size: 15px !important;
   float: right;

@@ -16,6 +16,7 @@
 <script>
 export default {
   name: "PCResource",
+
   mounted() {
     document.getElementById(
       "startDate"
