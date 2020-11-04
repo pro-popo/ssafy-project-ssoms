@@ -15,5 +15,5 @@ public class SchemaStasticsDTO {
 	private double cpuTimeMax;
 	private double elapsedTimeMax;
 	private double cpuTimeTot;
-	private double elasedTimeTot;
+	private double elapsedTimeTot;
 }

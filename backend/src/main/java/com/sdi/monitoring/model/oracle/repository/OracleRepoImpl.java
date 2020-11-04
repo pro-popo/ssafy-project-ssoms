@@ -128,7 +128,7 @@ public class OracleRepoImpl implements OracleRepo{
 				schemaStasticsDTO.setCpuTimeMax(rs.getDouble("cpu_time_max"));
 				schemaStasticsDTO.setElapsedTimeMax(rs.getDouble("elapsed_time_max"));
 				schemaStasticsDTO.setCpuTimeTot(rs.getDouble("cpu_time_tot"));
-				schemaStasticsDTO.setElasedTimeTot(rs.getDouble("elapsed_time_tot"));
+				schemaStasticsDTO.setElapsedTimeTot(rs.getDouble("elapsed_time_tot"));
 				list.add(schemaStasticsDTO);
 			}
 
@@ -143,7 +143,7 @@ public class OracleRepoImpl implements OracleRepo{
 	}
 	
 	@Override
-	public List<SchemaQueryDTO> findAllScehmaQueryInfo(List<String> schemaList) {
+	public List<SchemaQueryDTO> findAllSchemaQueryInfo(List<String> schemaList) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -181,7 +181,8 @@ public class OracleRepoImpl implements OracleRepo{
 					"                    OR TRIM(SQL_TEXT) LIKE 'ALTER SESSION%'\r\n" + 
 					"                    OR TRIM(SQL_TEXT) LIKE '%v$%'\r\n" + 
 					"                    OR TRIM(SQL_TEXT) LIKE '%x$%')\r\n" + 
-					"order by CPU_TIME_AVG desc\n");
+					"and 	rownum <= 20\r\n" +
+					"order by CPU_TIME_AVG desc\r\n");
 			pstmt = con.prepareStatement(sql.toString());
 			int idx = 1;
 			for(String schemaName : schemaList) {
@@ -306,7 +307,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY cpu_time/sum(cpu_time) OVER()*100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
