@@ -143,7 +143,7 @@ public class OracleRepoImpl implements OracleRepo{
 	}
 	
 	@Override
-	public List<SchemaQueryDTO> findAllScehmaQueryInfo(List<String> schemaList) {
+	public List<SchemaQueryDTO> findAllSchemaQueryInfo(List<String> schemaList) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
