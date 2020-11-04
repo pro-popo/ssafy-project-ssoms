@@ -20,9 +20,8 @@ public class RealTimeMonitoringEntity {
 	private String time;
 	private OracleStatusDTO oracleStatus;
 	private List<SchemaStasticsDTO> allSchemaStastics;
-	private List<SchemaQueryDTO> allScehmaQueryInfo;
+	private List<SchemaQueryDTO> allSchemaQueryInfo;
 	private List<SchemaInfo> Schemas;
-	
 	public RealTimeMonitoringEntity() {
 		
 	}

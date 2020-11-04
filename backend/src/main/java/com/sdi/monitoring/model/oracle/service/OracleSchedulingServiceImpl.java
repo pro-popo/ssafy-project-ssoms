@@ -45,7 +45,8 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	
 	@Override
 	public void stop() {
-		scheduler.stopScheduler();
+		if(scheduler != null)
+			scheduler.stopScheduler();
 	}
 	
 	@Override
@@ -66,7 +67,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		rtmEntity.setAllSchemaStastics(oracleRepoImpl.findAllSchemaStastics(schemaList));
 		
 		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
-		rtmEntity.setAllScehmaQueryInfo(oracleRepoImpl.findAllSchemaQueryInfo(schemaList));
+		rtmEntity.setAllSchemaQueryInfo(oracleRepoImpl.findAllSchemaQueryInfo(schemaList));
 		
 		List<SchemaInfo> schemas = new ArrayList<SchemaInfo>();
 		for(String schemaName : schemaList) {
