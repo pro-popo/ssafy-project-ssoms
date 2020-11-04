@@ -128,7 +128,7 @@ public class OracleRepoImpl implements OracleRepo{
 				schemaStasticsDTO.setCpuTimeMax(rs.getDouble("cpu_time_max"));
 				schemaStasticsDTO.setElapsedTimeMax(rs.getDouble("elapsed_time_max"));
 				schemaStasticsDTO.setCpuTimeTot(rs.getDouble("cpu_time_tot"));
-				schemaStasticsDTO.setElasedTimeTot(rs.getDouble("elapsed_time_tot"));
+				schemaStasticsDTO.setElapsedTimeTot(rs.getDouble("elapsed_time_tot"));
 				list.add(schemaStasticsDTO);
 			}
 
