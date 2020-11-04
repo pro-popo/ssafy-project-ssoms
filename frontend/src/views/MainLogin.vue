@@ -64,7 +64,11 @@
           </v-btn>
         </div>
         <div class="overlay-panel overlay-right">
-          <h1>로그인창</h1>
+          <h1>SSOMS</h1>
+          <h3>
+            <span>S</span>amsung <span>S</span>DI <span>O</span>racle
+            <span>M</span>onitoring <span>S</span>olution
+          </h3>
           <p>소개글</p>
           <v-btn
             class="change-btn"
@@ -129,7 +133,9 @@ export default {
 .main-login-container {
   height: 100vh;
 }
-
+.logo-text-point span {
+  color: white;
+}
 .form-container {
   position: absolute;
   top: 0;

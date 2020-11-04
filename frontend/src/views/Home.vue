@@ -1,12 +1,13 @@
 <template>
   <div class="home-container">
-    <div class="home-navbar">
-      <app-navbar />
+    <div class="home-sidebar">
+      <AppSidebar :isAdmin="isAdmin" @user-profile="getMyProfile" />
     </div>
     <div class="home-main-container">
-      <div class="home-sidebar">
-        <AppSidebar :isAdmin="isAdmin" @user-profile="getMyProfile" />
+      <div class="home-navbar">
+        <app-navbar />
       </div>
+
       <div class="home-main">
         <AppMain />
       </div>
@@ -98,6 +99,7 @@ export default {
 <style>
 .home-container {
   height: 100vh;
+  display: flex;
 }
 .home-navbar {
   width: 100%;
@@ -108,6 +110,7 @@ export default {
 
 .home-main-container {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100vh;
 }
