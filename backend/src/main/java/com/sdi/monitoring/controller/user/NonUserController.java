@@ -34,6 +34,7 @@ public class NonUserController {
 		final SuccessResponse result = new SuccessResponse();
 		boolean isAdmin = nonUserService.hasAdmin();
 		result.status = true;
+		System.out.println(isAdmin);
 		result.result = isAdmin ? "yes" : "no";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
