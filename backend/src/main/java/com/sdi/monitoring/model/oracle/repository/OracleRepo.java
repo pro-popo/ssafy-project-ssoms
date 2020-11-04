@@ -13,7 +13,7 @@ public interface OracleRepo {
 
 	public List<SchemaStasticsDTO> findAllSchemaStastics(List<String> schemaList);
 
-	public List<SchemaQueryDTO> findAllScehmaQueryInfo(List<String> schemaList);
+	public List<SchemaQueryDTO> findAllSchemaQueryInfo(List<String> schemaList);
 
 	public List<TimePerUsedBySchemaDTO> findCpuUsedBySchema(String schemaName);
 
