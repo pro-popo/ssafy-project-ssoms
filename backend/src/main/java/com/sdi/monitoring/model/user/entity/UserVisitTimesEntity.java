@@ -10,12 +10,12 @@ import lombok.Data;
 @Data
 @Builder
 @Document("user")
-public class UserVisitTimes {
+public class UserVisitTimesEntity {
 	private List<String> time;
 
-	public UserVisitTimes() {}
+	public UserVisitTimesEntity() {}
 
-	public UserVisitTimes(List<String> time) {
+	public UserVisitTimesEntity(List<String> time) {
 		this.time = time;
 	}
 

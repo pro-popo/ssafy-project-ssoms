@@ -1,5 +1,7 @@
 package com.sdi.monitoring.model.user.entity;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Builder;
@@ -8,7 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 @Document("user")
-public class UserInfo {
+public class UserInfoEntity {
 	private String pw;
 	private String employeeId;
 	private boolean admin;
@@ -17,10 +19,10 @@ public class UserInfo {
 	private String phoneNumber;
 	private String name;
 
-	public UserInfo() {
+	public UserInfoEntity() {
 	}
 
-	public UserInfo(String pw, String employeeId, boolean admin, boolean isReportActivate, int reportTime,
+	public UserInfoEntity(String pw, String employeeId, boolean admin, boolean isReportActivate, int reportTime,
 			String phoneNumber, String name) {
 		this.pw = pw;
 		this.employeeId = employeeId;

@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
-import com.sdi.monitoring.model.user.entity.SetAlarms;
+import com.sdi.monitoring.model.user.entity.SetAlarmsEntity;
 import com.sdi.monitoring.model.user.entity.UserEntity;
-import com.sdi.monitoring.model.user.entity.UserInfo;
-import com.sdi.monitoring.model.user.entity.UserVisitTimes;
+import com.sdi.monitoring.model.user.entity.UserInfoEntity;
+import com.sdi.monitoring.model.user.entity.UserVisitTimesEntity;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
 
 @Service
@@ -53,17 +53,17 @@ public class NonUserServiceImpl implements NonUserService{
 		return cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), userEntity.getInfo().getPw());
 	}
 //	
-	public UserEntity userEntityBuilder(UserSignUpDTO userSignUpDTO) {
+	private UserEntity userEntityBuilder(UserSignUpDTO userSignUpDTO) {
 		return UserEntity.builder()
 				.email(userSignUpDTO.getEmail())
-				.info(userInfoBuilder(userSignUpDTO))
-				.visit(userVisitTimesBuilder())
-				.alarms(setAlarmsBuilder())
+				.info(userInfoEntityBuilder(userSignUpDTO))
+				.visit(userVisitTimesEntityBuilder())
+				.alarms(setAlarmsEntityBuilder())
 				.build();
 	}
 	
-	public UserInfo userInfoBuilder(UserSignUpDTO userSignUpDTO) {
-		return UserInfo.builder()
+	private UserInfoEntity userInfoEntityBuilder(UserSignUpDTO userSignUpDTO) {
+		return UserInfoEntity.builder()
 				.pw(encryptionPassword(userSignUpDTO.getPw()))
 				.employeeId(userSignUpDTO.getEmployeeId())
 				.admin(userSignUpDTO.isAdmin())
@@ -74,14 +74,14 @@ public class NonUserServiceImpl implements NonUserService{
 				.build();
 	}
 	
-	public UserVisitTimes userVisitTimesBuilder() {
-		return UserVisitTimes.builder()
+	private UserVisitTimesEntity userVisitTimesEntityBuilder() {
+		return UserVisitTimesEntity.builder()
 				.time(null)
 				.build();
 	}
 	
-	public SetAlarms setAlarmsBuilder() {
-		return SetAlarms.builder()
+	private SetAlarmsEntity setAlarmsEntityBuilder() {
+		return SetAlarmsEntity.builder()
 				.cpu70percent(false)
 				.cpu80percent(false)
 				.cpu90percent(false)
@@ -91,11 +91,11 @@ public class NonUserServiceImpl implements NonUserService{
 				.build();
 	}
 	
-	public String encryptionPassword(String pw) {
+	private String encryptionPassword(String pw) {
 		return BCrypt.hashpw(pw, BCrypt.gensalt());
 	}
 	
-	public boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
+	private boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
 		return BCrypt.checkpw(cmp1, cmp2);
 	}
 }
