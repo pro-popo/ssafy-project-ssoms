@@ -2,11 +2,10 @@ package com.sdi.monitoring.model.oracle.repository;
 
 import java.util.List;
 
-import com.sdi.monitoring.model.oracle.dto.AmountUsedBySchemaDTO;
 import com.sdi.monitoring.model.oracle.dto.OracleStatusDTO;
 import com.sdi.monitoring.model.oracle.dto.SchemaQueryDTO;
 import com.sdi.monitoring.model.oracle.dto.SchemaStasticsDTO;
-import com.sdi.monitoring.model.oracle.dto.TimePerUsedBySchemaDTO;
+import com.sdi.monitoring.model.oracle.dto.UsedBySchemaDTO;
 
 public interface OracleRepo {
 	public OracleStatusDTO findOracleStastics();
@@ -15,9 +14,9 @@ public interface OracleRepo {
 
 	public List<SchemaQueryDTO> findAllSchemaQueryInfo(List<String> schemaList);
 
-	public List<TimePerUsedBySchemaDTO> findCpuUsedBySchema(String schemaName);
+	public List<UsedBySchemaDTO> findCpuUsedBySchema(String schemaName);
 
-	public List<TimePerUsedBySchemaDTO> findElapsedTimeBySchema(String schemaName);
+	public List<UsedBySchemaDTO> findElapsedTimeBySchema(String schemaName);
 
-	public List<AmountUsedBySchemaDTO> findBufferGetsBySchema(String schemaName);
+	public List<UsedBySchemaDTO> findBufferGetsBySchema(String schemaName);
 }

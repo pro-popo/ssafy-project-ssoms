@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class SchemaInfoDTO {
-	private List<TimePerUsedBySchemaDTO> cpuUsed;
-	private List<TimePerUsedBySchemaDTO> elapsedTime;
-	private List<AmountUsedBySchemaDTO> bufferGets;
+	private List<UsedBySchemaDTO> cpuUsed;
+	private List<UsedBySchemaDTO> elapsedTime;
+	private List<UsedBySchemaDTO> bufferGets;
 }
