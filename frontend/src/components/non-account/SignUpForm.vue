@@ -124,23 +124,29 @@ export default {
     signUp() {
       this.isDuplicateEmail = true;
       this.account.phoneNumber = this.account.phoneNumber.replaceAll("-", "");
-      console.log(this.account.phoneNumber.replaceAll("-", ""));
-      if (this.$refs.form.validate()) {
-        axios
-          .put(SERVER.URL + SERVER.ROUTES.signup, this.account)
-          .then((res) => {
-            if (res.data.result == "success") {
-              this.SET_EXISTED_ADMIN(true);
-              this.SET_SUCCESS_SIGNUP(true);
-              this.$emit("signup-success");
-              this.formReset();
-            } else if (res.data.result == "fail") {
-              console.log("이메일 중복");
-              this.isDuplicateEmail = false;
-            }
-          })
-          .catch((err) => console.log(err));
-      }
+      setTimeout(
+        function() {
+          if (this.$refs.form.validate()) {
+            axios
+              .put(SERVER.URL + SERVER.ROUTES.signup, this.account)
+              .then((res) => {
+                if (res.data.result == "success") {
+                  if (this.isAdmin) {
+                    this.SET_EXISTED_ADMIN(true);
+                  }
+                  this.SET_SUCCESS_SIGNUP(true);
+                  this.$emit("signup-success");
+                  this.formReset();
+                  if (this.isAdmin) this.$router.push({ name: "Login" });
+                } else if (res.data.result == "fail") {
+                  this.isDuplicateEmail = false;
+                }
+              })
+              .catch((err) => console.log(err));
+          }
+        }.bind(this),
+        100
+      );
     },
     formReset() {
       // this.$refs.form.reset();
