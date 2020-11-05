@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ showlist }}
+    {{ showSchemaData }}
     <SchemaChart />
     <OracleResource />
   </div>
@@ -63,7 +63,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("Oracle", ["showlist"])
+    ...mapGetters("Schema", ["showSchemaData"])
   }
 };
 </script>

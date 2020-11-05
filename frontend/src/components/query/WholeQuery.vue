@@ -2,23 +2,23 @@
   <div class="whole-query-box1">
     <div>
       SQL cnt
-      <div class="whole-text">{{ wholeQuery.sqlCount }}</div>
+      <div class="whole-text">{{ showSchemaData.sqlCnt }}</div>
     </div>
     <div class="border-left">
       executions
-      <div class="whole-text">{{ wholeQuery.executions }}</div>
+      <div class="whole-text">{{ showSchemaData.executions }}</div>
     </div>
     <div class="border-left">
       bufferGetsAvg
-      <div class="whole-text">{{ wholeQuery.bufferGetsAvg }}</div>
+      <div class="whole-text">{{ showSchemaData.bufferGetsAvg }}</div>
     </div>
     <div class="border-left">
       diskReadsAvg
-      <div class="whole-text">{{ wholeQuery.diskReadsAvg }}</div>
+      <div class="whole-text">{{ showSchemaData.diskReadsAvg }}</div>
     </div>
     <div class="border-left">
       rowProcessedAvg
-      <div class="whole-text">{{ wholeQuery.rowsProcessedAvg }}</div>
+      <div class="whole-text">{{ showSchemaData.rowsProcessedAvg }}</div>
     </div>
   </div>
 </template>
@@ -29,7 +29,8 @@ import { mapGetters } from "vuex";
 export default {
   name: "WholeQuery",
   computed: {
-    ...mapGetters("Query", ["wholeQuery"])
+    // ...mapGetters("Query", ["wholeQuery"])
+    ...mapGetters("Schema", ["showSchemaData"])
   }
 };
 </script>
