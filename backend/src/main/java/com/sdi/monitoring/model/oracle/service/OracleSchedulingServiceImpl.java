@@ -69,16 +69,19 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	    
 	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	    realTimeMonitoringDTO.setTime(format.format(time));
+	    map.put("time", realTimeMonitoringDTO.getTime());
 	    
 		System.out.println("========== Oracle 전체 상태 ==========");
 		realTimeMonitoringDTO.setOracleStatus(oracleRepoImpl.findOracleStastics());
+		map.put("oracleStatus", realTimeMonitoringDTO.getOracleStatus());
 		
 		System.out.println("========== 전체 스키마 정보 ==========");
 		realTimeMonitoringDTO.setAllSchemaStastics(oracleRepoImpl.findAllSchemaStastics(schemaList));
+		map.put("allSchemaStastics", realTimeMonitoringDTO.getAllSchemaStastics());
 		
 		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
 		realTimeMonitoringDTO.setAllSchemaQueryInfo(oracleRepoImpl.findAllSchemaQueryInfo(schemaList));
-		
+		map.put("allSchemaQueryInfo", realTimeMonitoringDTO.getAllSchemaQueryInfo())
 		
 		Map<String, Object> schemas = new HashMap<>();
 		List<SchemaInfoDTO> schemaInfoDTOList = new ArrayList<SchemaInfoDTO>();
@@ -94,8 +97,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 			schemas.put(schemaName, schemaInfoDTO);
 		}
 		realTimeMonitoringDTO.setSchemas(schemaInfoDTOList);
-		RealTimeMonitoringEntity rtme = new RealTimeMonitoringEntity();
-        messagingTemplate.convertAndSend("/sendData/schedulerM", realTimeMonitoringDTO);
+		map.put("schemas", schemas);
+		
+        messagingTemplate.convertAndSend("/sendData/schedulerM", map);
         rtmRepo.save(realTimeMonitoringEntityBuilder(realTimeMonitoringDTO));
         stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
