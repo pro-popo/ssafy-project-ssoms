@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 @Document("user")
-public class SetAlarms {
+public class SetAlarmsEntity {
 	private boolean cpu90percent;
 	private boolean cpu80percent;
 	private boolean cpu70percent;
@@ -16,9 +16,9 @@ public class SetAlarms {
 	private boolean memory80percent;
 	private boolean memory70percent;
 
-	public SetAlarms() {}
+	public SetAlarmsEntity() {}
 	
-	public SetAlarms(boolean cpu90percent, boolean cpu80percent, boolean cpu70percent, boolean memory90percent,
+	public SetAlarmsEntity(boolean cpu90percent, boolean cpu80percent, boolean cpu70percent, boolean memory90percent,
 			boolean memory80percent, boolean memory70percent) {
 		this.cpu90percent = cpu90percent;
 		this.cpu80percent = cpu80percent;
