@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Account from "@/store/modules/account.js";
+import Database from "@/store/modules/database.js";
 import Query from "@/store/modules/query.js";
 
 // realtime
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     Account: Account,
+    Database: Database,
     Query: Query,
     Oracle: Oracle,
     Schema: Schema,

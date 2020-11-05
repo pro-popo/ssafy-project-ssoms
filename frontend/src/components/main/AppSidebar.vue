@@ -1,18 +1,60 @@
 <template>
-  <div class="user-side-bar">
-    <div class="user-id mb-4" @click="getMyProfile">
-      <v-icon class="mr-2 mdi mdi-account-circle-outline"></v-icon>
-      <span>{{ userID }}</span>
+  <v-navigation-drawer
+    :width="230"
+    color="#29292a"
+    v-model="drawer"
+    :mini-variant.sync="mini"
+    permanent
+    dark
+    style="height:100%"
+  >
+    <div style="height:100%" class="sidebar-container">
+      <div>
+        <v-list dense style="margin-top:-3px">
+          <v-list-item style="margin-left:-6px">
+            <v-btn
+              icon
+              v-if="mini"
+              @click.stop="mini = !mini"
+              style="margin-left:auto"
+            >
+              <v-icon>mdi-menu</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              v-if="!mini"
+              @click.stop="mini = !mini"
+              style="margin-left:auto"
+            >
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+          </v-list-item>
+          <v-list-item
+            link
+            @click="getMyProfile"
+            style="margin:14px 0px 7px 0px;"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title style="margin-right:10px">
+              <span>{{ email }}</span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list dense>
+          <AppAdminSidebar v-if="isAdmin" />
+          <AppUserSidebar v-if="!isAdmin" />
+        </v-list>
+      </div>
+      <div class="logout">
+        <v-btn icon style="padding-left:3px" @click="userLogout"
+          ><v-icon>mdi-logout</v-icon></v-btn
+        >
+      </div>
     </div>
-    <hr class="mb-3" />
-    <div>
-      <AppAdminSidebar v-if="isAdmin" />
-      <AppUserSidebar v-if="!isAdmin" />
-    </div>
-    <v-btn class="logout-btn" color="primary" @click="userLogout">
-      LOGOUT
-    </v-btn>
-  </div>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -28,60 +70,50 @@ export default {
   props: {
     isAdmin: Boolean
   },
-  data() {
-    return {
-      schemaID: "스키마ID",
-      userID: sessionStorage.getItem("loginSession")
-    };
-  },
+  created() {},
+
   methods: {
     ...mapActions("Account", ["logout"]),
     userLogout() {
       this.logout();
     },
     getMyProfile() {
-      this.$emit("user-profile");
+      if (!this.mini) this.$emit("user-profile");
     }
+  },
+  data() {
+    return {
+      email: sessionStorage.getItem("loginSession"),
+      drawer: true,
+      model: 0,
+      mini: true
+    };
   }
 };
 </script>
 
 <style>
-.DB-icon {
-  font-size: 25px;
+.sidebar-schema {
+  max-height: 400px;
+  overflow-y: auto;
+  -ms-overflow-style: none !important;
 }
-.user-side-bar {
-  padding-top: 20px;
-  /* height: 100%; */
-  width: 220px;
-  /* position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0; */
-  background-color: rgb(221, 221, 221);
-}
-.user-side-bar hr {
-  margin: 0px;
-}
-.user-side-bar a {
-  padding: 8px 0px 8px 32px;
-  text-decoration: none;
-  font-size: 20px;
-  display: block;
-  transition: 0.2s ease-in-out;
+.sidebar-schema::-webkit-scrollbar {
+  display: none;
 }
 
-.user-side-bar a:hover,
-.offcanvas a:focus {
-  color: #fff;
+.v-list-item-group .v-list-item--active {
+  background: linear-gradient(to right, #021999, #270c8b);
 }
 
-.user-id {
-  padding: 0px 0px 0px 32px;
-  height: 40px;
-  line-height: 40px;
-  font-size: 17px;
-  cursor: pointer;
+.sidebar-container {
   display: flex;
+  flex-direction: column;
+}
+.logout {
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 </style>

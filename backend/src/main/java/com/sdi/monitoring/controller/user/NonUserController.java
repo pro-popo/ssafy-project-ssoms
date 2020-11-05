@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdi.monitoring.domain.SuccessResponse;
-import com.sdi.monitoring.model.oracle.repository.OracleRepo;
 import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
@@ -35,18 +34,18 @@ public class NonUserController {
 		final SuccessResponse result = new SuccessResponse();
 		boolean isAdmin = nonUserService.hasAdmin();
 		result.status = true;
+		System.out.println(isAdmin);
 		result.result = isAdmin ? "yes" : "no";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
 
 	@PutMapping("/signup")
-	public ResponseEntity signUp(@RequestBody(required = true) UserSignUpDTO userSignUpDTO) {
+	public ResponseEntity signUp(@RequestBody UserSignUpDTO userSignUpDTO) {
 		System.out.println("========== signUp entered... ==========");
 		System.out.println(userSignUpDTO.toString());
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		System.out.println(userSignUpDTO.toString());
 		boolean checkCanUseEmail = nonUserService.emailDuplicateCheckForSignUp(userSignUpDTO.getEmail());
 		if (!checkCanUseEmail) {
 			result.status = true;

@@ -2,7 +2,9 @@
   <v-app>
     <div class="main-container">
       <div v-if="isExistedAdmin">
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
       </div>
       <div v-else class="main-container">
         <SignUpAdmin />
@@ -49,8 +51,10 @@ export default {
   width: 100%;
   height: 100%;
 }
-html {
-  overflow-y: hidden !important;
+#app {
+  overflow: hidden !important;
+
   -ms-overflow-style: none;
+  background: #f3f3f3;
 }
 </style>

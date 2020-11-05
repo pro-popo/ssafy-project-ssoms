@@ -1,4 +1,4 @@
-package com.sdi.monitoring.model.user.repository;
+package com.sdi.monitoring.model.admin.repository;
 
 import java.io.FileReader;
 import java.io.FileWriter;
