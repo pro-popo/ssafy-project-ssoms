@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.sdi.monitoring.model.oracle.dto.OracleStatusDTO;
-import com.sdi.monitoring.model.oracle.dto.SchemaInfoDTO;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class UsedBySchemaDTO {
+	private String sqlId;
 	private String parsingSchemaName;
 	private String module;
 	private String lastActiveTime;
