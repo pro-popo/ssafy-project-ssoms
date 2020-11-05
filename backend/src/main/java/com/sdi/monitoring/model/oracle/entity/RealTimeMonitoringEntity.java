@@ -6,24 +6,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.sdi.monitoring.model.oracle.dto.OracleStatusDTO;
 import com.sdi.monitoring.model.oracle.dto.SchemaInfoDTO;
-import com.sdi.monitoring.model.oracle.dto.SchemaQueryDTO;
-import com.sdi.monitoring.model.oracle.dto.SchemaStasticsDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @Document("realtimedata")
 public class RealTimeMonitoringEntity {
 	private String time;
-	private OracleStatusDTO oracleStatus;
-	private List<SchemaInfoDTO> schemas;
-	private List<SchemaStasticsDTO> allSchemaStastics;
-	private List<SchemaQueryDTO> allSchemaQueryInfo;
+	private OracleStatusEntity oracleStatus;
+	private List<SchemaInfoEntity> schemas;
+	private List<SchemaStasticsEntity> allSchemaStastics;
+	private List<SchemaQueryEntity> allSchemaQueryInfo;
 	
 	public RealTimeMonitoringEntity() {}
 }
