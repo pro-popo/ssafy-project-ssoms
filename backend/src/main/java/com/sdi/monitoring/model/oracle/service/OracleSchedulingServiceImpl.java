@@ -44,8 +44,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	
 	@Override
 	public void stop() {
-		if(scheduler != null)
-			scheduler.stopScheduler();
+		scheduler.stopScheduler();
 	}
 	
 	@Override
@@ -81,12 +80,12 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		}
 		realTimeMonitoringDTO.setSchemas(schemaInfoDTOList);
         messagingTemplate.convertAndSend("/sendData/schedulerM", realTimeMonitoringDTO);
-        rtmRepo.save(realTimeMonitoringEntityBuilderToUpdate(realTimeMonitoringDTO));
+        rtmRepo.save(realTimeMonitoringEntityBuilder(realTimeMonitoringDTO));
         stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
 	}
 	
-	private RealTimeMonitoringEntity realTimeMonitoringEntityBuilderToUpdate(RealTimeMonitoringDTO realTimeMonitoringDTO) {
+	private RealTimeMonitoringEntity realTimeMonitoringEntityBuilder(RealTimeMonitoringDTO realTimeMonitoringDTO) {
 		return RealTimeMonitoringEntity.builder()
 				.time(realTimeMonitoringDTO.getTime())
 				.oracleStatus(realTimeMonitoringDTO.getOracleStatus())

@@ -23,5 +23,6 @@ public class RealTimeMonitoringEntity {
 	private List<SchemaInfoDTO> schemas;
 	private List<SchemaStasticsDTO> allSchemaStastics;
 	private List<SchemaQueryDTO> allSchemaQueryInfo;
+	
 	public RealTimeMonitoringEntity() {}
 }
