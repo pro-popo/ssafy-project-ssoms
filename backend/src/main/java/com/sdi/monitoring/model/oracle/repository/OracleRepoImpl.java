@@ -156,7 +156,7 @@ public class OracleRepoImpl implements OracleRepo{
 				sqlPlus += "?,";
 			}
 			sqlPlus = schemaListSize != 0 ? sqlPlus.substring(0, schemaListSize * 2 - 1) : sqlPlus;
-			sql.append("select parsing_schema_name\r\n" + 
+			sql.append("select sql_id, parsing_schema_name\r\n" + 
 					"     , (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\r\n" + 
 					"          FROM  v$sqltext b WHERE b.sql_id = s.sql_id GROUP BY sql_id ) as sql_full_text\r\n" + 
 					"     , executions executions\r\n" + 
@@ -190,6 +190,7 @@ public class OracleRepoImpl implements OracleRepo{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				SchemaQueryDTO schemaQueryDTO = new SchemaQueryDTO();
+				schemaQueryDTO.setSqlId(rs.getString("sql_id"));
 				schemaQueryDTO.setParsingSchemaName(rs.getString("parsing_schema_name"));
 				schemaQueryDTO.setSql(rs.getString("sql_full_text"));
 				schemaQueryDTO.setExecutions(rs.getLong("executions"));
@@ -220,7 +221,7 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
+			sql.append("SELECT main.sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
 			sql.append(",main.cpu_time/1000 cpu_time_per_sec, main.cpu_time_ratio, main.elapsed_time/1000 elapsed_time_per_sec, main.elapsed_time_ratio, main.buffer_gets, main.buffer_gets_ratio\n");
 			sql.append("		, (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\n");
 			sql.append("          FROM  v$sqltext b WHERE b.sql_id = main.sql_id GROUP BY sql_id ) as sql_full_text\n");
@@ -257,6 +258,7 @@ public class OracleRepoImpl implements OracleRepo{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				UsedBySchemaDTO timePerusedBySchemaDTO = new UsedBySchemaDTO();
+				timePerusedBySchemaDTO.setSqlId(rs.getString("sql_id"));
 				timePerusedBySchemaDTO.setParsingSchemaName(rs.getString("parsing_schema_name"));
 				timePerusedBySchemaDTO.setModule(rs.getString("module"));
 				timePerusedBySchemaDTO.setLastActiveTime(rs.getString("last_active_time"));
@@ -290,7 +292,7 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
+			sql.append("SELECT main.sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
 			sql.append(",main.cpu_time/1000 cpu_time_per_sec, main.cpu_time_ratio, main.elapsed_time/1000 elapsed_time_per_sec, main.elapsed_time_ratio, main.buffer_gets, main.buffer_gets_ratio\n");
 			sql.append("		, (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\n");
 			sql.append("          FROM  v$sqltext b WHERE b.sql_id = main.sql_id GROUP BY sql_id ) as sql_full_text\n");
@@ -327,6 +329,7 @@ public class OracleRepoImpl implements OracleRepo{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				UsedBySchemaDTO timePerusedBySchemaDTO = new UsedBySchemaDTO();
+				timePerusedBySchemaDTO.setSqlId(rs.getString("sql_id"));
 				timePerusedBySchemaDTO.setParsingSchemaName(rs.getString("parsing_schema_name"));
 				timePerusedBySchemaDTO.setModule(rs.getString("module"));
 				timePerusedBySchemaDTO.setLastActiveTime(rs.getString("last_active_time"));
@@ -359,7 +362,7 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
+			sql.append("SELECT main.sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
 			sql.append(",main.cpu_time/1000 cpu_time_per_sec, main.cpu_time_ratio, main.elapsed_time/1000 elapsed_time_per_sec, main.elapsed_time_ratio, main.buffer_gets, main.buffer_gets_ratio\n");
 			sql.append("		, (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\n");
 			sql.append("          FROM  v$sqltext b WHERE b.sql_id = main.sql_id GROUP BY sql_id ) as sql_full_text\n");
@@ -396,6 +399,7 @@ public class OracleRepoImpl implements OracleRepo{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				UsedBySchemaDTO timePerusedBySchemaDTO = new UsedBySchemaDTO();
+				timePerusedBySchemaDTO.setSqlId(rs.getString("sql_id"));
 				timePerusedBySchemaDTO.setParsingSchemaName(rs.getString("parsing_schema_name"));
 				timePerusedBySchemaDTO.setModule(rs.getString("module"));
 				timePerusedBySchemaDTO.setLastActiveTime(rs.getString("last_active_time"));
