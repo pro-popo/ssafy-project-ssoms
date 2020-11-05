@@ -12,7 +12,7 @@ import OracleResource from "@/components/oracle-status/OracleResource.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "view",
+  name: "MainHome",
   components: {
     SchemaChart,
     OracleResource

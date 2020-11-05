@@ -5,22 +5,8 @@
 </template>
 
 <script>
-import SERVER from "@/api/spring.js";
-import axios from "axios";
 export default {
-  name: "AppMain",
-  data() {
-    return {
-      testString: "결과값 입니다."
-    };
-  },
-  methods: {
-    test() {
-      axios
-        .get(SERVER.URL + "/admin/test")
-        .then((res) => (this.testString = res));
-    }
-  }
+  name: "AppMain"
 };
 </script>
 
