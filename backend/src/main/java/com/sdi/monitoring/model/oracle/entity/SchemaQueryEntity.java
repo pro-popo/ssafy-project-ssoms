@@ -11,6 +11,7 @@ import lombok.Getter;
 @Builder
 @Document("realtimedata")
 public class SchemaQueryEntity {
+	private String sqlId;
 	private String parsingSchemaName;
 	private String sql;
 	private long executions;

@@ -81,7 +81,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		
 		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
 		realTimeMonitoringDTO.setAllSchemaQueryInfo(oracleRepoImpl.findAllSchemaQueryInfo(schemaList));
-		map.put("allSchemaQueryInfo", realTimeMonitoringDTO.getAllSchemaQueryInfo())
+		map.put("allSchemaQueryInfo", realTimeMonitoringDTO.getAllSchemaQueryInfo());
 		
 		Map<String, Object> schemas = new HashMap<>();
 		List<SchemaInfoDTO> schemaInfoDTOList = new ArrayList<SchemaInfoDTO>();

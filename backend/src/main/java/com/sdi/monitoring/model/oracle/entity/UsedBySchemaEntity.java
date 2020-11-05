@@ -11,6 +11,7 @@ import lombok.Getter;
 @Builder
 @Document("realtimedata")
 public class UsedBySchemaEntity {
+	private String sqlId;
 	private String parsingSchemaName;
 	private String module;
 	private String lastActiveTime;
