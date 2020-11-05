@@ -134,6 +134,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 				.userCommitsPerSec(oracleStatusDTO.getUserCommitsPerSec())
 				.physicalReadsPerSec(oracleStatusDTO.getPhysicalReadsPerSec())
 				.physicalWritesPerSec(oracleStatusDTO.getPhysicalWritesPerSec())
+				.responseTimePerTxn(oracleStatusDTO.getResponseTimePerTxn())
 				.build();
 	}
 	private SchemaQueryEntity schemaQueryBuilder(SchemaQueryDTO schemaQueryDTO) {

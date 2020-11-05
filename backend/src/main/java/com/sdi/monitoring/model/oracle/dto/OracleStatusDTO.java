@@ -16,4 +16,5 @@ public class OracleStatusDTO {
 	private double userCommitsPerSec;
 	private double physicalReadsPerSec;
 	private double physicalWritesPerSec;
+	private double responseTimePerTxn;
 }

@@ -28,7 +28,10 @@ public class OracleRepoImpl implements OracleRepo{
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
 			Map<String, Double> map = new HashMap<>();
-			sql.append("select metric_name, round(VALUE,2) as value\n");
+			sql.append("select metric_name, CASE METRIC_NAME \n" + 
+					"              WHEN 'Response Time Per Txn' then ROUND((value / 100),2) \n" + 
+					"              ELSE round(value, 2)\n" + 
+					"              END value\n");
 			sql.append("from SYS.V_$SYSMETRIC\n");
 			sql.append("where METRIC_NAME IN ('Database CPU Time Ratio',\n");
 			sql.append("                            'Database Wait Time Ratio',\n");
@@ -41,7 +44,8 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                            'Open Cursors Per Sec',\n");
 			sql.append("                            'User Commits Per Sec',\n");
 			sql.append("                            'Physical Reads Per Sec',\n");
-			sql.append("                            'Physical Writes Per Sec') AND\n");
+			sql.append("                            'Physical Writes Per Sec',\n");
+			sql.append("                            'Response Time Per Txn') AND\n");
 			sql.append("        INTSIZE_CSEC = (select max(INTSIZE_CSEC) from SYS.V_$SYSMETRIC)\n");
 			pstmt = con.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
@@ -61,6 +65,7 @@ public class OracleRepoImpl implements OracleRepo{
 			oracleStatusDTO.setUserCommitsPerSec(map.get("User Commits Per Sec"));
 			oracleStatusDTO.setPhysicalReadsPerSec(map.get("Physical Reads Per Sec"));
 			oracleStatusDTO.setPhysicalWritesPerSec(map.get("Physical Writes Per Sec"));
+			oracleStatusDTO.setResponseTimePerTxn(map.get("Response Time Per Txn"));
 		} catch(Exception e){
 			e.printStackTrace();
 		}finally {
