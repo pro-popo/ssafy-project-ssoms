@@ -38,8 +38,7 @@
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title style="margin-right:10px">
-              <span>{{ email }}</span
-              ><br /><span>김싸피</span>
+              <span>{{ email }}</span>
             </v-list-item-title>
           </v-list-item>
         </v-list>
@@ -71,6 +70,7 @@ export default {
   props: {
     isAdmin: Boolean
   },
+  created() {},
 
   methods: {
     ...mapActions("Account", ["logout"]),
