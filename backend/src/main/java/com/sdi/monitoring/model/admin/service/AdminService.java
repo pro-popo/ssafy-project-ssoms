@@ -9,7 +9,7 @@ import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 
 public interface AdminService {
-//	public boolean changeAdmin(String prevAdmin, String nextAdmin);
+	public boolean changeAdmin(String prevAdmin, String nextAdmin);
 
 	public List<UserDTO> getAllUserList();
 

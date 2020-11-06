@@ -26,17 +26,32 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	private UserMongoRepo userMongoRepo;
 	
-//	@Override
-//	public boolean changeAdmin(String prevAdmin, String nextAdmin) {
-//		if(userRepo.changeAuthorityToUser(prevAdmin) != 1)
-//			return false;
-//		
-//		if(userRepo.changeAuthorityToAdmin(nextAdmin) != 1)
-//			return false; 
-//		
-//		// false 던지는 곳이 진짜 계정이 없어서 던지는건지 db에 이상 있는건지 확인하는 로직 추가 필요
-//		return true;
-//	}
+	@Override
+	public boolean changeAdmin(String prevAdmin, String nextAdmin) {
+		UserEntity adminEntity = null;
+		adminEntity = userMongoRepo.findUserByEmail(prevAdmin); //
+		if(adminEntity == null) {
+			return false;
+		}
+		
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(nextAdmin);
+		if(userEntity == null) {
+			return false;
+		}
+		
+		if(!isAdminCheck(adminEntity, userEntity))
+			return false;
+		
+		adminEntity.getInfo().ChangeAdmin();
+		userEntity.getInfo().ChangeAdmin();
+		
+		userMongoRepo.save(adminEntity);
+		userMongoRepo.save(userEntity);
+		
+		// false 던지는 곳이 진짜 계정이 없어서 던지는건지 db에 이상 있는건지 확인하는 로직 추가 필요
+		return true;
+	}
 	
 	@Override
 	public List<UserDTO> getAllUserList() {
@@ -100,6 +115,17 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		return userDTOList; 
+	}
+	
+	private boolean isAdminCheck(UserEntity adminEntity, UserEntity userEntity) {
+		if(!adminEntity.getInfo().isAdmin())
+			return false;
+		
+		if(userEntity.getInfo().isAdmin())
+			return false;
+		
+		return true;
+		
 	}
 
 }

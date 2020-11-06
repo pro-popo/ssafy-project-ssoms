@@ -41,18 +41,18 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-//	// 이거 권한 맞는지 확인하는 로직 필요함
-//	@PutMapping("/change")
-//	public ResponseEntity changeAdmin(@RequestBody(required = true) UserUpdateAdminDTO userUpdateAdminDTO) {
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		boolean checkCanChangeAdmin = adminService.changeAdmin(userUpdateAdminDTO.getPrevAdmin(),
-//				userUpdateAdminDTO.getNextAdmin());
-//		result.status = true;
-//		result.result = checkCanChangeAdmin ? "success" : "fail";
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
+	// 이거 권한 맞는지 확인하는 로직 필요함
+	@PutMapping("/change")
+	public ResponseEntity changeAdmin(@RequestBody(required = true) UserUpdateAdminDTO userUpdateAdminDTO) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean checkCanChangeAdmin = adminService.changeAdmin(userUpdateAdminDTO.getPrevAdmin(),
+				userUpdateAdminDTO.getNextAdmin());
+		result.status = true;
+		result.result = checkCanChangeAdmin ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
 
 	// 리스트 null 반환될때 체크
 	@GetMapping("/alluser")
