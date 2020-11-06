@@ -100,7 +100,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		map.put("schemas", schemas);
 		
         messagingTemplate.convertAndSend("/sendData/schedulerM", map);
-        rtmRepo.save(realTimeMonitoringEntityBuilder(realTimeMonitoringDTO));
+        rtmRepo.insert(realTimeMonitoringEntityBuilder(realTimeMonitoringDTO));
         stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
 	}

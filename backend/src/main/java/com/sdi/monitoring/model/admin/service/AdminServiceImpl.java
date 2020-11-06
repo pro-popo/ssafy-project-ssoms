@@ -95,8 +95,7 @@ public class AdminServiceImpl implements AdminService{
 	private List<UserDTO> EntityListToDTOList(List<UserEntity> userEntityList){
 		List<UserDTO> userDTOList = new ArrayList<UserDTO>();
 		for (UserEntity userEntity : userEntityList) {
-			UserDTO userDTO = mapper.convertToDTO(userEntity.getInfo(), UserDTO.class);
-			userDTO.setEmail(userEntity.getEmail());
+			UserDTO userDTO = mapper.convertToDTO(userEntity, UserDTO.class);
 			userDTOList.add(userDTO);
 		}
 		

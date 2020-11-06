@@ -1,6 +1,8 @@
 package com.sdi.monitoring.model.user.entity;
 
 
+import java.util.LinkedList;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

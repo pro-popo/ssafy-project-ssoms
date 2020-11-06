@@ -75,11 +75,9 @@ public class UserServiceImpl implements UserService{
 		userMongoRepo.deleteByEmail(userPrimitiveDTO.getEmail());
 		return true;
 	}
-//	
 	
 	public UserDTO EntityToDTO(UserEntity userEntity) {
-		UserDTO userDTO = mapper.convertToDTO(userEntity.getInfo(), UserDTO.class);
-		userDTO.setEmail(userEntity.getEmail());
+		UserDTO userDTO = mapper.convertToDTO(userEntity, UserDTO.class);
 		return userDTO;
 	}
 	
