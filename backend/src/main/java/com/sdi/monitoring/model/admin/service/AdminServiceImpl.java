@@ -43,11 +43,7 @@ public class AdminServiceImpl implements AdminService{
 		if(!isAdminCheck(adminEntity, userEntity))
 			return false;
 		
-		adminEntity.getInfo().ChangeAdmin();
-		userEntity.getInfo().ChangeAdmin();
-		
-		userMongoRepo.save(adminEntity);
-		userMongoRepo.save(userEntity);
+		changeAdmin(adminEntity, userEntity);
 		
 		// false 던지는 곳이 진짜 계정이 없어서 던지는건지 db에 이상 있는건지 확인하는 로직 추가 필요
 		return true;
@@ -125,7 +121,14 @@ public class AdminServiceImpl implements AdminService{
 			return false;
 		
 		return true;
+	}
+	
+	private void changeAdmin(UserEntity adminEntity, UserEntity userEntity) {
+		adminEntity.getInfo().ChangeAdmin();
+		userEntity.getInfo().ChangeAdmin();
 		
+		userMongoRepo.save(adminEntity);
+		userMongoRepo.save(userEntity);
 	}
 
 }
