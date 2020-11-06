@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 
 import org.springframework.stereotype.Component;
 
-import com.sdi.monitoring.domain.OracleHostInfo;
 import com.sdi.monitoring.exception.InternalServerException;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
+import com.sdi.monitoring.model.oracle.dto.OracleHostInfo;
 
 @Component
 public class DBUtil {

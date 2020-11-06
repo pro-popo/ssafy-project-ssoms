@@ -1,4 +1,4 @@
-package com.sdi.monitoring.domain;
+package com.sdi.monitoring.model.oracle.dto;
 
 import lombok.Data;
 
