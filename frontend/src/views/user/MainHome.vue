@@ -1,21 +1,28 @@
 <template>
   <div>
-    {{ showSchemaData }}
+    {{ getRealTime }}
     <SchemaChart />
     <OracleResource />
+    <RealTimeTopQuery />
+    <RealTimeQueryDetail />
   </div>
 </template>
 
 <script type="text/babel">
 import SchemaChart from "@/components/pc-resource/SchemaChart.vue";
 import OracleResource from "@/components/oracle-status/OracleResource.vue";
+import RealTimeTopQuery from "@/components/query/RealTimeTopQuery.vue";
+import RealTimeQueryDetail from "@/components/query/RealTimeQueryDetail.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
   name: "MainHome",
   components: {
     SchemaChart,
-    OracleResource
+    OracleResource,
+    RealTimeTopQuery,
+    RealTimeQueryDetail
   },
   props: {},
   data: () => ({
@@ -63,7 +70,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("Schema", ["showSchemaData"])
+    ...mapGetters("Schema", ["showSchemaData"]),
+    ...mapGetters(["getRealTime"])
   }
 };
 </script>
