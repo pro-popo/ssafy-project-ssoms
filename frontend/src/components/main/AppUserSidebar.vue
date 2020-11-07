@@ -77,7 +77,7 @@ export default {
     this.getSettingSchema();
   },
   computed: {
-    ...mapGetters("Database", ["getSchemaList"])
+    ...mapGetters("Schema", ["getSchemaList"])
   },
   methods: {
     toSchemaList(name) {
@@ -90,8 +90,8 @@ export default {
       }
       // report
     },
-    ...mapActions("Database", ["getSettingSchema"]),
-    ...mapMutations("Database", ["SET_SELECTED_SCHEMA"])
+    ...mapActions("Schema", ["getSettingSchema"]),
+    ...mapMutations("Schema", ["SET_SELECTED_SCHEMA"])
   }
 };
 </script>

@@ -43,7 +43,7 @@ export default {
   name: "SchemaDetail",
   components: {},
   computed: {
-    ...mapGetters("Database", ["getSchemaData"])
+    ...mapGetters("Schema", ["getSchemaData"])
   },
   data() {
     return {};

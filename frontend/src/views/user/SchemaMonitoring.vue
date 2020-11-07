@@ -61,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("Database", ["SelectedSchema"])
+    ...mapGetters("Schema", ["SelectedSchema"])
   },
   mounted() {
     document.getElementById(

@@ -1,6 +1,6 @@
 import axios from "axios";
 import SERVER from "@/api/spring.js";
-const Database = {
+const Schema = {
   namespaced: true,
   state: {
     schemaList: [],
@@ -40,4 +40,4 @@ const Database = {
     }
   }
 };
-export default Database;
+export default Schema;
