@@ -14,22 +14,26 @@
             <th class="cell3" scope="col">사번</th>
             <th class="cell4" scope="col">이메일</th>
             <th class="cell5" scope="col">연락처</th>
+            <th class="cell6" scope="col">접속이력</th>
           </tr>
           <tr
             class="table-cell"
             v-for="member in memberList"
-            :key="member.employeeId"
+            :key="member.info.employeeId"
           >
-            <th v-if="member.admin === true" class="cell1" scope="row">
+            <th v-if="member.info.admin === true" class="cell1" scope="row">
               O
             </th>
-            <th v-if="member.admin === false" class="cell1" scope="row">
+            <th v-if="member.info.admin === false" class="cell1" scope="row">
               X
             </th>
-            <td class="cell2">{{ member.name }}</td>
-            <td class="cell3">{{ member.employeeId }}</td>
+            <td class="cell2">{{ member.info.name }}</td>
+            <td class="cell3">{{ member.info.employeeId }}</td>
             <td class="cell4">{{ member.email }}</td>
-            <td class="cell5">{{ member.phoneNumber }}</td>
+            <td class="cell5">{{ member.info.phoneNumber }}</td>
+            <td class="cell6">
+              {{ member.visit.time[member.visit.time.length - 1] }}
+            </td>
           </tr>
         </table>
       </div>
@@ -53,8 +57,8 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.allUser)
         .then((res) => {
+          console.log(res.data.map.userList);
           this.memberList = res.data.map.userList;
-          console.log(this.memberList);
         })
         .catch((err) => console.log(err));
     }
@@ -83,7 +87,7 @@ td {
 
 .tb_wrap {
   position: relative;
-  width: 900px;
+  width: 1100px;
   padding-top: 40px;
 }
 .tb_box {
@@ -103,19 +107,12 @@ td {
   /* padding-left: 10px; */
 }
 .cell3 {
-  width: 20%;
+  width: 15%;
 }
 .cell4,
-.cell5 {
-  width: 30%;
-}
-
-th.cell1,
-td.cell2,
-td.cell3,
-td.cell4,
-td.cell5 {
-  padding-left: 10px;
+.cell5,
+.cell6 {
+  width: 20%;
 }
 
 .fixed_top {
