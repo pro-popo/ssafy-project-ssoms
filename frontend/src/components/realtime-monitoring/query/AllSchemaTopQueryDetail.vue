@@ -1,14 +1,30 @@
 <template>
   <div class="realtime-detail-box">
     <v-card elevation="10" class="realtime-detail-query">
-      <span class="realtime-detail-item"
-        >executions : {{ getTopQueryDetail.executions }}</span
+      <span>
+        executions
+        <div>{{ getTopQueryDetail.executions }}</div>
+      </span>
+      <span
+        >bufferGets
+        <div>{{ getTopQueryDetail.bufferGets }}</div></span
       >
-      <span>bufferGets : {{ getTopQueryDetail.bufferGets }}</span>
-      <span>diskReads : {{ getTopQueryDetail.diskReads }}</span>
-      <span>rowsProcessed : {{ getTopQueryDetail.rowsProcessed }}</span>
-      <span>cpuTimeAvg : {{ getTopQueryDetail.cpuTimeAvg }}</span>
-      <span>elapsedTimeAvg : {{ getTopQueryDetail.elapsedTimeAvg }}</span>
+      <span
+        >diskReads
+        <div>{{ getTopQueryDetail.diskReads }}</div></span
+      >
+      <span
+        >rowsProcessed
+        <div>{{ getTopQueryDetail.rowsProcessed }}</div></span
+      >
+      <span
+        >cpuTimeAvg
+        <div>{{ getTopQueryDetail.cpuTimeAvg }}</div></span
+      >
+      <span
+        >elapsedTimeAvg
+        <div>{{ getTopQueryDetail.elapsedTimeAvg }}</div></span
+      >
     </v-card>
   </div>
 </template>
@@ -17,7 +33,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "AllSchemaTopQuery",
+  name: "AllSchemaTopQueryDetail",
   computed: {
     ...mapGetters("TopQuery", ["getTopQueryDetail"])
   }
@@ -25,13 +41,16 @@ export default {
 </script>
 
 <style>
-.realtime-detail-box {
-  /* text-align: center; */
-}
 .realtime-detail-query {
-  /* display: inline-block; */
-  width: 1000px;
-  height: 200px;
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  height: 20%;
   margin: 0 auto;
+  padding: 20px 0;
+}
+.realtime-detail-query > span > div {
+  font-size: 30px;
+  font-weight: 900;
 }
 </style>
