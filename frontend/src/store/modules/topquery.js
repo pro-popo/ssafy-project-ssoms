@@ -5,14 +5,19 @@
 const TopQuery = {
   namespaced: true,
   state: {
-    topQueryList: []
+    topQueryList: [],
+    topQueryDetail: ""
   },
   getters: {
-    getTopQueryList: (state) => state.topQueryList
+    getTopQueryList: (state) => state.topQueryList,
+    getTopQueryDetail: (state) => state.topQueryDetail
   },
   mutations: {
     SET_TOPQUERY_LIST(state, data) {
       state.topQueryList = data;
+    },
+    SET_TOPQUERY_DETAIL(state, data) {
+      state.topQueryDetail = state.topQueryList[data];
     }
   },
   actions: {},

@@ -10,7 +10,7 @@ import Schema from "@/views/admin/Schema.vue";
 // User
 import MainHome from "@/views/user/MainHome.vue";
 import PCResource from "@/views/user/PCResource.vue";
-import QueryMonitoring from "@/views/user/QueryMonitoring.vue";
+import SchemaMonitoring from "@/views/user/SchemaMonitoring.vue";
 import Traffic from "@/views/user/Traffic.vue";
 import Socket from "@/views/Socket";
 Vue.use(VueRouter);
@@ -48,8 +48,8 @@ const routes = [
       },
       {
         path: "/user/query",
-        name: "QueryMonitoring",
-        component: QueryMonitoring
+        name: "SchemaMonitoring",
+        component: SchemaMonitoring
       },
       {
         path: "/user/traffic",

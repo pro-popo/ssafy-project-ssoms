@@ -35,7 +35,6 @@ const Database = {
   actions: {
     getSettingSchema({ commit }) {
       axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then((res) => {
-        console.log(res.data);
         commit("SET_SCHEMA_LIST", res.data.map.schema);
       });
     }
