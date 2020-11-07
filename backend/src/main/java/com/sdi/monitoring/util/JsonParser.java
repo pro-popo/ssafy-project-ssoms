@@ -13,7 +13,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.sdi.monitoring.domain.OracleHostInfo;
+import com.sdi.monitoring.model.oracle.dto.OracleHostInfo;
 
 @Component
 public class JsonParser {

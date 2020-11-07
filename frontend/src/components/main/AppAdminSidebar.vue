@@ -1,6 +1,5 @@
 <template>
   <v-list-item-group v-model="model" mandatory>
-    <v-subheader>Setting</v-subheader>
     <v-list-item link>
       <v-list-item-icon>
         <v-icon> mdi-dns</v-icon>

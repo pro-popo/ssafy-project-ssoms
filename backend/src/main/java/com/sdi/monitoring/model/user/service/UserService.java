@@ -17,5 +17,5 @@ public interface UserService {
 	public boolean updateUser(UserUpdateDTO userUpdateDTO);
 
 	public boolean deleteUser(UserPrimitiveDTO userPrimitiveDTO);
-
+	
 }

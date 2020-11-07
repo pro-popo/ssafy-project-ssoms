@@ -75,15 +75,13 @@ public class UserServiceImpl implements UserService{
 		userMongoRepo.deleteByEmail(userPrimitiveDTO.getEmail());
 		return true;
 	}
-//	
 	
 	public UserDTO EntityToDTO(UserEntity userEntity) {
-		UserDTO userDTO = mapper.convertToDTO(userEntity.getInfo(), UserDTO.class);
-		userDTO.setEmail(userEntity.getEmail());
+		UserDTO userDTO = mapper.convertToDTO(userEntity, UserDTO.class);
 		return userDTO;
 	}
 	
-	public UserEntity userEntityBuilderToUpdate(UserEntity userEntity, UserUpdateDTO userUpdateDTO) {
+	private UserEntity userEntityBuilderToUpdate(UserEntity userEntity, UserUpdateDTO userUpdateDTO) {
 		userEntity.getInfo().setPw(encryptionPassword(userUpdateDTO.getPw()));
 		userEntity.getInfo().setEmployeeId(userUpdateDTO.getEmployeeId());
 		userEntity.getInfo().setPhoneNumber(userUpdateDTO.getPhoneNumber());
@@ -97,11 +95,11 @@ public class UserServiceImpl implements UserService{
 				.build();
 	}
 	
-	public String encryptionPassword(String pw) {
+	private String encryptionPassword(String pw) {
 		return BCrypt.hashpw(pw, BCrypt.gensalt());
 	}
 	
-	public boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
+	private boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
 		return BCrypt.checkpw(cmp1, cmp2);
 	}
 }

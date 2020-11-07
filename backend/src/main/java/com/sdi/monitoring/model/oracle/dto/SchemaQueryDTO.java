@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class SchemaQueryDTO {
+	private String sqlId;
 	private String parsingSchemaName;
 	private String sql;
 	private long executions;

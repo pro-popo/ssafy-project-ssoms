@@ -1,9 +1,16 @@
-package com.sdi.monitoring.model.oracle.dto;
+package com.sdi.monitoring.model.oracle.entity;
 
-import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-public class OracleStatusDTO {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+@Builder
+@Document("realtimedata")
+public class OracleStatusEntity {
 	private double databaseCpuTimeRatio;
 	private double databaseWaitTimeRatio;
 	private double activeSerialSessions;

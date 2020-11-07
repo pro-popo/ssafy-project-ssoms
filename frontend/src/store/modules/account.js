@@ -13,7 +13,7 @@ const Account = {
       admin: false,
       visited_history: []
     },
-    isExistedAdmin: false,
+    isExistedAdmin: true,
     isSuccessSignUp: false
   },
   getters: {
@@ -36,8 +36,10 @@ const Account = {
         .then((res) => {
           if (res.data.result == "yes") {
             commit("SET_EXISTED_ADMIN", true);
+            // router.push({ name: "Login" });
           } else if (res.data.result == "no") {
             commit("SET_EXISTED_ADMIN", false);
+            router.push({ name: "SignUpAdmin" });
           }
           console.log(res);
         })

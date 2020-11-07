@@ -1,6 +1,8 @@
 package com.sdi.monitoring.model.user.entity;
 
 
+import java.util.LinkedList;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,14 +15,14 @@ import lombok.Data;
 public class UserEntity {
 	@Id
 	private String email;
-	private UserInfo info;
-	private SetAlarms alarms;
-	private UserVisitTimes visit;
+	private UserInfoEntity info;
+	private SetAlarmsEntity alarms;
+	private UserVisitTimesEntity visit;
 
 	public UserEntity() {}
 
-	public UserEntity(String email, UserInfo info, SetAlarms alarms,
-			UserVisitTimes visit) {
+	public UserEntity(String email, UserInfoEntity info, SetAlarmsEntity alarms,
+			UserVisitTimesEntity visit) {
 		this.email = email;
 		this.info = info;
 		this.alarms = alarms;

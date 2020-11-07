@@ -18,7 +18,9 @@ public class Scheduler {
 	private OracleSchedulingService oss;
 	
     public void stopScheduler() {
-        scheduler.shutdown();
+    	if(scheduler != null) {
+    		scheduler.shutdown();
+    	}
     }
  
     public void startScheduler() {

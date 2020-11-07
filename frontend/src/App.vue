@@ -1,13 +1,13 @@
 <template>
   <v-app>
     <div class="main-container">
-      <div v-if="isExistedAdmin">
+      <!-- <div v-if="!isExistedAdmin" class="main-container">
+        <SignUpAdmin />
+      </div> -->
+      <div>
         <transition name="fade" mode="out-in">
           <router-view></router-view>
         </transition>
-      </div>
-      <div v-else class="main-container">
-        <SignUpAdmin />
       </div>
     </div>
   </v-app>
@@ -16,19 +16,19 @@
 <script>
 // import Home from "@/views/Home.vue";
 
-import { mapGetters, mapActions } from "vuex";
-import SignUpAdmin from "@/components/non-account/SignUpAdmin.vue";
+import { mapActions } from "vuex";
+// import SignUpAdmin from "@/components/non-account/SignUpAdmin.vue";
 
 export default {
   name: "App",
-  components: {
-    // Home
+  // components: {
+  //   // Home
 
-    SignUpAdmin
-  },
-  computed: {
-    ...mapGetters("Account", ["isExistedAdmin"])
-  },
+  //   SignUpAdmin
+  // },
+  // computed: {
+  //   ...mapGetters("Account", ["isExistedAdmin"])
+  // },
   methods: {
     ...mapActions("Account", ["checkExistedAdmin"])
   },
