@@ -25,9 +25,6 @@ export default {
 </script>
 
 <style>
-.realtime-detail-box {
-  /* text-align: center; */
-}
 .realtime-detail-query {
   /* display: inline-block; */
   width: 1000px;

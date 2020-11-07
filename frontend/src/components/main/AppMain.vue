@@ -14,11 +14,27 @@ export default {
   props: {
     isAdmin: Boolean
   },
+  watch: {
+    isAdmin: function() {
+      this.moveMainPage();
+    }
+  },
   created() {
-    if (this.isAdmin) {
-      this.$router.push({ name: "OracleDB" });
-    } else {
-      this.$router.push({ name: "RealTimeMonitoring" });
+    this.moveMainPage();
+  },
+  methods: {
+    moveMainPage() {
+      setTimeout(
+        function() {
+          if (this.isAdmin) {
+            if (this.$route.name !== "OracleDB")
+              this.$router.push({ name: "OracleDB" });
+          } else if (this.$route.name !== "RealTimeMonitoring") {
+            this.$router.push({ name: "RealTimeMonitoring" });
+          }
+        }.bind(this),
+        300
+      );
     }
   }
 };

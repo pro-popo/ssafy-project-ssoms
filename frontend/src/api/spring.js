@@ -6,7 +6,7 @@ export default {
     signup: "/nonuser/signup",
 
     isExistedAdmin: "/nonuser/existence/admin",
-    idAdmin: "/user/authorization/",
+    isAdmin: "/user/authorization/",
     changeAdmin: "",
     getAllUserList: "",
     getUserVisitedHistory: "",
