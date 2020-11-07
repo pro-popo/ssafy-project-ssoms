@@ -1,5 +1,8 @@
 package com.sdi.monitoring.controller.user;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,14 +69,13 @@ public class NonUserController {
 	public ResponseEntity login(@RequestBody(required = true) UserPrimitiveDTO userPrimitiveDTO,
 			HttpSession httpSession) {
 		System.out.println("========== login entered... ==========");
-		System.out.println(userPrimitiveDTO.toString());
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		boolean checkCanLogin = nonUserService.login(userPrimitiveDTO);
+		boolean checkCanLogin = nonUserService.signIn(userPrimitiveDTO);
 		result.status = true;
 		if (checkCanLogin) {
-			result.result = "success";
 			oss.start();
+			result.result = "success";
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
 		} else {
 			result.result = "fail";

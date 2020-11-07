@@ -58,23 +58,28 @@ html {
 #app {
   background: #f3f3f3;
 }
-/* 스크롤바의 width */
+/* 스크롤 바 넓이 16px */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
-
-/* 스크롤바의 전체 배경색 */
+/* 스크롤 바 기본 색상 */
 ::-webkit-scrollbar-track {
-  background-color: rgb(196, 196, 196);
+  background-color: thistle;
 }
-
-/* 스크롤바 */
+/* 스크롤 구간 배경 색상 */
 ::-webkit-scrollbar-thumb {
-  background: rgb(114, 114, 114);
-  opacity: 10px;
-  border-radius: 10px;
+  background-color: slateblue;
 }
+/* 스크롤 바 위에 마우스 올렸을 때(hover) 색상 */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(3, 78, 162, 0.8);
+  background-color: blueviolet;
+}
+/* 스크롤 상하단 버튼 넓이와 색상 */
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+  width: 10px;
+  height: 10px;
+  background-color: mediumpurple;
 }
 </style>

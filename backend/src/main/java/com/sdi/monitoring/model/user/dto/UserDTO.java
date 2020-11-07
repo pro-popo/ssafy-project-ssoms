@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class UserDTO {
 	private String email;
-	private String employeeId;
-	private boolean admin;
-	private String phoneNumber;
-	private String name;
+	private UserInfoDTO info;
+	private SetAlarmsDTO alarms;
+	private UserVisitTimesDTO visit;
 }

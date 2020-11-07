@@ -1,5 +1,9 @@
 package com.sdi.monitoring.model.user.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,18 +43,26 @@ public class NonUserServiceImpl implements NonUserService{
 
 	@Override
 	public void signUp(UserSignUpDTO userSignUpDTO) {
-		userMongoRepo.save(userEntityBuilder(userSignUpDTO));
+		userMongoRepo.insert(userEntityBuilder(userSignUpDTO));
 	}
 
 	@Override
-	public boolean login(UserPrimitiveDTO userPrimitiveDTO) {
+	public boolean signIn(UserPrimitiveDTO userPrimitiveDTO) {
 		UserEntity userEntity = null;
 		userEntity = userMongoRepo.findUserByEmail(userPrimitiveDTO.getEmail());
 		
 		if(userEntity == null)
 			return false;
-		System.out.println(userEntity.toString());
-		return cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), userEntity.getInfo().getPw());
+		
+		// can login check
+		if(!cmpPasswordWithEncryptionPassword(userPrimitiveDTO.getPw(), userEntity.getInfo().getPw()))
+			return false;
+		
+		// 접속 이력 증가
+		userEntity.getVisit().addTime(getNow());
+		userMongoRepo.save(userEntity);
+		
+		return true;
 	}
 //	
 	private UserEntity userEntityBuilder(UserSignUpDTO userSignUpDTO) {
@@ -76,7 +88,7 @@ public class NonUserServiceImpl implements NonUserService{
 	
 	private UserVisitTimesEntity userVisitTimesEntityBuilder() {
 		return UserVisitTimesEntity.builder()
-				.time(null)
+				.time(new LinkedList<String>())
 				.build();
 	}
 	
@@ -97,5 +109,9 @@ public class NonUserServiceImpl implements NonUserService{
 	
 	private boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
 		return BCrypt.checkpw(cmp1, cmp2);
+	}
+	
+	private String getNow() {
+	    return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
 	}
 }

@@ -87,15 +87,6 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
-  // if (to.name == "SignUpAdmin") {
-  //   console.log(store.getters["Account/isExistedAdmin"]);
-  //   if (!store.getters["Account/isExistedAdmin"]) {
-  //     next({ name: "SignUpAdmin" });
-  //   } else {
-  //     next("/");
-  //   }
-  // }
-  // } else next();
 });
 
 export default router;

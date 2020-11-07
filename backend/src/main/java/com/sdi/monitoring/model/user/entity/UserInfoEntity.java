@@ -32,5 +32,11 @@ public class UserInfoEntity {
 		this.phoneNumber = phoneNumber;
 		this.name = name;
 	}
+	
+	public void ChangeAdmin() {
+		System.out.println(this.admin);
+		this.admin = !this.admin;
+		System.out.println(this.admin);
+	}
 
 }

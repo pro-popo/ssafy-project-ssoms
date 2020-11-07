@@ -1,5 +1,5 @@
 <template>
-  <v-list-item-group v-model="model" mandatory>
+  <v-list-item-group mandatory>
     <v-list-item link>
       <v-list-item-icon>
         <v-icon> mdi-monitor-dashboard</v-icon>
@@ -23,7 +23,12 @@
       </div>
     </div>
     <div v-show="menuShow">
-      <v-list-item v-for="(schema, index) in getSchemaList" :key="index" link>
+      <v-list-item
+        v-for="(schema, index) in getSchemaList"
+        :key="index"
+        @click="toSchemaList(schema.userID)"
+        link
+      >
         <v-list-item-icon>
           <v-icon> mdi-database</v-icon>
         </v-list-item-icon>
@@ -48,7 +53,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   name: "AppUserSidebar",
   data() {
@@ -61,9 +66,12 @@ export default {
   watch: {
     model: function() {
       console.log("???????????:" + this.model);
-      if (this.model == 0) this.$router.push({ name: "RealTimeMonitoring" });
-      else if (this.$route.name !== "SchemaMonitoring")
+      if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
+        this.$router.push({ name: "RealTimeMonitoring" });
+      else if (this.$route.name !== "SchemaMonitoring") {
         this.$router.push({ name: "SchemaMonitoring" });
+        this.SET_SELECTED_SCHEMA(name);
+      }
     }
   },
   created() {
@@ -75,7 +83,17 @@ export default {
     ...mapGetters("Database", ["getSchemaList"])
   },
   methods: {
-    ...mapActions("Database", ["getSettingSchema"])
+    toSchemaList(name) {
+      if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
+        this.$router.push({ name: "RealTimeMonitoring" });
+      else if (this.$route.name !== "SchemaMonitoring") {
+        this.$router.push({ name: "SchemaMonitoring" });
+        this.SET_SELECTED_SCHEMA(name);
+      }
+      // report
+    },
+    ...mapActions("Database", ["getSettingSchema"]),
+    ...mapMutations("Database", ["SET_SELECTED_SCHEMA"])
   }
 };
 </script>
