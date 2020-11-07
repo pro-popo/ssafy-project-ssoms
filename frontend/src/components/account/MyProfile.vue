@@ -78,7 +78,9 @@ export default {
           sessionStorage.getItem("loginSession")
       )
       .then((res) => {
-        this.profile = res.data.map.userProfile;
+        console.log(res);
+        this.profile = res.data.map.userProfile.info;
+        this.profile.email = res.data.map.userProfile.email;
       })
       .catch((err) => {
         console.log(err);
