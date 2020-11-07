@@ -102,12 +102,15 @@ export default {
         {},
         (frame) => {
           this.connected = true;
-          console.log("소켓 연결 성공", frame);
+          frame;
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
-            this.SET_LIST(JSON.parse(res.body).OracleStastics);
-            this.SET_SCHEMA_DATA(JSON.parse(res.body).allSchemaStastics);
-            this.SET_TOPQUERY_LIST(JSON.parse(res.body).allSchemaQueryInfo);
-            this.SET_REALTIME(JSON.parse(res.body).time);
+            const realTimeData = JSON.parse(res.body);
+            console.log(realTimeData.time);
+
+            this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
+            this.SET_SCHEMA_DATA(realTimeData.allSchemaStastics);
+            this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
+            this.SET_REALTIME(realTimeData.time);
           });
         },
         (error) => {
@@ -117,7 +120,7 @@ export default {
         }
       );
     },
-    ...mapMutations("Oracle", ["SET_LIST"]),
+    ...mapMutations("Oracle", ["SET_ORACLE_STATUS_LIST"]),
     ...mapMutations("Schema", ["SET_SCHEMA_DATA"]),
     ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
     ...mapMutations(["SET_REALTIME"])

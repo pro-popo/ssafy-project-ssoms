@@ -14,21 +14,10 @@
 </template>
 
 <script>
-// import Home from "@/views/Home.vue";
-
 import { mapActions } from "vuex";
-// import SignUpAdmin from "@/components/non-account/SignUpAdmin.vue";
 
 export default {
   name: "App",
-  // components: {
-  //   // Home
-
-  //   SignUpAdmin
-  // },
-  // computed: {
-  //   ...mapGetters("Account", ["isExistedAdmin"])
-  // },
   methods: {
     ...mapActions("Account", ["checkExistedAdmin"])
   },
