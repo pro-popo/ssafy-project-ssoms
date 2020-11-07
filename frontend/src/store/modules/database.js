@@ -4,11 +4,25 @@ const Database = {
   namespaced: true,
   state: {
     schemaList: [],
-    selectedSchema: ""
+    selectedSchema: "",
+    schemaData: {
+      sqlCnt: [861],
+      executions: [214059],
+      bufferGetsAvg: [153],
+      diskReadsAvg: [0],
+      rowsProcessedAvg: [2],
+      cpuTimeAvg: [0],
+      cpuTimeMax: [123],
+      cpuTimeTot: [0],
+      elapsedTimeAvg: [0],
+      elapsedTimeMax: [123],
+      elapsedTimeTot: [0]
+    }
   },
   getters: {
     getSchemaList: (state) => state.schemaList,
-    SelectedSchema: (state) => state.selectedSchema
+    SelectedSchema: (state) => state.selectedSchema,
+    getSchemaData: (state) => state.schemaData
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
