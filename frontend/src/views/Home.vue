@@ -9,7 +9,7 @@
       </div>
 
       <div class="home-main">
-        <AppMain />
+        <AppMain :isAdmin="isAdmin" />
       </div>
     </div>
 
@@ -67,7 +67,7 @@ export default {
       axios
         .get(
           SERVER.URL +
-            SERVER.ROUTES.idAdmin +
+            SERVER.ROUTES.isAdmin +
             sessionStorage.getItem("loginSession")
         )
         .then((res) => {
