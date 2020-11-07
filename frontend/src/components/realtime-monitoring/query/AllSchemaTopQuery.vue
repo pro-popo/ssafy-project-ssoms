@@ -3,22 +3,21 @@
     <v-simple-table
       fixed-header
       height="300px"
-      width="500px"
       class="elevation-10 realtime-top-query"
     >
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-left">
+            <th class="text-center">
               Rank
             </th>
-            <th class="text-left">
+            <th class="text-center">
               SQL ID
             </th>
-            <th class="text-left">
+            <th class="text-center">
               SQL
             </th>
-            <th class="text-left">
+            <th class="text-center">
               Schema Name
             </th>
           </tr>
@@ -45,7 +44,7 @@
 import { mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
-  name: "AllSchemaTopQueryDetail",
+  name: "AllSchemaTopQuery",
   data() {
     return {};
   },
@@ -66,11 +65,12 @@ export default {
 <style>
 .realtime-top-box {
   text-align: center;
+  height: 30%;
 }
 .realtime-top-query {
-  width: 800px;
   margin-bottom: 30px;
   display: inline-block;
+  width: 75%;
 }
 .real-query-hover:hover {
   cursor: pointer;

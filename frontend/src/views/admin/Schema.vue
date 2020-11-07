@@ -7,7 +7,7 @@
     </div>
     <div class="schema-box">
       <div
-        class="schema-list"
+        class="schema-list-admin"
         v-for="schema in schemaList"
         :key="schema.userID"
       >
@@ -30,14 +30,6 @@
         v-model="userID"
       ></v-text-field>
     </div>
-    <!-- <div class="input-group setting-schema-data">
-      <p class="setting-schemaPassword-font">Password</p>
-      <input
-        type="password"
-        class="form-control"
-        placeholder="스키마 Password를 입력해주세요."
-      />
-    </div> -->
     <v-btn
       color="primary"
       class="setting-schema-save-button"
@@ -112,14 +104,14 @@ export default {
   line-height: 65px;
   margin-bottom: 25px;
 }
-.schema-list {
+.schema-list-admin {
   font-size: 15px;
 }
-.schema-list ol {
+.schema-list-admin ol {
   padding-top: 7px;
   margin-bottom: 7px;
 }
-.schema-list > ol > button {
+.schema-list-admin > ol > button {
   float: right;
   margin-right: 10px;
 }

@@ -106,9 +106,11 @@ export default {
           console.log("소켓 연결 성공", frame);
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             this.SET_LIST(JSON.parse(res.body).OracleStastics);
-            this.SET_SCHEMA_DATA(JSON.parse(res.body).allSchemaStastics);
             this.SET_TOPQUERY_LIST(JSON.parse(res.body).allSchemaQueryInfo);
             this.SET_REALTIME(JSON.parse(res.body).time);
+            this.SET_REALTIME_SCHEMA_LIST(
+              JSON.parse(res.body).allSchemaStastics
+            );
           });
         },
         (error) => {
@@ -119,9 +121,9 @@ export default {
       );
     },
     ...mapMutations("Oracle", ["SET_LIST"]),
-    ...mapMutations("Schema", ["SET_SCHEMA_DATA"]),
     ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
-    ...mapMutations(["SET_REALTIME"])
+    ...mapMutations(["SET_REALTIME"]),
+    ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"])
   },
   created() {
     this.checkIsAdmin();

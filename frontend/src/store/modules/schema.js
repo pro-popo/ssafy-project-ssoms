@@ -4,6 +4,7 @@ const Schema = {
   namespaced: true,
   state: {
     schemaList: [],
+    realTimeSchemaList: [],
     selectedSchema: "",
     schemaData: {
       sqlCnt: [861],
@@ -22,7 +23,8 @@ const Schema = {
   getters: {
     getSchemaList: (state) => state.schemaList,
     SelectedSchema: (state) => state.selectedSchema,
-    getSchemaData: (state) => state.schemaData
+    getSchemaData: (state) => state.schemaData,
+    getRealTimeSchemaList: (state) => state.realTimeSchemaList
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
@@ -30,6 +32,9 @@ const Schema = {
     },
     SET_SELECTED_SCHEMA(state, data) {
       state.selectedSchema = data;
+    },
+    SET_REALTIME_SCHEMA_LIST(state, data) {
+      state.realTimeSchemaList = data;
     }
   },
   actions: {
