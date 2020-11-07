@@ -1,28 +1,23 @@
 <template>
   <div>
-    Real-Time Monitoring
-
     {{ getRealTime }}
-    <SchemaChart />
-    <OracleResource />
-    <RealTimeTopQuery />
-    <RealTimeQueryDetail />
+    <AllSchemaTopQuery />
+    <AllSchemaTopQueryDetail />
   </div>
 </template>
 
 <script>
-import SchemaChart from "@/components/pc-resource/SchemaChart.vue";
-import OracleResource from "@/components/oracle-status/OracleResource.vue";
-import RealTimeTopQuery from "@/components/query/RealTimeTopQuery.vue";
-import RealTimeQueryDetail from "@/components/query/RealTimeQueryDetail.vue";
-
+import AllSchemaTopQuery from "@/components/realtime-monitoring/query/AllSchemaTopQuery.vue";
+import AllSchemaTopQueryDetail from "@/components/realtime-monitoring/query/AllSchemaTopQueryDetail.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "RealTimeMonitoring",
   components: {
-    SchemaChart,
-    OracleResource,
-    RealTimeTopQuery,
-    RealTimeQueryDetail
+    AllSchemaTopQuery,
+    AllSchemaTopQueryDetail
+  },
+  computed: {
+    ...mapGetters(["getRealTime"])
   }
 };
 </script>

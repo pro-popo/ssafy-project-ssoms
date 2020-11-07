@@ -1,5 +1,5 @@
 <template>
-  <v-list-item-group mandatory>
+  <v-list-item-group mandatory v-model="model">
     <v-list-item link>
       <v-list-item-icon>
         <v-icon> mdi-monitor-dashboard</v-icon>
@@ -65,7 +65,6 @@ export default {
   },
   watch: {
     model: function() {
-      console.log("???????????:" + this.model);
       if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
         this.$router.push({ name: "RealTimeMonitoring" });
       else if (this.$route.name !== "SchemaMonitoring") {
@@ -76,8 +75,6 @@ export default {
   },
   created() {
     this.getSettingSchema();
-    console.log("여기는?");
-    console.log(this.$route.name);
   },
   computed: {
     ...mapGetters("Database", ["getSchemaList"])
@@ -86,8 +83,9 @@ export default {
     toSchemaList(name) {
       if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
         this.$router.push({ name: "RealTimeMonitoring" });
-      else if (this.$route.name !== "SchemaMonitoring") {
-        this.$router.push({ name: "SchemaMonitoring" });
+      else {
+        if (this.$route.name !== "SchemaMonitoring")
+          this.$router.push({ name: "SchemaMonitoring" });
         this.SET_SELECTED_SCHEMA(name);
       }
       // report
