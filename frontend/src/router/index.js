@@ -11,7 +11,6 @@ import Schema from "@/views/admin/Schema.vue";
 import MainHome from "@/views/user/MainHome.vue";
 import PCResource from "@/views/user/PCResource.vue";
 import QueryMonitoring from "@/views/user/QueryMonitoring.vue";
-import RealMonitoring from "@/views/user/RealMonitoring.vue";
 import Traffic from "@/views/user/Traffic.vue";
 import Socket from "@/views/Socket";
 Vue.use(VueRouter);
@@ -51,11 +50,6 @@ const routes = [
         path: "/user/query",
         name: "QueryMonitoring",
         component: QueryMonitoring
-      },
-      {
-        path: "/user/real",
-        name: "RealMonitoring",
-        component: RealMonitoring
       },
       {
         path: "/user/traffic",
