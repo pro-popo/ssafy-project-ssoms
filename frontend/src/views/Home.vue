@@ -9,21 +9,20 @@
       </div>
 
       <div class="home-main">
+        <MyProfile
+          v-if="requestProfile"
+          @close-profile="closeProfile"
+          @edit-profile="showEditUser"
+        />
+        <EditUser
+          v-if="requestEditUser"
+          :profile="profile"
+          @close-edit-profile="closeEditUser"
+          @open-profile="requestProfile = !requestProfile"
+        />
         <AppMain :isAdmin="isAdmin" />
       </div>
     </div>
-
-    <MyProfile
-      v-if="requestProfile"
-      @close-profile="closeProfile"
-      @edit-profile="showEditUser"
-    />
-    <EditUser
-      v-if="requestEditUser"
-      :profile="profile"
-      @close-edit-profile="closeEditUser"
-      @open-profile="requestProfile = !requestProfile"
-    />
   </div>
 </template>
 
@@ -103,14 +102,16 @@ export default {
         {},
         (frame) => {
           this.connected = true;
-          console.log("소켓 연결 성공", frame);
+          frame;
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
-            this.SET_LIST(JSON.parse(res.body).OracleStastics);
-            this.SET_TOPQUERY_LIST(JSON.parse(res.body).allSchemaQueryInfo);
-            this.SET_REALTIME(JSON.parse(res.body).time);
-            this.SET_REALTIME_SCHEMA_LIST(
-              JSON.parse(res.body).allSchemaStastics
-            );
+            const realTimeData = JSON.parse(res.body);
+            console.log(realTimeData.time);
+
+            this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
+            this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
+
+            this.SET_REALTIME(realTimeData.time);
+            this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
           });
         },
         (error) => {
@@ -120,7 +121,7 @@ export default {
         }
       );
     },
-    ...mapMutations("Oracle", ["SET_LIST"]),
+    ...mapMutations("Oracle", ["SET_ORACLE_STATUS_LIST"]),
     ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
     ...mapMutations(["SET_REALTIME"]),
     ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"])

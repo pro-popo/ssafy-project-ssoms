@@ -5,9 +5,10 @@
 const Oracle = {
   namespaced: true,
   state: {
-    // databaseCpuTimeRatio: 0,
-    // databaseWaitTimeRatio: 0,
-    // activeSerialSessions: 0,
+    databaseCpuTimeRatio: [],
+    databaseWaitTimeRatio: [],
+    activeSerialSessions: [],
+    timeList: [],
 
     // dbBlockGetsPerUserCall: 0,
     // logicalReadsPerUserCall: 0,
@@ -21,18 +22,24 @@ const Oracle = {
     // physicalReadsPerSec: 0,
     // physicalWritesPerSec: 0
 
-    oracleList: []
+    oracleStatusList: []
   },
   getters: {
-    showlist: (state) => state.oracleList
+    getDatabaseCpuTimeRatioList: (state) => state.databaseCpuTimeRatio,
+    getDatabaseWaitTimeRatio: (state) => state.databaseWaitTimeRatio,
+    getActiveSerialSessions: (state) => state.activeSerialSessions,
+    getTimeList: (state) => state.timeList
   },
   mutations: {
-    SET_LIST(state, data) {
-      state.oracleList.push(data);
-      if (state.oracleList.length > 10) {
-        state.oracleList = state.oracleList.slice(1, 11);
+    SET_ORACLE_STATUS_LIST(state, data) {
+      if (state.databaseCpuTimeRatio.length > 12) {
+        state.databaseCpuTimeRatio.shift();
+        state.databaseWaitTimeRatio.shift();
+        state.activeSerialSessions.shift();
       }
-      // console.log(state.LIST[state.LIST.length - 1].databaseCpuTimeRatio);
+      state.databaseCpuTimeRatio.push(data.databaseCpuTimeRatio);
+      state.databaseWaitTimeRatio.push(data.databaseWaitTimeRatio);
+      state.activeSerialSessions.push(data.activeSerialSessions);
     }
   },
   actions: {},
