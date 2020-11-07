@@ -10,14 +10,20 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    time: 0
+    time: 0,
+    timeList: []
   },
   getters: {
-    getRealTime: (state) => state.time
+    getRealTime: (state) => state.time,
+    getRealTimeList: (state) => state.timeList
   },
   mutations: {
     SET_REALTIME(state, data) {
       state.time = data;
+      state.timeList.push(data.slice(11));
+      if (state.timeList.length > 12) {
+        state.timeList.shift();
+      }
     }
   },
   actions: {},
