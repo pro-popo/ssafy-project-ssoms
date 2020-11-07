@@ -1,10 +1,12 @@
 <template>
-  <div>여기는 실시간모니터링</div>
+  <div>
+    Real-Time Monitoring
+  </div>
 </template>
 
 <script>
 export default {
-  name: "RealMonitoring"
+  name: "RealTimeMonitoring"
 };
 </script>
 

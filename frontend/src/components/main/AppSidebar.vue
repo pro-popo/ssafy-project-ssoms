@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    :expand-on-hover="fixedMini"
     :width="230"
     color="#29292a"
     v-model="drawer"
@@ -14,16 +15,22 @@
           <v-list-item style="margin-left:-6px">
             <v-btn
               icon
-              v-if="mini"
-              @click.stop="mini = !mini"
+              v-if="fixedMini"
+              @click.stop="
+                mini = false;
+                fixedMini = false;
+              "
               style="margin-left:auto"
             >
               <v-icon>mdi-menu</v-icon>
             </v-btn>
             <v-btn
               icon
-              v-if="!mini"
-              @click.stop="mini = !mini"
+              v-if="!fixedMini"
+              @click.stop="
+                mini = true;
+                fixedMini = true;
+              "
               style="margin-left:auto"
             >
               <v-icon>mdi-chevron-left</v-icon>
@@ -70,7 +77,6 @@ export default {
   props: {
     isAdmin: Boolean
   },
-  created() {},
 
   methods: {
     ...mapActions("Account", ["logout"]),
@@ -86,7 +92,8 @@ export default {
       email: sessionStorage.getItem("loginSession"),
       drawer: true,
       model: 0,
-      mini: true
+      mini: true,
+      fixedMini: true
     };
   }
 };

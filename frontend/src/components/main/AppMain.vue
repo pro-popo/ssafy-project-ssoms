@@ -6,14 +6,11 @@
 
 <script>
 export default {
-  name: "AppMain"
+  name: "AppMain",
+  created() {
+    this.$router.push({ name: "RealTimeMonitoring" });
+  }
 };
 </script>
 
-<style>
-.zz {
-  border: 3px solid gray;
-  width: 500px;
-  height: 500px;
-}
-</style>
+<style></style>

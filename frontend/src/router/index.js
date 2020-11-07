@@ -11,12 +11,8 @@ import OracleDB from "@/views/admin/OracleDB.vue";
 import Schema from "@/views/admin/Schema.vue";
 
 // User
-import MainHome from "@/views/user/MainHome.vue";
-import PCResource from "@/views/user/PCResource.vue";
-import QueryMonitoring from "@/views/user/QueryMonitoring.vue";
-import RealMonitoring from "@/views/user/RealMonitoring.vue";
-import Traffic from "@/views/user/Traffic.vue";
-import Socket from "@/views/Socket";
+import SchemaMonitoring from "@/views/user/SchemaMonitoring.vue";
+import RealTimeMonitoring from "@/views/user/RealTimeMonitoring.vue";
 
 Vue.use(VueRouter);
 
@@ -41,35 +37,17 @@ const routes = [
         name: "Schema",
         component: Schema
       },
+
+      // user
       {
-        path: "/user/home",
-        name: "MainHome",
-        component: MainHome
+        path: "/user/realtime",
+        name: "RealTimeMonitoring",
+        component: RealTimeMonitoring
       },
       {
-        path: "/user/resource",
-        name: "PCResource",
-        component: PCResource
-      },
-      {
-        path: "/user/query",
-        name: "QueryMonitoring",
-        component: QueryMonitoring
-      },
-      {
-        path: "/user/real",
-        name: "RealMonitoring",
-        component: RealMonitoring
-      },
-      {
-        path: "/user/traffic",
-        name: "Traffic",
-        component: Traffic
-      },
-      {
-        path: "/Socket",
-        name: "Socket",
-        component: Socket
+        path: "/user/schema",
+        name: "SchemaMonitoring",
+        component: SchemaMonitoring
       }
     ]
   },

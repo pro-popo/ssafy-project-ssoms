@@ -1,22 +1,15 @@
 <template>
   <div>
     {{ showlist }}
-    <SchemaChart />
-    <OracleResource />
   </div>
 </template>
 
 <script type="text/babel">
-import SchemaChart from "@/components/pc-resource/SchemaChart.vue";
-import OracleResource from "@/components/oracle-status/OracleResource.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "MainHome",
-  components: {
-    SchemaChart,
-    OracleResource
-  },
+  components: {},
   props: {},
   data: () => ({
     loading: false,

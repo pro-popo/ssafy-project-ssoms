@@ -51,10 +51,30 @@ export default {
   width: 100%;
   height: 100%;
 }
-#app {
+html {
   overflow: hidden !important;
-
-  -ms-overflow-style: none;
+  /* -ms-overflow-style: none; */
+}
+#app {
   background: #f3f3f3;
+}
+/* 스크롤바의 width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* 스크롤바의 전체 배경색 */
+::-webkit-scrollbar-track {
+  background-color: rgb(196, 196, 196);
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar-thumb {
+  background: rgb(114, 114, 114);
+  opacity: 10px;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(3, 78, 162, 0.8);
 }
 </style>
