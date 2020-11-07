@@ -9,21 +9,20 @@
       </div>
 
       <div class="home-main">
+        <MyProfile
+          v-if="requestProfile"
+          @close-profile="closeProfile"
+          @edit-profile="showEditUser"
+        />
+        <EditUser
+          v-if="requestEditUser"
+          :profile="profile"
+          @close-edit-profile="closeEditUser"
+          @open-profile="requestProfile = !requestProfile"
+        />
         <AppMain :isAdmin="isAdmin" />
       </div>
     </div>
-
-    <MyProfile
-      v-if="requestProfile"
-      @close-profile="closeProfile"
-      @edit-profile="showEditUser"
-    />
-    <EditUser
-      v-if="requestEditUser"
-      :profile="profile"
-      @close-edit-profile="closeEditUser"
-      @open-profile="requestProfile = !requestProfile"
-    />
   </div>
 </template>
 
