@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ getRealTime }}
+    <b>{{ getRealTime }}</b>
     <AllSchemaTopQuery />
     <AllSchemaTopQueryDetail />
   </div>
