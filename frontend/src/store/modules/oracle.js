@@ -22,7 +22,7 @@ const Oracle = {
       physicalReadsPerSec: [],
       physicalWritesPerSec: [],
 
-      responseTimePerTxn: []
+      responseTimePerTxn: [] // 한 트랜잭션 당 응답을 받는 시간을 의미
     }
   },
   getters: {
@@ -40,8 +40,7 @@ const Oracle = {
     getRedoGeneratedPerSec: (state) =>
       state.oracleStatue["redoGeneratedPerSec"],
 
-    getExecutionsPerSec: (state) =>
-      state.oracleStatue["activexecutionsPerSeceSerialSessions"],
+    getExecutionsPerSec: (state) => state.oracleStatue["executionsPerSec"],
     getTotalParseCountPerSec: (state) =>
       state.oracleStatue["totalParseCountPerSec"],
     getOpenCursorsPerSec: (state) => state.oracleStatue["openCursorsPerSec"],
@@ -52,7 +51,7 @@ const Oracle = {
     getPhysicalWritesPerSec: (state) =>
       state.oracleStatue["physicalWritesPerSec"],
 
-    getResponesTimePerTxn: (state) => state.oracleStatue["responesTimePerTxn"]
+    getResponesTimePerTxn: (state) => state.oracleStatue["responseTimePerTxn"]
   },
   mutations: {
     SET_ORACLE_STATUS_LIST(state, data) {
@@ -62,9 +61,7 @@ const Oracle = {
         }
       }
       for (const [key, value] of Object.entries(data)) {
-        console.log(key);
         state.oracleStatue[`${key}`].push(value);
-        console.log(key + ":" + state.oracleStatue[`${key}`]);
       }
     }
   },

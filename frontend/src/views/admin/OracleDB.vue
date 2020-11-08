@@ -1,69 +1,94 @@
 <template>
   <div>
-    <h2 class="mb-3">Oracle DB설정</h2>
-    <v-btn color="error" @click="test">TEST</v-btn>
-    <div class="zz">
-      {{ testString }}
+    <div>
+      <h2 class="mb-3">Oracle DB설정</h2>
+      <v-btn color="error" @click="test">TEST</v-btn>
+      <div class="zz">
+        {{ testString }}
+      </div>
+      <form>
+        <div class="input-group-oracle">
+          <span class="setting-oracle-font">Oracle URL</span>
+          <v-text-field
+            label="연동할 Oracle URL을 입력해주세요."
+            v-model="oracleData.oracleURL"
+          ></v-text-field>
+        </div>
+        <div class="input-group-oracle">
+          <span class="setting-password-font">Password</span>
+          <v-text-field
+            v-model="oracleData.oraclePassword"
+            :type="'password'"
+            name="input-10-1"
+            label="Oracle Password를 입력해주세요."
+          ></v-text-field>
+        </div>
+        <hr class="oracle-line" />
+        <div class="setting-storage">
+          <span class="setting-right" style="display:inline-block; width: 350px"
+            >Oracle ID
+            <v-text-field
+              label="Oracle ID를 입력해주세요."
+              v-model="oracleData.oracleID"
+            ></v-text-field>
+          </span>
+          <span style="display:inline-block; width: 350px"
+            >Oracle SID
+            <v-text-field
+              label="오라클 SID을 입력해주세요."
+              v-model="oracleData.oracleSID"
+            ></v-text-field>
+          </span>
+        </div>
+        <div class="setting-storage">
+          <span class="setting-right" style="display:inline-block; width: 350px"
+            >데이터 갱신 주기
+            <v-text-field label="아직 X"></v-text-field>
+          </span>
+          <span style="display:inline-block; width: 350px"
+            >데이터 배치 시각
+            <v-text-field label="아직 X"></v-text-field>
+          </span>
+        </div>
+      </form>
+      <v-btn
+        color="primary"
+        class="setting-oracle-save-button1"
+        @click="checkConOracleDB"
+      >
+        연결
+      </v-btn>
+      <v-btn
+        color="primary"
+        class="setting-oracle-save-button2"
+        @click="setSettingsOracleDB"
+      >
+        저장
+      </v-btn>
     </div>
-    <form>
-      <div class="input-group-oracle">
-        <span class="setting-oracle-font">Oracle URL</span>
-        <v-text-field
-          label="연동할 Oracle URL을 입력해주세요."
-          v-model="oracleData.oracleURL"
-        ></v-text-field>
-      </div>
-      <div class="input-group-oracle">
-        <span class="setting-password-font">Password</span>
-        <v-text-field
-          v-model="oracleData.oraclePassword"
-          :type="'password'"
-          name="input-10-1"
-          label="Oracle Password를 입력해주세요."
-        ></v-text-field>
-      </div>
-      <hr class="oracle-line" />
-      <div class="setting-storage">
-        <span class="setting-right" style="display:inline-block; width: 350px"
-          >Oracle ID
-          <v-text-field
-            label="Oracle ID를 입력해주세요."
-            v-model="oracleData.oracleID"
-          ></v-text-field>
-        </span>
-        <span style="display:inline-block; width: 350px"
-          >Oracle SID
-          <v-text-field
-            label="오라클 SID을 입력해주세요."
-            v-model="oracleData.oracleSID"
-          ></v-text-field>
-        </span>
-      </div>
-      <div class="setting-storage">
-        <span class="setting-right" style="display:inline-block; width: 350px"
-          >데이터 갱신 주기
-          <v-text-field label="아직 X"></v-text-field>
-        </span>
-        <span style="display:inline-block; width: 350px"
-          >데이터 배치 시각
-          <v-text-field label="아직 X"></v-text-field>
-        </span>
-      </div>
-    </form>
+
+    <v-divider style="margin : 100px 0px 30px 0px"></v-divider>
+    <h2 style="margin-bottom:10px">스케줄러</h2>
+    <v-btn color="success" v-if="scheduler" @click="connectScheduler"
+      >스케줄러 연결 시작</v-btn
+    >
+
+    <v-btn color="error" v-if="!scheduler" @click="disconnectScheduler"
+      >스케줄러 연결 해제</v-btn
+    >
     <v-btn
       color="primary"
-      class="setting-oracle-save-button1"
-      @click="checkConOracleDB"
+      style="margin-left:10px"
+      @click="checkConnectScheduler"
+      >스케줄러 연결 확인</v-btn
     >
-      연결
-    </v-btn>
-    <v-btn
-      color="primary"
-      class="setting-oracle-save-button2"
-      @click="setSettingsOracleDB"
-    >
-      저장
-    </v-btn>
+    <!-- 1. 스케줄러 연결
+    2. 스케줄러 잘 연결 되어있는지 확인
+    3. 스케줄러 해제
+
+    4. 스키마 저장할 때, 유효한 스키마인지 확인
+    5. 유효하면 저장
+    6. 스키마 다시 불러와서 테이블 채우는 것. -->
   </div>
 </template>
 
@@ -81,10 +106,63 @@ export default {
         oraclePassword: "",
         oracleSID: ""
       },
-      testString: ""
+      testString: "",
+      scheduler: true
     };
   },
   methods: {
+    connectScheduler() {
+      console.log("---스케줄러 연결 중---");
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.scheduleStart)
+        .then((res) => {
+          if (res.data.result == "success") {
+            alert("스케줄러가 연결되었습니다 !!!");
+            this.scheduler = false;
+          } else if (res.data.result == "fail") {
+            alert(
+              "스케줄러 연결에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    checkConnectScheduler() {
+      console.log("---스케줄러 연결 확인 중---");
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.scheduleStatus)
+        .then((res) => {
+          if (res.data.result == "running") {
+            alert("현재 스케줄러가 연결된 상태 입니다 !!");
+          } else if (res.data.result == "end") {
+            alert("현재 스케줄러 연결 해제된 상태 입니다.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    disconnectScheduler() {
+      console.log("---스케줄러 연결 해제 중---");
+
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.scheduleStop)
+        .then((res) => {
+          if (res.data.result == "success") {
+            alert("스케줄러 연결이 성공적으로 해제되었습니다 !!");
+            this.scheduler = true;
+          } else if (res.data.result == "fail") {
+            alert(
+              "스케줄러 연결 해제에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     setSettingsOracleDB() {
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsOracleDB, this.oracleData)

@@ -1,27 +1,53 @@
 <template>
   <div>
-    <v-card elevation="1" height="300px">
-      <v-card-text class="test">
-        <IEcharts :option="line" />
-      </v-card-text>
-    </v-card>
-    <div class="serial-session">
-      <v-icon size="20" color="var(--main-sub-color)">mdi-connection</v-icon>
-      <span> Active Serial Sessions</span>
-      <h1 class="session-cnt">
-        {{ getActiveSerialSessions[getActiveSerialSessions.length - 1] }}
-        <span style="font-size:30px;">cnt</span>
-      </h1>
-    </div>
-    <v-divider></v-divider>
-    <div class="oracle-status-chart">
-      <div style="margin-bottom:10px">
-        <v-icon size="20" color="var(--main-sub-color)"
-          >mdi-desktop-classic</v-icon
-        >
-        <span> CpuTime & WaitTime Ratio</span>
+    <div class="oracle-cpu">
+      <div class="oracle-cpu-card1">
+        <v-card elevation="1">
+          <v-card-text style="height:100%">
+            <div v-if="true" style="height:100%">
+              <div>
+                <v-icon>mdi-desktop-classic</v-icon>
+                <span> CpuTime & WaitTime Ratio</span>
+              </div>
+              <IEcharts :option="line" />
+            </div>
+            <div v-if="false" style="height:100%">
+              <div>
+                <v-icon>mdi-desktop-classic</v-icon>
+                <span> CpuTime & WaitTime Ratio</span>
+              </div>
+              <IEcharts :option="pie" />
+            </div>
+          </v-card-text>
+        </v-card>
       </div>
-      <IEcharts :option="pie" />
+      <div class="oracle-cpu-card2">
+        <v-card elevation="1">
+          <v-card-text class="oracle-cpu-data">
+            <div>
+              <v-icon>mdi-responsive</v-icon>
+              <span> Response Time Per Transaction</span>
+            </div>
+            <h1>
+              {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
+              <span>sec</span>
+            </h1>
+          </v-card-text>
+        </v-card>
+
+        <v-card elevation="1">
+          <v-card-text class="oracle-cpu-data">
+            <div>
+              <v-icon>mdi-connection</v-icon>
+              <span> Active Serial Sessions </span>
+            </div>
+            <h1>
+              {{ getActiveSerialSessions[getActiveSerialSessions.length - 1] }}
+              <span>cnt</span>
+            </h1>
+          </v-card-text>
+        </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +64,8 @@ export default {
     ...mapGetters("Oracle", [
       "getDatabaseCpuTimeRatioList",
       "getDatabaseWaitTimeRatio",
-      "getActiveSerialSessions"
+      "getActiveSerialSessions",
+      "getResponesTimePerTxn"
     ]),
     ...mapGetters(["getRealTimeList"])
   },
@@ -142,11 +169,11 @@ export default {
             color: ["#2196F3", "#4CAF50"],
             data: [
               {
-                value: 93.59,
+                value: 0,
                 name: "CpuTime"
               },
               {
-                value: 6.41,
+                value: 0,
                 name: "WaitTime"
               }
             ]
@@ -159,38 +186,38 @@ export default {
 </script>
 
 <style>
-.test {
-  height: 300px;
+.oracle-cpu {
+  display: flex;
+  justify-content: space-between;
+  height: 30vh;
 }
-.oracle-cpu-container {
+.oracle-cpu-card1 {
+  width: 70%;
+  height: 100%;
+  margin-right: 10px;
+}
+.oracle-cpu-card1 .v-card {
+  height: 100%;
   width: 100%;
+}
+.oracle-cpu-card2 {
   display: flex;
   flex-direction: column;
-  color: var(--font-sub2-color);
-  border: 1px solid var(--font-sub-color);
-  border-radius: 10px;
-  margin-bottom: 30px;
+  width: 30%;
+  height: 100%;
+  margin-left: 10px;
 }
-.serial-session {
-  /* background: #f0f0f0; */
-  border-radius: 10px;
-  width: 250px;
-  height: 100px;
+.oracle-cpu-card2 .v-card:nth-child(1) {
   margin-bottom: 10px;
-  padding: 10px;
 }
-.session-cnt {
-  color: #2196f3;
-  padding-left: 25px;
-  font-size: 50px;
+.oracle-cpu-card2 .v-card:nth-child(2) {
+  margin-top: 10px;
 }
-.oracle-status-chart {
-  margin: 20px 0px;
+.oracle-cpu-card2 .v-card {
+  height: 50%;
   width: 100%;
-  height: 300px;
-  padding: 0px 10px;
 }
-.oracle-status-chart > span {
-  margin-bottom: 100px;
+
+.oracle-cpu-data {
 }
 </style>
