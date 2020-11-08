@@ -132,35 +132,31 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody String schemaName) {
+	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		JSONParser parser = new JSONParser();
-		JSONArray jlist = null;
-		try {
-			jlist = (JSONArray)parser.parse(schemaName);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		boolean save = adminService.setSettingsSchema(jlist);
-		result.status = true;
-		result.result = save ? "success" : "fail";
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-		return response;
-	}
-	
-	@PostMapping("/settings/schema/save/conn")
-	public ResponseEntity settingsSchemaConnTest(@RequestBody String schemaName) {
-		ResponseEntity response = null;
-		final SuccessResponse result = new SuccessResponse();
-		boolean duplicateCheck = adminService.checkDuplicateSchema(schemaName);
+		boolean duplicateCheck = adminService.checkDuplicateSchema(userID);
 		result.status = true;
 		if(duplicateCheck) {
 			result.result = "duplicate";
 		}else if(!duplicateCheck) {
-			boolean isSchemaExistence = adminService.checkSchemaExistence(schemaName);
-			result.result = isSchemaExistence ? "success" : "fail";
+			boolean isSchemaExistence = adminService.checkSchemaExistence(userID);
+			if(isSchemaExistence) {
+				JSONParser parser = new JSONParser();
+				JSONArray jlist = null;
+				try {
+					jlist = (JSONArray)parser.parse(userID);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				boolean save = adminService.setSettingsSchema(jlist);
+				result.status = true;
+				result.result = save ? "saveSuccess" : "notExist";
+			}else if(!isSchemaExistence) {
+				result.result = "saveFail";
+			}
 		}
+		
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
