@@ -24,7 +24,8 @@ const Schema = {
     getSchemaList: (state) => state.schemaList,
     SelectedSchema: (state) => state.selectedSchema,
     getSchemaData: (state) => state.schemaData,
-    getRealTimeSchemaList: (state) => state.realTimeSchemaList
+    getRealTimeSchemaList: (state) => state.realTimeSchemaList,
+    getSchemaLength: (state) => state.schemaList.length
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
