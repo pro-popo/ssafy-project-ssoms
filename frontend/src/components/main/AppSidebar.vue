@@ -55,7 +55,7 @@
           <AppUserSidebar v-if="!isAdmin" />
         </v-list>
       </div>
-      <div class="logout">
+      <div class="logout" title="로그아웃">
         <v-btn icon style="padding-left:3px" @click="userLogout"
           ><v-icon>mdi-logout</v-icon></v-btn
         >
@@ -81,7 +81,10 @@ export default {
   methods: {
     ...mapActions("Account", ["logout"]),
     userLogout() {
-      this.logout();
+      var logoutConfirm = confirm("로그아웃 하시겠습니까?");
+      if (logoutConfirm) {
+        this.logout();
+      }
     },
     getMyProfile() {
       if (!this.mini) this.$emit("user-profile");
