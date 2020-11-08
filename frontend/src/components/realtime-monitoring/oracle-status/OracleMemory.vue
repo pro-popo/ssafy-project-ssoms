@@ -8,12 +8,10 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Block Gets Per User Call</span>
+            <span class="oracle-status-name">Block Gets Per Sec</span>
           </div>
           <h1>
-            {{
-              getDbBlockGetsPerUserCall[getDbBlockGetsPerUserCall.length - 1]
-            }}
+            {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
             <span class="oracle-unit">block</span>
           </h1>
           <span></span>
@@ -22,12 +20,10 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Logical Reads Per User Call</span>
+            <span class="oracle-status-name">Logical Reads Per Sec</span>
           </div>
           <h1>
-            {{
-              getLogicalReadsPerUserCall[getLogicalReadsPerUserCall.length - 1]
-            }}
+            {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
             <span class="oracle-unit">reads</span>
           </h1>
           <span></span>
@@ -68,19 +64,19 @@ export default {
   },
   computed: {
     ...mapGetters("Oracle", [
-      "getDbBlockGetsPerUserCall",
-      "getLogicalReadsPerUserCall",
+      "getDbBlockGetsPerSec",
+      "getLogicalReadsPerSec",
       "getRedoGeneratedPerSec"
     ]),
     ...mapGetters(["getRealTimeList"])
   },
   watch: {
-    getDbBlockGetsPerUserCall: function() {
+    getDbBlockGetsPerSec: function() {
       this.option1.xAxis.data = this.getRealTimeList;
       this.option2.xAxis.data = this.getRealTimeList;
       this.option3.xAxis.data = this.getRealTimeList;
-      this.option1.series[0].data = this.getDbBlockGetsPerUserCall;
-      this.option2.series[0].data = this.getLogicalReadsPerUserCall;
+      this.option1.series[0].data = this.getDbBlockGetsPerSec;
+      this.option2.series[0].data = this.getLogicalReadsPerSec;
       this.option3.series[0].data = this.getRedoGeneratedPerSec;
     }
   },

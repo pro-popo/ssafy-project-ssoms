@@ -53,7 +53,7 @@
           </div>
           <h1>
             {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
-            <span class="oracle-unit">count</span>
+            <span class="oracle-unit">commit</span>
           </h1>
           <span></span>
         </v-card-text>
