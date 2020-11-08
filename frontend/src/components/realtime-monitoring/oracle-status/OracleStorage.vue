@@ -13,11 +13,25 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-
+import { mapGetters } from "vuex";
 export default {
   name: "OracleStorage",
   components: {
     IEcharts
+  },
+  computed: {
+    ...mapGetters("Oracle", [
+      "getPhysicalReadsPerSec",
+      "getPhysicalWritesPerSec"
+    ]),
+    ...mapGetters(["getRealTimeList"])
+  },
+  watch: {
+    getPhysicalReadsPerSec: function() {
+      this.option.xAxis.data = this.getRealTimeList;
+      this.option.series[0].data = this.getPhysicalReadsPerSec;
+      this.option.series[1].data = this.getPhysicalWritesPerSec;
+    }
   },
   data() {
     return {
@@ -28,7 +42,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -42,13 +56,13 @@ export default {
         series: [
           {
             name: "Read Total",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           },
           {
             name: "Write Total",
-            data: [0.0, 0.01, 0.03, 0.05, 0.02, 0.01, 0.02, 0.02],
+            data: [],
             type: "line",
             color: "#4CAF50"
           }

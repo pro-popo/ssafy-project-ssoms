@@ -22,7 +22,7 @@ const Oracle = {
       physicalReadsPerSec: [],
       physicalWritesPerSec: [],
 
-      responseTimePerTxn: []
+      responseTimePerTxn: [] // 한 트랜잭션 당 응답을 받는 시간을 의미
     }
   },
   getters: {
@@ -62,9 +62,7 @@ const Oracle = {
         }
       }
       for (const [key, value] of Object.entries(data)) {
-        console.log(key);
         state.oracleStatue[`${key}`].push(value);
-        console.log(key + ":" + state.oracleStatue[`${key}`]);
       }
     }
   },
