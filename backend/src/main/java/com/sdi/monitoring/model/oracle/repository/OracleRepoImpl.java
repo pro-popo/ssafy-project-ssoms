@@ -36,8 +36,8 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("where METRIC_NAME IN ('Database CPU Time Ratio',\n");
 			sql.append("                            'Database Wait Time Ratio',\n");
 			sql.append("                            'Active Serial Sessions',\n");
-			sql.append("                            'DB Block Gets Per User Call',\n");
-			sql.append("                            'Logical Reads Per User Call',\n");
+			sql.append("                            'DB Block Gets Per Sec',\n");
+			sql.append("                            'Logical Reads Per Sec',\n");
 			sql.append("                            'Redo Generated Per Sec',\n");
 			sql.append("                            'Executions Per Sec',\n");
 			sql.append("                            'Total Parse Count Per Sec',\n");
@@ -56,8 +56,8 @@ public class OracleRepoImpl implements OracleRepo{
 			oracleStatusDTO.setDatabaseCpuTimeRatio(map.get("Database CPU Time Ratio"));
 			oracleStatusDTO.setDatabaseWaitTimeRatio(map.get("Database Wait Time Ratio"));
 			oracleStatusDTO.setActiveSerialSessions(map.get("Active Serial Sessions"));
-			oracleStatusDTO.setDbBlockGetsPerUserCall(map.get("DB Block Gets Per User Call"));
-			oracleStatusDTO.setLogicalReadsPerUserCall(map.get("Logical Reads Per User Call"));
+			oracleStatusDTO.setDbBlockGetsPerSec(map.get("DB Block Gets Per Sec"));
+			oracleStatusDTO.setLogicalReadsPerSec(map.get("Logical Reads Per Sec"));
 			oracleStatusDTO.setRedoGeneratedPerSec(map.get("Redo Generated Per Sec"));
 			oracleStatusDTO.setExecutionsPerSec(map.get("Executions Per Sec"));
 			oracleStatusDTO.setTotalParseCountPerSec(map.get("Total Parse Count Per Sec"));
