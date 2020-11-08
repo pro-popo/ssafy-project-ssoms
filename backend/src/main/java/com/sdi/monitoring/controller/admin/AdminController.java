@@ -8,31 +8,24 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
 import com.sdi.monitoring.domain.SuccessResponse;
 import com.sdi.monitoring.model.admin.service.AdminService;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
+import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateAdminDTO;
-import com.sdi.monitoring.model.user.service.UserService;
 
 @RequestMapping("/admin")
 @RestController
@@ -40,6 +33,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private OracleSchedulingService oracleScedulingService;
 	
 	// 이거 권한 맞는지 확인하는 로직 필요함
 	@PutMapping("/change")
@@ -57,7 +53,6 @@ public class AdminController {
 	// 리스트 null 반환될때 체크
 	@GetMapping("/alluser")
 	public ResponseEntity getAllUserList() {
-		System.out.println("========== alluser entered... ==========");
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		List<UserDTO> userDTOList = adminService.getAllUserList();
@@ -147,9 +142,78 @@ public class AdminController {
 			e.printStackTrace();
 		}
 		boolean save = adminService.setSettingsSchema(jlist);
-		result.status = true;
-		result.result = save ? "success" : "fail";
+		result.result = save ? "saveSuccess" : "saveFail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
+	
+	@PostMapping("/settings/schema/check")
+	public ResponseEntity checkSettingsSchema(@RequestBody Map<String, String> map) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		String addSchema = map.get("userID").toUpperCase();
+		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
+		result.status = true;
+		if(duplicateCheck) {
+			result.result = "duplicate";
+		}else if(!duplicateCheck) {
+			boolean isSchemaExistence = adminService.checkSchemaExistence(addSchema);
+			result.result = isSchemaExistence ? "success" : "notExist";
+		}
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+//	@PostMapping("/settings/schema/save")
+//	public ResponseEntity setSettingsSchemaDel(@RequestBody String userID) {
+//		ResponseEntity response = null;
+//		final SuccessResponse result = new SuccessResponse();
+//		JSONParser parser = new JSONParser();
+//		JSONArray jlist = null;
+//		try {
+//			jlist = (JSONArray)parser.parse(userID);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		boolean save = adminService.setSettingsSchema(jlist);
+//		result.status = true;
+//		result.result = save ? "saveSuccess" : "saveFail";
+//		response = new ResponseEntity<>(result, HttpStatus.OK);
+//		return response;
+//	}
+	
+	@GetMapping("/realtime/start")
+	public ResponseEntity startRealTime() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean ret = oracleScedulingService.start();
+		result.status = true;
+		result.result = ret ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/realtime/stop")
+	public ResponseEntity stopRealTime() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean ret = oracleScedulingService.stop();
+		result.status = true;
+		result.result = ret ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/realtime/status")
+	public ResponseEntity statusRealTime() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean ret = oracleScedulingService.hasScheduler();
+		result.status = true;
+		result.result = ret ? "running" : "end";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
 }

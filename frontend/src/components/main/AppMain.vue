@@ -24,17 +24,14 @@ export default {
   },
   methods: {
     moveMainPage() {
-      setTimeout(
-        function() {
-          if (this.isAdmin) {
-            if (this.$route.name !== "OracleDB")
-              this.$router.push({ name: "OracleDB" });
-          } else if (this.$route.name !== "RealTimeMonitoring") {
-            this.$router.push({ name: "RealTimeMonitoring" });
-          }
-        }.bind(this),
-        300
-      );
+      if (this.isAdmin != null) {
+        if (this.isAdmin) {
+          if (this.$route.name !== "OracleDB")
+            this.$router.push({ name: "OracleDB" });
+        } else if (this.$route.name !== "RealTimeMonitoring") {
+          this.$router.push({ name: "RealTimeMonitoring" });
+        }
+      }
     }
   }
 };

@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.sdi.monitoring.model.admin.repository.AdminSettingsRepo;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
+import com.sdi.monitoring.model.oracle.repository.OracleRepo;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
+import com.sdi.monitoring.util.JsonParser;
 import com.sdi.monitoring.util.Mapper;
 
 @Service
@@ -25,6 +27,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
 	private UserMongoRepo userMongoRepo;
+	
+	@Autowired OracleRepo oracleRepo;
 	
 	@Override
 	public boolean changeAdmin(String prevAdmin, String nextAdmin) {
@@ -43,11 +47,7 @@ public class AdminServiceImpl implements AdminService{
 		if(!isAdminCheck(adminEntity, userEntity))
 			return false;
 		
-		adminEntity.getInfo().ChangeAdmin();
-		userEntity.getInfo().ChangeAdmin();
-		
-		userMongoRepo.save(adminEntity);
-		userMongoRepo.save(userEntity);
+		changeAdmin(adminEntity, userEntity);
 		
 		// false 던지는 곳이 진짜 계정이 없어서 던지는건지 db에 이상 있는건지 확인하는 로직 추가 필요
 		return true;
@@ -107,6 +107,26 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 	
+	@Override
+	public boolean checkDuplicateSchema(String schemaName) {
+		List<String> schemaList = JsonParser.getSchemaInfo();
+		
+		for(String cmpSchemaName : schemaList) {
+			if(cmpSchemaName.equalsIgnoreCase(schemaName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean checkSchemaExistence(String schemaName) {
+		if(!oracleRepo.findSchema(schemaName))
+			return false;
+		
+		return true;
+	}
+	
 	private List<UserDTO> EntityListToDTOList(List<UserEntity> userEntityList){
 		List<UserDTO> userDTOList = new ArrayList<UserDTO>();
 		for (UserEntity userEntity : userEntityList) {
@@ -125,7 +145,15 @@ public class AdminServiceImpl implements AdminService{
 			return false;
 		
 		return true;
-		
 	}
+	
+	private void changeAdmin(UserEntity adminEntity, UserEntity userEntity) {
+		adminEntity.getInfo().ChangeAdmin();
+		userEntity.getInfo().ChangeAdmin();
+		
+		userMongoRepo.save(adminEntity);
+		userMongoRepo.save(userEntity);
+	}
+	
 
 }

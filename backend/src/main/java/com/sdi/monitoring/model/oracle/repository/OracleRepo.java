@@ -19,4 +19,6 @@ public interface OracleRepo {
 	public List<UsedBySchemaDTO> findElapsedTimeBySchema(String schemaName);
 
 	public List<UsedBySchemaDTO> findBufferGetsBySchema(String schemaName);
+	
+	public boolean findSchema(String schemaName);
 }

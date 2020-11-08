@@ -17,17 +17,31 @@ public class Scheduler {
 	@Autowired
 	private OracleSchedulingService oss;
 	
-    public void stopScheduler() {
-    	if(scheduler != null) {
-    		scheduler.shutdown();
+	public boolean hasScheduler() {
+		if(scheduler != null) {
+			return true;
+		}
+		return false;
+	}
+	
+    public boolean stopScheduler() {
+    	if(scheduler == null) {
+    		return false;
     	}
+    	scheduler.shutdown();
+    	scheduler = null;
+    	return true;
     }
  
-    public void startScheduler() {
-        scheduler = new ThreadPoolTaskScheduler();
-        scheduler.initialize();
-        // 스케쥴러가 시작되는 부분 
-        scheduler.schedule(getRunnable(), getTrigger());
+    public boolean startScheduler() {
+    	if(scheduler == null) {
+    		scheduler = new ThreadPoolTaskScheduler();
+    		scheduler.initialize();
+    		// 스케쥴러가 시작되는 부분 
+    		scheduler.schedule(getRunnable(), getTrigger());
+    		return true;
+    	}
+    	return false;
     }
  
     private Runnable getRunnable(){

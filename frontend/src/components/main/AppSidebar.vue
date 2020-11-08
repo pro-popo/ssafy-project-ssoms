@@ -20,7 +20,7 @@
                 mini = false;
                 fixedMini = false;
               "
-              style="margin-left:auto"
+              style="margin-right:auto"
             >
               <v-icon>mdi-menu</v-icon>
             </v-btn>
@@ -55,7 +55,7 @@
           <AppUserSidebar v-if="!isAdmin" />
         </v-list>
       </div>
-      <div class="logout">
+      <div class="logout" title="로그아웃">
         <v-btn icon style="padding-left:3px" @click="userLogout"
           ><v-icon>mdi-logout</v-icon></v-btn
         >
@@ -81,7 +81,10 @@ export default {
   methods: {
     ...mapActions("Account", ["logout"]),
     userLogout() {
-      this.logout();
+      var logoutConfirm = confirm("로그아웃 하시겠습니까?");
+      if (logoutConfirm) {
+        this.logout();
+      }
     },
     getMyProfile() {
       if (!this.mini) this.$emit("user-profile");
@@ -119,8 +122,8 @@ export default {
 }
 .logout {
   margin-top: auto;
-  margin-left: auto;
-  margin-right: 10px;
+  margin-right: auto;
+  margin-left: 10px;
   margin-bottom: 10px;
 }
 </style>

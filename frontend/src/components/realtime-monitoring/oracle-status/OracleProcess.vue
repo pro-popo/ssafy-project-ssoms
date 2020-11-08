@@ -16,11 +16,33 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "OracleMemory",
   components: {
     IEcharts
+  },
+  computed: {
+    ...mapGetters("Oracle", [
+      "getExecutionsPerSec",
+      "getTotalParseCountPerSec",
+      "getOpenCursorsPerSec",
+      "getUserCommitsPerSec"
+    ]),
+    ...mapGetters(["getRealTimeList"])
+  },
+  watch: {
+    getExecutionsPerSec: function() {
+      this.option1.xAxis.data = this.getRealTimeList;
+      this.option2.xAxis.data = this.getRealTimeList;
+      this.option3.xAxis.data = this.getRealTimeList;
+
+      this.option1.series[0].data = this.getExecutionsPerSec;
+      this.option2.series[0].data = this.getTotalParseCountPerSec;
+      this.option3.series[0].data = this.getOpenCursorsPerSec;
+      this.option4.series[0].data = this.getUserCommitsPerSec;
+    }
   },
   data() {
     return {
@@ -37,7 +59,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -52,7 +74,7 @@ export default {
         series: [
           {
             name: "executions",
-            data: [3.86, 3.35, 3.43, 3.24, 2.52, 2.83, 3.31, 3.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
@@ -66,7 +88,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -81,7 +103,7 @@ export default {
         series: [
           {
             name: "totalParseCount",
-            data: [1.24, 1.35, 1.43, 1.44, 1.52, 1.33, 1.31, 1.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
@@ -95,7 +117,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -110,7 +132,7 @@ export default {
         series: [
           {
             name: "openCursors",
-            data: [1.44, 1.35, 1.43, 1.44, 1.42, 1.33, 1.31, 1.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
@@ -124,7 +146,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -139,7 +161,7 @@ export default {
         series: [
           {
             name: "userCommits",
-            data: [0.83, 0.65, 0.73, 0.74, 0.72, 0.75, 0.81, 0.82],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
