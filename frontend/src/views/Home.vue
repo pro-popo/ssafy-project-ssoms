@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      isAdmin: false,
+      isAdmin: null,
       requestProfile: false,
       requestEditUser: false,
       profile: ""

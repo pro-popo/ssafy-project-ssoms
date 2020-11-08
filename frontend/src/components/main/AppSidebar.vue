@@ -20,7 +20,7 @@
                 mini = false;
                 fixedMini = false;
               "
-              style="margin-left:auto"
+              style="margin-right:auto"
             >
               <v-icon>mdi-menu</v-icon>
             </v-btn>
@@ -122,8 +122,8 @@ export default {
 }
 .logout {
   margin-top: auto;
-  margin-left: auto;
-  margin-right: 10px;
+  margin-right: auto;
+  margin-left: 10px;
   margin-bottom: 10px;
 }
 </style>
