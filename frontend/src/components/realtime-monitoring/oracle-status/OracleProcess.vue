@@ -33,7 +33,7 @@ export default {
     ...mapGetters(["getRealTimeList"])
   },
   watch: {
-    getPhysicalReadsPerSec: function() {
+    getExecutionsPerSec: function() {
       this.option1.xAxis.data = this.getRealTimeList;
       this.option2.xAxis.data = this.getRealTimeList;
       this.option3.xAxis.data = this.getRealTimeList;
@@ -41,7 +41,7 @@ export default {
       this.option1.series[0].data = this.getExecutionsPerSec;
       this.option2.series[0].data = this.getTotalParseCountPerSec;
       this.option3.series[0].data = this.getOpenCursorsPerSec;
-      this.option3.series[0].data = this.getUserCommitsPerSec;
+      this.option4.series[0].data = this.getUserCommitsPerSec;
     }
   },
   data() {

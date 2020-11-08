@@ -6,13 +6,22 @@
       </v-card-text>
     </v-card>
     <div class="serial-session">
+      <v-icon size="20" color="var(--main-sub-color)">mdi-responsive</v-icon>
+      <span> Response Time Per Transaction</span>
+      <h1 class="session-cnt">
+        {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
+        <span style="font-size:30px;">sec</span>
+      </h1>
+    </div>
+    <div class="serial-session">
       <v-icon size="20" color="var(--main-sub-color)">mdi-connection</v-icon>
-      <span> Active Serial Sessions</span>
+      <span> Active Serial Sessions </span>
       <h1 class="session-cnt">
         {{ getActiveSerialSessions[getActiveSerialSessions.length - 1] }}
         <span style="font-size:30px;">cnt</span>
       </h1>
     </div>
+
     <v-divider></v-divider>
     <div class="oracle-status-chart">
       <div style="margin-bottom:10px">
@@ -38,7 +47,8 @@ export default {
     ...mapGetters("Oracle", [
       "getDatabaseCpuTimeRatioList",
       "getDatabaseWaitTimeRatio",
-      "getActiveSerialSessions"
+      "getActiveSerialSessions",
+      "getResponesTimePerTxn"
     ]),
     ...mapGetters(["getRealTimeList"])
   },
@@ -142,11 +152,11 @@ export default {
             color: ["#2196F3", "#4CAF50"],
             data: [
               {
-                value: 93.59,
+                value: 0,
                 name: "CpuTime"
               },
               {
-                value: 6.41,
+                value: 0,
                 name: "WaitTime"
               }
             ]

@@ -40,8 +40,7 @@ const Oracle = {
     getRedoGeneratedPerSec: (state) =>
       state.oracleStatue["redoGeneratedPerSec"],
 
-    getExecutionsPerSec: (state) =>
-      state.oracleStatue["activexecutionsPerSeceSerialSessions"],
+    getExecutionsPerSec: (state) => state.oracleStatue["executionsPerSec"],
     getTotalParseCountPerSec: (state) =>
       state.oracleStatue["totalParseCountPerSec"],
     getOpenCursorsPerSec: (state) => state.oracleStatue["openCursorsPerSec"],
@@ -52,7 +51,7 @@ const Oracle = {
     getPhysicalWritesPerSec: (state) =>
       state.oracleStatue["physicalWritesPerSec"],
 
-    getResponesTimePerTxn: (state) => state.oracleStatue["responesTimePerTxn"]
+    getResponesTimePerTxn: (state) => state.oracleStatue["responseTimePerTxn"]
   },
   mutations: {
     SET_ORACLE_STATUS_LIST(state, data) {
