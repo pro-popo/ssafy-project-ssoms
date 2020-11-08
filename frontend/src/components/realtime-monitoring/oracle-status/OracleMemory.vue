@@ -1,9 +1,54 @@
 <template>
-  <div>
-    <h2>Oracle Memory</h2>
+  <div style="height:15vh">
+    <!-- <h2>Oracle Memory</h2> -->
     <v-icon size="20" color="var(--main-sub-color)">mdi-memory</v-icon>
     <span> Memory </span>
-    <div class="oracle-memory-chart">
+
+    <div class="oracle-memory">
+      <v-card elevation="1">
+        <v-card-text class="oracle-data">
+          <div>
+            <span class="oracle-status-name">Block Gets Per User Call</span>
+          </div>
+          <h1>
+            {{
+              getDbBlockGetsPerUserCall[getDbBlockGetsPerUserCall.length - 1]
+            }}
+            <span class="oracle-unit">%</span>
+          </h1>
+          <span></span>
+        </v-card-text>
+      </v-card>
+      <v-card elevation="1">
+        <v-card-text class="oracle-data">
+          <div>
+            <span class="oracle-status-name">Logical Reads Per User Call</span>
+          </div>
+          <h1>
+            {{
+              getLogicalReadsPerUserCall[getLogicalReadsPerUserCall.length - 1]
+            }}
+            <span class="oracle-unit">cnt</span>
+          </h1>
+          <span></span>
+        </v-card-text>
+      </v-card>
+      <v-card elevation="1">
+        <v-card-text class="oracle-data">
+          <div>
+            <span class="oracle-status-name">Redo Generated Per Sec</span>
+          </div>
+          <h1>
+            {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+            <span class="oracle-unit">byte</span>
+          </h1>
+          <span></span>
+        </v-card-text>
+      </v-card>
+      <OracleStorage />
+    </div>
+
+    <div v-if="false" class="oracle-memory-chart">
       <IEcharts :option="option1" />
       <IEcharts :option="option2" />
       <IEcharts :option="option3" />
@@ -13,11 +58,13 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
+import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "OracleMemory",
   components: {
-    IEcharts
+    IEcharts,
+    OracleStorage
   },
   computed: {
     ...mapGetters("Oracle", [
@@ -145,5 +192,21 @@ export default {
   padding: 10px;
   margin-bottom: 30px;
   color: var(--font-sub2-color);
+}
+.oracle-memory {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 90%;
+}
+.oracle-memory .v-card {
+  width: 25%;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.oracle-memory .v-card:last-child {
+  margin-right: 0px !important;
 }
 </style>
