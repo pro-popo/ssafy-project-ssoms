@@ -5,34 +5,67 @@
 const Oracle = {
   namespaced: true,
   state: {
-    // databaseCpuTimeRatio: 0,
-    // databaseWaitTimeRatio: 0,
-    // activeSerialSessions: 0,
+    oracleStatue: {
+      databaseCpuTimeRatio: [],
+      databaseWaitTimeRatio: [],
+      activeSerialSessions: [],
 
-    // dbBlockGetsPerUserCall: 0,
-    // logicalReadsPerUserCall: 0,
-    // redoGeneratedPerSec: 0,
+      dbBlockGetsPerUserCall: [],
+      logicalReadsPerUserCall: [],
+      redoGeneratedPerSec: [],
 
-    // executionsPerSec: 0,
-    // totalParseCountPerSec: 0,
-    // openCursorsPerSec: 0,
-    // userCommitsPerSec: 0,
+      executionsPerSec: [],
+      totalParseCountPerSec: [],
+      openCursorsPerSec: [],
+      userCommitsPerSec: [],
 
-    // physicalReadsPerSec: 0,
-    // physicalWritesPerSec: 0
+      physicalReadsPerSec: [],
+      physicalWritesPerSec: [],
 
-    oracleList: []
+      responseTimePerTxn: []
+    }
   },
   getters: {
-    showlist: (state) => state.oracleList
+    getDatabaseCpuTimeRatioList: (state) =>
+      state.oracleStatue["databaseCpuTimeRatio"],
+    getDatabaseWaitTimeRatio: (state) =>
+      state.oracleStatue["databaseWaitTimeRatio"],
+    getActiveSerialSessions: (state) =>
+      state.oracleStatue["activeSerialSessions"],
+
+    getDbBlockGetsPerUserCall: (state) =>
+      state.oracleStatue["dbBlockGetsPerUserCall"],
+    getLogicalReadsPerUserCall: (state) =>
+      state.oracleStatue["logicalReadsPerUserCall"],
+    getRedoGeneratedPerSec: (state) =>
+      state.oracleStatue["redoGeneratedPerSec"],
+
+    getExecutionsPerSec: (state) =>
+      state.oracleStatue["activexecutionsPerSeceSerialSessions"],
+    getTotalParseCountPerSec: (state) =>
+      state.oracleStatue["totalParseCountPerSec"],
+    getOpenCursorsPerSec: (state) => state.oracleStatue["openCursorsPerSec"],
+    getUserCommitsPerSec: (state) => state.oracleStatue["userCommitsPerSec"],
+
+    getPhysicalReadsPerSec: (state) =>
+      state.oracleStatue["physicalReadsPerSec"],
+    getPhysicalWritesPerSec: (state) =>
+      state.oracleStatue["physicalWritesPerSec"],
+
+    getResponesTimePerTxn: (state) => state.oracleStatue["responesTimePerTxn"]
   },
   mutations: {
-    SET_LIST(state, data) {
-      state.oracleList.push(data);
-      if (state.oracleList.length > 10) {
-        state.oracleList = state.oracleList.slice(1, 11);
+    SET_ORACLE_STATUS_LIST(state, data) {
+      if (state.oracleStatue["databaseCpuTimeRatio"].length > 12) {
+        for (const [key] of Object.entries(data)) {
+          state.oracleStatue[`${key}`].shift();
+        }
       }
-      // console.log(state.LIST[state.LIST.length - 1].databaseCpuTimeRatio);
+      for (const [key, value] of Object.entries(data)) {
+        console.log(key);
+        state.oracleStatue[`${key}`].push(value);
+        console.log(key + ":" + state.oracleStatue[`${key}`]);
+      }
     }
   },
   actions: {},
