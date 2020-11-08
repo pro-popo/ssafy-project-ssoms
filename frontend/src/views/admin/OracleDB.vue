@@ -68,27 +68,20 @@
     </div>
 
     <v-divider style="margin : 100px 0px 30px 0px"></v-divider>
-    <h2 style="margin-bottom:10px">스케줄러</h2>
+    <h2 style="margin-bottom:10px">실시간 모니터링</h2>
     <v-btn color="success" v-if="scheduler" @click="connectScheduler"
-      >스케줄러 연결 시작</v-btn
+      >실시간 모니터링 시작</v-btn
     >
 
     <v-btn color="error" v-if="!scheduler" @click="disconnectScheduler"
-      >스케줄러 연결 해제</v-btn
+      >실시간 모니터링 종료</v-btn
     >
     <v-btn
       color="primary"
       style="margin-left:10px"
       @click="checkConnectScheduler"
-      >스케줄러 연결 확인</v-btn
+      >실시간 모니터링 상태 확인</v-btn
     >
-    <!-- 1. 스케줄러 연결
-    2. 스케줄러 잘 연결 되어있는지 확인
-    3. 스케줄러 해제
-
-    4. 스키마 저장할 때, 유효한 스키마인지 확인
-    5. 유효하면 저장
-    6. 스키마 다시 불러와서 테이블 채우는 것. -->
   </div>
 </template>
 
@@ -111,17 +104,18 @@ export default {
     };
   },
   methods: {
+    // 실시간 모니터링 (나중에 삭제 예정)
     connectScheduler() {
       console.log("---스케줄러 연결 중---");
       axios
         .get(SERVER.URL + SERVER.ROUTES.scheduleStart)
         .then((res) => {
           if (res.data.result == "success") {
-            alert("스케줄러가 연결되었습니다 !!!");
+            alert("실시간 모니터링이 시작 되었습니다 !!");
             this.scheduler = false;
           } else if (res.data.result == "fail") {
             alert(
-              "스케줄러 연결에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
+              "실시간 모니터링 연결에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
             );
           }
         })
@@ -135,9 +129,9 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.scheduleStatus)
         .then((res) => {
           if (res.data.result == "running") {
-            alert("현재 스케줄러가 연결된 상태 입니다 !!");
+            alert("현재 실시간 모니터링이 시작된 상태 입니다 !!");
           } else if (res.data.result == "end") {
-            alert("현재 스케줄러 연결 해제된 상태 입니다.");
+            alert("현재 실시간 모니터링이 종료된 상태 입니다.");
           }
         })
         .catch((err) => {
@@ -151,11 +145,11 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.scheduleStop)
         .then((res) => {
           if (res.data.result == "success") {
-            alert("스케줄러 연결이 성공적으로 해제되었습니다 !!");
+            alert("실시간 모니터링이 성공적으로 종료 되었습니다 !!");
             this.scheduler = true;
           } else if (res.data.result == "fail") {
             alert(
-              "스케줄러 연결 해제에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
+              "실시간 모니터링 종료에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
             );
           }
         })
@@ -163,6 +157,7 @@ export default {
           console.log(err);
         });
     },
+
     setSettingsOracleDB() {
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsOracleDB, this.oracleData)
