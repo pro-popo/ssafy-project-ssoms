@@ -49,20 +49,20 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["Read Total", "Write Total"]
+          data: ["Physical Reads", "Physical Writes"]
         },
         tooltip: {
           trigger: "axis"
         },
         series: [
           {
-            name: "Read Total",
+            name: "Physical Reads",
             data: [],
             type: "line",
             color: "#2196F3"
           },
           {
-            name: "Write Total",
+            name: "Physical Writes",
             data: [],
             type: "line",
             color: "#4CAF50"

@@ -6,31 +6,35 @@
     >
     <span> Process </span>
     <div class="oracle-process">
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
+          <!-- <div>
+            <v-icon>mdi-arrow-decision-outline</v-icon>
+          </div> -->
           <div>
-            <span class="oracle-status-name">Executions Per Sec</span>
+            <div>
+              <span class="oracle-status-name">Executions Per Sec</span>
+            </div>
+            <h1>
+              {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
+              <span class="oracle-unit">%</span>
+            </h1>
           </div>
-          <h1>
-            {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
-            <span class="oracle-unit">%</span>
-          </h1>
-          <span></span>
         </v-card-text>
       </v-card>
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <span class="oracle-status-name">Total Parse Count Per Sec</span>
           </div>
           <h1>
             {{ getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1] }}
-            <span class="oracle-unit">cnt</span>
+            <span class="oracle-unit">count</span>
           </h1>
           <span></span>
         </v-card-text>
       </v-card>
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <span class="oracle-status-name">Open Cursors Per Sec</span>
@@ -42,14 +46,14 @@
           <span></span>
         </v-card-text>
       </v-card>
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <span class="oracle-status-name">User Commit Per Sec</span>
           </div>
           <h1>
-            {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
-            <span class="oracle-unit">%</span>
+            {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
+            <span class="oracle-unit">count</span>
           </h1>
           <span></span>
         </v-card-text>
@@ -250,7 +254,9 @@ export default {
 .oracle-process .v-card:last-child {
   margin-right: 0px !important;
 }
-
+/* .oracle-data {
+  display: flex;
+} */
 .oracle-data h1 {
   margin-top: 5px;
   color: #6440e3;

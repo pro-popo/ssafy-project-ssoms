@@ -5,7 +5,7 @@
     <span> Memory </span>
 
     <div class="oracle-memory">
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <span class="oracle-status-name">Block Gets Per User Call</span>
@@ -14,12 +14,12 @@
             {{
               getDbBlockGetsPerUserCall[getDbBlockGetsPerUserCall.length - 1]
             }}
-            <span class="oracle-unit">%</span>
+            <span class="oracle-unit">block</span>
           </h1>
           <span></span>
         </v-card-text>
       </v-card>
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <span class="oracle-status-name">Logical Reads Per User Call</span>
@@ -28,12 +28,12 @@
             {{
               getLogicalReadsPerUserCall[getLogicalReadsPerUserCall.length - 1]
             }}
-            <span class="oracle-unit">cnt</span>
+            <span class="oracle-unit">reads</span>
           </h1>
           <span></span>
         </v-card-text>
       </v-card>
-      <v-card elevation="1">
+      <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <span class="oracle-status-name">Redo Generated Per Sec</span>

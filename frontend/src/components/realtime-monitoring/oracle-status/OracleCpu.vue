@@ -56,7 +56,7 @@
                 {{
                   getActiveSerialSessions[getActiveSerialSessions.length - 1]
                 }}
-                <span class="oracle-unit">cnt</span>
+                <span class="oracle-unit">count</span>
               </h1>
               <span></span>
             </div>
