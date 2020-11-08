@@ -428,4 +428,31 @@ public class OracleRepoImpl implements OracleRepo{
 		}
 		return list;
 	}
+	
+	@Override
+	public boolean findSchema(String schemaName) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = DBUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("\n");
+			
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, schemaName);
+			rs = pstmt.executeQuery();
+			rs.next();
+			if(rs.getInt("count") == 1) {
+				return true;
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+			DBUtil.close(con);
+		}
+		return false;
+	}
 }

@@ -22,4 +22,8 @@ public interface AdminService {
 	public boolean setSettingsSchema(JSONArray jlist);
 
 	public boolean checkConnection(OracleDBSettingsDTO OracleData);
+	
+	public boolean checkDuplicateSchema(String schemaName);
+	
+	public boolean checkSchemaExistence(String schemaName);
 }

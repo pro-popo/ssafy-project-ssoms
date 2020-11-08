@@ -1,5 +1,7 @@
 package com.sdi.monitoring.controller.admin;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,19 +132,35 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
+	public ResponseEntity setSettingsSchema(@RequestBody String schemaName) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		JSONParser parser = new JSONParser();
 		JSONArray jlist = null;
 		try {
-			jlist = (JSONArray)parser.parse(userID);
+			jlist = (JSONArray)parser.parse(schemaName);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		boolean save = adminService.setSettingsSchema(jlist);
 		result.status = true;
 		result.result = save ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@PostMapping("/settings/schema/save/conn")
+	public ResponseEntity settingsSchemaConnTest(@RequestBody String schemaName) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean duplicateCheck = adminService.checkDuplicateSchema(schemaName);
+		result.status = true;
+		if(duplicateCheck) {
+			result.result = "duplicate";
+		}else if(!duplicateCheck) {
+			boolean isSchemaExistence = adminService.checkSchemaExistence(schemaName);
+			result.result = isSchemaExistence ? "success" : "fail";
+		}
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
