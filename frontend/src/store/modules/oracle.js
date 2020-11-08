@@ -62,9 +62,9 @@ const Oracle = {
         }
       }
       for (const [key, value] of Object.entries(data)) {
-        console.log(key);
+        // console.log(key);
         state.oracleStatue[`${key}`].push(value);
-        console.log(key + ":" + state.oracleStatue[`${key}`]);
+        // console.log(key + ":" + state.oracleStatue[`${key}`]);
       }
     }
   },

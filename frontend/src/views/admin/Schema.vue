@@ -54,6 +54,13 @@ export default {
   },
   methods: {
     setSettingsSchema(type) {
+      // var checkDuplicate = 0;
+      // for (var i = 0; i < this.schemaList.length; i++) {
+      //   if (this.schemaList[i].userID === this.userID) {
+      //     checkDuplicate = 1;
+      //   }
+      // }
+      // if (checkDuplicate === 0) {
       if (type === 1) {
         this.schemaList.push({ userID: this.userID });
       } else {
@@ -67,7 +74,12 @@ export default {
       }
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
-        .then(() => {
+        .then((res) => {
+          console.log(res.data.result);
+          if (res.data.result === "saveSuccess") {
+            console.log("check");
+            console.log("2", this.checkSettingsSchema());
+          }
           this.userID = "";
           if (type === 1) {
             alert("저장하였습니다.");
@@ -75,7 +87,11 @@ export default {
             alert("삭제하였습니다.");
           }
         })
-        .catch((err) => console.log(err));
+        .catch(() => console.log("실패"));
+      // } else {
+      //   this.userID = "";
+      //   alert("중복된 값이 있습니다.");
+      // }
     },
     getSettingsSchema() {
       axios
@@ -84,6 +100,25 @@ export default {
           this.schemaList = res.data.map.schema;
         })
         .catch((err) => console.log(err));
+    },
+    checkSettingsSchema() {
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.checkSettingsSchema, {
+          userID: this.userID
+        })
+        .then((res) => {
+          console.log("1", res.data.result);
+          if (res.data.result === "duplicate") {
+            console.log("테스트");
+            return "duplicate";
+          } else if (res.data.result === "notExist") {
+            return "notExist";
+          } else if (res.data.result === "success") {
+            return "success";
+          } else {
+            return "success";
+          }
+        });
     }
   },
   created() {

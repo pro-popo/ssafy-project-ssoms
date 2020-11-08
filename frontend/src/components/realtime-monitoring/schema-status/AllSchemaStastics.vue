@@ -1,18 +1,20 @@
 <template>
   <div class="schema-chart-box">
-    <!-- {{ getSchemaList }} -->
+    <!-- <div>
+      <h2>테스트</h2> -->
     <v-card elevation="10">
       <IEcharts :option="option1" />
     </v-card>
+    <!-- </div> -->
     <v-card elevation="10">
       <IEcharts :option="option2" />
     </v-card>
     <v-card elevation="10">
       <IEcharts :option="option3" />
     </v-card>
-    <v-card elevation="10">
+    <!-- <v-card elevation="10">
       <IEcharts :option="option4" />
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
@@ -77,15 +79,18 @@ export default {
         },
         yAxis: {
           min: function(value) {
-            return value.min - value.min * 0.05;
+            return (value.min - value.min * 0.05).toFixed(2);
           },
           max: function(value) {
-            return value.max + value.max * 0.05;
+            return (value.max + value.max * 0.05).toFixed(2);
           }
         },
         series: []
       },
       option3: {
+        // title: {
+        //   text: "cpuTimeAvg"
+        // },
         tooltip: {
           trigger: "axis"
         },
@@ -106,15 +111,18 @@ export default {
         },
         yAxis: {
           min: function(value) {
-            return value.min - value.min * 0.05;
+            return (value.min - value.min * 0.05).toFixed(2);
           },
           max: function(value) {
-            return value.max + value.max * 0.05;
+            return (value.max + value.max * 0.05).toFixed(2);
           }
         },
         series: []
       },
       option4: {
+        title: {
+          text: "elapsedTimeAvg"
+        },
         tooltip: {
           trigger: "axis"
         },
@@ -146,37 +154,53 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("Schema", ["getRealTimeSchemaList", "getSchemaList"]),
+    ...mapGetters("Schema", [
+      "getRealTimeSchemaList1",
+      "getRealTimeSchemaList2",
+      "getRealTimeSchemaList3",
+      "getSchemaList"
+    ]),
     ...mapGetters(["getRealTime", "getRealTimeList"])
   },
   watch: {
-    getRealTimeSchemaList: function(res) {
-      var legendList = [];
-      for (var i = 0; i < res.length; i++) {
-        legendList.push(res[i].parsingSchemaName);
-        this.option1.series[i].name = res[i].parsingSchemaName;
-        this.option2.series[i].name = res[i].parsingSchemaName;
-        this.option3.series[i].name = res[i].parsingSchemaName;
-        this.option4.series[i].name = res[i].parsingSchemaName;
-        this.option1.series[i].data.push(res[i].bufferGetsAvg);
-        if (this.option1.series[i].data.length > 12) {
-          this.option1.series[i].data.shift();
-          this.option2.series[i].data.shift();
-          this.option3.series[i].data.shift();
-          this.option4.series[i].data.shift();
+    getRealTimeSchemaList1: {
+      deep: true,
+      handler() {
+        var legendList = [];
+        for (var i = 0; i < this.getRealTimeSchemaList1.length; i++) {
+          legendList.push(this.getRealTimeSchemaList1[i].name);
+          this.option1.series[i].name = this.getRealTimeSchemaList1[i].name;
+          this.option1.series[i].data = this.getRealTimeSchemaList1[i].data;
         }
-        this.option2.series[i].data.push(res[i].rowsProcessedAvg);
-        this.option3.series[i].data.push(res[i].cpuTimeAvg);
-        this.option4.series[i].data.push(res[i].elapsedTimeAvg);
+        this.option1.legend.data = legendList;
+        this.option1.xAxis.data = this.getRealTimeList;
       }
-      this.option1.legend.data = legendList;
-      this.option2.legend.data = legendList;
-      this.option3.legend.data = legendList;
-      this.option4.legend.data = legendList;
-      this.option1.xAxis.data = this.getRealTimeList;
-      this.option2.xAxis.data = this.getRealTimeList;
-      this.option3.xAxis.data = this.getRealTimeList;
-      this.option4.xAxis.data = this.getRealTimeList;
+    },
+    getRealTimeSchemaList2: {
+      deep: true,
+      handler() {
+        var legendList = [];
+        for (var i = 0; i < this.getRealTimeSchemaList2.length; i++) {
+          legendList.push(this.getRealTimeSchemaList2[i].name);
+          this.option2.series[i].name = this.getRealTimeSchemaList2[i].name;
+          this.option2.series[i].data = this.getRealTimeSchemaList2[i].data;
+        }
+        this.option2.legend.data = legendList;
+        this.option2.xAxis.data = this.getRealTimeList;
+      }
+    },
+    getRealTimeSchemaList3: {
+      deep: true,
+      handler() {
+        var legendList = [];
+        for (var i = 0; i < this.getRealTimeSchemaList3.length; i++) {
+          legendList.push(this.getRealTimeSchemaList3[i].name);
+          this.option3.series[i].name = this.getRealTimeSchemaList3[i].name;
+          this.option3.series[i].data = this.getRealTimeSchemaList3[i].data;
+        }
+        this.option3.legend.data = legendList;
+        this.option3.xAxis.data = this.getRealTimeList;
+      }
     }
   },
   created() {

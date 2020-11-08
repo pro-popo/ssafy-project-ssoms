@@ -158,7 +158,7 @@ export default {
   border: 1px solid var(--font-sub-color);
   border-radius: 10px;
   padding: 10px;
-  margin-bottom: 300px;
+  margin-bottom: 50px;
   color: var(--font-sub2-color);
 }
 </style>
