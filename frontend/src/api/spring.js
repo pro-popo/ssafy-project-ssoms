@@ -20,6 +20,10 @@ export default {
     setSettingsSchema: "/admin/settings/schema/save",
     getSettingsOracleDB: "/admin/settings/oracledb",
     getSettingsSchema: "/admin/settings/schema",
-    checkConOracleDB: "/admin/settings/oracledb/check"
+    checkConOracleDB: "/admin/settings/oracledb/check",
+
+    scheduleStart: "/admin/realtime/start",
+    scheduleStop: "/admin/realtime/stop",
+    scheduleStatus: "/admin/realtime/status"
   }
 };
