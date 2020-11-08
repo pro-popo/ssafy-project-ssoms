@@ -6,7 +6,7 @@ export default {
     signup: "/nonuser/signup",
 
     isExistedAdmin: "/nonuser/existence/admin",
-    idAdmin: "/user/authorization/",
+    isAdmin: "/user/authorization/",
     changeAdmin: "",
     getAllUserList: "",
     getUserVisitedHistory: "",
@@ -16,10 +16,14 @@ export default {
     updateUser: "/user/",
     deleteUser: "/user/",
 
-    setSettingsOracleDB: "/admin/settings/OracleDB/save",
-    setSettingsSchema: "/admin/settings/Schema/save",
-    getSettingsOracleDB: "/admin/settings/OracleDB",
-    getSettingsSchema: "/admin/settings/Schema",
-    checkConOracleDB: "/admin/settings/OracleDB/check"
+    setSettingsOracleDB: "/admin/settings/oracledb/save",
+    setSettingsSchema: "/admin/settings/schema/save",
+    getSettingsOracleDB: "/admin/settings/oracledb",
+    getSettingsSchema: "/admin/settings/schema",
+    checkConOracleDB: "/admin/settings/oracledb/check",
+
+    scheduleStart: "/admin/realtime/start",
+    scheduleStop: "/admin/realtime/stop",
+    scheduleStatus: "/admin/realtime/status"
   }
 };

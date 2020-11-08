@@ -112,7 +112,7 @@ export default {
             // stack: "resource",
             areaStyle: null,
             color: "#4CAF50",
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: [120, 132, 101, 134, 90, 230]
           }
         ]
       }

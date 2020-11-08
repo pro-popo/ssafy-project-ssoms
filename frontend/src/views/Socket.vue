@@ -60,14 +60,7 @@ export default {
 
           // subscribe message
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
-            this.recvList.push(JSON.parse(res.body));
-            console.log("===============================");
-            console.log(
-              this.recvList[this.recvList.length - 1].OracleStastics
-                .databaseCpuTimeRatio
-            );
-            console.log(this.recvList.length - 1);
-            console.log("===============================");
+            console.log("socket ttt", res);
           });
         },
         (error) => {

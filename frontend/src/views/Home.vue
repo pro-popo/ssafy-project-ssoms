@@ -9,21 +9,20 @@
       </div>
 
       <div class="home-main">
-        <AppMain />
+        <MyProfile
+          v-if="requestProfile"
+          @close-profile="closeProfile"
+          @edit-profile="showEditUser"
+        />
+        <EditUser
+          v-if="requestEditUser"
+          :profile="profile"
+          @close-edit-profile="closeEditUser"
+          @open-profile="requestProfile = !requestProfile"
+        />
+        <AppMain :isAdmin="isAdmin" />
       </div>
     </div>
-
-    <MyProfile
-      v-if="requestProfile"
-      @close-profile="closeProfile"
-      @edit-profile="showEditUser"
-    />
-    <EditUser
-      v-if="requestEditUser"
-      :profile="profile"
-      @close-edit-profile="closeEditUser"
-      @open-profile="requestProfile = !requestProfile"
-    />
   </div>
 </template>
 
@@ -42,7 +41,7 @@ import axios from "axios";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -56,7 +55,7 @@ export default {
   },
   data() {
     return {
-      isAdmin: false,
+      isAdmin: null,
       requestProfile: false,
       requestEditUser: false,
       profile: ""
@@ -67,7 +66,7 @@ export default {
       axios
         .get(
           SERVER.URL +
-            SERVER.ROUTES.idAdmin +
+            SERVER.ROUTES.isAdmin +
             sessionStorage.getItem("loginSession")
         )
         .then((res) => {
@@ -103,9 +102,17 @@ export default {
         {},
         (frame) => {
           this.connected = true;
-          console.log("소켓 연결 성공", frame);
+          frame;
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
-            this.SET_LIST(JSON.parse(res.body).OracleStastics);
+            const realTimeData = JSON.parse(res.body);
+            console.log(realTimeData.time);
+            if (this.getRealTime !== realTimeData.time) {
+              this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
+              this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
+
+              this.SET_REALTIME(realTimeData.time);
+              this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+            }
           });
         },
         (error) => {
@@ -115,11 +122,17 @@ export default {
         }
       );
     },
-    ...mapMutations("Oracle", ["SET_LIST"])
+    ...mapMutations("Oracle", ["SET_ORACLE_STATUS_LIST"]),
+    ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
+    ...mapMutations(["SET_REALTIME"]),
+    ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"])
   },
   created() {
     this.checkIsAdmin();
     this.connect();
+  },
+  computed: {
+    ...mapGetters(["getRealTime"])
   }
 };
 </script>
@@ -145,7 +158,7 @@ export default {
 }
 .home-main {
   width: 100%;
-  height: 90%;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 50px 80px;

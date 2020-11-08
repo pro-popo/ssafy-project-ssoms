@@ -14,21 +14,10 @@
 </template>
 
 <script>
-// import Home from "@/views/Home.vue";
-
 import { mapActions } from "vuex";
-// import SignUpAdmin from "@/components/non-account/SignUpAdmin.vue";
 
 export default {
   name: "App",
-  // components: {
-  //   // Home
-
-  //   SignUpAdmin
-  // },
-  // computed: {
-  //   ...mapGetters("Account", ["isExistedAdmin"])
-  // },
   methods: {
     ...mapActions("Account", ["checkExistedAdmin"])
   },
@@ -51,10 +40,35 @@ export default {
   width: 100%;
   height: 100%;
 }
-#app {
+html {
   overflow: hidden !important;
-
-  -ms-overflow-style: none;
+  /* -ms-overflow-style: none; */
+}
+#app {
   background: #f3f3f3;
+}
+/* 스크롤 바 넓이 16px */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+/* 스크롤 바 기본 색상 */
+::-webkit-scrollbar-track {
+  background-color: thistle;
+}
+/* 스크롤 구간 배경 색상 */
+::-webkit-scrollbar-thumb {
+  background-color: slateblue;
+}
+/* 스크롤 바 위에 마우스 올렸을 때(hover) 색상 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: blueviolet;
+}
+/* 스크롤 상하단 버튼 넓이와 색상 */
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+  width: 10px;
+  height: 10px;
+  background-color: mediumpurple;
 }
 </style>
