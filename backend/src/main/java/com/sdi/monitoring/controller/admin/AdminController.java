@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdi.monitoring.domain.SuccessResponse;
@@ -148,10 +149,11 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/schema/check")
-	public ResponseEntity checkSettingsSchema(@RequestBody String addSchema) {
+	public ResponseEntity checkSettingsSchema(@RequestBody Map<String, String> map) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		addSchema = addSchema.toUpperCase();
+		String addSchema = map.get("addSchema").toUpperCase();
+		System.out.println(addSchema);
 		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
 		result.status = true;
 		if(duplicateCheck) {
