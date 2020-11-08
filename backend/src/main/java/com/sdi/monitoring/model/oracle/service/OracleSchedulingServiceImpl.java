@@ -48,14 +48,20 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
         this.messagingTemplate = messagingTemplate;
     }
 	
+    @Override
+    public boolean hasScheduler() {
+    	return scheduler.hasScheduler();
+    	
+    }
+    
 	@Override
-	public void start() {
-		scheduler.startScheduler();
+	public boolean start() {
+		return scheduler.startScheduler();
 	}
 	
 	@Override
-	public void stop() {
-		scheduler.stopScheduler();
+	public boolean stop() {
+		return scheduler.stopScheduler();
 	}
 	
 	@Override

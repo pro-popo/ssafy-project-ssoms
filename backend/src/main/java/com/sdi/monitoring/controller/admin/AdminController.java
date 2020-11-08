@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdi.monitoring.domain.SuccessResponse;
 import com.sdi.monitoring.model.admin.service.AdminService;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
+import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateAdminDTO;
 
@@ -30,6 +31,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private OracleSchedulingService oracleScedulingService;
 	
 	// 이거 권한 맞는지 확인하는 로직 필요함
 	@PutMapping("/change")
@@ -126,7 +130,39 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
+	public ResponseEntity setSettingsSchema(@RequestBody Map<String, String> map) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		
+		String userID = map.get("userID");
+		String addSchema = map.get("addSchema").toUpperCase();
+		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
+		result.status = true;
+		if(duplicateCheck) {
+			result.result = "duplicate";
+		}else if(!duplicateCheck) {
+			boolean isSchemaExistence = adminService.checkSchemaExistence(addSchema);
+			if(isSchemaExistence) {
+				JSONParser parser = new JSONParser();
+				JSONArray jlist = null;
+				try {
+					jlist = (JSONArray)parser.parse(userID);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				boolean save = adminService.setSettingsSchema(jlist);
+				result.result = save ? "saveSuccess" : "saveFail";
+			}else if(!isSchemaExistence) {
+				result.result = "notExist";
+			}
+		}
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@PostMapping("/settings/schema/del")
+	public ResponseEntity setSettingsSchemaDel(@RequestBody String userID) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		JSONParser parser = new JSONParser();
@@ -138,8 +174,42 @@ public class AdminController {
 		}
 		boolean save = adminService.setSettingsSchema(jlist);
 		result.status = true;
-		result.result = save ? "success" : "fail";
+		result.result = save ? "saveSuccess" : "saveFail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
+	
+	@GetMapping("/realtime/start")
+	public ResponseEntity startRealTime() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean ret = oracleScedulingService.start();
+		result.status = true;
+		result.result = ret ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/realtime/stop")
+	public ResponseEntity stopRealTime() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean ret = oracleScedulingService.stop();
+		result.status = true;
+		result.result = ret ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/realtime/status")
+	public ResponseEntity statusRealTime() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		boolean ret = oracleScedulingService.hasScheduler();
+		result.status = true;
+		result.result = ret ? "running" : "end";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
 }

@@ -1,8 +1,5 @@
 package com.sdi.monitoring.controller.user;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +23,13 @@ import com.sdi.monitoring.model.user.service.NonUserService;
 public class NonUserController {
 	@Autowired
 	private NonUserService nonUserService;
-	
+//	
 	@Autowired
 	private OracleSchedulingService oss;
 	
 	@GetMapping("/existence/admin")
 	public ResponseEntity authorization() {
-		System.out.println("========== authorization entered... ==========");
+//		System.out.println("========== authorization entered... ==========");
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		boolean isAdmin = nonUserService.hasAdmin();
@@ -45,7 +42,7 @@ public class NonUserController {
 
 	@PutMapping("/signup")
 	public ResponseEntity signUp(@RequestBody UserSignUpDTO userSignUpDTO) {
-		System.out.println("========== signUp entered... ==========");
+//		System.out.println("========== signUp entered... ==========");
 		System.out.println(userSignUpDTO.toString());
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
@@ -68,7 +65,7 @@ public class NonUserController {
 	@PostMapping("/signin")
 	public ResponseEntity login(@RequestBody(required = true) UserPrimitiveDTO userPrimitiveDTO,
 			HttpSession httpSession) {
-		System.out.println("========== login entered... ==========");
+//		System.out.println("========== login entered... ==========");
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		boolean checkCanLogin = nonUserService.signIn(userPrimitiveDTO);
