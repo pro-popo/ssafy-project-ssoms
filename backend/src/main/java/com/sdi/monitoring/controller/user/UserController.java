@@ -29,14 +29,14 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private OracleSchedulingService oss;
+//	@Autowired
+//	private OracleSchedulingService oss;
 	
 	@GetMapping("/logout/{email}")
 	public ResponseEntity logout(@PathVariable(name = "email") String email, HttpServletRequest httpServletRequest) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		System.out.println("========== logout entered... ==========");
+//		System.out.println("========== logout entered... ==========");
 		System.out.println("email : " + email);
 //		HttpSession httpSession = httpServletRequest.getSession();
 //		if (email.equals(httpSession.getAttribute("loginSession"))) {
@@ -48,7 +48,7 @@ public class UserController {
 //			response = new ResponseEntity<>(result, HttpStatus.OK);
 //			return response;
 //		}
-		oss.stop();
+//		oss.stop();
 		result.status = true;
 		result.result = "success";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
@@ -70,8 +70,8 @@ public class UserController {
 	// logout 했는데 유저 프로필 정보 잘가져옴 - interceptor 를 안들어감
 	@GetMapping("/profile/{email}")
 	public ResponseEntity getUserProfile(@PathVariable(name = "email") String email) {
-		System.out.println("========== alluser entered... ==========");
-		System.out.println("email : " + email);
+//		System.out.println("========== alluser entered... ==========");
+//		System.out.println("email : " + email);
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		UserDTO userDTO = userService.getUserProfile(email);
