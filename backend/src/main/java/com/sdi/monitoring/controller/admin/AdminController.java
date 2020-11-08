@@ -1,7 +1,5 @@
 package com.sdi.monitoring.controller.admin;
 
-import static org.hamcrest.CoreMatchers.is;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,15 +130,19 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
+	public ResponseEntity setSettingsSchema(@RequestBody Map<String, String> map) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		boolean duplicateCheck = adminService.checkDuplicateSchema(userID);
+		
+		String userID = map.get("userID");
+		System.out.println(userID);
+		String addSchema = map.get("addSchema").toUpperCase();
+		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
 		result.status = true;
 		if(duplicateCheck) {
 			result.result = "duplicate";
 		}else if(!duplicateCheck) {
-			boolean isSchemaExistence = adminService.checkSchemaExistence(userID);
+			boolean isSchemaExistence = adminService.checkSchemaExistence(addSchema);
 			if(isSchemaExistence) {
 				JSONParser parser = new JSONParser();
 				JSONArray jlist = null;
@@ -150,13 +152,30 @@ public class AdminController {
 					e.printStackTrace();
 				}
 				boolean save = adminService.setSettingsSchema(jlist);
-				result.status = true;
-				result.result = save ? "saveSuccess" : "notExist";
+				result.result = save ? "saveSuccess" : "saveFail";
 			}else if(!isSchemaExistence) {
-				result.result = "saveFail";
+				result.result = "notExist";
 			}
 		}
 		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@PostMapping("/settings/schema/del")
+	public ResponseEntity setSettingsSchemaDel(@RequestBody String userID) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		JSONParser parser = new JSONParser();
+		JSONArray jlist = null;
+		try {
+			jlist = (JSONArray)parser.parse(userID);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		boolean save = adminService.setSettingsSchema(jlist);
+		result.status = true;
+		result.result = save ? "saveSuccess" : "saveFail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}

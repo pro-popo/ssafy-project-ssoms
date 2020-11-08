@@ -437,12 +437,14 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("\n");
+			sql.append("select count(*) count from all_users where upper(username) = ?");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
 			rs = pstmt.executeQuery();
 			rs.next();
+			System.out.println(schemaName);
+			System.out.println(rs.getInt("count"));
 			if(rs.getInt("count") == 1) {
 				return true;
 			}
