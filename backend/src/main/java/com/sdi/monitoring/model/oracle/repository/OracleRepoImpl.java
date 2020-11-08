@@ -443,8 +443,6 @@ public class OracleRepoImpl implements OracleRepo{
 			pstmt.setString(1, schemaName);
 			rs = pstmt.executeQuery();
 			rs.next();
-			System.out.println(schemaName);
-			System.out.println(rs.getInt("count"));
 			if(rs.getInt("count") == 1) {
 				return true;
 			}

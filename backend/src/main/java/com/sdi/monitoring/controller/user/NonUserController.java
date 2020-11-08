@@ -24,8 +24,8 @@ public class NonUserController {
 	@Autowired
 	private NonUserService nonUserService;
 //	
-//	@Autowired
-//	private OracleSchedulingService oss;
+	@Autowired
+	private OracleSchedulingService oss;
 	
 	@GetMapping("/existence/admin")
 	public ResponseEntity authorization() {
@@ -71,7 +71,7 @@ public class NonUserController {
 		boolean checkCanLogin = nonUserService.signIn(userPrimitiveDTO);
 		result.status = true;
 		if (checkCanLogin) {
-//			oss.start();
+			oss.start();
 			result.result = "success";
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
 		} else {

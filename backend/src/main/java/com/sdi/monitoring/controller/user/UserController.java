@@ -48,7 +48,7 @@ public class UserController {
 //			response = new ResponseEntity<>(result, HttpStatus.OK);
 //			return response;
 //		}
-//		oss.stop();
+		oss.stop();
 		result.status = true;
 		result.result = "success";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
