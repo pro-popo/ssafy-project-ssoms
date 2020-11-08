@@ -13,11 +13,29 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-
+import { mapGetters } from "vuex";
 export default {
   name: "OracleMemory",
   components: {
     IEcharts
+  },
+  computed: {
+    ...mapGetters("Oracle", [
+      "getDbBlockGetsPerUserCall",
+      "getLogicalReadsPerUserCall",
+      "getRedoGeneratedPerSec"
+    ]),
+    ...mapGetters(["getRealTimeList"])
+  },
+  watch: {
+    getDbBlockGetsPerUserCall: function() {
+      this.option1.xAxis.data = this.getRealTimeList;
+      this.option2.xAxis.data = this.getRealTimeList;
+      this.option3.xAxis.data = this.getRealTimeList;
+      this.option1.series[0].data = this.getDbBlockGetsPerUserCall;
+      this.option2.series[0].data = this.getLogicalReadsPerUserCall;
+      this.option3.series[0].data = this.getRedoGeneratedPerSec;
+    }
   },
   data() {
     return {
@@ -33,7 +51,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -48,7 +66,7 @@ export default {
         series: [
           {
             name: "BlockGets",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
@@ -62,7 +80,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -77,7 +95,7 @@ export default {
         series: [
           {
             name: "logicalReads",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
@@ -91,7 +109,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["14:20", "14:25", "14:30", "14:35", "14:40", "14:45", "14:50"]
+          data: []
         },
         yAxis: {
           type: "value"
@@ -106,7 +124,7 @@ export default {
         series: [
           {
             name: "redoGenerated",
-            data: [0.33, 0.35, 0.43, 0.44, 0.42, 0.33, 0.31, 0.3],
+            data: [],
             type: "line",
             color: "#2196F3"
           }
