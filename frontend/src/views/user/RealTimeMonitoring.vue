@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b>{{ getRealTime }}</b>
+    <b class="mb-3">{{ getRealTime }}</b>
     <AllSchemaStastics />
     <AllSchemaTopQuery />
     <AllSchemaTopQueryDetail v-if="getTopQueryDetail" />
