@@ -48,13 +48,22 @@
       </div> -->
       <hr class="oracle-line" />
     </form>
-    <v-btn
-      color="primary"
-      class="setting-oracle-save-button1"
-      @click="checkConOracleDB"
-    >
-      연결 테스트
-    </v-btn>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          color="primary"
+          class="setting-oracle-save-button1"
+          @click="checkConOracleDB"
+        >
+          연결 테스트
+        </v-btn>
+      </template>
+      <span>연결테스트 후에 저장할 수 있습니다.</span>
+    </v-tooltip>
+
     <v-btn
       color="primary"
       class="setting-oracle-save-button2"
@@ -94,10 +103,10 @@ export default {
         oracleURL: "",
         oracleID: "",
         oraclePassword: "",
-        oracleSID: ""
+        oracleSID: "",
       },
       testString: "",
-      scheduler: true
+      scheduler: true,
     };
   },
   watch: {
@@ -105,8 +114,8 @@ export default {
       deep: true,
       handler() {
         this.saveDisable = true;
-      }
-    }
+      },
+    },
   },
   methods: {
     // 실시간 모니터링 (나중에 삭제 예정)
@@ -166,7 +175,7 @@ export default {
     setSettingsOracleDB() {
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsOracleDB, this.oracleData)
-        .then(res => {
+        .then((res) => {
           if (res.data.result === "success") {
             alert("저장에 성공하였습니다.");
             this.saveDisable = true;
@@ -174,18 +183,18 @@ export default {
             alert("저장에 실패하였습니다.");
           }
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     },
     getSettingsOracleDB() {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getSettingsOracleDB)
-        .then(res => {
+        .then((res) => {
           this.oracleData.oracleURL = res.data.map.oracleDB.oracleURL;
           this.oracleData.oraclePassword = res.data.map.oracleDB.oraclePassword;
           this.oracleData.oracleID = res.data.map.oracleDB.oracleID;
           this.oracleData.oracleSID = res.data.map.oracleDB.oracleSID;
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     },
     checkConOracleDB() {
       var { oracleURL, oracleSID, oracleID, oraclePassword } = this.oracleData;
@@ -200,7 +209,7 @@ export default {
       } else {
         axios
           .post(SERVER.URL + SERVER.ROUTES.checkConOracleDB, this.oracleData)
-          .then(res => {
+          .then((res) => {
             if (res.data.result === "success") {
               alert("연결에 성공하였습니다.");
               this.saveDisable = false;
@@ -208,13 +217,13 @@ export default {
               alert("연결에 실패하였습니다.");
             }
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
-    }
+    },
   },
   created() {
     this.getSettingsOracleDB();
-  }
+  },
 };
 </script>
 
