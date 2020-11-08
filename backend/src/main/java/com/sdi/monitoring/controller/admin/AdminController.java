@@ -70,7 +70,7 @@ public class AdminController {
 		return response;
 	}
 	
-	@GetMapping("/settings/OracleDB")
+	@GetMapping("/settings/oracledb")
 	public ResponseEntity getSettingsOracleDB() {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
@@ -90,7 +90,7 @@ public class AdminController {
 		return response;
 	}
 	
-	@PostMapping("/settings/OracleDB/check")
+	@PostMapping("/settings/oracledb/check")
 	public ResponseEntity checkConOracleDB(@RequestBody(required = true) OracleDBSettingsDTO OracleData) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
@@ -102,7 +102,7 @@ public class AdminController {
 		return response;
 	}
 	
-	@PostMapping("/settings/OracleDB/save")
+	@PostMapping("/settings/oracledb/save")
 	public ResponseEntity setSettingsOracleDB(@RequestBody(required = true) OracleDBSettingsDTO OracleData) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
@@ -115,7 +115,7 @@ public class AdminController {
 		return response;
 	}
 	
-	@GetMapping("/settings/Schema")
+	@GetMapping("/settings/schema")
 	public ResponseEntity getSettingsSchema() {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
@@ -135,7 +135,7 @@ public class AdminController {
 		return response;
 	}
 	
-	@PostMapping("/settings/Schema/save")
+	@PostMapping("/settings/schema/save")
 	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();

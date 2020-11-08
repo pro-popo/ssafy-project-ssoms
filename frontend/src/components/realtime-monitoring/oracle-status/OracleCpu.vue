@@ -9,6 +9,7 @@
       <v-icon size="20" color="var(--main-sub-color)">mdi-connection</v-icon>
       <span> Active Serial Sessions</span>
       <h1 class="session-cnt">
+        {{ getActiveSerialSessions[getActiveSerialSessions.length - 1] }}
         <span style="font-size:30px;">cnt</span>
       </h1>
     </div>
@@ -45,6 +46,14 @@ export default {
     getDatabaseCpuTimeRatioList: function() {
       this.line.series[0].data = this.getDatabaseCpuTimeRatioList;
       this.line.series[1].data = this.getDatabaseWaitTimeRatio;
+
+      this.pie.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+        this.getDatabaseCpuTimeRatioList.length - 1
+      ];
+      this.pie.series[0].data[1].value = this.getDatabaseWaitTimeRatio[
+        this.getDatabaseWaitTimeRatio.length - 1
+      ];
+
       this.line.xAxis.data = this.getRealTimeList;
     }
   },

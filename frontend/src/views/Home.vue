@@ -41,7 +41,7 @@ import axios from "axios";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -106,12 +106,13 @@ export default {
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             const realTimeData = JSON.parse(res.body);
             console.log(realTimeData.time);
+            if (this.getRealTime !== realTimeData.time) {
+              this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
+              this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
 
-            this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
-            this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
-
-            this.SET_REALTIME(realTimeData.time);
-            this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+              this.SET_REALTIME(realTimeData.time);
+              this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+            }
           });
         },
         (error) => {
@@ -129,6 +130,9 @@ export default {
   created() {
     this.checkIsAdmin();
     this.connect();
+  },
+  computed: {
+    ...mapGetters(["getRealTime"])
   }
 };
 </script>
