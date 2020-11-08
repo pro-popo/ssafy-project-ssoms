@@ -105,7 +105,6 @@ export default {
           frame;
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             const realTimeData = JSON.parse(res.body);
-            console.log(realTimeData.time);
             if (this.getRealTime !== realTimeData.time) {
               this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
               this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
