@@ -53,7 +53,6 @@ public class AdminController {
 	// 리스트 null 반환될때 체크
 	@GetMapping("/alluser")
 	public ResponseEntity getAllUserList() {
-		System.out.println("========== alluser entered... ==========");
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		List<UserDTO> userDTOList = adminService.getAllUserList();
@@ -152,8 +151,7 @@ public class AdminController {
 	public ResponseEntity checkSettingsSchema(@RequestBody Map<String, String> map) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		String addSchema = map.get("addSchema").toUpperCase();
-		System.out.println(addSchema);
+		String addSchema = map.get("userID").toUpperCase();
 		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
 		result.status = true;
 		if(duplicateCheck) {
