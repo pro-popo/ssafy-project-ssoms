@@ -1,12 +1,18 @@
 <template>
-  <div class="chart1">
-    <!-- <div
-      v-for="schema in getRealTimeSchemaList"
-      :key="schema.parsingSchemaName"
-    >
-      {{ schema.rowsProcessedAvg }}
-    </div> -->
-    <IEcharts :option="option" />
+  <div class="schema-chart-box">
+    <!-- {{ getSchemaList }} -->
+    <v-card elevation="10">
+      <IEcharts :option="option1" />
+    </v-card>
+    <v-card elevation="10">
+      <IEcharts :option="option2" />
+    </v-card>
+    <v-card elevation="10">
+      <IEcharts :option="option3" />
+    </v-card>
+    <v-card elevation="10">
+      <IEcharts :option="option4" />
+    </v-card>
   </div>
 </template>
 
@@ -21,13 +27,12 @@ export default {
   },
   data() {
     return {
-      testData: this.$store.state.Schema.realTimeSchemaList,
-      option: {
+      option1: {
         tooltip: {
           trigger: "axis"
         },
         legend: {
-          // data: ["A", "B", "C", "D", "E"]
+          type: "scroll",
           data: []
         },
         grid: {
@@ -48,73 +53,168 @@ export default {
           max: function(value) {
             return value.max + value.max * 0.05;
           }
-
-          // boundaryGap: ["10%", "10%"]
         },
-        series: [
-          {
-            name: "rowsProcessedAvg",
-            type: "line",
-            data: []
+        series: []
+      },
+      option2: {
+        tooltip: {
+          trigger: "axis"
+        },
+        legend: {
+          type: "scroll",
+          data: []
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          min: function(value) {
+            return value.min - value.min * 0.05;
+          },
+          max: function(value) {
+            return value.max + value.max * 0.05;
           }
-          // {
-          //   name: "B",
-          //   type: "line",
-          //   data: [220, 182, 191, 234, 290, 330, 310]
-          // },
-          // {
-          //   name: "C",
-          //   type: "line",
-          //   data: [150, 232, 201, 154, 190, 330, 410]
-          // },
-          // {
-          //   name: "D",
-          //   type: "line",
-          //   data: [320, 332, 301, 334, 390, 330, 320]
-          // },
-          // {
-          //   name: "E",
-          //   type: "line",
-          //   data: [820, 932, 901, 934, 1290, 1330, 1320]
-          // }
-        ]
+        },
+        series: []
+      },
+      option3: {
+        tooltip: {
+          trigger: "axis"
+        },
+        legend: {
+          type: "scroll",
+          data: []
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          min: function(value) {
+            return value.min - value.min * 0.05;
+          },
+          max: function(value) {
+            return value.max + value.max * 0.05;
+          }
+        },
+        series: []
+      },
+      option4: {
+        tooltip: {
+          trigger: "axis"
+        },
+        legend: {
+          type: "scroll",
+          data: []
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          min: function(value) {
+            return value.min - value.min * 0.05;
+          },
+          max: function(value) {
+            return value.max + value.max * 0.05;
+          }
+        },
+        series: []
       }
     };
   },
   computed: {
-    ...mapGetters("Schema", ["getRealTimeSchemaList"]),
+    ...mapGetters("Schema", ["getRealTimeSchemaList", "getSchemaList"]),
     ...mapGetters(["getRealTime", "getRealTimeList"])
   },
   watch: {
     getRealTimeSchemaList: function(res) {
-      this.option.series[0].data.push(res[0].executions);
-      this.option.legend.data = [res.parsingSchemaName];
-      this.option.series[0].name = res.parsingSchemaName;
-      this.option.xAxis.data = this.getRealTimeList;
+      var legendList = [];
+      for (var i = 0; i < res.length; i++) {
+        legendList.push(res[i].parsingSchemaName);
+        this.option1.series[i].name = res[i].parsingSchemaName;
+        this.option2.series[i].name = res[i].parsingSchemaName;
+        this.option3.series[i].name = res[i].parsingSchemaName;
+        this.option4.series[i].name = res[i].parsingSchemaName;
+        this.option1.series[i].data.push(res[i].bufferGetsAvg);
+        if (this.option1.series[i].data.length > 12) {
+          this.option1.series[i].data.shift();
+          this.option2.series[i].data.shift();
+          this.option3.series[i].data.shift();
+          this.option4.series[i].data.shift();
+        }
+        this.option2.series[i].data.push(res[i].rowsProcessedAvg);
+        this.option3.series[i].data.push(res[i].cpuTimeAvg);
+        this.option4.series[i].data.push(res[i].elapsedTimeAvg);
+      }
+      this.option1.legend.data = legendList;
+      this.option2.legend.data = legendList;
+      this.option3.legend.data = legendList;
+      this.option4.legend.data = legendList;
+      this.option1.xAxis.data = this.getRealTimeList;
+      this.option2.xAxis.data = this.getRealTimeList;
+      this.option3.xAxis.data = this.getRealTimeList;
+      this.option4.xAxis.data = this.getRealTimeList;
+    }
+  },
+  created() {
+    for (var i = 0; i < 5; i++) {
+      this.option1.series.push({
+        name: "",
+        type: "line",
+        data: []
+      });
+      this.option2.series.push({
+        name: "",
+        type: "line",
+        data: []
+      });
+      this.option3.series.push({
+        name: "",
+        type: "line",
+        data: []
+      });
+      this.option4.series.push({
+        name: "",
+        type: "line",
+        data: []
+      });
     }
   }
-  // mounted() {
-  //   setInterval(
-  //     function() {
-  //       console.log(this.getRealTimeSchemaList);
-  //       this.option.series[0].data.push(
-  //         this.getRealTimeSchemaList[0].rowsProcessedAvg
-  //       );
-  //     }.bind(this),
-  //     2000
-  //   );
-  // },
-  // created() {
-  //   for (var i = 0; i < 5; i++) {
-  //     this.option.series[0].data.push(i);
-  //   }
-  // }
 };
 </script>
 
 <style>
-.chart1 {
-  height: 500px;
-  width: 500px;
+.schema-chart-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0px;
+  height: 250px;
+}
+.schema-chart-box > div {
+  width: 22%;
+  min-width: 220px;
 }
 </style>
