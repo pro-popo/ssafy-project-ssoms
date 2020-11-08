@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -130,39 +131,7 @@ public class AdminController {
 	}
 	
 	@PostMapping("/settings/schema/save")
-	public ResponseEntity setSettingsSchema(@RequestBody Map<String, String> map) {
-		ResponseEntity response = null;
-		final SuccessResponse result = new SuccessResponse();
-		
-		String userID = map.get("userID");
-		String addSchema = map.get("addSchema").toUpperCase();
-		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
-		result.status = true;
-		if(duplicateCheck) {
-			result.result = "duplicate";
-		}else if(!duplicateCheck) {
-			boolean isSchemaExistence = adminService.checkSchemaExistence(addSchema);
-			if(isSchemaExistence) {
-				JSONParser parser = new JSONParser();
-				JSONArray jlist = null;
-				try {
-					jlist = (JSONArray)parser.parse(userID);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				boolean save = adminService.setSettingsSchema(jlist);
-				result.result = save ? "saveSuccess" : "saveFail";
-			}else if(!isSchemaExistence) {
-				result.result = "notExist";
-			}
-		}
-		
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-		return response;
-	}
-	
-	@PostMapping("/settings/schema/del")
-	public ResponseEntity setSettingsSchemaDel(@RequestBody String userID) {
+	public ResponseEntity setSettingsSchema(@RequestBody String userID) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		JSONParser parser = new JSONParser();
@@ -173,11 +142,46 @@ public class AdminController {
 			e.printStackTrace();
 		}
 		boolean save = adminService.setSettingsSchema(jlist);
-		result.status = true;
 		result.result = save ? "saveSuccess" : "saveFail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
+	
+	@PostMapping("/settings/schema/check")
+	public ResponseEntity checkSettingsSchema(@RequestBody String addSchema) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		addSchema = addSchema.toUpperCase();
+		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
+		result.status = true;
+		if(duplicateCheck) {
+			result.result = "duplicate";
+		}else if(!duplicateCheck) {
+			boolean isSchemaExistence = adminService.checkSchemaExistence(addSchema);
+			result.result = isSchemaExistence ? "success" : "notExist";
+		}
+		
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+//	@PostMapping("/settings/schema/save")
+//	public ResponseEntity setSettingsSchemaDel(@RequestBody String userID) {
+//		ResponseEntity response = null;
+//		final SuccessResponse result = new SuccessResponse();
+//		JSONParser parser = new JSONParser();
+//		JSONArray jlist = null;
+//		try {
+//			jlist = (JSONArray)parser.parse(userID);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		boolean save = adminService.setSettingsSchema(jlist);
+//		result.status = true;
+//		result.result = save ? "saveSuccess" : "saveFail";
+//		response = new ResponseEntity<>(result, HttpStatus.OK);
+//		return response;
+//	}
 	
 	@GetMapping("/realtime/start")
 	public ResponseEntity startRealTime() {
