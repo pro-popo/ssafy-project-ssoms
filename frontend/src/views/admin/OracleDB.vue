@@ -1,23 +1,5 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <div>
-      <h2 class="mb-3">Oracle DB설정</h2>
-      <v-btn color="error" @click="test">TEST</v-btn>
-      <div class="zz">
-        {{ testString }}
-      </div>
-      <form>
-        <div class="input-group-oracle">
-          <span class="setting-oracle-font">Oracle URL</span>
-          <v-text-field
-            label="연동할 Oracle URL을 입력해주세요."
-            v-model="oracleData.oracleURL"
-          ></v-text-field>
-        </div>
-        <div class="input-group-oracle">
-          <span class="setting-password-font">Password</span>
-=======
     <h2 class="mb-3">Oracle DB설정</h2>
     <div class="zz"></div>
     <form>
@@ -46,75 +28,10 @@
         </span>
         <span style="display:inline-block; width: 350px"
           >Password
->>>>>>> feature-front-OracleConntctUX
           <v-text-field
             v-model="oracleData.oraclePassword"
             :type="'password'"
             name="input-10-1"
-<<<<<<< HEAD
-            label="Oracle Password를 입력해주세요."
-          ></v-text-field>
-        </div>
-        <hr class="oracle-line" />
-        <div class="setting-storage">
-          <span class="setting-right" style="display:inline-block; width: 350px"
-            >Oracle ID
-            <v-text-field
-              label="Oracle ID를 입력해주세요."
-              v-model="oracleData.oracleID"
-            ></v-text-field>
-          </span>
-          <span style="display:inline-block; width: 350px"
-            >Oracle SID
-            <v-text-field
-              label="오라클 SID을 입력해주세요."
-              v-model="oracleData.oracleSID"
-            ></v-text-field>
-          </span>
-        </div>
-        <div class="setting-storage">
-          <span class="setting-right" style="display:inline-block; width: 350px"
-            >데이터 갱신 주기
-            <v-text-field label="아직 X"></v-text-field>
-          </span>
-          <span style="display:inline-block; width: 350px"
-            >데이터 배치 시각
-            <v-text-field label="아직 X"></v-text-field>
-          </span>
-        </div>
-      </form>
-      <v-btn
-        color="primary"
-        class="setting-oracle-save-button1"
-        @click="checkConOracleDB"
-      >
-        연결
-      </v-btn>
-      <v-btn
-        color="primary"
-        class="setting-oracle-save-button2"
-        @click="setSettingsOracleDB"
-      >
-        저장
-      </v-btn>
-    </div>
-
-    <v-divider style="margin : 100px 0px 30px 0px"></v-divider>
-    <h2 style="margin-bottom:10px">실시간 모니터링</h2>
-    <v-btn color="success" v-if="scheduler" @click="connectScheduler"
-      >실시간 모니터링 시작</v-btn
-    >
-
-    <v-btn color="error" v-if="!scheduler" @click="disconnectScheduler"
-      >실시간 모니터링 종료</v-btn
-    >
-    <v-btn
-      color="primary"
-      style="margin-left:10px"
-      @click="checkConnectScheduler"
-      >실시간 모니터링 상태 확인</v-btn
-    >
-=======
             label="접속 ID의 Password를 입력해주세요."
           ></v-text-field>
         </span>
@@ -146,7 +63,21 @@
     >
       설정사항 저장
     </v-btn>
->>>>>>> feature-front-OracleConntctUX
+    <v-divider style="margin : 100px 0px 30px 0px"></v-divider>
+    <h2 style="margin-bottom:10px">실시간 모니터링</h2>
+    <v-btn color="success" v-if="scheduler" @click="connectScheduler"
+      >실시간 모니터링 시작</v-btn
+    >
+
+    <v-btn color="error" v-if="!scheduler" @click="disconnectScheduler"
+      >실시간 모니터링 종료</v-btn
+    >
+    <v-btn
+      color="primary"
+      style="margin-left:10px"
+      @click="checkConnectScheduler"
+      >실시간 모니터링 상태 확인</v-btn
+    >
   </div>
 </template>
 
@@ -164,13 +95,9 @@ export default {
         oracleID: "",
         oraclePassword: "",
         oracleSID: ""
-<<<<<<< HEAD
       },
       testString: "",
       scheduler: true
-=======
-      }
->>>>>>> feature-front-OracleConntctUX
     };
   },
   watch: {
