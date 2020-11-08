@@ -135,7 +135,6 @@ public class AdminController {
 		final SuccessResponse result = new SuccessResponse();
 		
 		String userID = map.get("userID");
-		System.out.println(userID);
 		String addSchema = map.get("addSchema").toUpperCase();
 		boolean duplicateCheck = adminService.checkDuplicateSchema(addSchema);
 		result.status = true;

@@ -110,13 +110,13 @@ public class OracleRepoImpl implements OracleRepo{
 //			sql.append("	where parsing_schema_name in ('C##TESTDB', 'C##TESTDB2'))\n");			
 			sql.append("where last_active_time >= sysdate - 7\n");
 			sql.append("	and executions > 0\n");
-			sql.append("	and parsing_schema_name in (" + sqlPlus + ")\n");
+			sql.append("	and upper(parsing_schema_name) in (" + sqlPlus + ")\n");
 			sql.append("group by parsing_schema_name\n");
 			pstmt = con.prepareStatement(sql.toString());
 			
 			int idx = 1;
 			for(String schemaName : schemaList) {
-				pstmt.setString(idx++, schemaName);
+				pstmt.setString(idx++, schemaName.toUpperCase());
 			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -172,7 +172,7 @@ public class OracleRepoImpl implements OracleRepo{
 					"     , round(elapsed_time/executions/1000000,2) elapsed_time_avg\r\n" + 
 					"from   v$sql s\r\n" + 
 					"where  last_active_time >= sysdate - 7\r\n" + 
-					"and    parsing_schema_name in (" + sqlPlus + ")\r\n" + 
+					"and    upper(parsing_schema_name) in (" + sqlPlus + ")\r\n" + 
 					"and    executions > 0\r\n" + 
 					"and NOT (TRIM(SQL_TEXT) LIKE '%:Q%'\r\n" + 
 					"			        OR TRIM(SQL_TEXT) LIKE 'declare%'\r\n" + 
@@ -190,7 +190,7 @@ public class OracleRepoImpl implements OracleRepo{
 			pstmt = con.prepareStatement(sql.toString());
 			int idx = 1;
 			for(String schemaName : schemaList) {
-				pstmt.setString(idx++, schemaName);
+				pstmt.setString(idx++, schemaName.toUpperCase());
 			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -243,7 +243,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("              round(buffer_gets/sum(buffer_gets) OVER()*100,1) buffer_gets_ratio\n");
 			sql.append("       FROM   v$sqlarea a\n");
 			sql.append("       WHERE  executions > 1 and\n");
-			sql.append("	   parsing_schema_name in (?)\n");
+			sql.append("	   upper(parsing_schema_name) in upper((?))\n");
 			sql.append("	   and NOT (TRIM(SQL_TEXT) LIKE '%:Q%'\n");
 			sql.append("			        OR TRIM(SQL_TEXT) LIKE 'declare%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE 'DECLARE%'\n");
@@ -314,7 +314,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("              round(buffer_gets/sum(buffer_gets) OVER()*100,1) buffer_gets_ratio\n");
 			sql.append("       FROM   v$sqlarea a\n");
 			sql.append("       WHERE  executions > 1 and\n");
-			sql.append("	   parsing_schema_name in (?)\n");
+			sql.append("	   upper(parsing_schema_name) in upper((?))\n");
 			sql.append("	   and NOT (TRIM(SQL_TEXT) LIKE '%:Q%'\n");
 			sql.append("			        OR TRIM(SQL_TEXT) LIKE 'declare%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE 'DECLARE%'\n");
@@ -384,7 +384,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("              round(buffer_gets/sum(buffer_gets) OVER()*100,1) buffer_gets_ratio\n");
 			sql.append("       FROM   v$sqlarea a\n");
 			sql.append("       WHERE  executions > 1 and\n");
-			sql.append("	   parsing_schema_name in (?)\n");
+			sql.append("	   upper(parsing_schema_name) in upper((?))\n");
 			sql.append("	   and NOT (TRIM(SQL_TEXT) LIKE '%:Q%'\n");
 			sql.append("			        OR TRIM(SQL_TEXT) LIKE 'declare%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE 'DECLARE%'\n");
