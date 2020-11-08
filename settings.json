@@ -1,1 +1,1 @@
-{"schema":[{"userID":"C##testdb"},{"userID":"C##TeSTDB2"},{"userID":"C##TESTDB3"},{"userID":"C##TESTDB4"},{"userID":"C##TESTDB5"}],"oracleDB":{"oraclePassword":"sAef32Eq93fasdC","oracleID":"sys as sysdba","oracleURL":"k3b303.p.ssafy.io:8000","oracleSID":"XE"}}
+{"schema":[{"userID":"C##TESTDB5"},{"userID":"C##TESTDB2"},{"userID":"C##TESTDB3"},{"userID":"C##TESTDB4"},{"userID":"c##testdb"}],"oracleDB":{"oraclePassword":"sAef32Eq93fasdC","oracleID":"sys as sysdba","oracleURL":"k3b303.p.ssafy.io:8000","oracleSID":"XE"}}
