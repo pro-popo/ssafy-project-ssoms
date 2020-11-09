@@ -2,19 +2,19 @@
   <div class="schema-chart-box">
     <div>
       <h2>Executions</h2>
-      <v-card elevation="10" class="schema-chart-size">
+      <v-card elevation="2" class="schema-chart-size">
         <IEcharts :option="option1" />
       </v-card>
     </div>
     <div>
       <h2>CpuTimeTotal</h2>
-      <v-card elevation="10" class="schema-chart-size">
+      <v-card elevation="2" class="schema-chart-size">
         <IEcharts :option="option2" />
       </v-card>
     </div>
     <div>
       <h2>ElapsedTimeTotal</h2>
-      <v-card elevation="10" class="schema-chart-size">
+      <v-card elevation="2" class="schema-chart-size">
         <IEcharts :option="option3" />
       </v-card>
     </div>
