@@ -1,6 +1,6 @@
 <template>
   <div class="realtime-detail-box">
-    <v-card elevation="10" class="realtime-detail-query">
+    <v-card elevation="2" class="realtime-detail-query">
       <span>
         executions
         <div>{{ getTopQueryDetail.executions }}</div>

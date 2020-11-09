@@ -3,7 +3,7 @@
     <v-simple-table
       fixed-header
       height="300px"
-      class="elevation-10 realtime-top-query"
+      class="elevation-2 realtime-top-query"
     >
       <template v-slot:default>
         <thead>
