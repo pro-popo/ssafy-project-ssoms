@@ -1,17 +1,23 @@
 <template>
   <div class="schema-chart-box">
-    <!-- <div>
-      <h2>테스트</h2> -->
-    <v-card elevation="10">
-      <IEcharts :option="option1" />
-    </v-card>
-    <!-- </div> -->
-    <v-card elevation="10">
-      <IEcharts :option="option2" />
-    </v-card>
-    <v-card elevation="10">
-      <IEcharts :option="option3" />
-    </v-card>
+    <div>
+      <h2>Executions</h2>
+      <v-card elevation="10" class="schema-chart-size">
+        <IEcharts :option="option1" />
+      </v-card>
+    </div>
+    <div>
+      <h2>CpuTimeTotal</h2>
+      <v-card elevation="10" class="schema-chart-size">
+        <IEcharts :option="option2" />
+      </v-card>
+    </div>
+    <div>
+      <h2>ElapsedTimeTotal</h2>
+      <v-card elevation="10" class="schema-chart-size">
+        <IEcharts :option="option3" />
+      </v-card>
+    </div>
     <!-- <v-card elevation="10">
       <IEcharts :option="option4" />
     </v-card> -->
@@ -201,32 +207,39 @@ export default {
         this.option3.legend.data = legendList;
         this.option3.xAxis.data = this.getRealTimeList;
       }
-    }
-  },
-  created() {
-    for (var i = 0; i < 5; i++) {
-      this.option1.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-      this.option2.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-      this.option3.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-      this.option4.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
+    },
+    getSchemaList: {
+      handler() {
+        if (this.option1.series.length === 0) {
+          for (var i = 0; i < this.getSchemaList.length; i++) {
+            this.option1.series.push({
+              name: "",
+              type: "line",
+              data: []
+            });
+            this.option2.series.push({
+              name: "",
+              type: "line",
+              data: []
+            });
+            this.option3.series.push({
+              name: "",
+              type: "line",
+              data: []
+            });
+            this.option4.series.push({
+              name: "",
+              type: "line",
+              data: []
+            });
+          }
+        }
+      }
     }
   }
+  // mounted() {
+  //   console.log("길이측정", this.getSchemaList);
+  // },
 };
 </script>
 
@@ -235,10 +248,13 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 20px 0px;
-  height: 250px;
+  height: 330px;
 }
 .schema-chart-box > div {
   width: 22%;
   min-width: 220px;
+}
+.schema-chart-size {
+  height: 250px;
 }
 </style>
