@@ -1,6 +1,8 @@
 <template>
   <div>
-    <b class="mb-3">{{ getRealTime }}</b>
+    <div align="right">
+      Last Update Time : <b>{{ getRealTime }}</b>
+    </div>
     <OracleStatus />
     <AllSchemaStastics />
     <AllSchemaTopQuery />

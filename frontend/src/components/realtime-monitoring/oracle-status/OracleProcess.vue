@@ -1,16 +1,10 @@
 <template>
-  <div style="height:15vh; margin-bottom:10px">
+  <div style="height:15vh; margin:20px 0px 10px 0px">
     <!-- <h2>Oracle Process</h2> -->
-    <v-icon size="20" color="var(--main-sub-color)"
-      >mdi-arrow-decision-outline</v-icon
-    >
-    <span> Process </span>
+
     <div class="oracle-process">
       <v-card elevation="2">
         <v-card-text class="oracle-data">
-          <!-- <div>
-            <v-icon>mdi-arrow-decision-outline</v-icon>
-          </div> -->
           <div>
             <div>
               <span class="oracle-status-name">Executions Per Sec</span>
@@ -20,42 +14,99 @@
               <span class="oracle-unit">%</span>
             </h1>
           </div>
+          <div>
+            <IEcharts :option="option1" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-arrow-decision-outline</v-icon
+                >
+              </template>
+              <span>Process</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Total Parse Count Per Sec</span>
+            <div>
+              <span class="oracle-status-name">Total Parse Count Per Sec</span>
+            </div>
+            <h1>
+              {{
+                getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
+              }}
+              <span class="oracle-unit">count</span>
+            </h1>
           </div>
-          <h1>
-            {{ getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1] }}
-            <span class="oracle-unit">count</span>
-          </h1>
-          <span></span>
+          <div>
+            <IEcharts :option="option2" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-arrow-decision-outline</v-icon
+                >
+              </template>
+              <span>Process</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Open Cursors Per Sec</span>
+            <div>
+              <span class="oracle-status-name">Open Cursors Per Sec</span>
+            </div>
+            <h1>
+              {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
+              <span class="oracle-unit">cursor</span>
+            </h1>
           </div>
-          <h1>
-            {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
-            <span class="oracle-unit">cursor</span>
-          </h1>
-          <span></span>
+          <div>
+            <IEcharts :option="option3" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-arrow-decision-outline</v-icon
+                >
+              </template>
+              <span>Process</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">User Commit Per Sec</span>
+            <div>
+              <span class="oracle-status-name">User Commit Per Sec</span>
+            </div>
+            <h1>
+              {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
+              <span class="oracle-unit">commit</span>
+            </h1>
           </div>
-          <h1>
-            {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
-            <span class="oracle-unit">commit</span>
-          </h1>
-          <span></span>
+          <div>
+            <IEcharts :option="option4" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-arrow-decision-outline</v-icon
+                >
+              </template>
+              <span>Process</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
     </div>
@@ -106,118 +157,137 @@ export default {
       userCommitsPerSec: 0.83, //- 커밋 비율 (커밋 / 초)
 
       option1: {
-        title: {
-          text: "Executions",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
-        },
-        legend: {
-          data: ["executions"],
-          bottom: 0
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "executions",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       },
       option2: {
-        title: {
-          text: "TotalParseCount",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
-        legend: {
-          data: ["totalParseCount"],
-          bottom: 0
-        },
+
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "totalParseCount",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       },
       option3: {
-        title: {
-          text: "OpenCursors",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
-        legend: {
-          data: ["openCursors"],
-          bottom: 0
-        },
+
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "openCursors",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       },
       option4: {
-        title: {
-          text: "UserCommits",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
-        legend: {
-          data: ["userCommits"],
-          bottom: 0
-        },
+
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "userCommits",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       }
@@ -254,11 +324,42 @@ export default {
 .oracle-process .v-card:last-child {
   margin-right: 0px !important;
 }
-/* .oracle-data {
+.oracle-data {
   display: flex;
-} */
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
 .oracle-data h1 {
   margin-top: 5px;
   color: #6440e3;
+}
+.oracle-title-icon span {
+  color: var(--font-sub2-color);
+  font-size: 12px;
+}
+
+.oracle-title-icon .v-icon {
+  background: linear-gradient(
+    to bottom right,
+    var(--main-color),
+    var(--main-point-color)
+  );
+  border-radius: 100px;
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.oracle-title-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  margin-right: 15px;
 }
 </style>

@@ -1,47 +1,84 @@
 <template>
   <div style="height:15vh">
-    <!-- <h2>Oracle Memory</h2> -->
-    <v-icon size="20" color="var(--main-sub-color)">mdi-memory</v-icon>
-    <span> Memory </span>
-
     <div class="oracle-memory">
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Block Gets Per Sec</span>
+            <div>
+              <span class="oracle-status-name">Block Gets Per Sec</span>
+            </div>
+            <h1>
+              {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
+              <span class="oracle-unit">block</span>
+            </h1>
           </div>
-          <h1>
-            {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
-            <span class="oracle-unit">block</span>
-          </h1>
-          <span></span>
+          <div>
+            <IEcharts :option="option1" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-memory</v-icon
+                >
+              </template>
+              <span>Memory</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Logical Reads Per Sec</span>
+            <div>
+              <span class="oracle-status-name">Logical Reads Per Sec</span>
+            </div>
+            <h1>
+              {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
+              <span class="oracle-unit">reads</span>
+            </h1>
           </div>
-          <h1>
-            {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
-            <span class="oracle-unit">reads</span>
-          </h1>
-          <span></span>
+          <div>
+            <IEcharts :option="option2" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-memory</v-icon
+                >
+              </template>
+              <span>Memory</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <span class="oracle-status-name">Redo Generated Per Sec</span>
+            <div>
+              <span class="oracle-status-name">Redo Generated Per Sec</span>
+            </div>
+            <h1>
+              {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+              <span class="oracle-unit">byte</span>
+            </h1>
           </div>
-          <h1>
-            {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
-            <span class="oracle-unit">byte</span>
-          </h1>
-          <span></span>
+          <div>
+            <IEcharts :option="option3" />
+          </div>
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-memory</v-icon
+                >
+              </template>
+              <span>Memory</span>
+            </v-tooltip>
+          </div> -->
         </v-card-text>
       </v-card>
-      <OracleStorage />
     </div>
 
     <div v-if="false" class="oracle-memory-chart">
@@ -54,13 +91,11 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "OracleMemory",
   components: {
-    IEcharts,
-    OracleStorage
+    IEcharts
   },
   computed: {
     ...mapGetters("Oracle", [
@@ -87,89 +122,101 @@ export default {
       redoGeneratedPerSec: 792.25, //- 생성된 리두(바이트 / 초) T
 
       option1: {
-        title: {
-          text: "BlockGets",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
-        },
-        legend: {
-          data: ["BlockGets"],
-          bottom: 0
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "BlockGets",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       },
       option2: {
-        title: {
-          text: "LogicalReads",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
-        },
-        legend: {
-          data: ["logicalReads"],
-          bottom: 0
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "logicalReads",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       },
       option3: {
-        title: {
-          text: "RedoGenerated",
-          subtext: "PerSec"
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         yAxis: {
-          type: "value"
-        },
-        legend: {
-          data: ["redoGenerated"],
-          bottom: 0
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
         },
         series: [
           {
             name: "redoGenerated",
             data: [],
             type: "line",
-            color: "#2196F3"
+            color: "#2196F3",
+            showSymbol: false
           }
         ]
       }
@@ -191,7 +238,7 @@ export default {
 }
 .oracle-memory {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   height: 90%;
 }

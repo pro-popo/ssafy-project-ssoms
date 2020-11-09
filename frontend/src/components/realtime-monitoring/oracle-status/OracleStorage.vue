@@ -1,14 +1,27 @@
 <template>
-  <v-card>
-    <div style="margin-top:-25px">
-      <v-icon size="20" color="var(--main-sub-color)"
-        >mdi-file-cog-outline</v-icon
-      >
-      <span> File </span>
-    </div>
-    <div class="oracle-storage-chart">
-      <IEcharts :option="option" />
-    </div>
+  <v-card elevation="2">
+    <v-card-text class="oracle-storage">
+      <div class="oracle-title-icon">
+        <!-- <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on" size="23" dark
+              >mdi-file-cog-outline</v-icon
+            >
+          </template>
+          <span>File</span>
+        </v-tooltip> -->
+      </div>
+      <div class="oracle-storage-chart">
+        <div style="display:flex; justify-content: space-between;">
+          <div>
+            <v-icon color="var(--main-sub-color)">mdi-file-cog-outline</v-icon>
+            <span class="oracle-status-name"> File</span>
+          </div>
+          <span style="font-size:12px">단위: mb</span>
+        </div>
+        <IEcharts :option="option" class="oracle-chart" />
+      </div>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -49,7 +62,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["Physical Reads", "Physical Writes"]
+          data: ["Physical Reads", "Physical Writes"],
+          bottom: 0
         },
         tooltip: {
           trigger: "axis"
@@ -84,4 +98,11 @@ export default {
   margin-bottom: 30px;
   color: var(--font-sub2-color);
 } */
+.oracle-storage {
+  height: 100%;
+}
+.oracle-storage-chart {
+  height: 100%;
+  width: 100%;
+}
 </style>

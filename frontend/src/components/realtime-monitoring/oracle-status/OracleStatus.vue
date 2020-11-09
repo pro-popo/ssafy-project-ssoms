@@ -21,4 +21,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.oracle-chart {
+  top: -30px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: initial;
+  height: 100%;
+  width: 90%;
+}
+</style>

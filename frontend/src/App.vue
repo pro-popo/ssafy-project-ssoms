@@ -29,7 +29,7 @@ export default {
 
 <style>
 :root {
-  --main-color: #273896;
+  --main-color: #034ea2;
   --main-sub-color: #4b74aa;
   --main-point-color: #3d2985;
   --font-main-color: #2b2b2b;
