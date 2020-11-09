@@ -9,14 +9,15 @@
             <div>
               <span class="oracle-status-name">Executions Per Sec</span>
             </div>
-            <h1>
-              {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
-              <span class="oracle-unit">%</span>
-            </h1>
+            <div style="display:flex">
+              <h1>
+                {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
+                <span class="oracle-unit">%</span>
+              </h1>
+              <!-- <IEcharts :option="option1" class="small-chart" /> -->
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option1" />
-          </div>
+          <div><IEcharts :option="option1" /></div>
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -142,6 +143,7 @@ export default {
       this.option1.xAxis.data = this.getRealTimeList;
       this.option2.xAxis.data = this.getRealTimeList;
       this.option3.xAxis.data = this.getRealTimeList;
+      this.option4.xAxis.data = this.getRealTimeList;
 
       this.option1.series[0].data = this.getExecutionsPerSec;
       this.option2.series[0].data = this.getTotalParseCountPerSec;
@@ -361,5 +363,14 @@ export default {
   align-items: center;
   width: 15%;
   margin-right: 15px;
+}
+.small-chart {
+  height: 120px !important;
+  width: 100px !important;
+  /* top: -30px !important; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: initial;
 }
 </style>
