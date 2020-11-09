@@ -14,8 +14,8 @@ public class OracleStatusEntity {
 	private double databaseCpuTimeRatio;
 	private double databaseWaitTimeRatio;
 	private double activeSerialSessions;
-	private double dbBlockGetsPerUserCall;
-	private double logicalReadsPerUserCall;
+	private double dbBlockGetsPerSec;
+	private double logicalReadsPerSec;
 	private double redoGeneratedPerSec;
 	private double executionsPerSec;
 	private double totalParseCountPerSec;

@@ -31,7 +31,7 @@
           >
             <td>{{ index + 1 }}</td>
             <td>{{ query.sqlId }}</td>
-            <td>{{ query.sql }}</td>
+            <td align="left">{{ query.sql }}</td>
             <td>{{ query.parsingSchemaName }}</td>
           </tr>
         </tbody>

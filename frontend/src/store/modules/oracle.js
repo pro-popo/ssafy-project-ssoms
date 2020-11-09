@@ -10,8 +10,8 @@ const Oracle = {
       databaseWaitTimeRatio: [],
       activeSerialSessions: [],
 
-      dbBlockGetsPerUserCall: [],
-      logicalReadsPerUserCall: [],
+      dbBlockGetsPerSec: [],
+      logicalReadsPerSec: [],
       redoGeneratedPerSec: [],
 
       executionsPerSec: [],
@@ -33,10 +33,8 @@ const Oracle = {
     getActiveSerialSessions: (state) =>
       state.oracleStatue["activeSerialSessions"],
 
-    getDbBlockGetsPerUserCall: (state) =>
-      state.oracleStatue["dbBlockGetsPerUserCall"],
-    getLogicalReadsPerUserCall: (state) =>
-      state.oracleStatue["logicalReadsPerUserCall"],
+    getDbBlockGetsPerSec: (state) => state.oracleStatue["dbBlockGetsPerSec"],
+    getLogicalReadsPerSec: (state) => state.oracleStatue["logicalReadsPerSec"],
     getRedoGeneratedPerSec: (state) =>
       state.oracleStatue["redoGeneratedPerSec"],
 
@@ -55,6 +53,9 @@ const Oracle = {
   },
   mutations: {
     SET_ORACLE_STATUS_LIST(state, data) {
+      for (const [key] of Object.entries(state.oracleStatue)) {
+        console.log(key + " : ");
+      }
       if (state.oracleStatue["databaseCpuTimeRatio"].length > 12) {
         for (const [key] of Object.entries(data)) {
           state.oracleStatue[`${key}`].shift();

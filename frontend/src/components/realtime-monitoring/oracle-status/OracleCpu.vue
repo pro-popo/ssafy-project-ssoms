@@ -2,19 +2,27 @@
   <div>
     <div class="oracle-cpu">
       <div class="oracle-cpu-card1">
-        <v-card elevation="1">
+        <v-card elevation="2">
           <v-card-text style="height:100%">
             <div v-if="true" style="height:100%">
               <div>
-                <v-icon>mdi-desktop-classic</v-icon>
-                <span> CpuTime & WaitTime Ratio</span>
+                <v-icon color="var(--main-sub-color)"
+                  >mdi-desktop-classic</v-icon
+                >
+                <span class="oracle-status-name">
+                  CpuTime & WaitTime Ratio</span
+                >
               </div>
               <IEcharts :option="line" />
             </div>
             <div v-if="false" style="height:100%">
               <div>
-                <v-icon>mdi-desktop-classic</v-icon>
-                <span> CpuTime & WaitTime Ratio</span>
+                <v-icon color="var(--main-sub-color)"
+                  >mdi-desktop-classic</v-icon
+                >
+                <span class="oracle-status-name">
+                  CpuTime & WaitTime Ratio</span
+                >
               </div>
               <IEcharts :option="pie" />
             </div>
@@ -22,29 +30,37 @@
         </v-card>
       </div>
       <div class="oracle-cpu-card2">
-        <v-card elevation="1">
+        <v-card elevation="2">
           <v-card-text class="oracle-cpu-data">
+            <v-icon color="white">mdi-timeline-clock</v-icon>
             <div>
-              <v-icon>mdi-responsive</v-icon>
-              <span> Response Time Per Transaction</span>
+              <span class="oracle-status-name">
+                Response Time Per Transaction</span
+              >
+              <h1>
+                {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
+                <span class="oracle-unit">sec</span>
+              </h1>
+              <span></span>
             </div>
-            <h1>
-              {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
-              <span>sec</span>
-            </h1>
+            <span></span>
           </v-card-text>
         </v-card>
 
-        <v-card elevation="1">
+        <v-card elevation="2">
           <v-card-text class="oracle-cpu-data">
+            <v-icon color="white">mdi-connection</v-icon>
             <div>
-              <v-icon>mdi-connection</v-icon>
-              <span> Active Serial Sessions </span>
+              <span class="oracle-status-name"> Active Serial Sessions </span>
+              <h1>
+                {{
+                  getActiveSerialSessions[getActiveSerialSessions.length - 1]
+                }}
+                <span class="oracle-unit">count</span>
+              </h1>
+              <span></span>
             </div>
-            <h1>
-              {{ getActiveSerialSessions[getActiveSerialSessions.length - 1] }}
-              <span>cnt</span>
-            </h1>
+            <span></span>
           </v-card-text>
         </v-card>
       </div>
@@ -89,6 +105,8 @@ export default {
       activeSerialSessions: [],
 
       line: {
+        color: ["#2196F3", "#4CAF50"],
+
         // title: { text: "Storage" },
         xAxis: {
           type: "category",
@@ -109,15 +127,13 @@ export default {
           {
             name: "CpuTime Ratio",
             data: [],
-            type: "line",
-            color: "#2196F3"
+            type: "line"
           },
           {
             name: "WaitTime Ratio",
             data: [],
             areaStyle: "",
-            type: "line",
-            color: "#4CAF50"
+            type: "line"
           }
         ]
       },
@@ -219,5 +235,34 @@ export default {
 }
 
 .oracle-cpu-data {
+  height: 100%;
+  display: flex;
+}
+.oracle-cpu-data > .v-icon {
+  width: 10vh;
+  height: 100%;
+  background: linear-gradient(
+    to bottom right,
+    var(--main-color),
+    var(--main-point-color)
+  );
+  border-radius: 8px;
+  margin-right: 16px;
+  font-size: 1.5rem;
+}
+.oracle-cpu-data div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.oracle-cpu-data h1 {
+  margin-top: 5px;
+  color: #6440e3;
+}
+.oracle-unit {
+  font-size: 1.4rem;
+  color: var(--main-point-color);
 }
 </style>

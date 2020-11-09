@@ -15,7 +15,7 @@
           {{
             schema.userID
           }}
-          <button @click="setSettingsSchema(schema.userID)">삭제</button>
+          <button @click="deleteSchema(schema.userID)">삭제</button>
         </ol>
         <hr />
       </div>
@@ -33,7 +33,7 @@
     <v-btn
       color="primary"
       class="setting-schema-save-button"
-      @click="setSettingsSchema(1)"
+      @click="saveSchema"
     >
       저장
     </v-btn>
@@ -53,45 +53,24 @@ export default {
     };
   },
   methods: {
-    setSettingsSchema(type) {
-      // var checkDuplicate = 0;
-      // for (var i = 0; i < this.schemaList.length; i++) {
-      //   if (this.schemaList[i].userID === this.userID) {
-      //     checkDuplicate = 1;
-      //   }
-      // }
-      // if (checkDuplicate === 0) {
-      if (type === 1) {
-        this.schemaList.push({ userID: this.userID });
-      } else {
-        const itemToFind = this.schemaList.find(function(item) {
-          return item.userID === type;
-        });
-        const idx = this.schemaList.indexOf(itemToFind);
-        if (idx > -1) {
-          this.schemaList.splice(idx, 1);
-        }
+    deleteSchema(schemaId) {
+      const itemToFind = this.schemaList.find(function(item) {
+        return item.userID === schemaId;
+      });
+      const idx = this.schemaList.indexOf(itemToFind);
+      if (idx > -1) {
+        this.schemaList.splice(idx, 1);
       }
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
         .then((res) => {
           console.log(res.data.result);
           if (res.data.result === "saveSuccess") {
-            console.log("check");
-            console.log("2", this.checkSettingsSchema());
+            alert("스키마가 성공적으로 삭제되었습니다.");
           }
           this.userID = "";
-          if (type === 1) {
-            alert("저장하였습니다.");
-          } else {
-            alert("삭제하였습니다.");
-          }
         })
-        .catch(() => console.log("실패"));
-      // } else {
-      //   this.userID = "";
-      //   alert("중복된 값이 있습니다.");
-      // }
+        .catch((err) => console.log(err));
     },
     getSettingsSchema() {
       axios
@@ -101,7 +80,8 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    checkSettingsSchema() {
+    saveSchema() {
+      // 중복 및 존재여부 확인
       axios
         .post(SERVER.URL + SERVER.ROUTES.checkSettingsSchema, {
           userID: this.userID
@@ -109,16 +89,28 @@ export default {
         .then((res) => {
           console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
-            console.log("테스트");
-            return "duplicate";
+            alert("중복된 스키마 ID 입니다.");
           } else if (res.data.result === "notExist") {
-            return "notExist";
+            alert("DB에 존재하지 않는 스키마 ID 입니다.");
           } else if (res.data.result === "success") {
-            return "success";
-          } else {
-            return "success";
+            // 조건 만족 후, 스키마 저장
+            this.schemaList.push({ userID: this.userID });
+            axios
+              .post(
+                SERVER.URL + SERVER.ROUTES.setSettingsSchema,
+                this.schemaList
+              )
+              .then((res) => {
+                console.log(res.data.result);
+                if (res.data.result === "saveSuccess") {
+                  alert("스키마를 성공적으로 추가하였습니다.");
+                }
+                this.userID = "";
+              })
+              .catch(() => console.log("실패"));
           }
-        });
+        })
+        .catch((err) => console.log(err));
     }
   },
   created() {

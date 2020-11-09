@@ -1,9 +1,50 @@
 <template>
-  <div>
-    <h2>Oracle Memory</h2>
+  <div style="height:15vh">
+    <!-- <h2>Oracle Memory</h2> -->
     <v-icon size="20" color="var(--main-sub-color)">mdi-memory</v-icon>
     <span> Memory </span>
-    <div class="oracle-memory-chart">
+
+    <div class="oracle-memory">
+      <v-card elevation="2">
+        <v-card-text class="oracle-data">
+          <div>
+            <span class="oracle-status-name">Block Gets Per Sec</span>
+          </div>
+          <h1>
+            {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
+            <span class="oracle-unit">block</span>
+          </h1>
+          <span></span>
+        </v-card-text>
+      </v-card>
+      <v-card elevation="2">
+        <v-card-text class="oracle-data">
+          <div>
+            <span class="oracle-status-name">Logical Reads Per Sec</span>
+          </div>
+          <h1>
+            {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
+            <span class="oracle-unit">reads</span>
+          </h1>
+          <span></span>
+        </v-card-text>
+      </v-card>
+      <v-card elevation="2">
+        <v-card-text class="oracle-data">
+          <div>
+            <span class="oracle-status-name">Redo Generated Per Sec</span>
+          </div>
+          <h1>
+            {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+            <span class="oracle-unit">byte</span>
+          </h1>
+          <span></span>
+        </v-card-text>
+      </v-card>
+      <OracleStorage />
+    </div>
+
+    <div v-if="false" class="oracle-memory-chart">
       <IEcharts :option="option1" />
       <IEcharts :option="option2" />
       <IEcharts :option="option3" />
@@ -13,27 +54,29 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
+import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "OracleMemory",
   components: {
-    IEcharts
+    IEcharts,
+    OracleStorage
   },
   computed: {
     ...mapGetters("Oracle", [
-      "getDbBlockGetsPerUserCall",
-      "getLogicalReadsPerUserCall",
+      "getDbBlockGetsPerSec",
+      "getLogicalReadsPerSec",
       "getRedoGeneratedPerSec"
     ]),
     ...mapGetters(["getRealTimeList"])
   },
   watch: {
-    getDbBlockGetsPerUserCall: function() {
+    getDbBlockGetsPerSec: function() {
       this.option1.xAxis.data = this.getRealTimeList;
       this.option2.xAxis.data = this.getRealTimeList;
       this.option3.xAxis.data = this.getRealTimeList;
-      this.option1.series[0].data = this.getDbBlockGetsPerUserCall;
-      this.option2.series[0].data = this.getLogicalReadsPerUserCall;
+      this.option1.series[0].data = this.getDbBlockGetsPerSec;
+      this.option2.series[0].data = this.getLogicalReadsPerSec;
       this.option3.series[0].data = this.getRedoGeneratedPerSec;
     }
   },
@@ -145,5 +188,21 @@ export default {
   padding: 10px;
   margin-bottom: 30px;
   color: var(--font-sub2-color);
+}
+.oracle-memory {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 90%;
+}
+.oracle-memory .v-card {
+  width: 25%;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.oracle-memory .v-card:last-child {
+  margin-right: 0px !important;
 }
 </style>
