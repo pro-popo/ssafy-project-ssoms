@@ -48,22 +48,13 @@
       </div> -->
       <hr class="oracle-line" />
     </form>
-
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          v-bind="attrs"
-          v-on="on"
-          color="primary"
-          class="setting-oracle-save-button1"
-          @click="checkConOracleDB"
-        >
-          연결 테스트
-        </v-btn>
-      </template>
-      <span>연결테스트 후에 저장할 수 있습니다.</span>
-    </v-tooltip>
-
+    <v-btn
+      color="primary"
+      class="setting-oracle-save-button1"
+      @click="checkConOracleDB"
+    >
+      연결 테스트
+    </v-btn>
     <v-btn
       color="primary"
       class="setting-oracle-save-button2"
@@ -103,10 +94,10 @@ export default {
         oracleURL: "",
         oracleID: "",
         oraclePassword: "",
-        oracleSID: "",
+        oracleSID: ""
       },
       testString: "",
-      scheduler: true,
+      scheduler: true
     };
   },
   watch: {
@@ -114,8 +105,8 @@ export default {
       deep: true,
       handler() {
         this.saveDisable = true;
-      },
-    },
+      }
+    }
   },
   methods: {
     // 실시간 모니터링 (나중에 삭제 예정)
@@ -219,11 +210,11 @@ export default {
           })
           .catch((err) => console.log(err));
       }
-    },
+    }
   },
   created() {
     this.getSettingsOracleDB();
-  },
+  }
 };
 </script>
 
