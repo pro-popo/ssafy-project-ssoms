@@ -53,9 +53,6 @@ const Oracle = {
   },
   mutations: {
     SET_ORACLE_STATUS_LIST(state, data) {
-      for (const [key] of Object.entries(state.oracleStatue)) {
-        console.log(key + " : ");
-      }
       if (state.oracleStatue["databaseCpuTimeRatio"].length > 12) {
         for (const [key] of Object.entries(data)) {
           state.oracleStatue[`${key}`].shift();
