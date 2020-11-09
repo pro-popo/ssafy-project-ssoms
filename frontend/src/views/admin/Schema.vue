@@ -89,7 +89,7 @@ export default {
         .then((res) => {
           console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
-            alert("중복된 스키마 ID 입니다.");
+            alert("이미 존재하는 스키마 ID 입니다.");
           } else if (res.data.result === "notExist") {
             alert("DB에 존재하지 않는 스키마 ID 입니다.");
           } else if (res.data.result === "success") {
