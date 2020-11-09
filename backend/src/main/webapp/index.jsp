@@ -13,7 +13,7 @@
 <link href="css/app.4c4ba5a1.css" rel="preload" as="style">
 <link href="css/chunk-vendors.cc2fd4ad.css" rel="preload"
 	as="style">
-<link href="js/app.df44db16.js" rel="preload" as="script">
+<link href="js/app.f7b8ba6b.js" rel="preload" as="script">
 <link href="js/chunk-vendors.ad1ceeb9.js" rel="preload"
 	as="script">
 <link href="css/chunk-vendors.cc2fd4ad.css" rel="stylesheet">
@@ -26,6 +26,6 @@
 	</noscript>
 	<div id="app"></div>
 	<script src="js/chunk-vendors.ad1ceeb9.js"></script>
-	<script src="js/app.df44db16.js"></script>
+	<script src="js/app.f7b8ba6b.js"></script>
 </body>
 </html>
