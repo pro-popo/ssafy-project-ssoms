@@ -129,6 +129,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 			schemaInfoDTOList.add(schemaInfoDTO);
 			schemas.put(schemaName, schemaInfoDTO);
 		}
+
+        stopWatch.stop();
+		System.out.println(stopWatch.getTotalTimeSeconds());
 		realTimeMonitoringDTO.setSchemas(schemaInfoDTOList);
 		map.put("schemas", schemas);
 		
@@ -156,8 +159,6 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
         	// 30일 저장 logic
         }
         
-        stopWatch.stop();
-		System.out.println(stopWatch.getTotalTimeSeconds());
 	}
 	
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {
