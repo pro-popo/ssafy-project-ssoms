@@ -18,20 +18,30 @@ import com.sdi.monitoring.model.oracle.dto.SchemaInfoDTO;
 import com.sdi.monitoring.model.oracle.dto.SchemaQueryDTO;
 import com.sdi.monitoring.model.oracle.dto.SchemaStasticsDTO;
 import com.sdi.monitoring.model.oracle.dto.UsedBySchemaDTO;
+import com.sdi.monitoring.model.oracle.entity.OneDayMonitoringEntity;
+import com.sdi.monitoring.model.oracle.entity.OneHourMonitoringEntity;
+import com.sdi.monitoring.model.oracle.entity.OneMonthMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.OracleStatusEntity;
 import com.sdi.monitoring.model.oracle.entity.RealTimeMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaInfoEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaQueryEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaStasticsEntity;
+import com.sdi.monitoring.model.oracle.entity.SevenDaysMonitoringEntity;
+import com.sdi.monitoring.model.oracle.entity.SixHoursMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.UsedBySchemaEntity;
+import com.sdi.monitoring.model.oracle.repository.OneDayMonitoringMongoRepo;
+import com.sdi.monitoring.model.oracle.repository.OneHourMonitoringMongoRepo;
+import com.sdi.monitoring.model.oracle.repository.OneMonthMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.OracleRepoImpl;
 import com.sdi.monitoring.model.oracle.repository.RealTimeMonitoringMongoRepo;
+import com.sdi.monitoring.model.oracle.repository.SevenDaysMonitoringMongoRepo;
+import com.sdi.monitoring.model.oracle.repository.SixHoursMonitoringMongoRepo;
 import com.sdi.monitoring.util.JsonParser;
 import com.sdi.monitoring.util.Scheduler;
 
 @Service
 public class OracleSchedulingServiceImpl implements OracleSchedulingService{
-	
+	private static int cnt = 0;
 	@Autowired
     Scheduler scheduler;
 	
@@ -39,9 +49,24 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	private OracleRepoImpl oracleRepoImpl;
 	
 	@Autowired
-	private RealTimeMonitoringMongoRepo rtmRepo;
+	private RealTimeMonitoringMongoRepo realTimeMonitoringMongoRepo;
+
+	@Autowired
+	private OneHourMonitoringMongoRepo oneHourMonitoringMongoRepo;
 	
-	private SimpMessagingTemplate messagingTemplate; 
+	@Autowired
+	private SixHoursMonitoringMongoRepo sixHoursMonitoringMongoRepo;
+	
+	@Autowired
+	private OneDayMonitoringMongoRepo oneDayMonitoringMongoRepo;
+	
+	@Autowired
+	private SevenDaysMonitoringMongoRepo sevenDaysMonitoringMongoRepo;
+	
+	@Autowired
+	private OneMonthMonitoringMongoRepo oneMonthMonitoringMongoRepo;
+	
+	private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
     public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
@@ -51,21 +76,23 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
     @Override
     public boolean hasScheduler() {
     	return scheduler.hasScheduler();
-    	
     }
     
 	@Override
 	public boolean start() {
+		cnt = 0;
 		return scheduler.startScheduler();
 	}
 	
 	@Override
 	public boolean stop() {
+		cnt = 0;
 		return scheduler.stopScheduler();
 	}
 	
 	@Override
 	public void sampleMethod() {
+		cnt++;
 		List<String> schemaList = JsonParser.getSchemaInfo();
 		StopWatch stopWatch = new StopWatch();
 	    stopWatch.start();
@@ -81,11 +108,11 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		realTimeMonitoringDTO.setOracleStatus(oracleRepoImpl.findOracleStastics());
 		map.put("oracleStatus", realTimeMonitoringDTO.getOracleStatus());
 		
-		System.out.println("========== 전체 스키마 정보 ==========");
+//		System.out.println("========== 전체 스키마 정보 ==========");
 		realTimeMonitoringDTO.setAllSchemaStastics(oracleRepoImpl.findAllSchemaStastics(schemaList));
 		map.put("allSchemaStastics", realTimeMonitoringDTO.getAllSchemaStastics());
 		
-		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
+//		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
 		realTimeMonitoringDTO.setAllSchemaQueryInfo(oracleRepoImpl.findAllSchemaQueryInfo(schemaList));
 		map.put("allSchemaQueryInfo", realTimeMonitoringDTO.getAllSchemaQueryInfo());
 		
@@ -93,11 +120,11 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		List<SchemaInfoDTO> schemaInfoDTOList = new ArrayList<SchemaInfoDTO>();
 		for(String schemaName : schemaList) {
 			SchemaInfoDTO schemaInfoDTO = new SchemaInfoDTO();
-			System.out.println("========== " + schemaName + ":: cpu 대비 스키마별 top query ==========");
+//			System.out.println("========== " + schemaName + ":: cpu 대비 스키마별 top query ==========");
 			schemaInfoDTO.setCpuUsed(oracleRepoImpl.findCpuUsedBySchema(schemaName));
-			System.out.println("========== " + schemaName + ":: 실행시간 대비 스키마별 top query ==========");
+//			System.out.println("========== " + schemaName + ":: 실행시간 대비 스키마별 top query ==========");
 			schemaInfoDTO.setElapsedTime(oracleRepoImpl.findElapsedTimeBySchema(schemaName));
-			System.out.println("========== " + schemaName + ":: 리소스 대비 스키마별 top query ==========");
+//			System.out.println("========== " + schemaName + ":: 리소스 대비 스키마별 top query ==========");
 			schemaInfoDTO.setBufferGets(oracleRepoImpl.findBufferGetsBySchema(schemaName));
 			schemaInfoDTOList.add(schemaInfoDTO);
 			schemas.put(schemaName, schemaInfoDTO);
@@ -106,7 +133,29 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		map.put("schemas", schemas);
 		
         messagingTemplate.convertAndSend("/sendData/schedulerM", map);
-        rtmRepo.insert(realTimeMonitoringEntityBuilder(realTimeMonitoringDTO));
+        RealTimeMonitoringEntity realTimeMonitoringEntity = realTimeMonitoringEntityBuilder(realTimeMonitoringDTO);
+        realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
+        if(cnt % (12) == 0) {
+        	oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));
+        	// 1시간 저장 logic
+        }
+        if(cnt % (12 * 6) == 0) {
+        	sixHoursMonitoringMongoRepo.insert(sixHoursMonitoringEntityBuilder(realTimeMonitoringEntity));
+        	// 6시간 저장 logic
+        }
+        if(cnt % (12 * 6 * 4) == 0) {
+        	oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
+        	// 1일 저장 logic
+        }
+        if(cnt % (12 * 6 * 4 * 7) == 0) {
+        	sevenDaysMonitoringMongoRepo.insert(sevenDaysMonitoringEntityBuilder(realTimeMonitoringEntity));
+        	// 7일 저장 logic
+        }
+        if(cnt % (12 * 6 * 4 * 30) == 0) {
+        	oneMonthMonitoringMongoRepo.insert(oneMonthMonitoringEntityBuilder(realTimeMonitoringEntity));
+        	// 30일 저장 logic
+        }
+        
         stopWatch.stop();
 		System.out.println(stopWatch.getTotalTimeSeconds());
 	}
@@ -196,7 +245,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 				.bufferGets(bufferGetslist)
 				.build();
 	}
-
+	
 	private RealTimeMonitoringEntity realTimeMonitoringEntityBuilder(RealTimeMonitoringDTO realTimeMonitoringDTO) {
 		List<SchemaStasticsEntity> schemaStasticslist = new ArrayList<>();
 		int size = realTimeMonitoringDTO.getAllSchemaStastics().size();
@@ -225,5 +274,54 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 				.build();
 	}
 	
+	private OneHourMonitoringEntity oneHourMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
+		return OneHourMonitoringEntity.builder()
+				.time(realTimeMonitoringEntity.getTime())
+				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
+				.schemas(realTimeMonitoringEntity.getSchemas())
+				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
+				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
+				.build();
+	}
+	
+	private SixHoursMonitoringEntity sixHoursMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
+		return SixHoursMonitoringEntity.builder()
+				.time(realTimeMonitoringEntity.getTime())
+				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
+				.schemas(realTimeMonitoringEntity.getSchemas())
+				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
+				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
+				.build();
+	}
+	
+	private OneDayMonitoringEntity oneDayMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
+		return OneDayMonitoringEntity.builder()
+				.time(realTimeMonitoringEntity.getTime())
+				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
+				.schemas(realTimeMonitoringEntity.getSchemas())
+				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
+				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
+				.build();
+	}
+	
+	private SevenDaysMonitoringEntity sevenDaysMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
+		return SevenDaysMonitoringEntity.builder()
+				.time(realTimeMonitoringEntity.getTime())
+				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
+				.schemas(realTimeMonitoringEntity.getSchemas())
+				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
+				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
+				.build();
+	}
+	
+	private OneMonthMonitoringEntity oneMonthMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
+		return OneMonthMonitoringEntity.builder()
+				.time(realTimeMonitoringEntity.getTime())
+				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
+				.schemas(realTimeMonitoringEntity.getSchemas())
+				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
+				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
+				.build();
+	}
 	
 }

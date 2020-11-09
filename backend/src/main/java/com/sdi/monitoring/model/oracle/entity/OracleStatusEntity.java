@@ -1,7 +1,5 @@
 package com.sdi.monitoring.model.oracle.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-@Document("realtimedata")
 public class OracleStatusEntity {
 	private double databaseCpuTimeRatio;
 	private double databaseWaitTimeRatio;
