@@ -1,9 +1,9 @@
 <template>
-  <div class="realtime-top-box">
+  <div>
     <v-simple-table
       fixed-header
       height="300px"
-      class="elevation-10 realtime-top-query"
+      class="elevation-2 realtime-top-query"
     >
       <template v-slot:default>
         <thead>
@@ -63,14 +63,9 @@ export default {
 </script>
 
 <style>
-.realtime-top-box {
-  text-align: center;
-  height: 30%;
-}
 .realtime-top-query {
-  margin-bottom: 30px;
   display: inline-block;
-  width: 75%;
+  width: 100%;
 }
 .real-query-hover:hover {
   cursor: pointer;

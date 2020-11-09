@@ -1,26 +1,37 @@
 <template>
-  <div class="schema-chart-box">
-    <!-- <div>
-      <h2>테스트</h2> -->
-    <v-card elevation="10">
-      <IEcharts :option="option1" />
-    </v-card>
-    <!-- </div> -->
-    <v-card elevation="10">
-      <IEcharts :option="option2" />
-    </v-card>
-    <v-card elevation="10">
-      <IEcharts :option="option3" />
-    </v-card>
-    <!-- <v-card elevation="10">
+  <div>
+    <h2>Schema Status</h2>
+    <div class="schema-chart-box">
+      <div>
+        <h4>Executions(times)</h4>
+        <v-card elevation="2" class="schema-chart-size">
+          <IEcharts :option="option1" />
+        </v-card>
+      </div>
+      <div>
+        <h4>CpuTimeTotal(%)</h4>
+        <v-card elevation="2" class="schema-chart-size">
+          <IEcharts :option="option2" />
+        </v-card>
+      </div>
+      <div>
+        <h4>ElapsedTimeTotal(%)</h4>
+        <v-card elevation="2" class="schema-chart-size">
+          <IEcharts :option="option3" />
+        </v-card>
+      </div>
+      <!-- <v-card elevation="10">
       <IEcharts :option="option4" />
     </v-card> -->
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import IEcharts from "vue-echarts-v3/src/full.js";
+import axios from "axios";
+import SERVER from "@/api/spring.js";
 
 export default {
   name: "AllSchemaStastice",
@@ -204,28 +215,30 @@ export default {
     }
   },
   created() {
-    for (var i = 0; i < 5; i++) {
-      this.option1.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-      this.option2.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-      this.option3.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-      this.option4.series.push({
-        name: "",
-        type: "line",
-        data: []
-      });
-    }
+    axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then((res) => {
+      for (var i = 0; i < res.data.map.schema.length; i++) {
+        this.option1.series.push({
+          name: "",
+          type: "line",
+          data: []
+        });
+        this.option2.series.push({
+          name: "",
+          type: "line",
+          data: []
+        });
+        this.option3.series.push({
+          name: "",
+          type: "line",
+          data: []
+        });
+        this.option4.series.push({
+          name: "",
+          type: "line",
+          data: []
+        });
+      }
+    });
   }
 };
 </script>
@@ -234,11 +247,13 @@ export default {
 .schema-chart-box {
   display: flex;
   justify-content: space-between;
-  margin: 20px 0px;
-  height: 250px;
+  height: 300px;
 }
 .schema-chart-box > div {
   width: 22%;
   min-width: 220px;
+}
+.schema-chart-size {
+  height: 250px;
 }
 </style>

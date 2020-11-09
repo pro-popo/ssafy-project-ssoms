@@ -5,8 +5,12 @@
     </div>
     <OracleStatus />
     <AllSchemaStastics />
-    <AllSchemaTopQuery />
-    <AllSchemaTopQueryDetail v-if="getTopQueryDetail" />
+    <v-divider></v-divider>
+    <h2 class="mb-2 mt-2">Top Query</h2>
+    <div class="realtime-top-query-outer">
+      <AllSchemaTopQuery class="top-query-left" />
+      <AllSchemaTopQueryDetail class="top-query-right" />
+    </div>
   </div>
 </template>
 
@@ -26,10 +30,21 @@ export default {
     AllSchemaStastics
   },
   computed: {
-    ...mapGetters(["getRealTime"]),
-    ...mapGetters("TopQuery", ["getTopQueryDetail"])
+    ...mapGetters(["getRealTime"])
   }
 };
 </script>
 
-<style></style>
+<style>
+.realtime-top-query-outer {
+  display: flex;
+  justify-content: space-between;
+}
+.top-query-left {
+  width: 65%;
+}
+.top-query-right {
+  width: 30%;
+  margin: auto 0px;
+}
+</style>
