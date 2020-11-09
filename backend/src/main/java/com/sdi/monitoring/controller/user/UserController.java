@@ -29,8 +29,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private OracleSchedulingService oss;
+//	@Autowired
+//	private OracleSchedulingService oss;
 	
 	@GetMapping("/logout/{email}")
 	public ResponseEntity logout(@PathVariable(name = "email") String email, HttpServletRequest httpServletRequest) {
@@ -48,7 +48,7 @@ public class UserController {
 //			response = new ResponseEntity<>(result, HttpStatus.OK);
 //			return response;
 //		}
-		oss.stop();
+//		oss.stop();
 		result.status = true;
 		result.result = "success";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
