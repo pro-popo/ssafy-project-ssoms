@@ -99,7 +99,8 @@ export default {
           },
 
           max: function(item) {
-            if (item.max.toFixed(1) < item.max)
+            if (item.max < 0.1) return item.max;
+            else if (item.max.toFixed(1) < item.max)
               return item.max.toFixed(1) + 0.1;
             else return item.max.toFixed(1);
           },

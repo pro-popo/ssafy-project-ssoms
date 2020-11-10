@@ -1,23 +1,35 @@
 <template>
   <div style="height:15vh; margin:20px 0px 10px 0px">
-    <!-- <h2>Oracle Process</h2> -->
-
     <div class="oracle-process">
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
-              <span class="oracle-status-name">Executions Per Sec</span>
-            </div>
             <div style="display:flex">
+              <span class="oracle-status-name">Executions Per Sec</span>
+              <div
+                :class="
+                  changedExecutions > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedExecutions > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedExecutions <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedExecutions }}</span>
+              </div>
+            </div>
+            <div style="display:flex;">
               <h1>
                 {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
                 <span class="oracle-unit">%</span>
               </h1>
-              <IEcharts :option="option1" />
+              <div style="height:30%">
+                <IEcharts :option="option1" class="small-chart" />
+              </div>
             </div>
           </div>
-          <!-- <div><IEcharts :option="option1" /></div> -->
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -36,16 +48,19 @@
             <div>
               <span class="oracle-status-name">Total Parse Count Per Sec</span>
             </div>
-            <h1>
-              {{
-                getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
-              }}
-              <span class="oracle-unit">count</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{
+                  getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
+                }}
+                <span class="oracle-unit">count</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option2" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option2" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -64,14 +79,17 @@
             <div>
               <span class="oracle-status-name">Open Cursors Per Sec</span>
             </div>
-            <h1>
-              {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
-              <span class="oracle-unit">cursor</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
+                <span class="oracle-unit">cursor</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option3" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option3" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -90,14 +108,17 @@
             <div>
               <span class="oracle-status-name">User Commit Per Sec</span>
             </div>
-            <h1>
-              {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
-              <span class="oracle-unit">commit</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
+                <span class="oracle-unit">commit</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option4" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option4" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -136,7 +157,14 @@ export default {
       "getOpenCursorsPerSec",
       "getUserCommitsPerSec"
     ]),
-    ...mapGetters(["getRealTimeList"])
+    ...mapGetters(["getRealTimeList"]),
+    changedExecutions: function() {
+      if (this.getExecutionsPerSec.length <= 1) return 0;
+      return (
+        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 2] -
+        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 1]
+      ).toFixed(2);
+    }
   },
   watch: {
     getExecutionsPerSec: function() {
@@ -158,6 +186,12 @@ export default {
       openCursorsPerSec: 1.44, // - 열린 커서 (커서 / 초)
       userCommitsPerSec: 0.83, //- 커밋 비율 (커밋 / 초)
       option1: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -185,62 +219,36 @@ export default {
             name: "executions",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
-      option1123: {
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: [],
-          splitLine: {
-            show: false
-          },
-          show: false
-        },
-        yAxis: {
-          type: "value",
-          splitLine: {
-            show: false
-          },
-          show: false
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "none"
-          }
-        },
-        series: [
-          {
-            name: "executions",
-            data: [],
-            type: "line",
-            color: "#2196F3",
-            showSymbol: false
-          }
-        ]
-      },
-      option2: {
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: [],
-          splitLine: {
-            show: false
-          },
-          show: false
-        },
-        yAxis: {
-          type: "value",
-          splitLine: {
-            show: false
-          },
-          show: false
-        },
 
+      option2: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        yAxis: {
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -252,12 +260,19 @@ export default {
             name: "totalParseCount",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option3: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -274,7 +289,6 @@ export default {
           },
           show: false
         },
-
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -286,12 +300,19 @@ export default {
             name: "openCursors",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option4: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -308,7 +329,6 @@ export default {
           },
           show: false
         },
-
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -320,8 +340,9 @@ export default {
             name: "userCommits",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       }
@@ -370,12 +391,23 @@ export default {
 }
 
 .small-chart {
-  height: 120px !important;
-  width: 100px !important;
-  /* top: -30px !important; */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  height: 25px !important;
+  width: 80px !important;
+
   position: initial;
+}
+
+.data-increase {
+  color: #ef5350;
+}
+.data-increase .v-icon {
+  color: #ef5350;
+}
+
+.data-decrease {
+  color: #8bc34a;
+}
+.data-decrease .v-icon {
+  color: #8bc34a;
 }
 </style>

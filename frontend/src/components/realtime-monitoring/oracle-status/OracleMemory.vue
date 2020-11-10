@@ -7,14 +7,17 @@
             <div>
               <span class="oracle-status-name">Block Gets Per Sec</span>
             </div>
-            <h1>
-              {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
-              <span class="oracle-unit">block</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
+                <span class="oracle-unit">block</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option1" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option1" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -33,14 +36,17 @@
             <div>
               <span class="oracle-status-name">Logical Reads Per Sec</span>
             </div>
-            <h1>
-              {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
-              <span class="oracle-unit">reads</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
+                <span class="oracle-unit">reads</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option2" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option2" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -59,14 +65,17 @@
             <div>
               <span class="oracle-status-name">Redo Generated Per Sec</span>
             </div>
-            <h1>
-              {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
-              <span class="oracle-unit">byte</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+                <span class="oracle-unit">byte</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option3" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option3" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -122,6 +131,12 @@ export default {
       redoGeneratedPerSec: 792.25, //- 생성된 리두(바이트 / 초) T
 
       option1: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -149,12 +164,19 @@ export default {
             name: "BlockGets",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option2: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -182,12 +204,19 @@ export default {
             name: "logicalReads",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option3: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -215,8 +244,9 @@ export default {
             name: "redoGenerated",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       }
