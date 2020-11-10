@@ -16,7 +16,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Document("realtimedata")
 public class RealTimeMonitoringEntity {
-	@Id
 	private String time;
 	private OracleStatusEntity oracleStatus;
 	private List<SchemaInfoEntity> schemas;

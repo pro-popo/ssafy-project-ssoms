@@ -14,7 +14,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Document("sevendaysdata")
 public class SevenDaysMonitoringEntity {
-	@Id
 	private String time;
 	private OracleStatusEntity oracleStatus;
 	private List<SchemaInfoEntity> schemas;

@@ -51,7 +51,7 @@ public class OracleDataServiceImpl implements OracleDataService {
 	
 	@Override
 	public RealTimeMonitoringDTO findDataByTime(String date) {
-		Optional<RealTimeMonitoringEntity> optional = realTimeMonitoringMongoRepo.findById(date);
+		Optional<RealTimeMonitoringEntity> optional = realTimeMonitoringMongoRepo.findByTime(date);
 		if(optional.isPresent()) {
 			return realTimeMontoringEntityToDTO(optional.get());
 		}
