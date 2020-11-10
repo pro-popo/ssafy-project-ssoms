@@ -65,4 +65,24 @@ export default {
 .oracle-chart-menu {
   color: red;
 }
+.small-chart {
+  height: 25px !important;
+  width: 80px !important;
+
+  position: initial;
+}
+
+.data-increase {
+  color: #ef5350;
+}
+.data-increase .v-icon {
+  color: #ef5350;
+}
+
+.data-decrease {
+  color: #8bc34a;
+}
+.data-decrease .v-icon {
+  color: #8bc34a;
+}
 </style>

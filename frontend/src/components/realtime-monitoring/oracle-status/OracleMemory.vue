@@ -4,8 +4,26 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Block Gets Per Sec</span>
+              <div v-if="changedDbBlockGets == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedDbBlockGets > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedDbBlockGets > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedDbBlockGets <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedDbBlockGets }}</span>
+              </div>
             </div>
             <div style="display:flex;">
               <h1>
@@ -33,9 +51,28 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Logical Reads Per Sec</span>
+              <div v-if="changedLogicalReads == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedLogicalReads > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedLogicalReads > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedLogicalReads <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedLogicalReads }}</span>
+              </div>
             </div>
+
             <div style="display:flex;">
               <h1>
                 {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
@@ -62,8 +99,26 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Redo Generated Per Sec</span>
+              <div v-if="changedRedoGenerated == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedRedoGenerated > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedRedoGenerated > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedRedoGenerated <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedRedoGenerated }}</span>
+              </div>
             </div>
             <div style="display:flex;">
               <h1>
@@ -89,12 +144,6 @@
         </v-card-text>
       </v-card>
     </div>
-
-    <div v-if="false" class="oracle-memory-chart">
-      <IEcharts :option="option1" />
-      <IEcharts :option="option2" />
-      <IEcharts :option="option3" />
-    </div>
   </div>
 </template>
 
@@ -112,7 +161,28 @@ export default {
       "getLogicalReadsPerSec",
       "getRedoGeneratedPerSec"
     ]),
-    ...mapGetters(["getRealTimeList"])
+    ...mapGetters(["getRealTimeList"]),
+    changedDbBlockGets: function() {
+      if (this.getDbBlockGetsPerSec.length <= 1) return 0;
+      return (
+        this.getDbBlockGetsPerSec[this.getDbBlockGetsPerSec.length - 2] -
+        this.getDbBlockGetsPerSec[this.getDbBlockGetsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedLogicalReads: function() {
+      if (this.getLogicalReadsPerSec.length <= 1) return 0;
+      return (
+        this.getLogicalReadsPerSec[this.getLogicalReadsPerSec.length - 2] -
+        this.getLogicalReadsPerSec[this.getLogicalReadsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedRedoGenerated: function() {
+      if (this.getRedoGeneratedPerSec.length <= 1) return 0;
+      return (
+        this.getRedoGeneratedPerSec[this.getRedoGeneratedPerSec.length - 2] -
+        this.getRedoGeneratedPerSec[this.getRedoGeneratedPerSec.length - 1]
+      ).toFixed(2);
+    }
   },
   watch: {
     getDbBlockGetsPerSec: function() {

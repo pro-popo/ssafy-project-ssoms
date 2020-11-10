@@ -6,7 +6,12 @@
           <div>
             <div style="display:flex">
               <span class="oracle-status-name">Executions Per Sec</span>
+              <div v-if="changedExecutions == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
               <div
+                v-else
                 :class="
                   changedExecutions > 0 ? 'data-increase' : 'data-decrease'
                 "
@@ -45,8 +50,26 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Total Parse Count Per Sec</span>
+              <div v-if="changedTotalParseCount == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedTotalParseCount > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedTotalParseCount > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedTotalParseCount <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedTotalParseCount }}</span>
+              </div>
             </div>
             <div style="display:flex;">
               <h1>
@@ -76,8 +99,26 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Open Cursors Per Sec</span>
+              <div v-if="changedOpenCursors == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedOpenCursors > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedOpenCursors > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedOpenCursors <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedOpenCursors }}</span>
+              </div>
             </div>
             <div style="display:flex;">
               <h1>
@@ -105,8 +146,26 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">User Commit Per Sec</span>
+              <div v-if="changedUserCommits == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedUserCommits > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedUserCommits > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedUserCommits <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedUserCommits }}</span>
+              </div>
             </div>
             <div style="display:flex;">
               <h1>
@@ -131,12 +190,6 @@
           </div> -->
         </v-card-text>
       </v-card>
-    </div>
-    <div v-if="false" class="oracle-process-chart">
-      <IEcharts :option="option1" />
-      <IEcharts :option="option2" />
-      <IEcharts :option="option3" />
-      <IEcharts :option="option4" />
     </div>
   </div>
 </template>
@@ -163,6 +216,29 @@ export default {
       return (
         this.getExecutionsPerSec[this.getExecutionsPerSec.length - 2] -
         this.getExecutionsPerSec[this.getExecutionsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedTotalParseCount: function() {
+      if (this.getTotalParseCountPerSec.length <= 1) return 0;
+      return (
+        this.getTotalParseCountPerSec[
+          this.getTotalParseCountPerSec.length - 2
+        ] -
+        this.getTotalParseCountPerSec[this.getTotalParseCountPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedOpenCursors: function() {
+      if (this.getOpenCursorsPerSec.length <= 1) return 0;
+      return (
+        this.getOpenCursorsPerSec[this.getOpenCursorsPerSec.length - 2] -
+        this.getOpenCursorsPerSec[this.getOpenCursorsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedUserCommits: function() {
+      if (this.getUserCommitsPerSec.length <= 1) return 0;
+      return (
+        this.getUserCommitsPerSec[this.getUserCommitsPerSec.length - 2] -
+        this.getUserCommitsPerSec[this.getUserCommitsPerSec.length - 1]
       ).toFixed(2);
     }
   },
@@ -388,26 +464,5 @@ export default {
 .oracle-data h1 {
   margin-top: 5px;
   color: #6440e3;
-}
-
-.small-chart {
-  height: 25px !important;
-  width: 80px !important;
-
-  position: initial;
-}
-
-.data-increase {
-  color: #ef5350;
-}
-.data-increase .v-icon {
-  color: #ef5350;
-}
-
-.data-decrease {
-  color: #8bc34a;
-}
-.data-decrease .v-icon {
-  color: #8bc34a;
 }
 </style>
