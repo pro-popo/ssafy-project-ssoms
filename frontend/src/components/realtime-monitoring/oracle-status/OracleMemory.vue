@@ -4,87 +4,145 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Block Gets Per Sec</span>
+              <div v-if="changedDbBlockGets == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedDbBlockGets > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedDbBlockGets > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedDbBlockGets <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedDbBlockGets }}</span>
+              </div>
             </div>
-            <h1>
-              {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
-              <span class="oracle-unit">block</span>
-            </h1>
-          </div>
-          <div>
-            <IEcharts :option="option1" />
-          </div>
-          <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-memory</v-icon
-                >
-              </template>
-              <span>Memory</span>
-            </v-tooltip>
-          </div> -->
-        </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div>
-              <span class="oracle-status-name">Logical Reads Per Sec</span>
+            <div style="display:flex;">
+              <h1>
+                {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
+                <span class="oracle-unit">block</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option1" class="small-chart" />
+              </div>
             </div>
-            <h1>
-              {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
-              <span class="oracle-unit">reads</span>
-            </h1>
           </div>
-          <div>
-            <IEcharts :option="option2" />
-          </div>
-          <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-memory</v-icon
-                >
-              </template>
-              <span>Memory</span>
-            </v-tooltip>
-          </div> -->
-        </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div>
-              <span class="oracle-status-name">Redo Generated Per Sec</span>
-            </div>
-            <h1>
-              {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
-              <span class="oracle-unit">byte</span>
-            </h1>
-          </div>
-          <div>
-            <IEcharts :option="option3" />
-          </div>
-          <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-memory</v-icon
-                >
-              </template>
-              <span>Memory</span>
-            </v-tooltip>
-          </div> -->
-        </v-card-text>
-      </v-card>
-    </div>
 
-    <div v-if="false" class="oracle-memory-chart">
-      <IEcharts :option="option1" />
-      <IEcharts :option="option2" />
-      <IEcharts :option="option3" />
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-memory</v-icon
+                >
+              </template>
+              <span>Memory</span>
+            </v-tooltip>
+          </div> -->
+        </v-card-text>
+      </v-card>
+      <v-card elevation="2">
+        <v-card-text class="oracle-data">
+          <div>
+            <div style="display:flex">
+              <span class="oracle-status-name">Logical Reads Per Sec</span>
+              <div v-if="changedLogicalReads == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedLogicalReads > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedLogicalReads > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedLogicalReads <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedLogicalReads }}</span>
+              </div>
+            </div>
+
+            <div style="display:flex;">
+              <h1>
+                {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
+                <span class="oracle-unit">reads</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option2" class="small-chart" />
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-memory</v-icon
+                >
+              </template>
+              <span>Memory</span>
+            </v-tooltip>
+          </div> -->
+        </v-card-text>
+      </v-card>
+      <v-card elevation="2">
+        <v-card-text class="oracle-data">
+          <div>
+            <div style="display:flex">
+              <span class="oracle-status-name">Redo Generated Per Sec</span>
+              <div v-if="changedRedoGenerated == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedRedoGenerated > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedRedoGenerated > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedRedoGenerated <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedRedoGenerated }}</span>
+              </div>
+            </div>
+            <div style="display:flex;">
+              <h1>
+                {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+                <span class="oracle-unit">byte</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option3" class="small-chart" />
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="oracle-title-icon">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" size="25" dark
+                  >mdi-memory</v-icon
+                >
+              </template>
+              <span>Memory</span>
+            </v-tooltip>
+          </div> -->
+        </v-card-text>
+      </v-card>
     </div>
   </div>
 </template>
@@ -103,7 +161,28 @@ export default {
       "getLogicalReadsPerSec",
       "getRedoGeneratedPerSec"
     ]),
-    ...mapGetters(["getRealTimeList"])
+    ...mapGetters(["getRealTimeList"]),
+    changedDbBlockGets: function() {
+      if (this.getDbBlockGetsPerSec.length <= 1) return 0;
+      return (
+        this.getDbBlockGetsPerSec[this.getDbBlockGetsPerSec.length - 2] -
+        this.getDbBlockGetsPerSec[this.getDbBlockGetsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedLogicalReads: function() {
+      if (this.getLogicalReadsPerSec.length <= 1) return 0;
+      return (
+        this.getLogicalReadsPerSec[this.getLogicalReadsPerSec.length - 2] -
+        this.getLogicalReadsPerSec[this.getLogicalReadsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedRedoGenerated: function() {
+      if (this.getRedoGeneratedPerSec.length <= 1) return 0;
+      return (
+        this.getRedoGeneratedPerSec[this.getRedoGeneratedPerSec.length - 2] -
+        this.getRedoGeneratedPerSec[this.getRedoGeneratedPerSec.length - 1]
+      ).toFixed(2);
+    }
   },
   watch: {
     getDbBlockGetsPerSec: function() {
@@ -122,6 +201,12 @@ export default {
       redoGeneratedPerSec: 792.25, //- 생성된 리두(바이트 / 초) T
 
       option1: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -149,12 +234,19 @@ export default {
             name: "BlockGets",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option2: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -182,12 +274,19 @@ export default {
             name: "logicalReads",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option3: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -215,8 +314,9 @@ export default {
             name: "redoGenerated",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       }

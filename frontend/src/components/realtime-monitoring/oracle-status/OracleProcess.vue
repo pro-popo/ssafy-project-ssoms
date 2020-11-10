@@ -1,23 +1,40 @@
 <template>
   <div style="height:15vh; margin:20px 0px 10px 0px">
-    <!-- <h2>Oracle Process</h2> -->
-
     <div class="oracle-process">
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
-              <span class="oracle-status-name">Executions Per Sec</span>
-            </div>
             <div style="display:flex">
+              <span class="oracle-status-name">Executions Per Sec</span>
+              <div v-if="changedExecutions == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedExecutions > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedExecutions > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedExecutions <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedExecutions }}</span>
+              </div>
+            </div>
+            <div style="display:flex;">
               <h1>
                 {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
                 <span class="oracle-unit">%</span>
               </h1>
-              <!-- <IEcharts :option="option1" class="small-chart" /> -->
+              <div style="height:30%">
+                <IEcharts :option="option1" class="small-chart" />
+              </div>
             </div>
           </div>
-          <div><IEcharts :option="option1" /></div>
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -33,19 +50,40 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Total Parse Count Per Sec</span>
+              <div v-if="changedTotalParseCount == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedTotalParseCount > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedTotalParseCount > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedTotalParseCount <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedTotalParseCount }}</span>
+              </div>
             </div>
-            <h1>
-              {{
-                getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
-              }}
-              <span class="oracle-unit">count</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{
+                  getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
+                }}
+                <span class="oracle-unit">count</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option2" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option2" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -61,17 +99,38 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">Open Cursors Per Sec</span>
+              <div v-if="changedOpenCursors == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedOpenCursors > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedOpenCursors > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedOpenCursors <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedOpenCursors }}</span>
+              </div>
             </div>
-            <h1>
-              {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
-              <span class="oracle-unit">cursor</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
+                <span class="oracle-unit">cursor</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option3" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option3" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -87,17 +146,38 @@
       <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
-            <div>
+            <div style="display:flex">
               <span class="oracle-status-name">User Commit Per Sec</span>
+              <div v-if="changedUserCommits == 0">
+                <v-icon>mdi-menu-up</v-icon>
+                <span>0</span>
+              </div>
+              <div
+                v-else
+                :class="
+                  changedUserCommits > 0 ? 'data-increase' : 'data-decrease'
+                "
+              >
+                <v-icon v-if="changedUserCommits > 0">
+                  mdi-menu-up
+                </v-icon>
+                <v-icon v-if="changedUserCommits <= 0">
+                  mdi-menu-down
+                </v-icon>
+                <span>{{ changedUserCommits }}</span>
+              </div>
             </div>
-            <h1>
-              {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
-              <span class="oracle-unit">commit</span>
-            </h1>
+            <div style="display:flex;">
+              <h1>
+                {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
+                <span class="oracle-unit">commit</span>
+              </h1>
+              <div style="height:30%">
+                <IEcharts :option="option4" class="small-chart" />
+              </div>
+            </div>
           </div>
-          <div>
-            <IEcharts :option="option4" />
-          </div>
+
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -110,12 +190,6 @@
           </div> -->
         </v-card-text>
       </v-card>
-    </div>
-    <div v-if="false" class="oracle-process-chart">
-      <IEcharts :option="option1" />
-      <IEcharts :option="option2" />
-      <IEcharts :option="option3" />
-      <IEcharts :option="option4" />
     </div>
   </div>
 </template>
@@ -136,7 +210,37 @@ export default {
       "getOpenCursorsPerSec",
       "getUserCommitsPerSec"
     ]),
-    ...mapGetters(["getRealTimeList"])
+    ...mapGetters(["getRealTimeList"]),
+    changedExecutions: function() {
+      if (this.getExecutionsPerSec.length <= 1) return 0;
+      return (
+        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 2] -
+        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedTotalParseCount: function() {
+      if (this.getTotalParseCountPerSec.length <= 1) return 0;
+      return (
+        this.getTotalParseCountPerSec[
+          this.getTotalParseCountPerSec.length - 2
+        ] -
+        this.getTotalParseCountPerSec[this.getTotalParseCountPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedOpenCursors: function() {
+      if (this.getOpenCursorsPerSec.length <= 1) return 0;
+      return (
+        this.getOpenCursorsPerSec[this.getOpenCursorsPerSec.length - 2] -
+        this.getOpenCursorsPerSec[this.getOpenCursorsPerSec.length - 1]
+      ).toFixed(2);
+    },
+    changedUserCommits: function() {
+      if (this.getUserCommitsPerSec.length <= 1) return 0;
+      return (
+        this.getUserCommitsPerSec[this.getUserCommitsPerSec.length - 2] -
+        this.getUserCommitsPerSec[this.getUserCommitsPerSec.length - 1]
+      ).toFixed(2);
+    }
   },
   watch: {
     getExecutionsPerSec: function() {
@@ -157,8 +261,13 @@ export default {
       totalParseCountPerSec: 1.24, //- 구문분석 (총구문분석 / 초)
       openCursorsPerSec: 1.44, // - 열린 커서 (커서 / 초)
       userCommitsPerSec: 0.83, //- 커밋 비율 (커밋 / 초)
-
       option1: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -186,12 +295,20 @@ export default {
             name: "executions",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
+
       option2: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -208,7 +325,6 @@ export default {
           },
           show: false
         },
-
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -220,12 +336,19 @@ export default {
             name: "totalParseCount",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option3: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -242,7 +365,6 @@ export default {
           },
           show: false
         },
-
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -254,12 +376,19 @@ export default {
             name: "openCursors",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       },
       option4: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -276,7 +405,6 @@ export default {
           },
           show: false
         },
-
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -288,8 +416,9 @@ export default {
             name: "userCommits",
             data: [],
             type: "line",
-            color: "#2196F3",
-            showSymbol: false
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       }
@@ -335,42 +464,5 @@ export default {
 .oracle-data h1 {
   margin-top: 5px;
   color: #6440e3;
-}
-.oracle-title-icon span {
-  color: var(--font-sub2-color);
-  font-size: 12px;
-}
-
-.oracle-title-icon .v-icon {
-  background: linear-gradient(
-    to bottom right,
-    var(--main-color),
-    var(--main-point-color)
-  );
-  border-radius: 100px;
-  height: 40px;
-  width: 40px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.oracle-title-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 15%;
-  margin-right: 15px;
-}
-.small-chart {
-  height: 120px !important;
-  width: 100px !important;
-  /* top: -30px !important; */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: initial;
 }
 </style>

@@ -4,17 +4,22 @@
       <div class="oracle-cpu-card1">
         <v-card elevation="2">
           <v-card-text style="height:100%">
-            <div v-if="true" style="height:100%; width:100%">
-              <div>
-                <v-icon color="var(--main-sub-color)"
+            <div v-if="true" style="height:100%; width:100%;">
+              <div class="oracle-title-icon">
+                <v-icon id="chart-title-icon" size="18" dark
                   >mdi-desktop-classic</v-icon
                 >
-                <span class="oracle-status-name">
-                  CpuTime & WaitTime Ratio</span
-                >
+                <span class="oracle-status-name"> CPU Time</span>
+                <v-btn small icon style="margin: -10px 25px 0px auto">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+                <!-- <span style="margin-left:auto;font-size:12px">단위(%)</span> -->
               </div>
-              <IEcharts :option="line" class="oracle-chart" />
+              <div style="height:100%">
+                <IEcharts :option="line" style="padding-top:5px" />
+              </div>
             </div>
+
             <div v-if="false" style="height:100%">
               <div>
                 <v-icon color="var(--main-sub-color)"
@@ -30,9 +35,6 @@
         </v-card>
       </div>
       <div class="oracle-cpu-card2">
-        <div class="oracle-cpu-card2-1">
-          <OracleStorage />
-        </div>
         <div class="oracle-cpu-card2-2">
           <v-card elevation="2">
             <v-card-text class="oracle-cpu-data">
@@ -67,6 +69,9 @@
               <span></span>
             </v-card-text>
           </v-card>
+        </div>
+        <div class="oracle-cpu-card2-1">
+          <OracleStorage />
         </div>
       </div>
     </div>
@@ -112,36 +117,62 @@ export default {
       activeSerialSessions: [],
 
       line: {
-        color: ["#2196F3", "#4CAF50"],
-
-        // title: { text: "Storage" },
+        color: ["#81D4FA", "#42A5F5"],
+        grid: {
+          right: 40,
+          left: 50,
+          bottom: 20,
+          top: 65
+        },
+        // title: { text: "CPU Time" },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          }
+          // axisTick: {
+          //   show: false
+          // }
         },
         yAxis: {
+          name: "(%)",
           type: "value",
-          max: 100
+          max: 100,
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+          axisTick: {
+            show: false
+          }
         },
         legend: {
-          data: ["CpuTime Ratio", "WaitTime Ratio"],
-          bottom: 0
+          data: ["CpuTime", "WaitTime"],
+          icon: "roundRect"
+          // top: "30
         },
         tooltip: {
           trigger: "axis"
         },
         series: [
           {
-            name: "CpuTime Ratio",
-            data: [],
-            type: "line"
-          },
-          {
-            name: "WaitTime Ratio",
+            name: "CpuTime",
             data: [],
             areaStyle: "",
-            type: "line"
+            type: "line",
+            showSymbol: false
+          },
+          {
+            name: "WaitTime",
+            data: [],
+            areaStyle: "",
+            type: "line",
+            showSymbol: false
           }
         ]
       },
@@ -234,7 +265,7 @@ export default {
 }
 .oracle-cpu-card2-1 {
   width: 50%;
-  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .oracle-cpu-card2-2 {
