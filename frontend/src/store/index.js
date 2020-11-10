@@ -6,6 +6,9 @@ import Oracle from "@/store/modules/oracle.js";
 import Schema from "@/store/modules/schema.js";
 import TopQuery from "@/store/modules/topquery.js";
 
+import axios from "axios";
+import SERVER from "@/api/spring.js";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -26,7 +29,13 @@ export default new Vuex.Store({
       }
     }
   },
-  actions: {},
+  actions: {
+    initRealTimeData() {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getRealTimeData)
+        .then((res) => console.log(res.data.map));
+    }
+  },
   modules: {
     Account: Account,
     Oracle: Oracle,

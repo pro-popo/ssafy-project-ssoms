@@ -21,7 +21,7 @@ import AllSchemaTopQuery from "@/components/realtime-monitoring/query/AllSchemaT
 import AllSchemaTopQueryDetail from "@/components/realtime-monitoring/query/AllSchemaTopQueryDetail.vue";
 import AllSchemaStastics from "@/components/realtime-monitoring/schema-status/AllSchemaStastics.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "RealTimeMonitoring",
   components: {
@@ -32,6 +32,12 @@ export default {
   },
   computed: {
     ...mapGetters(["getRealTime"])
+  },
+  methods: {
+    ...mapActions(["initRealTimeData"])
+  },
+  created() {
+    this.initRealTimeData();
   }
 };
 </script>

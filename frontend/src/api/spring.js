@@ -25,6 +25,8 @@ export default {
 
     scheduleStart: "/admin/realtime/start",
     scheduleStop: "/admin/realtime/stop",
-    scheduleStatus: "/admin/realtime/status"
+    scheduleStatus: "/admin/realtime/status",
+
+    getRealTimeData: "/data/realtime"
   }
 };
