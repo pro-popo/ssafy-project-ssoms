@@ -1,10 +1,25 @@
 <template>
   <div>
-    <div style="display: flex; justify-content: space-between" class="mt-2">
-      <h2>Schema Status</h2>
+    <div style="display: flex; justify-content: space-between">
+      <div style="display: flex">
+        <h2 class="mt-2 mr-3">Schema Status</h2>
+        <v-btn-toggle
+          group
+          mandatory
+          color="#2196F3"
+          v-model="toggle_exclusive"
+        >
+          <v-btn @click="changeChart('line')" style="margin: 4px 0px;"
+            ><v-icon>mdi-chart-line</v-icon></v-btn
+          >
+          <v-btn @click="changeChart('pie')" style="margin: 4px 0px;"
+            ><v-icon>mdi-chart-pie</v-icon></v-btn
+          >
+        </v-btn-toggle>
+      </div>
       <v-menu transition="slide-y-transition" :close-on-content-click="false">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" fab x-small>
+          <v-btn v-bind="attrs" v-on="on" fab x-small class="mt-2">
             <v-icon>mdi-playlist-plus</v-icon>
           </v-btn>
         </template>
@@ -152,9 +167,6 @@ export default {
         series: []
       },
       option3: {
-        // title: {
-        //   text: "cpuTimeAvg"
-        // },
         tooltip: {
           trigger: "axis"
         },
@@ -220,6 +232,49 @@ export default {
         this.items[index].isShow = false;
       } else {
         this.items[index].isShow = true;
+      }
+    },
+    changeChart(type) {
+      if (type === "line") {
+        console.log("line");
+      } else if (type === "pie") {
+        // this.option1.tooltip = {
+        //   trigger: "item",
+        //   formatter: "{a} <br/>{b} : {c} ({d}%)"
+        // };
+        // for(var i=0; i<this.option1.series.length; i++){
+        //   this.option1.series[i].type = 'pie'
+        //   this.option1.series[i].radius
+        // }
+
+        // delete option1.xAxis;
+        // delete option1.yAxis;
+        this.option1.series = [
+          {
+            name: "半径模式",
+            type: "pie",
+            radius: [30, 100],
+            roseType: "radius",
+            label: {
+              show: false
+            },
+            emphasis: {
+              label: {
+                show: true
+              }
+            },
+            data: [
+              { value: 10, name: "rose1" },
+              { value: 5, name: "rose2" },
+              { value: 15, name: "rose3" },
+              { value: 25, name: "rose4" },
+              { value: 20, name: "rose5" },
+              { value: 35, name: "rose6" },
+              { value: 30, name: "rose7" },
+              { value: 40, name: "rose8" }
+            ]
+          }
+        ];
       }
     }
   },
