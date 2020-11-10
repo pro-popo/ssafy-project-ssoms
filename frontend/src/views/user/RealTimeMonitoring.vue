@@ -2,6 +2,23 @@
   <div>
     <div align="right">
       Last Update Time : <b>{{ getRealTime }}</b>
+
+      <v-dialog v-model="dialog" max-width="600px">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="secondary"
+            fab
+            small
+            dark
+            class="ml-3"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon> mdi-file-pdf </v-icon>
+          </v-btn>
+        </template>
+        <ReportModal :Type="1" @killModal="dialog = false" />
+      </v-dialog>
     </div>
     <OracleStatus />
     <AllSchemaStastics />
@@ -19,15 +36,22 @@ import OracleStatus from "@/components/realtime-monitoring/oracle-status/OracleS
 import AllSchemaTopQuery from "@/components/realtime-monitoring/query/AllSchemaTopQuery.vue";
 import AllSchemaTopQueryDetail from "@/components/realtime-monitoring/query/AllSchemaTopQueryDetail.vue";
 import AllSchemaStastics from "@/components/realtime-monitoring/schema-status/AllSchemaStastics.vue";
+import ReportModal from "@/components/main/ReportModal";
 
 import { mapGetters } from "vuex";
 export default {
   name: "RealTimeMonitoring",
+  data() {
+    return {
+      dialog: false
+    }
+  },
   components: {
     OracleStatus,
     AllSchemaTopQuery,
     AllSchemaTopQueryDetail,
-    AllSchemaStastics
+    AllSchemaStastics,
+    ReportModal
   },
   computed: {
     ...mapGetters(["getRealTime"])

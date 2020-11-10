@@ -40,24 +40,34 @@
     </div>
     <v-divider style="margin:10px 0px;"></v-divider>
 
-    <v-list-item link>
-      <v-list-item-icon>
-        <v-icon>mdi-file-chart</v-icon>
-      </v-list-item-icon>
+    <v-dialog v-model="dialog" max-width="600px">
+      <template v-slot:activator="{ on, attrs }">
+        <v-list-item link v-bind="attrs" v-on="on">
+          <v-list-item-icon>
+            <v-icon>mdi-file-chart</v-icon>
+          </v-list-item-icon>
 
-      <v-list-item-content>
-        <v-list-item-title>Report</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Report</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+      <ReportModal :Type="0" @killModal="dialog=false" />
+    </v-dialog>
   </v-list-item-group>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import ReportModal from "./ReportModal";
 export default {
   name: "AppUserSidebar",
+  components: {
+    ReportModal
+  },
   data() {
     return {
+      dialog: false,
       model: 0,
       menuShow: true,
       page: ["RealTimeMonitoring", "SchemaMonitoring", "SchemaMonitoring"]
