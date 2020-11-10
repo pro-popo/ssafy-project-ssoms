@@ -23,7 +23,21 @@ public class OracleDataController {
 	private OracleDataService oracleDataService;
 	
 	@GetMapping("/realtime")
-	public ResponseEntity sample() {
+	public ResponseEntity realTimeData() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		List<RealTimeMonitoringDTO> realTimeMonitoringDTOList = oracleDataService.findDataForRearTime();
+		Map<String, Object> map = new HashMap<>();
+		map.put("realTimeMonitoringList", realTimeMonitoringDTOList);
+		result.status = true;
+		result.result = "success";
+		result.map = map;
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/past/{type}/{startDate}/{endDate}")
+	public ResponseEntity pastData() {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		// 12개 가져오는 로직
