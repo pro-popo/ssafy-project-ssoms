@@ -29,11 +29,12 @@ public class OracleDataServiceImpl implements OracleDataService {
 		/*
 		 * logic - 차트 구성을 위해 과거 12시간만큼의 데이터를 보낸다.
 		 */
-		Page<RealTimeMonitoringEntity> realTimeMonitoringEntityList = realTimeMonitoringMongoRepo.findAll(PageRequest.of(0, 12, Sort.by(Sort.DEFAULT_DIRECTION.DESC, "time")));
+//		Page<RealTimeMonitoringEntity> realTimeMonitoringEntityList = realTimeMonitoringMongoRepo.findAll(PageRequest.of(0, 12, Sort.by(Sort.DEFAULT_DIRECTION.DESC, "time")));
+		List<RealTimeMonitoringEntity> realTimeMonitoringEntityList = realTimeMonitoringMongoRepo.findAll();
 		return realTimeMontoringEntityListToDTOList(realTimeMonitoringEntityList);
 	}
 	
-	private List<RealTimeMonitoringDTO> realTimeMontoringEntityListToDTOList(Page<RealTimeMonitoringEntity> realTimeMonitoringEntityList){
+	private List<RealTimeMonitoringDTO> realTimeMontoringEntityListToDTOList(List<RealTimeMonitoringEntity> realTimeMonitoringEntityList){
 		List<RealTimeMonitoringDTO> realTimeMonitoringDTOList = new ArrayList<>();
 		
 		for(RealTimeMonitoringEntity realTimeMonitoringEntity : realTimeMonitoringEntityList) {

@@ -6,4 +6,6 @@ import com.sdi.monitoring.model.oracle.dto.RealTimeMonitoringDTO;
 
 public interface OracleDataService {
 	public List<RealTimeMonitoringDTO> findDataForRearTime();
+	
+//	public List<>
 }
