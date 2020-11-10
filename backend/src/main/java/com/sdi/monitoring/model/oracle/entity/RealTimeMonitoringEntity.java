@@ -6,8 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
+@Data
 @Getter
 @Builder
 @AllArgsConstructor

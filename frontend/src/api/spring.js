@@ -1,5 +1,5 @@
 export default {
-  URL: "http://localhost:8080/ssoms",
+  URL: "http://172.30.1.49:8080/ssoms",
   ROUTES: {
     signin: "/nonuser/signin",
     logout: "/user/logout/",

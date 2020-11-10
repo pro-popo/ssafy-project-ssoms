@@ -23,7 +23,6 @@ import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateDTO;
 import com.sdi.monitoring.model.user.service.UserService;
 
-@CrossOrigin("*")
 @RequestMapping("/user")
 @RestController
 public class UserController {
