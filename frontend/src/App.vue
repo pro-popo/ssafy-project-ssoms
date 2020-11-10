@@ -54,21 +54,21 @@ html {
 }
 /* 스크롤 바 기본 색상 */
 ::-webkit-scrollbar-track {
-  background-color: thistle;
+  background-color: rgb(226, 226, 226);
 }
 /* 스크롤 구간 배경 색상 */
 ::-webkit-scrollbar-thumb {
-  background-color: slateblue;
+  background-color: rgb(192, 192, 192);
 }
 /* 스크롤 바 위에 마우스 올렸을 때(hover) 색상 */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: blueviolet;
+  background-color: rgb(134, 134, 134);
 }
 /* 스크롤 상하단 버튼 넓이와 색상 */
-::-webkit-scrollbar-button:start:decrement,
+/* ::-webkit-scrollbar-button:start:decrement,
 ::-webkit-scrollbar-button:end:increment {
   width: 10px;
   height: 10px;
   background-color: mediumpurple;
-}
+} */
 </style>
