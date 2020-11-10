@@ -1,28 +1,70 @@
 <template>
   <div>
-    <h2>Schema Status</h2>
+    <div style="display: flex; justify-content: space-between">
+      <div style="display: flex">
+        <h2 class="mt-2 mr-3">Schema Status</h2>
+        <v-btn-toggle
+          group
+          mandatory
+          color="#2196F3"
+          v-model="toggle_exclusive"
+        >
+          <v-btn @click="changeChart('line')" style="margin: 4px 0px;"
+            ><v-icon>mdi-chart-line</v-icon></v-btn
+          >
+          <v-btn @click="changeChart('pie')" style="margin: 4px 0px;"
+            ><v-icon>mdi-chart-pie</v-icon></v-btn
+          >
+        </v-btn-toggle>
+      </div>
+      <v-menu transition="slide-y-transition" :close-on-content-click="false">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" fab x-small class="mt-2">
+            <v-icon>mdi-playlist-plus</v-icon>
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            @click="toggleCheckBox(i)"
+          >
+            <v-list-item-icon>
+              <v-icon v-text="item.iconTrue" v-if="item.isShow"></v-icon>
+              <v-icon v-text="item.iconFalse" v-else></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
     <div class="schema-chart-box">
-      <div>
+      <div v-if="items[0].isShow">
         <h4>Executions(times)</h4>
         <v-card elevation="2" class="schema-chart-size">
           <IEcharts :option="option1" />
         </v-card>
       </div>
-      <div>
+      <div v-if="items[1].isShow">
         <h4>CpuTimeTotal(%)</h4>
         <v-card elevation="2" class="schema-chart-size">
           <IEcharts :option="option2" />
         </v-card>
       </div>
-      <div>
+      <div v-if="items[2].isShow">
         <h4>ElapsedTimeTotal(%)</h4>
         <v-card elevation="2" class="schema-chart-size">
           <IEcharts :option="option3" />
         </v-card>
       </div>
-      <!-- <v-card elevation="10">
-      <IEcharts :option="option4" />
-    </v-card> -->
+      <div v-if="items[3].isShow">
+        <h4>BufferGetsAvg</h4>
+        <v-card elevation="2" class="schema-chart-size">
+          <IEcharts :option="option4" />
+        </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +82,32 @@ export default {
   },
   data() {
     return {
+      items: [
+        {
+          title: "Executions",
+          isShow: true,
+          iconTrue: "mdi-checkbox-marked-circle-outline",
+          iconFalse: "mdi-checkbox-blank-circle-outline"
+        },
+        {
+          title: "CpuTimeTotal",
+          isShow: true,
+          iconTrue: "mdi-checkbox-marked-circle-outline",
+          iconFalse: "mdi-checkbox-blank-circle-outline"
+        },
+        {
+          title: "ElapsedTimeTotal",
+          isShow: true,
+          iconTrue: "mdi-checkbox-marked-circle-outline",
+          iconFalse: "mdi-checkbox-blank-circle-outline"
+        },
+        {
+          title: "BufferGetsAvg",
+          isShow: true,
+          iconTrue: "mdi-checkbox-marked-circle-outline",
+          iconFalse: "mdi-checkbox-blank-circle-outline"
+        }
+      ],
       option1: {
         tooltip: {
           trigger: "axis"
@@ -99,9 +167,6 @@ export default {
         series: []
       },
       option3: {
-        // title: {
-        //   text: "cpuTimeAvg"
-        // },
         tooltip: {
           trigger: "axis"
         },
@@ -131,9 +196,6 @@ export default {
         series: []
       },
       option4: {
-        title: {
-          text: "elapsedTimeAvg"
-        },
         tooltip: {
           trigger: "axis"
         },
@@ -164,11 +226,64 @@ export default {
       }
     };
   },
+  methods: {
+    toggleCheckBox(index) {
+      if (this.items[index].isShow === true) {
+        this.items[index].isShow = false;
+      } else {
+        this.items[index].isShow = true;
+      }
+    },
+    changeChart(type) {
+      if (type === "line") {
+        console.log("line");
+      } else if (type === "pie") {
+        // this.option1.tooltip = {
+        //   trigger: "item",
+        //   formatter: "{a} <br/>{b} : {c} ({d}%)"
+        // };
+        // for(var i=0; i<this.option1.series.length; i++){
+        //   this.option1.series[i].type = 'pie'
+        //   this.option1.series[i].radius
+        // }
+
+        // delete option1.xAxis;
+        // delete option1.yAxis;
+        this.option1.series = [
+          {
+            name: "半径模式",
+            type: "pie",
+            radius: [30, 100],
+            roseType: "radius",
+            label: {
+              show: false
+            },
+            emphasis: {
+              label: {
+                show: true
+              }
+            },
+            data: [
+              { value: 10, name: "rose1" },
+              { value: 5, name: "rose2" },
+              { value: 15, name: "rose3" },
+              { value: 25, name: "rose4" },
+              { value: 20, name: "rose5" },
+              { value: 35, name: "rose6" },
+              { value: 30, name: "rose7" },
+              { value: 40, name: "rose8" }
+            ]
+          }
+        ];
+      }
+    }
+  },
   computed: {
     ...mapGetters("Schema", [
       "getRealTimeSchemaList1",
       "getRealTimeSchemaList2",
       "getRealTimeSchemaList3",
+      "getRealTimeSchemaList4",
       "getSchemaList"
     ]),
     ...mapGetters(["getRealTime", "getRealTimeList"])
@@ -211,6 +326,19 @@ export default {
         }
         this.option3.legend.data = legendList;
         this.option3.xAxis.data = this.getRealTimeList;
+      }
+    },
+    getRealTimeSchemaList4: {
+      deep: true,
+      handler() {
+        var legendList = [];
+        for (var i = 0; i < this.getRealTimeSchemaList4.length; i++) {
+          legendList.push(this.getRealTimeSchemaList4[i].name);
+          this.option4.series[i].name = this.getRealTimeSchemaList4[i].name;
+          this.option4.series[i].data = this.getRealTimeSchemaList4[i].data;
+        }
+        this.option4.legend.data = legendList;
+        this.option4.xAxis.data = this.getRealTimeList;
       }
     }
   },

@@ -7,7 +7,8 @@ const Schema = {
     realTimeSchemaList: {
       executions: [],
       cpuTimeTot: [],
-      elapsedTimeTot: []
+      elapsedTimeTot: [],
+      bufferGetsAvg: []
     },
     selectedSchema: "",
     schemaData: {
@@ -31,6 +32,7 @@ const Schema = {
     getRealTimeSchemaList1: (state) => state.realTimeSchemaList.executions,
     getRealTimeSchemaList2: (state) => state.realTimeSchemaList.cpuTimeTot,
     getRealTimeSchemaList3: (state) => state.realTimeSchemaList.elapsedTimeTot,
+    getRealTimeSchemaList4: (state) => state.realTimeSchemaList.bufferGetsAvg,
     getSchemaLength: (state) => state.schemaList.length
   },
   mutations: {
@@ -55,6 +57,10 @@ const Schema = {
             name: data[i].parsingSchemaName,
             data: [data[i].elapsedTimeTot]
           });
+          state.realTimeSchemaList.bufferGetsAvg.push({
+            name: data[i].parsingSchemaName,
+            data: [data[i].bufferGetsAvg]
+          });
         }
       } else {
         for (var a = 0; a < data.length; a++) {
@@ -72,10 +78,14 @@ const Schema = {
               state.realTimeSchemaList.elapsedTimeTot[b].data.push(
                 data[a].elapsedTimeTot
               );
+              state.realTimeSchemaList.bufferGetsAvg[b].data.push(
+                data[a].bufferGetsAvg
+              );
               if (state.realTimeSchemaList.executions[b].data.length > 12) {
                 state.realTimeSchemaList.executions[b].data.shift();
                 state.realTimeSchemaList.cpuTimeTot[b].data.shift();
                 state.realTimeSchemaList.elapsedTimeTot[b].data.shift();
+                state.realTimeSchemaList.bufferGetsAvg[b].data.shift();
               }
             }
           }

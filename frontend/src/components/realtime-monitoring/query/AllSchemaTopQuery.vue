@@ -25,7 +25,7 @@
         <tbody>
           <tr
             v-for="(query, index) in getTopQueryList"
-            :key="query.sqlId"
+            :key="index"
             @click="getQueryDetail(index)"
             class="real-query-hover"
           >
