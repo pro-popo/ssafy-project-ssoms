@@ -18,7 +18,6 @@ import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
 import com.sdi.monitoring.model.user.service.NonUserService;
 
-@CrossOrigin("*")
 @RequestMapping("/nonuser")
 @RestController
 public class NonUserController {
@@ -75,6 +74,7 @@ public class NonUserController {
 //			oss.start();
 			result.result = "success";
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
+			System.out.println((String) httpSession.getAttribute("loginSession"));
 		} else {
 			result.result = "fail";
 		}
