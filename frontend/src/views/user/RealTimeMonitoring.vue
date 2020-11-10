@@ -4,6 +4,7 @@
       Last Update Time : <b>{{ getRealTime }}</b>
     </div>
     <OracleStatus />
+    <v-divider></v-divider>
     <AllSchemaStastics />
     <v-divider></v-divider>
     <h2 class="mb-2 mt-2">Top Query</h2>
