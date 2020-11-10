@@ -12,14 +12,25 @@
         </v-tooltip> -->
       </div>
       <div class="oracle-storage-chart">
-        <div style="display:flex; justify-content: space-between;">
+        <!-- <div style="display:flex; justify-content: space-between;">
           <div>
             <v-icon color="var(--main-sub-color)">mdi-file-cog-outline</v-icon>
             <span class="oracle-status-name"> File</span>
           </div>
-          <span style="font-size:12px">단위: mb</span>
+        </div> -->
+        <div class="storage-title-icon">
+          <v-icon class="storage-logo-icon" size="18" dark
+            >mdi-file-cog-outline</v-icon
+          >
+          <span class="storage-status-name"> File</span>
+          <v-btn small icon style="margin: -10px -10px 0px auto">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+          <!-- <span style="margin-left:auto;font-size:12px">단위(%)</span> -->
         </div>
-        <IEcharts :option="option" class="oracle-chart" />
+        <div style="height:85%">
+          <IEcharts :option="option" />
+        </div>
       </div>
     </v-card-text>
   </v-card>
@@ -51,19 +62,56 @@ export default {
     return {
       physicalReadsPerSec: 0.0, // (mb / 초)
       physicalWritesPerSec: 0.33, // (mb / 초)
+
       option: {
-        // title: { text: "Storage" },
+        color: ["#81D4FA", "#42A5F5"],
+        grid: {
+          right: 25,
+          left: 30,
+          bottom: 20,
+          top: 55
+        },
+        // title: { text: "CPU Time" },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          }
+          // axisTick: {
+          //   show: false
+          // }
         },
         yAxis: {
-          type: "value"
+          name: "(md)",
+          type: "value",
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+
+          axisTick: {
+            show: false
+          },
+
+          max: function(item) {
+            if (item.max.toFixed(1) < item.max)
+              return item.max.toFixed(1) + 0.1;
+            else return item.max.toFixed(1);
+          },
+          splitNumber: 3
         },
         legend: {
           data: ["Physical Reads", "Physical Writes"],
-          bottom: 0
+          // icon: "circle",
+          // bottom: 0,
+          textStyle: {
+            fontSize: 10
+          }
         },
         tooltip: {
           trigger: "axis"
@@ -73,13 +121,13 @@ export default {
             name: "Physical Reads",
             data: [],
             type: "line",
-            color: "#2196F3"
+            showSymbol: false
           },
           {
             name: "Physical Writes",
             data: [],
             type: "line",
-            color: "#4CAF50"
+            showSymbol: false
           }
         ]
       }
@@ -104,5 +152,32 @@ export default {
 .oracle-storage-chart {
   height: 100%;
   width: 100%;
+}
+.storage-title-icon {
+  display: flex;
+  align-items: center;
+}
+
+.storage-title-icon :nth-child(2) {
+  color: var(--font-sub2-color);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.storage-logo-icon {
+  background: linear-gradient(
+    to bottom right,
+    var(--main-color),
+    var(--main-point-color)
+  );
+  border-radius: 100px;
+  height: 30px;
+  width: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
 }
 </style>

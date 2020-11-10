@@ -14,10 +14,10 @@
                 {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
                 <span class="oracle-unit">%</span>
               </h1>
-              <!-- <IEcharts :option="option1" class="small-chart" /> -->
+              <IEcharts :option="option1" />
             </div>
           </div>
-          <div><IEcharts :option="option1" /></div>
+          <!-- <div><IEcharts :option="option1" /></div> -->
           <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -157,8 +157,40 @@ export default {
       totalParseCountPerSec: 1.24, //- 구문분석 (총구문분석 / 초)
       openCursorsPerSec: 1.44, // - 열린 커서 (커서 / 초)
       userCommitsPerSec: 0.83, //- 커밋 비율 (커밋 / 초)
-
       option1: {
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        yAxis: {
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
+        },
+        series: [
+          {
+            name: "executions",
+            data: [],
+            type: "line",
+            color: "#2196F3",
+            showSymbol: false
+          }
+        ]
+      },
+      option1123: {
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -336,34 +368,7 @@ export default {
   margin-top: 5px;
   color: #6440e3;
 }
-.oracle-title-icon span {
-  color: var(--font-sub2-color);
-  font-size: 12px;
-}
 
-.oracle-title-icon .v-icon {
-  background: linear-gradient(
-    to bottom right,
-    var(--main-color),
-    var(--main-point-color)
-  );
-  border-radius: 100px;
-  height: 40px;
-  width: 40px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.oracle-title-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 15%;
-  margin-right: 15px;
-}
 .small-chart {
   height: 120px !important;
   width: 100px !important;
