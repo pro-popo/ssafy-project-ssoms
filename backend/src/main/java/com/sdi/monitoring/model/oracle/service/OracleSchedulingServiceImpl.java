@@ -20,21 +20,17 @@ import com.sdi.monitoring.model.oracle.dto.SchemaStasticsDTO;
 import com.sdi.monitoring.model.oracle.dto.UsedBySchemaDTO;
 import com.sdi.monitoring.model.oracle.entity.OneDayMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.OneHourMonitoringEntity;
-import com.sdi.monitoring.model.oracle.entity.OneMonthMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.OracleStatusEntity;
 import com.sdi.monitoring.model.oracle.entity.RealTimeMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaInfoEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaQueryEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaStasticsEntity;
-import com.sdi.monitoring.model.oracle.entity.SevenDaysMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.SixHoursMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.UsedBySchemaEntity;
 import com.sdi.monitoring.model.oracle.repository.OneDayMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.OneHourMonitoringMongoRepo;
-import com.sdi.monitoring.model.oracle.repository.OneMonthMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.OracleRepoImpl;
 import com.sdi.monitoring.model.oracle.repository.RealTimeMonitoringMongoRepo;
-import com.sdi.monitoring.model.oracle.repository.SevenDaysMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.SixHoursMonitoringMongoRepo;
 import com.sdi.monitoring.util.JsonParser;
 import com.sdi.monitoring.util.Scheduler;
@@ -59,12 +55,6 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	
 	@Autowired
 	private OneDayMonitoringMongoRepo oneDayMonitoringMongoRepo;
-	
-	@Autowired
-	private SevenDaysMonitoringMongoRepo sevenDaysMonitoringMongoRepo;
-	
-	@Autowired
-	private OneMonthMonitoringMongoRepo oneMonthMonitoringMongoRepo;
 	
 	private SimpMessagingTemplate messagingTemplate;
 
@@ -147,16 +137,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
         	// 6시간 저장 logic
         }
         if(cnt % (12 * 6 * 4) == 0) {
+        	cnt = 0;
         	oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
         	// 1일 저장 logic
-        }
-        if(cnt % (12 * 6 * 4 * 7) == 0) {
-        	sevenDaysMonitoringMongoRepo.insert(sevenDaysMonitoringEntityBuilder(realTimeMonitoringEntity));
-        	// 7일 저장 logic
-        }
-        if(cnt % (12 * 6 * 4 * 30) == 0) {
-        	oneMonthMonitoringMongoRepo.insert(oneMonthMonitoringEntityBuilder(realTimeMonitoringEntity));
-        	// 30일 저장 logic
         }
         realTimeMonitoringEntity = null;
 	}
@@ -297,26 +280,6 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	
 	private OneDayMonitoringEntity oneDayMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
 		return OneDayMonitoringEntity.builder()
-				.time(realTimeMonitoringEntity.getTime())
-				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
-				.schemas(realTimeMonitoringEntity.getSchemas())
-				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
-				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
-				.build();
-	}
-	
-	private SevenDaysMonitoringEntity sevenDaysMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
-		return SevenDaysMonitoringEntity.builder()
-				.time(realTimeMonitoringEntity.getTime())
-				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
-				.schemas(realTimeMonitoringEntity.getSchemas())
-				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
-				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo())
-				.build();
-	}
-	
-	private OneMonthMonitoringEntity oneMonthMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
-		return OneMonthMonitoringEntity.builder()
 				.time(realTimeMonitoringEntity.getTime())
 				.oracleStatus(realTimeMonitoringEntity.getOracleStatus())
 				.schemas(realTimeMonitoringEntity.getSchemas())
