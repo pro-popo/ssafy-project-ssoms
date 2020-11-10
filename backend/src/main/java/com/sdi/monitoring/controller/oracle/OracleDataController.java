@@ -1,4 +1,4 @@
-package com.sdi.monitoring.controller.controller;
+package com.sdi.monitoring.controller.oracle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +29,15 @@ public class OracleDataController {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		List<RealTimeMonitoringDTO> realTimeMonitoringDTOList = oracleDataService.findDataForRealTime();
-		Map<String, Object> map = new HashMap<>();
-		map.put("realTimeMonitoringList", realTimeMonitoringDTOList);
+		if(realTimeMonitoringDTOList.isEmpty() || realTimeMonitoringDTOList == null) {
+			result.result = "empty";
+		}else {
+			Map<String, Object> map = new HashMap<>();
+			map.put("realTimeMonitoringList", realTimeMonitoringDTOList);
+			result.result = "success";
+			result.map = map;
+		}
 		result.status = true;
-		result.result = "success";
-		result.map = map;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
@@ -44,11 +48,15 @@ public class OracleDataController {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		List<TimeAndCpuDTO> timeAndCpuDTOList = oracleDataService.findTimeAndCpuDTO(startDate, endDate);
-		Map<String, Object> map = new HashMap<>();
-		map.put("timeAndCpuList", timeAndCpuDTOList);
+		if(timeAndCpuDTOList.isEmpty()) {
+			result.result = "empty";
+		}else {
+			Map<String, Object> map = new HashMap<>();
+			map.put("timeAndCpuList", timeAndCpuDTOList);
+			result.result = "success";
+			result.map = map;
+		}
 		result.status = true;
-		result.result = "success";
-		result.map = map;
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
