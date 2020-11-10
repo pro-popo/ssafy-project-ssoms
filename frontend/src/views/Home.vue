@@ -93,8 +93,14 @@ export default {
     closeEditUser() {
       this.requestEditUser = false;
     },
+    addRealtimeData(realTimeData) {
+      this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
+      this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
+
+      this.SET_REALTIME(realTimeData.time);
+      this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+    },
     connect() {
-      console.log("여기는?");
       const serverURL = "http://localhost:8080/ssoms/stomp";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
@@ -107,11 +113,16 @@ export default {
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             const realTimeData = JSON.parse(res.body);
             if (this.getRealTime !== realTimeData.time) {
-              this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
-              this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
-
-              this.SET_REALTIME(realTimeData.time);
-              this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+              if (this.getDatabaseCpuTimeRatioList.length >= 12) {
+                this.addRealtimeData(realTimeData);
+              } else {
+                setTimeout(
+                  function() {
+                    this.addRealtimeData(realTimeData);
+                  }.bind(this),
+                  1000
+                );
+              }
             }
           });
         },
@@ -132,7 +143,8 @@ export default {
     this.connect();
   },
   computed: {
-    ...mapGetters(["getRealTime"])
+    ...mapGetters(["getRealTime"]),
+    ...mapGetters("Oracle", ["getDatabaseCpuTimeRatioList"])
   }
 };
 </script>

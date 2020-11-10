@@ -29,17 +29,28 @@ export default new Vuex.Store({
       }
     }
   },
+  methods: {},
   actions: {
-    initRealTimeData() {
+    initRealTimeData({ commit }) {
       axios.get(SERVER.URL + SERVER.ROUTES.getRealTimeData).then((res) => {
-        console.log(res.data.map.realTimeMonitoringList);
-        const realTimeHistoricalData = res.data.map.realTimeMonitoringList;
-        // 1. oracle  2. schema  3. topquery
-        this.SET_ORACLE_STATUS_LIST(realTimeHistoricalData.oracleStatus);
-        this.SET_REALTIME_SCHEMA_LIST(realTimeHistoricalData.allSchemaStastics);
-        this.SET_TOPQUERY_LIST(realTimeHistoricalData.allSchemaQueryInfo);
+        const realTimeHistoricalDataList = res.data.map.realTimeMonitoringList;
 
-        this.SET_REALTIME(realTimeHistoricalData.time);
+        // 1. oracle  2. schema  3. topquery
+        realTimeHistoricalDataList.forEach((realTimeHistoricalData) => {
+          commit(
+            "Oracle/SET_ORACLE_STATUS_LIST",
+            realTimeHistoricalData.oracleStatus
+          );
+          commit(
+            "Schema/SET_REALTIME_SCHEMA_LIST",
+            realTimeHistoricalData.allSchemaStastics
+          );
+          commit(
+            "TopQuery/SET_TOPQUERY_LIST",
+            realTimeHistoricalData.allSchemaQueryInfo
+          );
+          commit("SET_REALTIME", realTimeHistoricalData.time);
+        });
       });
     }
   },
