@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdi.monitoring.domain.SuccessResponse;
-import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
 import com.sdi.monitoring.model.user.service.NonUserService;
 
+@CrossOrigin("*")
 @RequestMapping("/nonuser")
 @RestController
 public class NonUserController {
 	@Autowired
 	private NonUserService nonUserService;
 //	
-	@Autowired
-	private OracleSchedulingService oss;
+//	@Autowired
+//	private OracleSchedulingService oss;
 	
 	@GetMapping("/existence/admin")
 	public ResponseEntity authorization() {
@@ -71,7 +72,7 @@ public class NonUserController {
 		boolean checkCanLogin = nonUserService.signIn(userPrimitiveDTO);
 		result.status = true;
 		if (checkCanLogin) {
-			oss.start();
+//			oss.start();
 			result.result = "success";
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
 		} else {

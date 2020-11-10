@@ -1,5 +1,5 @@
 @echo off
-echo "¼­¹ö¸¦ °³¼³ÇÕ´Ï´Ù."
+echo "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½."
 start chrome http://localhost:8080/ssoms
 java -jar monitoring-0.0.1-SNAPSHOT.war --SetupPath=C:\\Program Files (x86)\\SSOMS
 pause

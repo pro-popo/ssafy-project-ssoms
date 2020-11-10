@@ -158,7 +158,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
         	oneMonthMonitoringMongoRepo.insert(oneMonthMonitoringEntityBuilder(realTimeMonitoringEntity));
         	// 30일 저장 logic
         }
-        
+        realTimeMonitoringEntity = null;
 	}
 	
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {

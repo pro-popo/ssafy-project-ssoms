@@ -108,6 +108,7 @@ export default {
       }
     }
   },
+
   methods: {
     // 실시간 모니터링 (나중에 삭제 예정)
     connectScheduler() {
@@ -214,6 +215,20 @@ export default {
   },
   created() {
     this.getSettingsOracleDB();
+    axios
+      .get(SERVER.URL + SERVER.ROUTES.scheduleStatus)
+      .then((res) => {
+        if (res.data.result == "running") {
+          this.scheduler = false;
+          console.log("현재 실시간 모니터링이 시작된 상태 입니다 !!");
+        } else if (res.data.result == "end") {
+          this.scheduler = true;
+          console.log("현재 실시간 모니터링이 종료된 상태 입니다.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
 </script>
