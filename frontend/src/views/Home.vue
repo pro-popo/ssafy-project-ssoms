@@ -94,6 +94,7 @@ export default {
       this.requestEditUser = false;
     },
     connect() {
+      console.log("여기는?");
       const serverURL = "http://localhost:8080/ssoms/stomp";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);

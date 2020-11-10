@@ -31,9 +31,16 @@ export default new Vuex.Store({
   },
   actions: {
     initRealTimeData() {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.getRealTimeData)
-        .then((res) => console.log(res.data.map));
+      axios.get(SERVER.URL + SERVER.ROUTES.getRealTimeData).then((res) => {
+        console.log(res.data.map.realTimeMonitoringList);
+        const realTimeHistoricalData = res.data.map.realTimeMonitoringList;
+        // 1. oracle  2. schema  3. topquery
+        this.SET_ORACLE_STATUS_LIST(realTimeHistoricalData.oracleStatus);
+        this.SET_REALTIME_SCHEMA_LIST(realTimeHistoricalData.allSchemaStastics);
+        this.SET_TOPQUERY_LIST(realTimeHistoricalData.allSchemaQueryInfo);
+
+        this.SET_REALTIME(realTimeHistoricalData.time);
+      });
     }
   },
   modules: {
