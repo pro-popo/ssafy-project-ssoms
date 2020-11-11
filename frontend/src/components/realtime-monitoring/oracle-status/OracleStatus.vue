@@ -98,10 +98,10 @@ export default {
 
 .data-increase {
   color: #ef5350;
-  font-size: 16px;
 }
 .data-increase .v-icon {
   color: #ef5350;
+  margin-left: -5px;
 }
 
 .data-decrease {
@@ -109,5 +109,6 @@ export default {
 }
 .data-decrease .v-icon {
   color: #8bc34a;
+  margin-left: -5px;
 }
 </style>

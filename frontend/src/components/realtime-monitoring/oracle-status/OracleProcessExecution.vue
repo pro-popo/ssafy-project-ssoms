@@ -2,15 +2,20 @@
   <v-card elevation="2" style="height:100%; margin-right:15px">
     <v-card-text style="height:100%; display:flex; flex-direction: column;">
       <div style="height:30%; display:flex; flex-direction: column;">
-        <div>
-          <h4 class="oracle-status-name">Executions</h4>
+        <div style="display:flex">
+          <h4 class="oracle-status-name">
+            Executions
+          </h4>
+          <span style="color:var(--font-sub-color);margin-left:5px">
+            (per sec)</span
+          >
         </div>
-        <div style="displayx:flex;" class="oracle-data">
+        <!-- <div style="display:flex;" class="oracle-data">
           <h1>
             {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
             <span class="oracle-unit">%</span>
           </h1>
-        </div>
+        </div> -->
         <div v-if="changedExecutions == 0">
           <v-icon>mdi-menu-up</v-icon>
           <span>0</span>
@@ -48,7 +53,6 @@ export default {
   },
   computed: {
     ...mapGetters("Oracle", ["getExecutionsPerSec"]),
-    ...mapGetters(["getRealTimeList"]),
     changedExecutions: function() {
       if (this.getExecutionsPerSec.length <= 1) return 0;
       return (
@@ -59,8 +63,12 @@ export default {
   },
   watch: {
     getExecutionsPerSec: function() {
-      this.option.xAxis.data = this.getRealTimeList;
-      this.option.series[0].data = this.getExecutionsPerSec;
+      this.option.series[0].data[0].value = this.getExecutionsPerSec[
+        this.getExecutionsPerSec.length - 1
+      ];
+      this.option.series[0].data[0].name = "Excutions";
+      this.option.series[0].data[1].value =
+        100 - this.option.series[0].data[0].value;
     }
   },
   data() {
@@ -76,46 +84,44 @@ export default {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 20
         },
-        legend: {
-          orient: "vertical",
-          right: 10,
-          data: ["CpuTime"]
-        },
+
         series: [
           {
             type: "pie",
-            radius: ["40%", "65%"],
+            radius: ["55%", "85%"],
             label: {
-              show: false,
+              show: true,
+              formatter: function(event) {
+                if (event.data.name == "") return "";
+                return (
+                  "{b|" +
+                  event.data.name +
+                  "}" +
+                  "\n {c|" +
+                  event.data.value +
+                  "} {d|%}"
+                );
+              },
+              rich: {
+                b: {
+                  color: "gray",
+                  fontSize: "12",
+                  fontWeight: "bold"
+                },
+                c: {
+                  fontSize: "22",
+                  fontWeight: "bold"
+                },
+                d: {
+                  fontSize: "18",
+                  fontWeight: "bold"
+                }
+              },
               position: "center"
             },
-            emphasis: {
-              label: {
-                show: true,
-                lineHeight: 25,
-                padding: [-12, 0, 0, 0],
-                // fontSize: "20",
 
-                formatter: "{b|{b}}\n{c|{c}} {d|%}",
-                rich: {
-                  b: {
-                    color: "gray",
-                    fontSize: "12",
-                    fontWeight: "bold"
-                  },
-                  c: {
-                    fontSize: "25",
-                    fontWeight: "bold"
-                  },
-                  d: {
-                    fontSize: "20",
-                    fontWeight: "bold"
-                  }
-                }
-              }
-            },
             labelLine: {
               show: false
             },
@@ -123,10 +129,10 @@ export default {
             data: [
               {
                 value: 0,
-                name: "Excutions"
+                name: ""
               },
               {
-                value: 0,
+                value: 100,
                 name: ""
               }
             ]
@@ -140,6 +146,7 @@ export default {
 
 <style>
 .execution-pie {
+  margin-top: -5px;
   height: 100% !important;
   width: 100% !important;
 }

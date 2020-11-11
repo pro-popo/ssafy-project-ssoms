@@ -12,10 +12,9 @@
               <v-btn small icon style="margin: -10px 25px 0px auto">
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
-              <!-- <span style="margin-left:auto;font-size:12px">단위(%)</span> -->
             </div>
             <div style="height:100%">
-              <IEcharts :option="line" style="padding-top:5px" />
+              <IEcharts :option="line" style="padding-top:5px" @click="test" />
             </div>
           </div>
 
@@ -38,12 +37,15 @@
               <h4 class="oracle-status-name">
                 Response Time Per Transaction
               </h4>
-              <h1>
+              <h1 style="display:flex">
                 {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
                 <span class="oracle-unit">sec</span>
+                <div style="height:50%">
+                  <IEcharts :option="small1" class="small-chart" />
+                </div>
               </h1>
-              <span></span>
             </div>
+
             <span></span>
           </v-card-text>
         </v-card>
@@ -53,47 +55,44 @@
             <v-icon color="white">mdi-connection</v-icon>
             <div>
               <h4 class="oracle-status-name">Active Serial Sessions</h4>
-              <h1>
-                {{
+              <h1 style="display:flex;">
+                <span>{{
                   getActiveSerialSessions[getActiveSerialSessions.length - 1]
-                }}
+                }}</span>
                 <span class="oracle-unit">count</span>
+                <div style="height:50%; width:auto">
+                  <IEcharts :option="small2" class="small-chart" />
+                </div>
               </h1>
-              <span></span>
             </div>
             <span></span>
           </v-card-text>
         </v-card>
       </div>
-      <!-- <div class="oracle-cpu-card2-1">
-          <OracleStorage />
-        </div> -->
     </div>
   </div>
 </template>
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-// import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "OracleCpu",
   components: {
     IEcharts
-    // OracleStorage
   },
   methods: {
-    test(data) {
+    test(params) {
       console.log("차트클릭!");
-      console.log(data);
+      console.log(params);
     }
   },
   computed: {
     ...mapGetters("Oracle", [
       "getDatabaseCpuTimeRatioList",
       "getDatabaseWaitTimeRatio",
-      "getActiveSerialSessions",
-      "getResponesTimePerTxn"
+      "getResponesTimePerTxn",
+      "getActiveSerialSessions"
     ]),
     ...mapGetters(["getRealTimeList"])
   },
@@ -110,6 +109,12 @@ export default {
       ];
 
       this.line.xAxis.data = this.getRealTimeList;
+
+      this.small1.xAxis.data = this.getRealTimeList;
+      this.small2.xAxis.data = this.getRealTimeList;
+
+      this.small1.series[0].data = this.getResponesTimePerTxn;
+      this.small2.series[0].data = this.getActiveSerialSessions;
     }
   },
   data() {
@@ -133,7 +138,12 @@ export default {
             lineStyle: {
               color: "#ababab"
             }
-          }
+          },
+          triggerEvent: true
+          // formatter: function(params, callback) {
+          //   console.log(callback);
+          //   this.test(params);
+          // }.bind(this)
           // axisTick: {
           //   show: false
           // }
@@ -158,10 +168,16 @@ export default {
         },
         tooltip: {
           trigger: "axis",
-          triggeron: "click",
-          formatter: function(params) {
-            console.log(params);
-          }.bind(this)
+          axisPointer: {
+            type: "line",
+            triggerOn: "click",
+            label: {
+              show: false,
+              formatter: function(params) {
+                this.test(params);
+              }.bind(this)
+            }
+          }
         },
         series: [
           {
@@ -236,6 +252,86 @@ export default {
                 name: "WaitTime"
               }
             ]
+          }
+        ]
+      },
+      small1: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        yAxis: {
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
+        },
+        series: [
+          {
+            name: "BlockGets",
+            data: [],
+            type: "line",
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
+          }
+        ]
+      },
+      small2: {
+        grid: {
+          right: 10,
+          left: 10,
+          bottom: 0,
+          top: 15
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [],
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        yAxis: {
+          type: "value",
+          splitLine: {
+            show: false
+          },
+          show: false
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "none"
+          }
+        },
+        series: [
+          {
+            name: "BlockGets",
+            data: [],
+            type: "line",
+            color: "#B39DDB",
+            showSymbol: false,
+            areaStyle: ""
           }
         ]
       }
@@ -315,6 +411,7 @@ export default {
   color: #6440e3;
 }
 .oracle-unit {
+  margin: 1px 0px 0px 5px;
   font-size: 1.4rem;
   color: var(--main-point-color);
 }

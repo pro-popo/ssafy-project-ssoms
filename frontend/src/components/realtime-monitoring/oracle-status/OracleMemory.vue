@@ -5,6 +5,9 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Block Gets</h4>
+            <span style="color:var(--font-sub-color);margin-left:5px">
+              (per sec)</span
+            >
           </div>
           <div style="display:flex;">
             <h1>
@@ -50,6 +53,9 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Logical Reads</h4>
+            <span style="color:var(--font-sub-color);margin-left:5px">
+              (per sec)</span
+            >
           </div>
 
           <div style="display:flex;">
@@ -96,6 +102,9 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Redo Generated</h4>
+            <span style="color:var(--font-sub-color);margin-left:5px">
+              (per sec)</span
+            >
           </div>
           <div style="display:flex;">
             <h1>

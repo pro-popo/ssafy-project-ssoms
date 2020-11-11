@@ -4,7 +4,7 @@
         <v-card-text class="oracle-data">
           <div>
             <div style="display:flex">
-              <h4 class="oracle-status-name">Executions Per Sec</h4>
+              <h4 class="oracle-status-name">Executions (per sec)</h4>
             </div>
             <div style="display:flex;">
               <h1>
@@ -36,6 +36,9 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Total Parse Count</h4>
+            <span style="color:var(--font-sub-color);margin-left:5px">
+              (per sec)</span
+            >
           </div>
           <div style="display:flex;">
             <h1>
@@ -86,6 +89,9 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Open Cursors</h4>
+            <span style="color:var(--font-sub-color);margin-left:5px">
+              (per sec)</span
+            >
           </div>
           <div style="display:flex;">
             <h1>
@@ -131,6 +137,9 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">User Commit</h4>
+            <span style="color:var(--font-sub-color);margin-left:5px">
+              (per sec)</span
+            >
           </div>
           <div style="display:flex;">
             <h1>
@@ -438,7 +447,6 @@ export default {
 .oracle-data {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 100%;
 }
 .oracle-data h1 {
