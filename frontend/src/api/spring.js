@@ -27,6 +27,7 @@ export default {
     scheduleStop: "/admin/realtime/stop",
     scheduleStatus: "/admin/realtime/status",
 
-    getRealTimeData: "/data/realtime"
+    getRealTimeData: "/data/realtime",
+    getPastData: "/data/past"
   }
 };

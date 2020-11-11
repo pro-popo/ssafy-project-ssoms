@@ -38,8 +38,9 @@
 import SchemaWhole from "@/components/schema/SchemaWhole.vue";
 // import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
 import SchemaDetail from "@/components/schema/SchemaDetail.vue";
-
-import { mapGetters } from "vuex";
+import SERVER from "@/api/spring.js";
+import { mapMutations, mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
   name: "QueryMonitoring",
@@ -55,10 +56,19 @@ export default {
   },
   methods: {
     queryData() {
-      const start = document.getElementById("startDate").value;
-      const end = document.getElementById("endDate").value;
-      console.log(start, end);
-    }
+      const start = '/'+document.getElementById("startDate").value;
+      const end = '/'+document.getElementById("endDate").value;
+      
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
+        .then((res) => {
+          if (res.data.result === "success") {
+            this.SET_TIME_AND_CPU_LIST(res.data.map.timeAndCpuList)
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    ...mapMutations("Schema", ["SET_TIME_AND_CPU_LIST"])
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"])

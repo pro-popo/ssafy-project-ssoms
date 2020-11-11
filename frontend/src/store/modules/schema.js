@@ -23,7 +23,11 @@ const Schema = {
       elapsedTimeAvg: [0],
       elapsedTimeMax: [123],
       elapsedTimeTot: [0]
-    }
+    },
+    timeAndCpuList:{
+        time : [],
+        cpu: []
+    },
   },
   getters: {
     getSchemaList: (state) => state.schemaList,
@@ -33,7 +37,8 @@ const Schema = {
     getRealTimeSchemaList2: (state) => state.realTimeSchemaList.cpuTimeTot,
     getRealTimeSchemaList3: (state) => state.realTimeSchemaList.elapsedTimeTot,
     getRealTimeSchemaList4: (state) => state.realTimeSchemaList.bufferGetsAvg,
-    getSchemaLength: (state) => state.schemaList.length
+    getSchemaLength: (state) => state.schemaList.length,
+    getTimeAndCpuList: (state) => state.timeAndCpuList,
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
@@ -91,6 +96,19 @@ const Schema = {
           }
         }
       }
+    },
+    SET_TIME_AND_CPU_LIST(state, data){
+        let times = [];
+        let cpus = [];
+        data.forEach(element => {
+            let temp = element.time.split(' ');
+            let f = temp[0].split('-');
+            let s = temp[1].split(':');
+            times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
+            cpus.push(element.databaseCpuTimeRatio);
+        });
+        state.timeAndCpuList.time = times;
+        state.timeAndCpuList.cpu = cpus;
     }
   },
   actions: {
