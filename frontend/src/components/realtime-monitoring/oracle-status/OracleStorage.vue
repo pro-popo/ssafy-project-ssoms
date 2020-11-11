@@ -1,8 +1,9 @@
 <template>
-  <v-card elevation="2">
-    <v-card-text class="oracle-storage">
-      <div class="oracle-title-icon">
-        <!-- <v-tooltip top>
+  <div style="height:100%;">
+    <v-card elevation="2" style="height:100%">
+      <v-card-text class="oracle-storage">
+        <div class="oracle-title-icon">
+          <!-- <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <v-icon v-bind="attrs" v-on="on" size="23" dark
               >mdi-file-cog-outline</v-icon
@@ -10,30 +11,31 @@
           </template>
           <span>File</span>
         </v-tooltip> -->
-      </div>
-      <div class="oracle-storage-chart">
-        <!-- <div style="display:flex; justify-content: space-between;">
+        </div>
+        <div class="oracle-storage-chart">
+          <!-- <div style="display:flex; justify-content: space-between;">
           <div>
             <v-icon color="var(--main-sub-color)">mdi-file-cog-outline</v-icon>
             <span class="oracle-status-name"> File</span>
           </div>
         </div> -->
-        <div class="storage-title-icon">
-          <v-icon class="storage-logo-icon" size="18" dark
-            >mdi-file-cog-outline</v-icon
-          >
-          <span class="storage-status-name"> File</span>
-          <v-btn small icon style="margin: -10px -10px 0px auto">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-          <!-- <span style="margin-left:auto;font-size:12px">단위(%)</span> -->
+          <div class="storage-title-icon">
+            <!-- <v-icon class="storage-logo-icon" size="18" dark
+              >mdi-file-cog-outline</v-icon
+            > -->
+            <h4 class="storage-status-name">File</h4>
+            <!-- <v-btn small icon style="margin-left:auto">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn> -->
+            <!-- <span style="margin-left:auto;font-size:12px">단위(%)</span> -->
+          </div>
+          <div style="height:100%">
+            <IEcharts :option="option" />
+          </div>
         </div>
-        <div style="height:85%">
-          <IEcharts :option="option" />
-        </div>
-      </div>
-    </v-card-text>
-  </v-card>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -66,10 +68,10 @@ export default {
       option: {
         color: ["#81D4FA", "#42A5F5"],
         grid: {
-          right: 25,
-          left: 30,
-          bottom: 20,
-          top: 55
+          right: 30,
+          left: 35,
+          bottom: 30,
+          top: 60
         },
         // title: { text: "CPU Time" },
         xAxis: {
@@ -110,6 +112,7 @@ export default {
           data: ["Physical Reads", "Physical Writes"],
           // icon: "circle",
           // bottom: 0,
+          top: 5,
           textStyle: {
             fontSize: 10
           }
@@ -157,6 +160,8 @@ export default {
 .storage-title-icon {
   display: flex;
   align-items: center;
+  position: absolute;
+  justify-content: space-between;
 }
 
 .storage-title-icon :nth-child(2) {

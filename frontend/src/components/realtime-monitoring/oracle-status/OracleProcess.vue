@@ -1,90 +1,75 @@
 <template>
-  <div style="height:15vh; margin:20px 0px 10px 0px">
-    <div class="oracle-process">
-      <v-card elevation="2">
+  <div class="oracle-process">
+    <!-- <v-card elevation="2">
         <v-card-text class="oracle-data">
           <div>
             <div style="display:flex">
-              <span class="oracle-status-name">Executions Per Sec</span>
-              <div v-if="changedExecutions == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedExecutions > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedExecutions > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedExecutions <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedExecutions }}</span>
-              </div>
+              <h4 class="oracle-status-name">Executions Per Sec</h4>
             </div>
             <div style="display:flex;">
               <h1>
                 {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
                 <span class="oracle-unit">%</span>
               </h1>
-              <div style="height:30%">
-                <IEcharts :option="option1" class="small-chart" />
-              </div>
             </div>
-          </div>
-          <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-arrow-decision-outline</v-icon
-                >
-              </template>
-              <span>Process</span>
-            </v-tooltip>
-          </div> -->
+            <div v-if="changedExecutions == 0">
+              <v-icon>mdi-menu-up</v-icon>
+              <span>0</span>
+            </div>
+            <div
+              v-else
+              :class="changedExecutions > 0 ? 'data-increase' : 'data-decrease'"
+            >
+              <v-icon v-if="changedExecutions > 0">
+                mdi-menu-up
+              </v-icon>
+              <v-icon v-if="changedExecutions <= 0">
+                mdi-menu-down
+              </v-icon>
+              <span>{{ changedExecutions }}</span>
+            </div>
+          </div> 
         </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <span class="oracle-status-name">Total Parse Count Per Sec</span>
-              <div v-if="changedTotalParseCount == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedTotalParseCount > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedTotalParseCount > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedTotalParseCount <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedTotalParseCount }}</span>
-              </div>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{
-                  getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
-                }}
-                <span class="oracle-unit">count</span>
-              </h1>
-              <div style="height:30%">
+      </v-card> -->
+    <v-card elevation="2">
+      <v-card-text class="oracle-data">
+        <div>
+          <div style="display:flex">
+            <h4 class="oracle-status-name">Total Parse Count</h4>
+          </div>
+          <div style="display:flex;">
+            <h1>
+              {{
+                getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
+              }}
+              <span class="oracle-unit">count</span>
+            </h1>
+
+            <!-- <div style="height:30%">
                 <IEcharts :option="option2" class="small-chart" />
-              </div>
-            </div>
+              </div> -->
           </div>
+          <div v-if="changedTotalParseCount == 0">
+            <v-icon>mdi-menu-up</v-icon>
+            <span>0</span>
+          </div>
+          <div
+            v-else
+            :class="
+              changedTotalParseCount > 0 ? 'data-increase' : 'data-decrease'
+            "
+          >
+            <v-icon v-if="changedTotalParseCount > 0">
+              mdi-menu-up
+            </v-icon>
+            <v-icon v-if="changedTotalParseCount <= 0">
+              mdi-menu-down
+            </v-icon>
+            <span>{{ changedTotalParseCount }}</span>
+          </div>
+        </div>
 
-          <!-- <div class="oracle-title-icon">
+        <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" size="25" dark
@@ -94,44 +79,42 @@
               <span>Process</span>
             </v-tooltip>
           </div> -->
-        </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <span class="oracle-status-name">Open Cursors Per Sec</span>
-              <div v-if="changedOpenCursors == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedOpenCursors > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedOpenCursors > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedOpenCursors <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedOpenCursors }}</span>
-              </div>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
-                <span class="oracle-unit">cursor</span>
-              </h1>
-              <div style="height:30%">
+      </v-card-text>
+    </v-card>
+    <v-card elevation="2">
+      <v-card-text class="oracle-data">
+        <div>
+          <div style="display:flex">
+            <h4 class="oracle-status-name">Open Cursors</h4>
+          </div>
+          <div style="display:flex;">
+            <h1>
+              {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
+              <span class="oracle-unit">cursor</span>
+            </h1>
+            <!-- <div style="height:30%">
                 <IEcharts :option="option3" class="small-chart" />
-              </div>
-            </div>
+              </div> -->
           </div>
+          <div v-if="changedOpenCursors == 0">
+            <v-icon>mdi-menu-up</v-icon>
+            <span>0</span>
+          </div>
+          <div
+            v-else
+            :class="changedOpenCursors > 0 ? 'data-increase' : 'data-decrease'"
+          >
+            <v-icon v-if="changedOpenCursors > 0">
+              mdi-menu-up
+            </v-icon>
+            <v-icon v-if="changedOpenCursors <= 0">
+              mdi-menu-down
+            </v-icon>
+            <span>{{ changedOpenCursors }}</span>
+          </div>
+        </div>
 
-          <!-- <div class="oracle-title-icon">
+        <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" size="25" dark
@@ -141,44 +124,42 @@
               <span>Process</span>
             </v-tooltip>
           </div> -->
-        </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <span class="oracle-status-name">User Commit Per Sec</span>
-              <div v-if="changedUserCommits == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedUserCommits > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedUserCommits > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedUserCommits <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedUserCommits }}</span>
-              </div>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
-                <span class="oracle-unit">commit</span>
-              </h1>
-              <div style="height:30%">
+      </v-card-text>
+    </v-card>
+    <v-card elevation="2">
+      <v-card-text class="oracle-data">
+        <div>
+          <div style="display:flex">
+            <h4 class="oracle-status-name">User Commit</h4>
+          </div>
+          <div style="display:flex;">
+            <h1>
+              {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
+              <span class="oracle-unit">commit</span>
+            </h1>
+            <!-- <div style="height:30%">
                 <IEcharts :option="option4" class="small-chart" />
-              </div>
-            </div>
+              </div> -->
           </div>
+          <div v-if="changedUserCommits == 0">
+            <v-icon>mdi-menu-up</v-icon>
+            <span>0</span>
+          </div>
+          <div
+            v-else
+            :class="changedUserCommits > 0 ? 'data-increase' : 'data-decrease'"
+          >
+            <v-icon v-if="changedUserCommits > 0">
+              mdi-menu-up
+            </v-icon>
+            <v-icon v-if="changedUserCommits <= 0">
+              mdi-menu-down
+            </v-icon>
+            <span>{{ changedUserCommits }}</span>
+          </div>
+        </div>
 
-          <!-- <div class="oracle-title-icon">
+        <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" size="25" dark
@@ -188,20 +169,19 @@
               <span>Process</span>
             </v-tooltip>
           </div> -->
-        </v-card-text>
-      </v-card>
-    </div>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
-import IEcharts from "vue-echarts-v3/src/full.js";
+// import IEcharts from "vue-echarts-v3/src/full.js";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "OracleMemory",
+  name: "OracleProcess",
   components: {
-    IEcharts
+    // IEcharts
   },
   computed: {
     ...mapGetters("Oracle", [
@@ -443,11 +423,11 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 .oracle-process .v-card {
-  width: 25%;
   margin-right: 15px;
+  width: 33.33%;
   display: flex;
   flex-direction: column;
   justify-content: center;

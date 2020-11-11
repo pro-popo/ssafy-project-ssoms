@@ -1,9 +1,29 @@
 <template>
-  <div>
-    <h2>OracleDB Status</h2>
-    <OracleCpu />
-    <OracleProcess />
-    <OracleMemory />
+  <div style="height: 70vh;margin-bottom:15px">
+    <h2 style="margin-bottom:15px">OracleDB Status</h2>
+    <div style="height: 30vh;">
+      <OracleCpu />
+    </div>
+    <div style="display:flex; height:30vh">
+      <div
+        style="width:75%;height:100%; margin:15px 15px 15px 0px; display:flex"
+      >
+        <div style="width:25%;">
+          <OracleProcessExecution />
+        </div>
+        <div style="width:75%;display:flex; flex-direction: column;">
+          <div style="height:50%;width:100%; margin-bottom:15px">
+            <OracleProcess />
+          </div>
+          <div style="height:50%;width:100%;">
+            <OracleMemory />
+          </div>
+        </div>
+      </div>
+      <div style="width:25%;height:100%; margin:15px 0px 15px 0px;">
+        <OracleStorage />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,12 +31,16 @@
 import OracleCpu from "@/components/realtime-monitoring/oracle-status/OracleCpu.vue";
 import OracleMemory from "@/components/realtime-monitoring/oracle-status/OracleMemory.vue";
 import OracleProcess from "@/components/realtime-monitoring/oracle-status/OracleProcess.vue";
+import OracleProcessExecution from "@/components/realtime-monitoring/oracle-status/OracleProcessExecution.vue";
+import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
 export default {
   name: "OracleStatus",
   components: {
     OracleCpu,
     OracleMemory,
-    OracleProcess
+    OracleProcess,
+    OracleProcessExecution,
+    OracleStorage
   }
 };
 </script>
@@ -67,13 +91,14 @@ export default {
 }
 .small-chart {
   height: 25px !important;
-  width: 80px !important;
+  width: 90px !important;
 
   position: initial;
 }
 
 .data-increase {
   color: #ef5350;
+  font-size: 16px;
 }
 .data-increase .v-icon {
   color: #ef5350;

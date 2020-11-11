@@ -1,42 +1,39 @@
 <template>
-  <div style="height:15vh">
-    <div class="oracle-memory">
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <span class="oracle-status-name">Block Gets Per Sec</span>
-              <div v-if="changedDbBlockGets == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedDbBlockGets > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedDbBlockGets > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedDbBlockGets <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedDbBlockGets }}</span>
-              </div>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
-                <span class="oracle-unit">block</span>
-              </h1>
-              <div style="height:30%">
+  <div class="oracle-memory">
+    <v-card elevation="2">
+      <v-card-text class="oracle-data">
+        <div>
+          <div style="display:flex">
+            <h4 class="oracle-status-name">Block Gets</h4>
+          </div>
+          <div style="display:flex;">
+            <h1>
+              {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
+              <span class="oracle-unit">block</span>
+            </h1>
+            <!-- <div style="height:30%">
                 <IEcharts :option="option1" class="small-chart" />
-              </div>
-            </div>
+              </div> -->
           </div>
+          <div v-if="changedDbBlockGets == 0">
+            <v-icon>mdi-menu-up</v-icon>
+            <span>0</span>
+          </div>
+          <div
+            v-else
+            :class="changedDbBlockGets > 0 ? 'data-increase' : 'data-decrease'"
+          >
+            <v-icon v-if="changedDbBlockGets > 0">
+              mdi-menu-up
+            </v-icon>
+            <v-icon v-if="changedDbBlockGets <= 0">
+              mdi-menu-down
+            </v-icon>
+            <span>{{ changedDbBlockGets }}</span>
+          </div>
+        </div>
 
-          <!-- <div class="oracle-title-icon">
+        <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" size="25" dark
@@ -46,45 +43,43 @@
               <span>Memory</span>
             </v-tooltip>
           </div> -->
-        </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <span class="oracle-status-name">Logical Reads Per Sec</span>
-              <div v-if="changedLogicalReads == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedLogicalReads > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedLogicalReads > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedLogicalReads <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedLogicalReads }}</span>
-              </div>
-            </div>
+      </v-card-text>
+    </v-card>
+    <v-card elevation="2">
+      <v-card-text class="oracle-data">
+        <div>
+          <div style="display:flex">
+            <h4 class="oracle-status-name">Logical Reads</h4>
+          </div>
 
-            <div style="display:flex;">
-              <h1>
-                {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
-                <span class="oracle-unit">reads</span>
-              </h1>
-              <div style="height:30%">
+          <div style="display:flex;">
+            <h1>
+              {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
+              <span class="oracle-unit">reads</span>
+            </h1>
+            <!-- <div style="height:30%">
                 <IEcharts :option="option2" class="small-chart" />
-              </div>
-            </div>
+              </div> -->
           </div>
+          <div v-if="changedLogicalReads == 0">
+            <v-icon>mdi-menu-up</v-icon>
+            <span>0</span>
+          </div>
+          <div
+            v-else
+            :class="changedLogicalReads > 0 ? 'data-increase' : 'data-decrease'"
+          >
+            <v-icon v-if="changedLogicalReads > 0">
+              mdi-menu-up
+            </v-icon>
+            <v-icon v-if="changedLogicalReads <= 0">
+              mdi-menu-down
+            </v-icon>
+            <span>{{ changedLogicalReads }}</span>
+          </div>
+        </div>
 
-          <!-- <div class="oracle-title-icon">
+        <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" size="25" dark
@@ -94,44 +89,44 @@
               <span>Memory</span>
             </v-tooltip>
           </div> -->
-        </v-card-text>
-      </v-card>
-      <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <span class="oracle-status-name">Redo Generated Per Sec</span>
-              <div v-if="changedRedoGenerated == 0">
-                <v-icon>mdi-menu-up</v-icon>
-                <span>0</span>
-              </div>
-              <div
-                v-else
-                :class="
-                  changedRedoGenerated > 0 ? 'data-increase' : 'data-decrease'
-                "
-              >
-                <v-icon v-if="changedRedoGenerated > 0">
-                  mdi-menu-up
-                </v-icon>
-                <v-icon v-if="changedRedoGenerated <= 0">
-                  mdi-menu-down
-                </v-icon>
-                <span>{{ changedRedoGenerated }}</span>
-              </div>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
-                <span class="oracle-unit">byte</span>
-              </h1>
-              <div style="height:30%">
+      </v-card-text>
+    </v-card>
+    <v-card elevation="2">
+      <v-card-text class="oracle-data">
+        <div>
+          <div style="display:flex">
+            <h4 class="oracle-status-name">Redo Generated</h4>
+          </div>
+          <div style="display:flex;">
+            <h1>
+              {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+              <span class="oracle-unit">byte</span>
+            </h1>
+            <!-- <div style="height:30%">
                 <IEcharts :option="option3" class="small-chart" />
-              </div>
-            </div>
+              </div> -->
           </div>
+          <div v-if="changedRedoGenerated == 0">
+            <v-icon>mdi-menu-up</v-icon>
+            <span>0</span>
+          </div>
+          <div
+            v-else
+            :class="
+              changedRedoGenerated > 0 ? 'data-increase' : 'data-decrease'
+            "
+          >
+            <v-icon v-if="changedRedoGenerated > 0">
+              mdi-menu-up
+            </v-icon>
+            <v-icon v-if="changedRedoGenerated <= 0">
+              mdi-menu-down
+            </v-icon>
+            <span>{{ changedRedoGenerated }}</span>
+          </div>
+        </div>
 
-          <!-- <div class="oracle-title-icon">
+        <!-- <div class="oracle-title-icon">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" size="25" dark
@@ -141,19 +136,18 @@
               <span>Memory</span>
             </v-tooltip>
           </div> -->
-        </v-card-text>
-      </v-card>
-    </div>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
-import IEcharts from "vue-echarts-v3/src/full.js";
+// import IEcharts from "vue-echarts-v3/src/full.js";
 import { mapGetters } from "vuex";
 export default {
   name: "OracleMemory",
   components: {
-    IEcharts
+    // IEcharts
   },
   computed: {
     ...mapGetters("Oracle", [
@@ -338,12 +332,12 @@ export default {
 }
 .oracle-memory {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 .oracle-memory .v-card {
-  width: 25%;
+  width: 33.33%;
   margin-right: 15px;
   display: flex;
   flex-direction: column;
