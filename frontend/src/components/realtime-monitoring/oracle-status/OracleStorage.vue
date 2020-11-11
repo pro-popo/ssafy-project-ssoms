@@ -1,6 +1,6 @@
 <template>
-  <div style="height:100%;">
-    <v-card elevation="2" style="height:100%">
+  <div style="height:100%; ">
+    <v-card elevation="2" style="height:100%;">
       <v-card-text class="oracle-storage">
         <div class="oracle-title-icon">
           <!-- <v-tooltip top>
@@ -23,7 +23,7 @@
             <!-- <v-icon class="storage-logo-icon" size="18" dark
               >mdi-file-cog-outline</v-icon
             > -->
-            <h4 class="storage-status-name">File</h4>
+            <h3 class="storage-status-name">File</h3>
             <!-- <v-btn small icon style="margin-left:auto">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn> -->
@@ -71,7 +71,7 @@ export default {
           right: 30,
           left: 35,
           bottom: 30,
-          top: 60
+          top: 65
         },
         // title: { text: "CPU Time" },
         xAxis: {

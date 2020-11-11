@@ -106,9 +106,18 @@ export default {
 
 .data-decrease {
   color: #8bc34a;
+  margin-bottom: -5px;
 }
 .data-decrease .v-icon {
   color: #8bc34a;
   margin-left: -5px;
+}
+.oracle-status-units {
+  color: var(--font-sub-color);
+  margin-left: 3px;
+  font-size: 14px;
+}
+h4 {
+  margin-top: -3px;
 }
 </style>

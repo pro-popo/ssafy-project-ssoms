@@ -5,14 +5,12 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Block Gets</h4>
-            <span style="color:var(--font-sub-color);margin-left:5px">
-              (per sec)</span
-            >
           </div>
           <div style="display:flex;">
             <h1>
               {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
               <span class="oracle-unit">block</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option1" class="small-chart" />
@@ -53,15 +51,13 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Logical Reads</h4>
-            <span style="color:var(--font-sub-color);margin-left:5px">
-              (per sec)</span
-            >
           </div>
 
           <div style="display:flex;">
             <h1>
               {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
               <span class="oracle-unit">reads</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option2" class="small-chart" />
@@ -102,14 +98,12 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Redo Generated</h4>
-            <span style="color:var(--font-sub-color);margin-left:5px">
-              (per sec)</span
-            >
           </div>
           <div style="display:flex;">
             <h1>
               {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
               <span class="oracle-unit">byte</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option3" class="small-chart" />

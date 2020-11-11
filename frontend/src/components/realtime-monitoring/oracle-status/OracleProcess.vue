@@ -36,9 +36,6 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Total Parse Count</h4>
-            <span style="color:var(--font-sub-color);margin-left:5px">
-              (per sec)</span
-            >
           </div>
           <div style="display:flex;">
             <h1>
@@ -46,6 +43,7 @@
                 getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
               }}
               <span class="oracle-unit">count</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
 
             <!-- <div style="height:30%">
@@ -89,14 +87,12 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">Open Cursors</h4>
-            <span style="color:var(--font-sub-color);margin-left:5px">
-              (per sec)</span
-            >
           </div>
           <div style="display:flex;">
             <h1>
               {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
               <span class="oracle-unit">cursor</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option3" class="small-chart" />
@@ -137,14 +133,12 @@
         <div>
           <div style="display:flex">
             <h4 class="oracle-status-name">User Commit</h4>
-            <span style="color:var(--font-sub-color);margin-left:5px">
-              (per sec)</span
-            >
           </div>
           <div style="display:flex;">
             <h1>
               {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
               <span class="oracle-unit">commit</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option4" class="small-chart" />

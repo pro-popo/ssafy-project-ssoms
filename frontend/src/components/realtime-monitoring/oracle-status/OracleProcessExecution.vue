@@ -3,12 +3,10 @@
     <v-card-text style="height:100%; display:flex; flex-direction: column;">
       <div style="height:30%; display:flex; flex-direction: column;">
         <div style="display:flex">
-          <h4 class="oracle-status-name">
+          <h3 class="oracle-status-name">
             Executions
-          </h4>
-          <span style="color:var(--font-sub-color);margin-left:5px">
-            (per sec)</span
-          >
+          </h3>
+          <span style="color:var(--font-sub-color);margin-left:5px"> /sec</span>
         </div>
         <!-- <div style="display:flex;" class="oracle-data">
           <h1>
@@ -83,14 +81,13 @@ export default {
           height: "100%",
           right: 10,
           left: 10,
-          bottom: 0,
-          top: 20
+          bottom: 0
         },
 
         series: [
           {
             type: "pie",
-            radius: ["55%", "85%"],
+            radius: ["60%", "90%"],
             label: {
               show: true,
               formatter: function(event) {
@@ -111,12 +108,14 @@ export default {
                   fontWeight: "bold"
                 },
                 c: {
-                  fontSize: "22",
-                  fontWeight: "bold"
+                  fontSize: "20",
+                  fontWeight: "bold",
+                  padding: [0, 0, 5, 0]
                 },
                 d: {
-                  fontSize: "18",
-                  fontWeight: "bold"
+                  fontSize: "16",
+                  fontWeight: "bold",
+                  padding: [0, 0, 5, 0]
                 }
               },
               position: "center"

@@ -1,7 +1,20 @@
 <template>
   <div>
-    <div align="right">
-      Last Update Time : <b>{{ getRealTime }}</b>
+    <div
+      style="display:flex;  justify-content: space-between; align-items:flex-start; margin-bottom:15px"
+    >
+      <h3>
+        Real-Time Monitorting
+      </h3>
+
+      <div align="right">
+        <span style="font-size:14px">Last Update</span>
+        <br />
+        <span style="font-size:14px"
+          ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
+          {{ getRealTime }}</span
+        >
+      </div>
     </div>
     <OracleStatus />
     <v-divider></v-divider>

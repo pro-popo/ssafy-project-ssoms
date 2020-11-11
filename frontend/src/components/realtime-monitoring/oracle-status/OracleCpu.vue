@@ -2,28 +2,24 @@
   <div class="oracle-cpu">
     <div class="oracle-cpu-card1">
       <v-card elevation="2">
-        <v-card-text style="height:100%">
-          <div v-if="true" style="height:100%; width:100%;">
-            <div class="oracle-title-icon">
-              <v-icon id="chart-title-icon" size="18" dark
-                >mdi-desktop-classic</v-icon
-              >
-              <h3 class="oracle-status-name">CPU Time</h3>
-              <v-btn small icon style="margin: -10px 25px 0px auto">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </div>
+        <v-card-text style="height:100%; display:flex">
+          <div class="oracle-title-icon">
+            <!-- <v-icon id="chart-title-icon" size="18" dark
+              >mdi-desktop-classic</v-icon
+            > -->
+            <h3 class="oracle-status-name">CPU & Wait Time</h3>
+            <v-btn small icon style="margin: -10px 25px 0px auto">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </div>
+
+          <div style="height:100%; width:70%;">
             <div style="height:100%">
               <IEcharts :option="line" style="padding-top:5px" @click="test" />
             </div>
           </div>
-
-          <div v-if="false" style="height:100%">
-            <div>
-              <v-icon color="var(--main-sub-color)">mdi-desktop-classic</v-icon>
-              <span class="oracle-status-name"> CpuTime & WaitTime Ratio</span>
-            </div>
-            <IEcharts :option="pie" />
+          <div style="height:95%; width:30%;">
+            <IEcharts :option="gauge" style="margin-top:30px" />
           </div>
         </v-card-text>
       </v-card>
@@ -39,7 +35,7 @@
               </h4>
               <h1 style="display:flex">
                 {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
-                <span class="oracle-unit">sec</span>
+                <span class="oracle-cpu-unit">sec</span>
                 <div style="height:50%">
                   <IEcharts :option="small1" class="small-chart" />
                 </div>
@@ -59,7 +55,7 @@
                 <span>{{
                   getActiveSerialSessions[getActiveSerialSessions.length - 1]
                 }}</span>
-                <span class="oracle-unit">count</span>
+                <span class="oracle-cpu-unit">count</span>
                 <div style="height:50%; width:auto">
                   <IEcharts :option="small2" class="small-chart" />
                 </div>
@@ -100,16 +96,18 @@ export default {
     getDatabaseCpuTimeRatioList: function() {
       this.line.series[0].data = this.getDatabaseCpuTimeRatioList;
       this.line.series[1].data = this.getDatabaseWaitTimeRatio;
-
-      this.pie.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+      this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.getDatabaseCpuTimeRatioList.length - 1
       ];
-      this.pie.series[0].data[1].value = this.getDatabaseWaitTimeRatio[
-        this.getDatabaseWaitTimeRatio.length - 1
-      ];
+
+      // this.pie.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+      //   this.getDatabaseCpuTimeRatioList.length - 1
+      // ];
+      // this.pie.series[0].data[1].value = this.getDatabaseWaitTimeRatio[
+      //   this.getDatabaseWaitTimeRatio.length - 1
+      // ];
 
       this.line.xAxis.data = this.getRealTimeList;
-
       this.small1.xAxis.data = this.getRealTimeList;
       this.small2.xAxis.data = this.getRealTimeList;
 
@@ -124,9 +122,9 @@ export default {
       line: {
         color: ["#81D4FA", "#42A5F5"],
         grid: {
-          right: 40,
+          right: 20,
           left: 50,
-          bottom: 20,
+          bottom: 30,
           top: 65
         },
         // title: { text: "CPU Time" },
@@ -138,8 +136,8 @@ export default {
             lineStyle: {
               color: "#ababab"
             }
-          },
-          triggerEvent: true
+          }
+          // triggerEvent: true
           // formatter: function(params, callback) {
           //   console.log(callback);
           //   this.test(params);
@@ -172,10 +170,11 @@ export default {
             type: "line",
             triggerOn: "click",
             label: {
-              show: false,
-              formatter: function(params) {
-                this.test(params);
-              }.bind(this)
+              show: false
+              // formatter: function(params) {
+              //   this.test(params);
+              //   return null;
+              // }.bind(this)
             }
           }
         },
@@ -196,62 +195,74 @@ export default {
           }
         ]
       },
-      pie: {
-        // title: {
-        //   text: "Status"
-        // },
-        legend: {
-          orient: "vertical",
-          right: 10,
-          data: ["CpuTime", "WaitTime"]
-        },
+      gauge: {
         series: [
           {
-            type: "pie",
-            radius: ["40%", "65%"],
-            label: {
-              show: false,
-              position: "center"
+            name: "CpuTime",
+            type: "gauge",
+            detail: {
+              formatter: "{value}%",
+              show: true,
+              color: "rgba(92, 92, 92, 1)",
+              offsetCenter: ["0", "50%"],
+              fontSize: 22
             },
-            emphasis: {
-              label: {
-                show: true,
-                lineHeight: 25,
-                padding: [-12, 0, 0, 0],
-                // fontSize: "20",
-
-                formatter: "{b|{b}}\n{c|{c}} {d|%}",
-                rich: {
-                  b: {
-                    color: "gray",
-                    fontSize: "12",
-                    fontWeight: "bold"
-                  },
-                  c: {
-                    fontSize: "25",
-                    fontWeight: "bold"
-                  },
-                  d: {
-                    fontSize: "20",
-                    fontWeight: "bold"
-                  }
-                }
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            color: ["#2196F3", "#4CAF50"],
             data: [
               {
                 value: 0,
                 name: "CpuTime"
-              },
-              {
-                value: 0,
-                name: "WaitTime"
               }
-            ]
+            ],
+            radius: "80%",
+            startAngle: 180,
+            endAngle: 0,
+            splitNumber: 5,
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: [
+                  [0.2, "#EF5350"],
+
+                  [0.8, "#039BE5"],
+                  [1, "#4CAF50"]
+                ]
+              }
+            },
+            splitLine: {
+              show: true
+            },
+            axisTick: {
+              show: true,
+              splitNumber: 2,
+              length: 6
+            },
+            axisLabel: {
+              show: true,
+              distance: -53
+            },
+            pointer: {
+              show: true,
+              length: "50%",
+              width: 6
+            },
+            itemStyle: {
+              color: "rgba(85, 85, 85, 1)"
+            },
+            title: {
+              show: true,
+              offsetCenter: [0, "85%"],
+              color: "rgba(143, 143, 143, 1)",
+              fontSize: 12,
+              fontWeight: "bold"
+            },
+            markPoint: {
+              data: [
+                {
+                  type: "max"
+                }
+              ]
+            },
+            animationEasing: "backOut"
           }
         ]
       },
@@ -286,10 +297,10 @@ export default {
         },
         series: [
           {
-            name: "BlockGets",
+            name: "ResponseTimePerTransaction",
             data: [],
             type: "line",
-            color: "#B39DDB",
+            color: "#4CAF50",
             showSymbol: false,
             areaStyle: ""
           }
@@ -326,10 +337,10 @@ export default {
         },
         series: [
           {
-            name: "BlockGets",
+            name: "ActiveSerialSessions",
             data: [],
             type: "line",
-            color: "#B39DDB",
+            color: "#4CAF50",
             showSymbol: false,
             areaStyle: ""
           }
@@ -410,8 +421,12 @@ export default {
   margin-top: 5px;
   color: #6440e3;
 }
-.oracle-unit {
+.oracle-cpu-unit {
   margin: 1px 0px 0px 5px;
+  font-size: 1.4rem;
+  color: var(--main-point-color);
+}
+.oracle-unit {
   font-size: 1.4rem;
   color: var(--main-point-color);
 }
