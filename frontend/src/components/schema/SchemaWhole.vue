@@ -1,7 +1,7 @@
 <template>
   <div class="whole-box">
     <div class="whole-query-box1">
-      <IEcharts :option="chart1" />
+      <IEcharts :option="chart1" @click="onClick" />
     </div>
     <div class="whole-query-box2">
       <IEcharts :option="chart2" />
@@ -13,6 +13,8 @@
 import IEcharts from "vue-echarts-v3/src/full.js";
 import { mapGetters } from "vuex";
 import echarts from 'echarts/lib/echarts';
+import SERVER from "@/api/spring.js";
+import axios from "axios";
 
 export default {
   name: "SchemaWhole",
@@ -27,25 +29,22 @@ export default {
                 trigger: 'axis',
                 position: function (pt) {
                     return [pt[0], '10%'];
-                }
+                },
+                // axisPointer: {
+                //     type: 'shadow',
+                //     triggerEvent: true,
+                // },
+                triggerEvent: true,
             },
             title: {
                 left: 'center',
                 text: 'CPU',
-            },
-            toolbox: {
-                feature: {
-                    dataZoom: {
-                        yAxisIndex: 'none'
-                    },
-                    restore: {},
-                    saveAsImage: {}
-                }
+                
             },
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: this.getTimeAndCpuList.time
+                data: this.getTimeAndCpuList.time,
             },
             yAxis: {
                 type: 'value',
@@ -73,10 +72,9 @@ export default {
                     name: 'databaseCpuTimeRatio',
                     type: 'line',
                     smooth: true,
-                    symbol: 'none',
                     sampling: 'average',
                     itemStyle: {
-                        color: 'rgb(255, 70, 131)'
+                        color: 'rgb(255, 70, 131)',
                     },
                     areaStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -87,7 +85,7 @@ export default {
                             color: 'rgb(255, 70, 131)'
                         }])
                     },
-                    data: this.getTimeAndCpuList.cpu
+                    data: this.getTimeAndCpuList.cpu,
                 }
             ]
         }
@@ -138,6 +136,22 @@ export default {
         ]
       }
     };
+  },
+  methods: {
+    onClick(eventInfo){
+      console.log(eventInfo.name)
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getPastData + '/' +eventInfo.name)
+        .then((res) => {
+          if (res.data.result === "success") {
+            console.log(res.data.map)
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    click_event(params){
+      console.log(params)
+    }
   }
 };
 </script>

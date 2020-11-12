@@ -6,8 +6,8 @@
         <span>{{ SelectedSchema }}</span>
       </b>
       <div>
-        <span><input type="datetime-local" id="startDate"/></span>
-        <span><input type="datetime-local" id="endDate"/></span>
+        <span><input type="date" id="startDate"/></span>
+        <span><input type="date" id="endDate"/></span>
         <button class="query-button" @click="queryData">조회</button>
       </div>
     </div>
@@ -58,7 +58,7 @@ export default {
     queryData() {
       const start = '/'+document.getElementById("startDate").value;
       const end = '/'+document.getElementById("endDate").value;
-      
+      console.log(start)
       axios
         .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
         .then((res) => {

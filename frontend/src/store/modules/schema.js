@@ -101,10 +101,11 @@ const Schema = {
         let times = [];
         let cpus = [];
         data.forEach(element => {
-            let temp = element.time.split(' ');
-            let f = temp[0].split('-');
-            let s = temp[1].split(':');
-            times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
+            // let temp = element.time.split(' ');
+            // let f = temp[0].split('-');
+            // let s = temp[1].split(':');
+            // times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
+            times.push(element.time);
             cpus.push(element.databaseCpuTimeRatio);
         });
         state.timeAndCpuList.time = times;
