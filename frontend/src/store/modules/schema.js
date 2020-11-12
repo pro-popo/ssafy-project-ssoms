@@ -28,6 +28,13 @@ const Schema = {
         time : [],
         cpu: []
     },
+    pastTimeData: {
+      allSchemaStastics: [],
+      oracleStatus: {},
+      schemas: [],
+      schemaList: [],
+      radarchart: []
+    }
   },
   getters: {
     getSchemaList: (state) => state.schemaList,
@@ -39,6 +46,7 @@ const Schema = {
     getRealTimeSchemaList4: (state) => state.realTimeSchemaList.bufferGetsAvg,
     getSchemaLength: (state) => state.schemaList.length,
     getTimeAndCpuList: (state) => state.timeAndCpuList,
+    getPastTimeData: (state) => state.pastTimeData
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
@@ -110,6 +118,33 @@ const Schema = {
         });
         state.timeAndCpuList.time = times;
         state.timeAndCpuList.cpu = cpus;
+    },
+    SET_PAST_TIME_DATA(state, data){
+      state.pastTimeData.oracleStatus = data.oracleStatus;
+      let tempstat = [];
+      let tempsch = {};
+      let list = [];
+      let radar = [];
+      data.allSchemaStastics.forEach(element => {
+        tempstat.push(
+          {
+            name : element.parsingSchemaName,
+            data : element
+          }
+        );
+        radar.push({
+            value : [element.bufferGetsAvg, element.cpuTimeAvg, element.cpuTimeMax, element.cpuTimeTot, element.sqlCnt],
+            name : element.parsingSchemaName
+        });
+        list.push(element.parsingSchemaName);
+      });
+      data.schemas.forEach(element => {
+        tempsch[element.bufferGets[0].parsingSchemaName] = element;
+      });
+      state.pastTimeData.allSchemaStastics = tempstat;
+      state.pastTimeData.schemas = tempsch;
+      state.pastTimeData.radarchart = radar;
+      state.pastTimeData.schemaList = list;
     }
   },
   actions: {

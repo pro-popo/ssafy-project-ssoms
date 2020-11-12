@@ -1,8 +1,43 @@
 <template>
-  <div>
-    <div v-for="query in getTopQueryList" :key="query.sqlId">
-      {{ query.sqlId }}
-    </div>
+  <div width="600px">
+    <v-simple-table
+      fixed-header
+      height="300px"
+      width="600px"
+      class="elevation-2"
+    >
+      <template v-slot:default width="600px">
+        <thead>
+          <tr>
+            <th class="text-center">
+              Rank
+            </th>
+            <th class="text-center">
+              SQL ID
+            </th>
+            <th class="text-center">
+              SQL
+            </th>
+            <th class="text-center">
+              Schema Name
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(query, index) in getPastTimeData.schemas[SelectedSchema].cpuUsed"
+            :key="index"
+            @click="getQueryDetail(index)"
+            class="real-query-hover"
+          >
+            <td>{{ index + 1 }}</td>
+            <td>{{ query.sqlId }}</td>
+            <td align="left">{{ query.sql }}</td>
+            <td>{{ query.parsingSchemaName }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
   </div>
 </template>
 
@@ -11,37 +46,15 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "SchemaTopQuery",
-  data() {
-    return {
-      cpuMonitor: true,
-      timeMonitor: false,
-      resourceMonitor: false
-    };
-  },
   methods: {
-    // test(queryTest) {
-    //   this.testdata = queryTest.queryData;
-    // }
-    showBox(number) {
-      if (number == 1) {
-        this.cpuMonitor = true;
-        this.timeMonitor = false;
-        this.resourceMonitor = false;
-      } else if (number == 2) {
-        this.cpuMonitor = false;
-        this.timeMonitor = true;
-        this.resourceMonitor = false;
-      } else {
-        this.cpuMonitor = false;
-        this.timeMonitor = false;
-        this.resourceMonitor = true;
-      }
-    }
+
   },
   computed: {
-    ...mapGetters("TopQuery", ["getTopQueryList"])
+    ...mapGetters("Schema", ["getPastTimeData"]),
+    ...mapGetters("Schema", ["SelectedSchema"])
   }
 };
 </script>
 
-<style></style>
+<style>
+</style>

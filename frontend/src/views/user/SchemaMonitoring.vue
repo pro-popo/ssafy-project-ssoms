@@ -6,16 +6,16 @@
         <span>{{ SelectedSchema }}</span>
       </b>
       <div>
-        <span><input type="date" id="startDate"/></span>
-        <span><input type="date" id="endDate"/></span>
-        <button class="query-button" @click="queryData">조회</button>
+        <span class="solid-black py-1 mx-1"><input type="date" id="startDate"/></span>
+        <span class="solid-black py-1 mx-1"><input type="date" id="endDate"/></span>
+        <button class="solid-black query-button px-1 mx-1" @click="queryData">조회</button>
       </div>
     </div>
 
     <div class="main-query-box">
       <SchemaWhole class="query-box1" />
-      <SchemaDetail />
-      <!-- <SchemaTopQuery /> -->
+      <!-- <SchemaDetail /> -->
+      <SchemaTopQuery />
       <!-- <v-carousel
         hide-delimiters
         light
@@ -36,8 +36,8 @@
 
 <script>
 import SchemaWhole from "@/components/schema/SchemaWhole.vue";
-// import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
-import SchemaDetail from "@/components/schema/SchemaDetail.vue";
+import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
+// import SchemaDetail from "@/components/schema/SchemaDetail.vue";
 import SERVER from "@/api/spring.js";
 import { mapMutations, mapGetters } from "vuex";
 import axios from "axios";
@@ -51,8 +51,8 @@ export default {
   },
   components: {
     SchemaWhole,
-    // SchemaTopQuery,
-    SchemaDetail
+    SchemaTopQuery,
+    // SchemaDetail
   },
   methods: {
     queryData() {
@@ -123,7 +123,13 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.query-button {
+.solid-black{
   border: 1px solid black;
+  border-radius: 4px;
+}
+.query-button {
+  padding-top: 1.5px;
+  padding-bottom: 1.5px;
+  border-radius: 2px;
 }
 </style>

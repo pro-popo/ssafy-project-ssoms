@@ -1,17 +1,17 @@
 <template>
   <div class="whole-box">
-    <div class="whole-query-box1">
-      <IEcharts :option="chart1" @click="onClick" />
-    </div>
-    <div class="whole-query-box2">
-      <IEcharts :option="chart2" />
-    </div>
+    <v-card elevation="2" width="600px" class="mx-auto mt-1">
+      <IEcharts width="600px" :option="chart1" @click="onClick" />
+    </v-card>
+    <v-card elevation="2" width="600px" class="mx-auto mt-1">
+      <IEcharts width="600px" :option="chart2" />
+    </v-card>
   </div>
 </template>
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-import { mapGetters } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import echarts from 'echarts/lib/echarts';
 import SERVER from "@/api/spring.js";
 import axios from "axios";
@@ -23,6 +23,7 @@ export default {
   },
   computed: {
     ...mapGetters("Schema", ["getTimeAndCpuList"]),
+    ...mapGetters("Schema", ["getPastTimeData"]),
     chart1(){
         return {
             tooltip: {
@@ -39,7 +40,7 @@ export default {
             title: {
                 left: 'center',
                 text: 'CPU',
-                
+                padding: [15,0,0,0]
             },
             xAxis: {
                 type: 'category',
@@ -89,14 +90,13 @@ export default {
                 }
             ]
         }
-    }
-  },
-  data() {
-    return {
-      chart2: {
+    },
+    chart2(){
+      return {
         tooltip: {},
         legend: {
-          data: ["预算分配（Allocated Budget）", "实际开销（Actual Spending）"]
+          data: this.getPastTimeData.schemaList,
+          bottom: 10
         },
         radar: {
           // shape: 'circle',
@@ -109,12 +109,11 @@ export default {
             }
           },
           indicator: [
-            { name: "销售（sales）", max: 6500 },
-            { name: "管理（Administration）", max: 16000 },
-            { name: "信息技术（Information Techology）", max: 30000 },
-            { name: "客服（Customer Support）", max: 38000 },
-            { name: "研发（Development）", max: 52000 },
-            { name: "市场（Marketing）", max: 25000 }
+            { name: "bufferGetsAvg"},
+            { name: "cpuTimeAvg"},
+            { name: "cpuTimeMax"},
+            { name: "cpuTimeTot"},
+            { name: "sqlCnt"},
           ]
         },
         series: [
@@ -122,22 +121,15 @@ export default {
             name: "预算 vs 开销（Budget vs spending）",
             type: "radar",
             // areaStyle: {normal: {}},
-            data: [
-              {
-                value: [4300, 10000, 28000, 35000, 50000, 19000],
-                name: "预算分配（Allocated Budget）"
-              },
-              {
-                value: [5000, 14000, 28000, 31000, 42000, 21000],
-                name: "实际开销（Actual Spending）"
-              }
-            ]
+            data: this.getPastTimeData.radarchart
+            
           }
         ]
       }
-    };
+    }
   },
   methods: {
+    ...mapMutations("Schema", ["SET_PAST_TIME_DATA"]),
     onClick(eventInfo){
       console.log(eventInfo.name)
       axios
@@ -145,6 +137,7 @@ export default {
         .then((res) => {
           if (res.data.result === "success") {
             console.log(res.data.map)
+            this.SET_PAST_TIME_DATA(res.data.map.realTimeMonitoring);
           }
         })
         .catch((err) => console.log(err));
@@ -163,13 +156,9 @@ export default {
   /* padding-left: 50px; */
 }
 .whole-query-box1 {
-  border: 1px solid black;
   margin: 10px;
-  width: 40vw;
 }
 .whole-query-box2 {
-  border: 1px solid black;
   margin: 10px;
-  width: 30vw;
 }
 </style>
