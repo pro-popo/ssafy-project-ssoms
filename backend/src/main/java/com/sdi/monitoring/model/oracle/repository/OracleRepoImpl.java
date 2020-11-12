@@ -108,7 +108,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("	sum(cpu_time) tot_cpu\n");
 			sql.append("	from v$sql)\n");
 //			sql.append("	where parsing_schema_name in ('C##TESTDB', 'C##TESTDB2'))\n");			
-			sql.append("where last_active_time >= sysdate - 7\n");
+			sql.append("where last_active_time >= sysdate - 5/24/60\n");
 			sql.append("	and executions > 0\n");
 			sql.append("	and upper(parsing_schema_name) in (" + sqlPlus + ")\n");
 			sql.append("group by parsing_schema_name\n");
