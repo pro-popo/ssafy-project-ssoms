@@ -171,7 +171,7 @@ public class OracleRepoImpl implements OracleRepo{
 					"     , round(cpu_time/executions/1000000,2) cpu_time_avg\r\n" + 
 					"     , round(elapsed_time/executions/1000000,2) elapsed_time_avg\r\n" + 
 					"from   v$sql s\r\n" + 
-					"where  last_active_time >= sysdate - 7\r\n" + 
+					"where  last_active_time >= sysdate - 5/24/60\r\n" + 
 					"and    upper(parsing_schema_name) in (" + sqlPlus + ")\r\n" + 
 					"and    executions > 0\r\n" + 
 					"and NOT (TRIM(SQL_TEXT) LIKE '%:Q%'\r\n" + 
@@ -256,7 +256,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY cpu_time/sum(cpu_time) OVER()*100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 20 and last_active_time >= sysdate - 5/24/60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
@@ -327,7 +327,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY elapsed_time/sum(elapsed_time) OVER() *100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 20 and last_active_time >= sysdate - 5/24/60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
@@ -397,7 +397,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY buffer_gets/sum(buffer_gets) OVER()*100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 20 and last_active_time >= sysdate - 5/24/60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
