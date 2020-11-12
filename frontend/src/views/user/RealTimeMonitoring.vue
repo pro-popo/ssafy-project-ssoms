@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="realtime-container">
     <div
       style="display:flex; justify-content: space-between; align-items:flex-start; margin-bottom:20px"
     >
@@ -23,7 +23,7 @@
           color="var(--font-sub2-color)"
         >
           <v-tab @click="moveScroll(0)">Oracle DB</v-tab>
-          <v-tab @click="moveScroll(1)">Total Schema</v-tab>
+          <v-tab @click="moveScroll(1)">All Schema</v-tab>
           <v-tab @click="moveScroll(2)">Top Query</v-tab>
         </v-tabs>
       </template>
@@ -82,9 +82,13 @@ export default {
             .scrollIntoView({ behavior: "smooth" });
           break;
       }
+    },
+    handleScroll: function() {
+      console.log("여긴오니?");
     }
   },
   created() {
+    window.addEventListener("scroll", this.handleScroll);
     this.initRealTimeData();
   }
 };
@@ -104,5 +108,10 @@ export default {
 }
 .v-tap {
   background: transparent;
+}
+
+.realtime-container h1,
+h4 {
+  flex: 1 0 auto;
 }
 </style>

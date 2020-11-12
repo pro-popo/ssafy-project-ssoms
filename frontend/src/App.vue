@@ -71,9 +71,4 @@ html {
   height: 10px;
   background-color: mediumpurple;
 } */
-
-h1,
-h4 {
-  flex: 1 0 auto;
-}
 </style>

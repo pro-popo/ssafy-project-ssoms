@@ -1,12 +1,12 @@
 <template>
-  <div style="height: 70vh;margin-bottom:15px">
+  <div style="height: 72vh; margin-bottom:15px">
     <h2 style="margin-bottom:15px; color:var(--font-main-color)">
       Oracle DB Status
     </h2>
     <div style="height: 30vh;">
       <OracleCpu />
     </div>
-    <div style="display:flex; height:30vh">
+    <div style="display:flex; height:32vh">
       <div
         style="width:75%;height:100%; margin:15px 15px 15px 0px; display:flex"
       >
@@ -119,7 +119,8 @@ export default {
   margin-left: 3px;
   font-size: 14px;
 }
-h4 {
-  margin-top: -3px;
+
+.data-default {
+  margin-bottom: -5px;
 }
 </style>

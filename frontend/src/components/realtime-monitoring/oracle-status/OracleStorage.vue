@@ -2,32 +2,37 @@
   <div style="height:100%; ">
     <v-card elevation="2" style="height:100%;">
       <v-card-text class="oracle-storage">
-        <div class="oracle-title-icon">
-          <!-- <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on" size="23" dark
-              >mdi-file-cog-outline</v-icon
-            >
-          </template>
-          <span>File</span>
-        </v-tooltip> -->
-        </div>
         <div class="oracle-storage-chart">
-          <!-- <div style="display:flex; justify-content: space-between;">
-          <div>
-            <v-icon color="var(--main-sub-color)">mdi-file-cog-outline</v-icon>
-            <span class="oracle-status-name"> File</span>
-          </div>
-        </div> -->
           <div class="storage-title-icon">
-            <!-- <v-icon class="storage-logo-icon" size="18" dark
-              >mdi-file-cog-outline</v-icon
-            > -->
             <h3 class="storage-status-name">File</h3>
-            <!-- <v-btn small icon style="margin-left:auto">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn> -->
-            <!-- <span style="margin-left:auto;font-size:12px">단위(%)</span> -->
+            <div style="margin-left:auto; padding-right:25px">
+              <v-menu offset-y attach>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn small icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <div style="background:white">
+                  <v-btn-toggle
+                    group
+                    mandatory
+                    color="#039BE5"
+                    v-model="toggle_exclusive"
+                    style="display:flex;  flex-direction: column;"
+                  >
+                    <v-btn small icon @click="changeChart('bar')"
+                      ><v-icon>mdi-chart-bar</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart('line')"
+                      ><v-icon>mdi-chart-line</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart('areaspline')"
+                      ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
+                    >
+                  </v-btn-toggle>
+                </div>
+              </v-menu>
+            </div>
           </div>
           <div style="height:100%">
             <IEcharts :option="option" />
@@ -45,6 +50,29 @@ export default {
   name: "OracleStorage",
   components: {
     IEcharts
+  },
+  methods: {
+    changeChart(type) {
+      console.log(type);
+      let areaStyle = null;
+      if (type == "areaspline") {
+        areaStyle = "";
+        type = "line";
+      }
+      if (type == "bar") {
+        this.option.xAxis.boundaryGap = true;
+        this.option.tooltip.axisPointer.type = "shadow";
+      } else {
+        this.option.xAxis.boundaryGap = false;
+        this.option.tooltip.axisPointer.type = "line";
+      }
+      let cnt = 0;
+      this.option.series.forEach((element) => {
+        element.type = type;
+        element.areaStyle = areaStyle;
+        element.color = this.option.color[cnt++];
+      });
+    }
   },
   computed: {
     ...mapGetters("Oracle", [
@@ -64,7 +92,7 @@ export default {
     return {
       physicalReadsPerSec: 0.0, // (mb / 초)
       physicalWritesPerSec: 0.33, // (mb / 초)
-
+      toggle_exclusive: 1,
       option: {
         color: ["#81D4FA", "#42A5F5"],
         grid: {
@@ -99,37 +127,40 @@ export default {
           axisTick: {
             show: false
           },
-
           max: function(item) {
-            if (item.max < 0.1) return item.max;
-            else if (item.max.toFixed(1) < item.max)
-              return item.max.toFixed(1) + 0.1;
-            else return item.max.toFixed(1);
-          },
-          splitNumber: 3
+            if (item.max > 10) return (item.max.toFixed(0) / 10) * 10 + 10;
+            else if (item.max > 5) return 10;
+            else return Math.ceil(item.max);
+          }
         },
         legend: {
           data: ["Physical Reads", "Physical Writes"],
           // icon: "circle",
           // bottom: 0,
-          top: 5,
+          top: 3,
           textStyle: {
             fontSize: 10
           }
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          position: ["-50%", "50%"],
+          axisPointer: {
+            type: "line"
+          }
         },
         series: [
           {
             name: "Physical Reads",
             data: [],
+            areaStyle: null,
             type: "line",
             showSymbol: false
           },
           {
             name: "Physical Writes",
             data: [],
+            areaStyle: null,
             type: "line",
             showSymbol: false
           }
@@ -162,6 +193,8 @@ export default {
   align-items: center;
   position: absolute;
   justify-content: space-between;
+  z-index: 2;
+  width: 100%;
 }
 
 .storage-title-icon :nth-child(2) {

@@ -8,14 +8,40 @@
               >mdi-desktop-classic</v-icon
             > -->
             <h3 class="oracle-status-name">CPU & Wait Time</h3>
-            <v-btn small icon style="margin: -10px 25px 0px auto">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
+
+            <div style="margin: 0px 25px 0px auto">
+              <v-menu offset-y attach>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn small icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <div style="background:white">
+                  <v-btn-toggle
+                    group
+                    mandatory
+                    color="#039BE5"
+                    v-model="toggle_exclusive"
+                    style="display:flex;  flex-direction: column;"
+                  >
+                    <v-btn small icon @click="changeChart('bar')"
+                      ><v-icon>mdi-chart-bar</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart('line')"
+                      ><v-icon>mdi-chart-line</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart('areaspline')"
+                      ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
+                    >
+                  </v-btn-toggle>
+                </div>
+              </v-menu>
+            </div>
           </div>
 
           <div style="height:100%; width:70%;">
             <div style="height:100%">
-              <IEcharts :option="line" style="padding-top:5px" @click="test" />
+              <IEcharts :option="option" style="padding-top:5px" />
             </div>
           </div>
           <div style="height:95%; width:30%;">
@@ -29,11 +55,13 @@
         <v-card elevation="2">
           <v-card-text class="oracle-cpu-data">
             <v-icon color="white">mdi-timeline-clock</v-icon>
-            <div>
-              <h4 class="oracle-status-name">
+            <div
+              style="display:flex; flex-direction:column; justify-contents:center"
+            >
+              <h4>
                 Response Time Per Transaction
               </h4>
-              <h1 style="display:flex">
+              <h1>
                 {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
                 <span class="oracle-cpu-unit">sec</span>
                 <div style="height:50%">
@@ -41,7 +69,6 @@
                 </div>
               </h1>
             </div>
-
             <span></span>
           </v-card-text>
         </v-card>
@@ -50,8 +77,8 @@
           <v-card-text class="oracle-cpu-data">
             <v-icon color="white">mdi-connection</v-icon>
             <div>
-              <h4 class="oracle-status-name">Active Serial Sessions</h4>
-              <h1 style="display:flex;">
+              <h4>Active Serial Sessions</h4>
+              <h1>
                 <span>{{
                   getActiveSerialSessions[getActiveSerialSessions.length - 1]
                 }}</span>
@@ -81,6 +108,27 @@ export default {
     test(params) {
       console.log("차트클릭!");
       console.log(params);
+    },
+    changeChart(type) {
+      console.log(type);
+      let areaStyle = null;
+      if (type == "areaspline") {
+        areaStyle = "";
+        type = "line";
+      }
+      if (type == "bar") {
+        this.option.xAxis.boundaryGap = true;
+        this.option.tooltip.axisPointer.type = "shadow";
+      } else {
+        this.option.xAxis.boundaryGap = false;
+        this.option.tooltip.axisPointer.type = "line";
+      }
+      let cnt = 0;
+      this.option.series.forEach((element) => {
+        element.type = type;
+        element.areaStyle = areaStyle;
+        element.color = this.option.color[cnt++];
+      });
     }
   },
   computed: {
@@ -94,8 +142,8 @@ export default {
   },
   watch: {
     getDatabaseCpuTimeRatioList: function() {
-      this.line.series[0].data = this.getDatabaseCpuTimeRatioList;
-      this.line.series[1].data = this.getDatabaseWaitTimeRatio;
+      this.option.series[0].data = this.getDatabaseCpuTimeRatioList;
+      this.option.series[1].data = this.getDatabaseWaitTimeRatio;
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.getDatabaseCpuTimeRatioList.length - 1
       ];
@@ -107,7 +155,7 @@ export default {
       //   this.getDatabaseWaitTimeRatio.length - 1
       // ];
 
-      this.line.xAxis.data = this.getRealTimeList;
+      this.option.xAxis.data = this.getRealTimeList;
       this.small1.xAxis.data = this.getRealTimeList;
       this.small2.xAxis.data = this.getRealTimeList;
 
@@ -118,13 +166,14 @@ export default {
   data() {
     return {
       activeSerialSessions: [],
+      toggle_exclusive: 2,
 
-      line: {
+      option: {
         color: ["#81D4FA", "#42A5F5"],
         grid: {
           right: 20,
           left: 50,
-          bottom: 30,
+          bottom: 25,
           top: 65
         },
         // title: { text: "CPU Time" },
@@ -135,6 +184,11 @@ export default {
           axisLine: {
             lineStyle: {
               color: "#ababab"
+            }
+          },
+          axisPointer: {
+            handle: {
+              show: true
             }
           }
           // triggerEvent: true
@@ -166,15 +220,17 @@ export default {
         },
         tooltip: {
           trigger: "axis",
+          triggerOn: "click",
+          // alwaysShowContent: true,
           axisPointer: {
             type: "line",
-            triggerOn: "click",
             label: {
-              show: false
-              // formatter: function(params) {
-              //   this.test(params);
-              //   return null;
-              // }.bind(this)
+              background: "#ffff",
+              show: true,
+              formatter: function(params) {
+                this.test(params);
+                return params.value;
+              }.bind(this)
             }
           }
         },
@@ -203,9 +259,10 @@ export default {
             detail: {
               formatter: "{value}%",
               show: true,
-              color: "rgba(92, 92, 92, 1)",
+              color: "#6440e3",
               offsetCenter: ["0", "50%"],
-              fontSize: 22
+              fontSize: 22,
+              fontWeight: "bold"
             },
             data: [
               {
@@ -249,7 +306,7 @@ export default {
             },
             title: {
               show: true,
-              offsetCenter: [0, "85%"],
+              offsetCenter: [0, "80%"],
               color: "rgba(143, 143, 143, 1)",
               fontSize: 12,
               fontWeight: "bold"
@@ -396,10 +453,11 @@ export default {
 .oracle-cpu-data {
   height: 100%;
   display: flex;
+  align-items: center;
 }
 .oracle-cpu-data > .v-icon {
-  width: 10vh;
-  height: 100%;
+  width: 9vh;
+  height: 90%;
   background: linear-gradient(
     to bottom right,
     var(--main-color),
@@ -409,16 +467,11 @@ export default {
   margin-right: 16px;
   font-size: 1.5rem;
 }
-.oracle-cpu-data div {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 
 .oracle-cpu-data h1 {
-  margin-top: 5px;
   color: #6440e3;
+  display: flex;
+  align-items: flex-end;
 }
 .oracle-cpu-unit {
   margin: 1px 0px 0px 5px;
@@ -428,5 +481,8 @@ export default {
 .oracle-unit {
   font-size: 1.4rem;
   color: var(--main-point-color);
+}
+.v-menu__content {
+  margin: 5px 0px 0px -4px !important;
 }
 </style>

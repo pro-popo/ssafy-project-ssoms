@@ -1,36 +1,5 @@
 <template>
   <div class="oracle-process">
-    <!-- <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <h4 class="oracle-status-name">Executions (per sec)</h4>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
-                <span class="oracle-unit">%</span>
-              </h1>
-            </div>
-            <div v-if="changedExecutions == 0">
-              <v-icon>mdi-menu-up</v-icon>
-              <span>0</span>
-            </div>
-            <div
-              v-else
-              :class="changedExecutions > 0 ? 'data-increase' : 'data-decrease'"
-            >
-              <v-icon v-if="changedExecutions > 0">
-                mdi-menu-up
-              </v-icon>
-              <v-icon v-if="changedExecutions <= 0">
-                mdi-menu-down
-              </v-icon>
-              <span>{{ changedExecutions }}</span>
-            </div>
-          </div> 
-        </v-card-text>
-      </v-card> -->
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
@@ -50,7 +19,7 @@
                 <IEcharts :option="option2" class="small-chart" />
               </div> -->
           </div>
-          <div v-if="changedTotalParseCount == 0">
+          <div class="data-default" v-if="changedTotalParseCount == 0">
             <v-icon>mdi-menu-up</v-icon>
             <span>0</span>
           </div>
