@@ -185,7 +185,7 @@ public class OracleRepoImpl implements OracleRepo{
 					"                    OR TRIM(SQL_TEXT) LIKE 'ALTER SESSION%'\r\n" + 
 					"                    OR TRIM(SQL_TEXT) LIKE '%v$%'\r\n" + 
 					"                    OR TRIM(SQL_TEXT) LIKE '%x$%')\r\n" + 
-					"and 	rownum <= 20\r\n" +
+					"and 	rownum <= 20 and last_active_time >= sysdate - 5/24/60\r\n" +
 					"order by CPU_TIME_AVG desc\r\n");
 			pstmt = con.prepareStatement(sql.toString());
 			int idx = 1;
