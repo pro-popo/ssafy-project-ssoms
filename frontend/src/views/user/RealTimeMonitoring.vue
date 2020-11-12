@@ -1,29 +1,45 @@
 <template>
   <div>
     <div
-      style="display:flex;  justify-content: space-between; align-items:flex-start; margin-bottom:15px"
+      style="display:flex; justify-content: space-between; align-items:flex-start; margin-bottom:20px"
     >
       <h3>
         Real-Time Monitorting
       </h3>
 
-      <div align="right">
-        <span style="font-size:14px">Last Update</span>
-        <br />
+      <div>
+        <span style="font-size:14px">Last Update </span>
         <span style="font-size:14px"
           ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
           {{ getRealTime }}</span
         >
       </div>
     </div>
-    <OracleStatus />
-    <v-divider></v-divider>
-    <AllSchemaStastics />
-    <v-divider></v-divider>
-    <h2 class="mb-3 mt-3">Top Query</h2>
-    <div class="realtime-top-query-outer">
-      <AllSchemaTopQuery class="top-query-left" />
-      <AllSchemaTopQueryDetail class="top-query-right" />
+    <div>
+      <template>
+        <v-tabs
+          vertical
+          background-color="transparent"
+          color="var(--font-sub2-color)"
+        >
+          <v-tab @click="moveScroll(0)">Oracle DB</v-tab>
+          <v-tab @click="moveScroll(1)">Total Schema</v-tab>
+          <v-tab @click="moveScroll(2)">Top Query</v-tab>
+        </v-tabs>
+      </template>
+    </div>
+    <br />
+    <div id="oracleStatus"><OracleStatus /></div>
+
+    <div id="allSchemaStatics">
+      <AllSchemaStastics style="margin:40px 0px;" />
+    </div>
+    <div id="allSchemaTopQuery">
+      <h2 class="mb-3 mt-3">Top Query</h2>
+      <div class="realtime-top-query-outer">
+        <AllSchemaTopQuery class="top-query-left" />
+        <AllSchemaTopQueryDetail class="top-query-right" />
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +63,26 @@ export default {
     ...mapGetters(["getRealTime"])
   },
   methods: {
-    ...mapActions(["initRealTimeData"])
+    ...mapActions(["initRealTimeData"]),
+    moveScroll(index) {
+      switch (index) {
+        case 0:
+          document
+            .getElementById("oracleStatus")
+            .scrollIntoView({ behavior: "smooth" });
+          break;
+        case 1:
+          document
+            .getElementById("allSchemaStatics")
+            .scrollIntoView({ behavior: "smooth" });
+          break;
+        case 2:
+          document
+            .getElementById("allSchemaTopQuery")
+            .scrollIntoView({ behavior: "smooth" });
+          break;
+      }
+    }
   },
   created() {
     this.initRealTimeData();
@@ -66,5 +101,8 @@ export default {
 .top-query-right {
   width: 30%;
   margin: auto 0px;
+}
+.v-tap {
+  background: transparent;
 }
 </style>

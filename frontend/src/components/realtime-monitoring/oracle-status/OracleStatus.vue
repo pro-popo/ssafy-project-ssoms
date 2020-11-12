@@ -1,6 +1,8 @@
 <template>
   <div style="height: 70vh;margin-bottom:15px">
-    <h2 style="margin-bottom:15px">OracleDB Status</h2>
+    <h2 style="margin-bottom:15px; color:var(--font-main-color)">
+      Oracle DB Status
+    </h2>
     <div style="height: 30vh;">
       <OracleCpu />
     </div>
@@ -12,7 +14,7 @@
           <OracleProcessExecution />
         </div>
         <div style="width:75%;display:flex; flex-direction: column;">
-          <div style="height:50%;width:100%; margin-bottom:15px">
+          <div style="height:50%; width:100%; margin-bottom:15px">
             <OracleProcess />
           </div>
           <div style="height:50%;width:100%;">

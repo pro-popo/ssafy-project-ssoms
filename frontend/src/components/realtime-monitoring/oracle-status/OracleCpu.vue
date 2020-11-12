@@ -222,7 +222,6 @@ export default {
               lineStyle: {
                 color: [
                   [0.2, "#EF5350"],
-
                   [0.8, "#039BE5"],
                   [1, "#4CAF50"]
                 ]
@@ -300,7 +299,7 @@ export default {
             name: "ResponseTimePerTransaction",
             data: [],
             type: "line",
-            color: "#4CAF50",
+            color: "#039BE5",
             showSymbol: false,
             areaStyle: ""
           }
@@ -340,7 +339,7 @@ export default {
             name: "ActiveSerialSessions",
             data: [],
             type: "line",
-            color: "#4CAF50",
+            color: "#039BE5",
             showSymbol: false,
             areaStyle: ""
           }
