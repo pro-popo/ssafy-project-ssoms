@@ -1,12 +1,18 @@
 <template>
-  <div class="whole-box">
-    <v-card elevation="2" width="600px" class="mx-auto mt-1">
-      <IEcharts width="600px" :option="chart1" @click="onClick" />
-    </v-card>
-    <v-card elevation="2" width="600px" class="mx-auto mt-1" v-if="getPastTimeData.check">
-      <IEcharts width="600px" :option="chart2" />
-    </v-card>
-  </div>
+  <table class="mx-auto" width="100%">
+      <tr>
+          <td class="">
+            <v-card elevation="2" width="600px" height="315px" class="mx-auto mt-1">
+                <IEcharts :option="chart1" @click="onClick" :resizable="true"/>
+            </v-card>
+          </td>
+          <td class="" v-if="getPastTimeData.check">
+            <v-card elevation="2" width="600px" height="315px" class="mx-auto mt-1">
+                <IEcharts :option="chart2" :resizable="true"/>
+            </v-card>
+          </td>
+      </tr>
+  </table>
 </template>
 
 <script>
@@ -118,7 +124,7 @@ export default {
         },
         series: [
           {
-            name: "预算 vs 开销（Budget vs spending）",
+            name: "Schema status",
             type: "radar",
             // areaStyle: {normal: {}},
             data: this.getPastTimeData.radarchart
