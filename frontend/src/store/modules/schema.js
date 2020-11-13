@@ -27,7 +27,8 @@ const Schema = {
     timeAndCpuList:{
         time : [],
         cpu: [],
-        check : false
+        check : false,
+        ani_flag : false
     },
     pastTimeData: {
       allSchemaStastics: [],

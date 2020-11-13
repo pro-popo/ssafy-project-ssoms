@@ -1,5 +1,5 @@
 <template>
-  <v-card class="px-4 py-4" elevation="2" outlined>
+  <v-card class="px-4 py-4" width="100%" elevation="2" outlined>
       <table width="100%">
           <tr>
               <td>
