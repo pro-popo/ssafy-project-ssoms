@@ -14,7 +14,10 @@ const TopQuery = {
   },
   mutations: {
     SET_TOPQUERY_LIST(state, data) {
-      state.topQueryList = data;
+      state.topQueryList.push(data);
+      if (state.topQueryList.length > 12) {
+        state.topQueryList.shift();
+      }
     },
     SET_TOPQUERY_DETAIL(state, data) {
       state.topQueryDetail = state.topQueryList[data];
