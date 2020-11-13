@@ -146,6 +146,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {
 		return UsedBySchemaEntity.builder()
+				.sqlId(usedBySchemaDTO.getSqlId())
 				.parsingSchemaName(usedBySchemaDTO.getParsingSchemaName())
 				.module(usedBySchemaDTO.getModule())
 				.lastActiveTime(usedBySchemaDTO.getLastActiveTime())
@@ -178,6 +179,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 	}
 	private SchemaQueryEntity schemaQueryBuilder(SchemaQueryDTO schemaQueryDTO) {
 		return SchemaQueryEntity.builder()
+				.sqlId(schemaQueryDTO.getSqlId())
 				.parsingSchemaName(schemaQueryDTO.getParsingSchemaName())
 				.sql(schemaQueryDTO.getSql())
 				.executions(schemaQueryDTO.getExecutions())
