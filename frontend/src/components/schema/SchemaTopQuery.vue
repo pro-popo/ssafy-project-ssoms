@@ -1,6 +1,7 @@
 <template>
-  <div class="d-flex" height="300px" v-if="getPastTimeData.check">
+  <div class="realtime-top-query-outer" height="300px" v-if="getPastTimeData.check">
       <div class="top-query-left">
+      <div>
             <v-simple-table
             fixed-header
             height="300px"
@@ -39,13 +40,14 @@
             </template>
             </v-simple-table>
       </div>
-
-      
-    <div class="top-query-right">
+      </div>
+      <div class="top-query-right">
+    <div >
         <v-card
         elevation="2"
         class="realtime-detail-query"
         height="230px"
+        style="justify-content: space-around;"
         v-if="detailData"
         >
         <div>
@@ -62,7 +64,7 @@
             {{ detailData.elapsedTimeRatio }}
             </div>
             <div class="query-detail-title">lastActiveTime</div>
-            <div class="query-detail-text">{{ detailData.lastActiveTime }}</div>
+            <div class="query-detail-text">{{ detailData.lastActiveTime.split(' ')[0] }}<br>{{detailData.lastActiveTime.split(' ')[1]}}</div>
             <!--<div class="query-detail-title">module</div>
             <div class="query-detail-text">
             {{ detailData.module }}
@@ -79,6 +81,7 @@
         <div>자세히 보고싶은 Query를 선택해주세요.</div>
         </v-card>
     </div>
+  </div>
   </div>
 </template>
 
@@ -105,30 +108,5 @@ export default {
 </script>
 
 <style>
-.realtime-detail-query {
-  display: flex;
-  justify-content: space-around;
-}
-.realtime-non-query {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.realtime-non-query > div {
-  font-weight: 900;
-  opacity: 0.6;
-}
-.query-detail-text {
-  font-size: 30px;
-  font-weight: 900;
-  color: #6440e3;
-}
-.query-detail-title {
-  opacity: 0.6;
-}
-.realtime-detail-query > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 </style>
