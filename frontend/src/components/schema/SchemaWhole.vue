@@ -3,7 +3,7 @@
     <v-card elevation="2" width="600px" class="mx-auto mt-1">
       <IEcharts width="600px" :option="chart1" @click="onClick" />
     </v-card>
-    <v-card elevation="2" width="600px" class="mx-auto mt-1">
+    <v-card elevation="2" width="600px" class="mx-auto mt-1" v-if="getPastTimeData.check">
       <IEcharts width="600px" :option="chart2" />
     </v-card>
   </div>
@@ -135,15 +135,15 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getPastData + '/' +eventInfo.name)
         .then((res) => {
+            if(res.data.result ==="notExist"){
+                alert("data empty");
+            }
           if (res.data.result === "success") {
             console.log(res.data.map)
             this.SET_PAST_TIME_DATA(res.data.map.realTimeMonitoring);
           }
         })
         .catch((err) => console.log(err));
-    },
-    click_event(params){
-      console.log(params)
     }
   }
 };

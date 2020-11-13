@@ -26,14 +26,16 @@ const Schema = {
     },
     timeAndCpuList:{
         time : [],
-        cpu: []
+        cpu: [],
+        check : false
     },
     pastTimeData: {
       allSchemaStastics: [],
       oracleStatus: {},
       schemas: [],
       schemaList: [],
-      radarchart: []
+      radarchart: [],
+      check : false
     }
   },
   getters: {
@@ -118,20 +120,17 @@ const Schema = {
         });
         state.timeAndCpuList.time = times;
         state.timeAndCpuList.cpu = cpus;
+        state.timeAndCpuList.check = true;
     },
     SET_PAST_TIME_DATA(state, data){
       state.pastTimeData.oracleStatus = data.oracleStatus;
-      let tempstat = [];
+      let tempstat = {};
       let tempsch = {};
       let list = [];
       let radar = [];
       data.allSchemaStastics.forEach(element => {
-        tempstat.push(
-          {
-            name : element.parsingSchemaName,
-            data : element
-          }
-        );
+        tempstat[element.parsingSchemaName] = element;
+        
         radar.push({
             value : [element.bufferGetsAvg, element.cpuTimeAvg, element.cpuTimeMax, element.cpuTimeTot, element.sqlCnt],
             name : element.parsingSchemaName
@@ -145,6 +144,7 @@ const Schema = {
       state.pastTimeData.schemas = tempsch;
       state.pastTimeData.radarchart = radar;
       state.pastTimeData.schemaList = list;
+      state.pastTimeData.check = true;
     }
   },
   actions: {

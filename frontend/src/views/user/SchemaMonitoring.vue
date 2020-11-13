@@ -12,9 +12,9 @@
       </div>
     </div>
 
-    <div class="main-query-box">
-      <SchemaWhole class="query-box1" />
-      <!-- <SchemaDetail /> -->
+    <div v-if="getTimeAndCpuList.check">
+      <SchemaWhole class="mb-2" />
+      <SchemaDetail class="mb-2" />
       <SchemaTopQuery />
       <!-- <v-carousel
         hide-delimiters
@@ -37,7 +37,7 @@
 <script>
 import SchemaWhole from "@/components/schema/SchemaWhole.vue";
 import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
-// import SchemaDetail from "@/components/schema/SchemaDetail.vue";
+ import SchemaDetail from "@/components/schema/SchemaDetail.vue";
 import SERVER from "@/api/spring.js";
 import { mapMutations, mapGetters } from "vuex";
 import axios from "axios";
@@ -52,7 +52,7 @@ export default {
   components: {
     SchemaWhole,
     SchemaTopQuery,
-    // SchemaDetail
+     SchemaDetail
   },
   methods: {
     queryData() {
@@ -62,7 +62,10 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
         .then((res) => {
-          if (res.data.result === "success") {
+            if(res.data.result ==="empty"){
+                alert("data empty");
+            }
+          else if (res.data.result === "success") {
             this.SET_TIME_AND_CPU_LIST(res.data.map.timeAndCpuList)
           }
         })
@@ -71,7 +74,8 @@ export default {
     ...mapMutations("Schema", ["SET_TIME_AND_CPU_LIST"])
   },
   computed: {
-    ...mapGetters("Schema", ["SelectedSchema"])
+    ...mapGetters("Schema", ["SelectedSchema"]),
+    ...mapGetters("Schema", ["getTimeAndCpuList"]),
   },
   mounted() {
     document.getElementById(
@@ -90,9 +94,7 @@ export default {
   grid-template-columns: 50% 10% 40%;
   grid-template-rows: 90px 20px 200px 180px;
 } */
-.query-box1 {
-  margin-bottom: 10px;
-}
+
 .query-box2 {
   /* grid-column-start: 3;
   grid-column-end: 4;

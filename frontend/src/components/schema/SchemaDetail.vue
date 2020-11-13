@@ -1,39 +1,105 @@
 <template>
-  <v-card class="schema-detail" elevation="15" outlined>
-    <div class="schema-detail-items1">
-      <span>
-        sql Cnt
-        <div class="schema-detail-item">{{ getSchemaData.sqlCnt[0] }}</div>
-      </span>
-      <span
-        >excutions
-        <div class="schema-detail-item">{{ getSchemaData.executions[0] }}</div>
-      </span>
-      <span
-        >rowProcessedAvg
+  <v-card class="px-4 py-4" elevation="2" outlined>
+      <table width="100%">
+          <tr>
+              <td>
+                  <span>name
+                    <div class="schema-detail-item">{{ SelectedSchema }}</div>
+                    </span>
+              </td>
+              <td>
+                    <span>cpuTimeAvg
+                        <div class="schema-detail-item">{{ getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeAvg }}</div>
+                    </span>
+              </td>
+              <td>
+                <span
+                        >cpuTimeMax
+                        <div class="schema-detail-item">
+                        {{ getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeMax }}
+                        </div>
+                    </span>
+              </td>
+              <td>
+                  <span
+                    >cpuTimeTot
+                    <div class="schema-detail-item">
+                    {{ getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeTot }}
+                    </div>
+                </span>
+              </td>
+          </tr>
+          
+          <tr>
+              <td>
+                  <span
+        >diskReadsAvg
         <div class="schema-detail-item">
-          {{ getSchemaData.rowsProcessedAvg[0] }}
+          {{ getPastTimeData.allSchemaStastics[SelectedSchema].diskReadsAvg }}
         </div>
       </span>
-    </div>
-    <div class="schema-detail-items2">
-      <span
-        >cpuTimeMax
+              </td>
+              <td>
+                  <span
+        >elapsedTimeAvg
         <div class="schema-detail-item">
-          {{ getSchemaData.cpuTimeMax[0] }}
+          {{ getPastTimeData.allSchemaStastics[SelectedSchema].elapsedTimeAvg }}
         </div>
       </span>
-      <span
+              </td>
+              <td>
+                  <span
         >elapsedTimeMax
         <div class="schema-detail-item">
-          {{ getSchemaData.elapsedTimeMax[0] }}
+          {{ getPastTimeData.allSchemaStastics[SelectedSchema].elapsedTimeMax }}
         </div>
       </span>
-    </div>
-  </v-card>
+              </td>
+              <td>
+                  <span
+        >elapsedTimeTot
+        <div class="schema-detail-item">
+          {{ getPastTimeData.allSchemaStastics[SelectedSchema].elapsedTimeTot }}
+        </div>
+      </span>
+              </td>
+          </tr>
 
-  <!-- {{ getSchemaData }} -->
-  <!-- </div> -->
+          <tr>
+              <td>
+                <span>
+                executions
+                <div class="schema-detail-item">{{ getPastTimeData.allSchemaStastics[SelectedSchema].executions }}</div>
+                </span>
+      
+              </td>
+              <td>
+<span
+        >rowsProcessedAvg
+        <div class="schema-detail-item">{{ getPastTimeData.allSchemaStastics[SelectedSchema].rowsProcessedAvg }}</div>
+      </span>
+      
+              </td>
+              <td>
+<span
+        >sqlCnt
+        <div class="schema-detail-item">
+          {{ getPastTimeData.allSchemaStastics[SelectedSchema].sqlCnt }}
+        </div>
+      </span>
+      
+              </td>
+              <td>
+<span
+        >bufferGetsAvg
+        <div class="schema-detail-item">
+          {{ getPastTimeData.allSchemaStastics[SelectedSchema].bufferGetsAvg }}
+        </div>
+      </span>
+              </td>
+          </tr>
+      </table>
+  </v-card>
 </template>
 
 <script>
@@ -43,7 +109,8 @@ export default {
   name: "SchemaDetail",
   components: {},
   computed: {
-    ...mapGetters("Schema", ["getSchemaData"])
+    ...mapGetters("Schema", ["getPastTimeData"]),
+    ...mapGetters("Schema", ["SelectedSchema"])
   },
   data() {
     return {};
@@ -55,7 +122,6 @@ export default {
 .schema-detail {
   padding: 20px;
   width: 500px;
-  float: left;
 }
 .schema-detail-items1 {
   display: flex;
