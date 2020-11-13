@@ -127,7 +127,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		
         messagingTemplate.convertAndSend("/sendData/schedulerM", map);
         RealTimeMonitoringEntity realTimeMonitoringEntity = realTimeMonitoringEntityBuilder(realTimeMonitoringDTO);
-        if(realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime())) {
+        if(!realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime())) {
 	        realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
 	        if(cnt % (12) == 0) {
 	        	oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));
