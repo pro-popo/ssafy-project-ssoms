@@ -62,7 +62,7 @@
                 Response Time Per Transaction
               </h4>
               <h1>
-                {{ getResponesTimePerTxn[getResponesTimePerTxn.length - 1] }}
+                {{ getResponesTimePerTxn[selectedRealTime] }}
                 <span class="oracle-cpu-unit">sec</span>
                 <div style="height:50%">
                   <IEcharts :option="small1" class="small-chart" />
@@ -79,9 +79,7 @@
             <div>
               <h4>Active Serial Sessions</h4>
               <h1>
-                <span>{{
-                  getActiveSerialSessions[getActiveSerialSessions.length - 1]
-                }}</span>
+                <span>{{ getActiveSerialSessions[selectedRealTime] }}</span>
                 <span class="oracle-cpu-unit">count</span>
                 <div style="height:50%; width:auto">
                   <IEcharts :option="small2" class="small-chart" />
@@ -98,17 +96,16 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "OracleCpu",
   components: {
     IEcharts
   },
   methods: {
-    test(params) {
-      console.log("차트클릭!");
-      console.log(params);
-    },
+    ...mapMutations(["SET_SELECTED_REALTIME"]),
+
     changeChart(type) {
       console.log(type);
       let areaStyle = null;
@@ -138,15 +135,32 @@ export default {
       "getResponesTimePerTxn",
       "getActiveSerialSessions"
     ]),
-    ...mapGetters(["getRealTimeList"])
+    ...mapGetters(["getRealTimeList", "selectedRealTime"])
+  },
+  created() {
+    if (this.getDatabaseCpuTimeRatioList.length - 1 != 0) {
+      setTimeout(
+        function() {
+          this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+            this.getDatabaseCpuTimeRatioList.length - 1
+          ];
+        }.bind(this),
+        1500
+      );
+    }
   },
   watch: {
+    selectedRealTime: function() {
+      this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+        this.selectedRealTime
+      ];
+    },
     getDatabaseCpuTimeRatioList: function() {
       this.option.series[0].data = this.getDatabaseCpuTimeRatioList;
       this.option.series[1].data = this.getDatabaseWaitTimeRatio;
-      this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
-        this.getDatabaseCpuTimeRatioList.length - 1
-      ];
+      // this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+      //   this.getDatabaseCpuTimeRatioList.length - 1
+      // ];
 
       // this.pie.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
       //   this.getDatabaseCpuTimeRatioList.length - 1
@@ -228,7 +242,10 @@ export default {
               background: "#ffff",
               show: true,
               formatter: function(params) {
-                this.test(params);
+                if (params.seriesData[0] !== undefined)
+                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+                else
+                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
                 return params.value;
               }.bind(this)
             }

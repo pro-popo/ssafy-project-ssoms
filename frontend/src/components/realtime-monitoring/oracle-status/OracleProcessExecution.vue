@@ -37,7 +37,7 @@
         </div>
         <div style="display:flex;" class="oracle-data">
           <h1>
-            {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
+            {{ getExecutionsPerSec[selectedRealTime] }}
             <span class="oracle-unit">count</span>
             <span class="oracle-status-units"> /sec</span>
           </h1>
@@ -101,13 +101,13 @@ export default {
   },
   computed: {
     ...mapGetters("Oracle", ["getExecutionsPerSec"]),
-    ...mapGetters(["getRealTimeList"]),
+    ...mapGetters(["getRealTimeList", "selectedRealTime"]),
 
     changedExecutions: function() {
       if (this.getExecutionsPerSec.length <= 1) return 0;
       return (
-        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 2] -
-        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 1]
+        this.getExecutionsPerSec[this.selectedRealTime - 1] -
+        this.getExecutionsPerSec[this.selectedRealTime]
       ).toFixed(2);
     }
   },

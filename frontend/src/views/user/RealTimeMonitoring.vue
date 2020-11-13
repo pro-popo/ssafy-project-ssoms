@@ -82,13 +82,9 @@ export default {
             .scrollIntoView({ behavior: "smooth" });
           break;
       }
-    },
-    handleScroll: function() {
-      console.log("여긴오니?");
     }
   },
   created() {
-    window.addEventListener("scroll", this.handleScroll);
     this.initRealTimeData();
   }
 };

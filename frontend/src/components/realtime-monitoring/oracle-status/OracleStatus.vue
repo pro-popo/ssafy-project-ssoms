@@ -1,8 +1,26 @@
 <template>
   <div style="height: 72vh; margin-bottom:15px">
-    <h2 style="margin-bottom:15px; color:var(--font-main-color)">
+    <h2 style="margin-bottom:15px; color:var(--font-main-color);">
       Oracle DB Status
+      <v-tooltip top style="margin-left:auto">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            fab
+            dark
+            small
+            elevation="2"
+            v-bind="attrs"
+            v-on="on"
+            @click="SET_SELECTED_REALTIME(-1)"
+            width="30"
+            height="30"
+            ><v-icon size="18">mdi-refresh</v-icon></v-btn
+          >
+        </template>
+        <span>Move Last Update</span>
+      </v-tooltip>
     </h2>
+
     <div style="height: 30vh;">
       <OracleCpu />
     </div>
@@ -35,6 +53,8 @@ import OracleMemory from "@/components/realtime-monitoring/oracle-status/OracleM
 import OracleProcess from "@/components/realtime-monitoring/oracle-status/OracleProcess.vue";
 import OracleProcessExecution from "@/components/realtime-monitoring/oracle-status/OracleProcessExecution.vue";
 import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
+import { mapMutations } from "vuex";
+
 export default {
   name: "OracleStatus",
   components: {
@@ -43,6 +63,9 @@ export default {
     OracleProcess,
     OracleProcessExecution,
     OracleStorage
+  },
+  methods: {
+    ...mapMutations(["SET_SELECTED_REALTIME"])
   }
 };
 </script>
@@ -108,7 +131,6 @@ export default {
 
 .data-decrease {
   color: #8bc34a;
-  margin-bottom: -5px;
 }
 .data-decrease .v-icon {
   color: #8bc34a;
