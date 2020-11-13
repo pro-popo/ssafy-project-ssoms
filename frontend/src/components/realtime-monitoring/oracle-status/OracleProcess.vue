@@ -1,36 +1,5 @@
 <template>
   <div class="oracle-process">
-    <!-- <v-card elevation="2">
-        <v-card-text class="oracle-data">
-          <div>
-            <div style="display:flex">
-              <h4 class="oracle-status-name">Executions Per Sec</h4>
-            </div>
-            <div style="display:flex;">
-              <h1>
-                {{ getExecutionsPerSec[getExecutionsPerSec.length - 1] }}
-                <span class="oracle-unit">%</span>
-              </h1>
-            </div>
-            <div v-if="changedExecutions == 0">
-              <v-icon>mdi-menu-up</v-icon>
-              <span>0</span>
-            </div>
-            <div
-              v-else
-              :class="changedExecutions > 0 ? 'data-increase' : 'data-decrease'"
-            >
-              <v-icon v-if="changedExecutions > 0">
-                mdi-menu-up
-              </v-icon>
-              <v-icon v-if="changedExecutions <= 0">
-                mdi-menu-down
-              </v-icon>
-              <span>{{ changedExecutions }}</span>
-            </div>
-          </div> 
-        </v-card-text>
-      </v-card> -->
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
@@ -39,10 +8,9 @@
           </div>
           <div style="display:flex;">
             <h1>
-              {{
-                getTotalParseCountPerSec[getTotalParseCountPerSec.length - 1]
-              }}
+              {{ getTotalParseCountPerSec[selectedRealTime] }}
               <span class="oracle-unit">count</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
 
             <!-- <div style="height:30%">
@@ -89,8 +57,9 @@
           </div>
           <div style="display:flex;">
             <h1>
-              {{ getOpenCursorsPerSec[getOpenCursorsPerSec.length - 1] }}
+              {{ getOpenCursorsPerSec[selectedRealTime] }}
               <span class="oracle-unit">cursor</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option3" class="small-chart" />
@@ -134,8 +103,9 @@
           </div>
           <div style="display:flex;">
             <h1>
-              {{ getUserCommitsPerSec[getUserCommitsPerSec.length - 1] }}
+              {{ getUserCommitsPerSec[selectedRealTime] }}
               <span class="oracle-unit">commit</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option4" class="small-chart" />
@@ -190,35 +160,33 @@ export default {
       "getOpenCursorsPerSec",
       "getUserCommitsPerSec"
     ]),
-    ...mapGetters(["getRealTimeList"]),
+    ...mapGetters(["getRealTimeList", "selectedRealTime"]),
     changedExecutions: function() {
-      if (this.getExecutionsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 2] -
-        this.getExecutionsPerSec[this.getExecutionsPerSec.length - 1]
+        this.getExecutionsPerSec[this.selectedRealTime - 1] -
+        this.getExecutionsPerSec[this.selectedRealTime]
       ).toFixed(2);
     },
     changedTotalParseCount: function() {
-      if (this.getTotalParseCountPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getTotalParseCountPerSec[
-          this.getTotalParseCountPerSec.length - 2
-        ] -
-        this.getTotalParseCountPerSec[this.getTotalParseCountPerSec.length - 1]
+        this.getTotalParseCountPerSec[this.selectedRealTime - 1] -
+        this.getTotalParseCountPerSec[this.selectedRealTime]
       ).toFixed(2);
     },
     changedOpenCursors: function() {
-      if (this.getOpenCursorsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getOpenCursorsPerSec[this.getOpenCursorsPerSec.length - 2] -
-        this.getOpenCursorsPerSec[this.getOpenCursorsPerSec.length - 1]
+        this.getOpenCursorsPerSec[this.selectedRealTime - 1] -
+        this.getOpenCursorsPerSec[this.selectedRealTime]
       ).toFixed(2);
     },
     changedUserCommits: function() {
-      if (this.getUserCommitsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getUserCommitsPerSec[this.getUserCommitsPerSec.length - 2] -
-        this.getUserCommitsPerSec[this.getUserCommitsPerSec.length - 1]
+        this.getUserCommitsPerSec[this.selectedRealTime - 1] -
+        this.getUserCommitsPerSec[this.selectedRealTime]
       ).toFixed(2);
     }
   },
@@ -438,7 +406,6 @@ export default {
 .oracle-data {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 100%;
 }
 .oracle-data h1 {

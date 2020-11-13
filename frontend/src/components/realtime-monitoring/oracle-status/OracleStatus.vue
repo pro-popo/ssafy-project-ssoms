@@ -1,10 +1,30 @@
 <template>
-  <div style="height: 70vh;margin-bottom:15px">
-    <h2 style="margin-bottom:15px">OracleDB Status</h2>
+  <div style="height: 72vh; margin-bottom:15px">
+    <h2 style="margin-bottom:15px; color:var(--font-main-color);">
+      Oracle DB Status
+      <v-tooltip top style="margin-left:auto">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            fab
+            dark
+            small
+            elevation="2"
+            v-bind="attrs"
+            v-on="on"
+            @click="SET_SELECTED_REALTIME(-1)"
+            width="30"
+            height="30"
+            ><v-icon size="18">mdi-refresh</v-icon></v-btn
+          >
+        </template>
+        <span>Move Last Update</span>
+      </v-tooltip>
+    </h2>
+
     <div style="height: 30vh;">
       <OracleCpu />
     </div>
-    <div style="display:flex; height:30vh">
+    <div style="display:flex; height:32vh">
       <div
         style="width:75%;height:100%; margin:15px 15px 15px 0px; display:flex"
       >
@@ -12,7 +32,7 @@
           <OracleProcessExecution />
         </div>
         <div style="width:75%;display:flex; flex-direction: column;">
-          <div style="height:50%;width:100%; margin-bottom:15px">
+          <div style="height:50%; width:100%; margin-bottom:15px">
             <OracleProcess />
           </div>
           <div style="height:50%;width:100%;">
@@ -33,6 +53,8 @@ import OracleMemory from "@/components/realtime-monitoring/oracle-status/OracleM
 import OracleProcess from "@/components/realtime-monitoring/oracle-status/OracleProcess.vue";
 import OracleProcessExecution from "@/components/realtime-monitoring/oracle-status/OracleProcessExecution.vue";
 import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
+import { mapMutations } from "vuex";
+
 export default {
   name: "OracleStatus",
   components: {
@@ -41,6 +63,9 @@ export default {
     OracleProcess,
     OracleProcessExecution,
     OracleStorage
+  },
+  methods: {
+    ...mapMutations(["SET_SELECTED_REALTIME"])
   }
 };
 </script>
@@ -91,17 +116,17 @@ export default {
 }
 .small-chart {
   height: 25px !important;
-  width: 90px !important;
+  max-width: 90px !important;
 
   position: initial;
 }
 
 .data-increase {
   color: #ef5350;
-  font-size: 16px;
 }
 .data-increase .v-icon {
   color: #ef5350;
+  margin-left: -5px;
 }
 
 .data-decrease {
@@ -109,5 +134,15 @@ export default {
 }
 .data-decrease .v-icon {
   color: #8bc34a;
+  margin-left: -5px;
+}
+.oracle-status-units {
+  color: var(--font-sub-color);
+  margin-left: 3px;
+  font-size: 14px;
+}
+
+.data-default {
+  margin-bottom: -5px;
 }
 </style>

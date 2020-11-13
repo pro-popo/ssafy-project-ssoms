@@ -8,8 +8,9 @@
           </div>
           <div style="display:flex;">
             <h1>
-              {{ getDbBlockGetsPerSec[getDbBlockGetsPerSec.length - 1] }}
+              {{ getDbBlockGetsPerSec[selectedRealTime] }}
               <span class="oracle-unit">block</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option1" class="small-chart" />
@@ -54,8 +55,9 @@
 
           <div style="display:flex;">
             <h1>
-              {{ getLogicalReadsPerSec[getLogicalReadsPerSec.length - 1] }}
+              {{ getLogicalReadsPerSec[selectedRealTime] }}
               <span class="oracle-unit">reads</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option2" class="small-chart" />
@@ -99,8 +101,9 @@
           </div>
           <div style="display:flex;">
             <h1>
-              {{ getRedoGeneratedPerSec[getRedoGeneratedPerSec.length - 1] }}
+              {{ getRedoGeneratedPerSec[selectedRealTime] }}
               <span class="oracle-unit">byte</span>
+              <span class="oracle-status-units"> /sec</span>
             </h1>
             <!-- <div style="height:30%">
                 <IEcharts :option="option3" class="small-chart" />
@@ -155,26 +158,27 @@ export default {
       "getLogicalReadsPerSec",
       "getRedoGeneratedPerSec"
     ]),
-    ...mapGetters(["getRealTimeList"]),
+    ...mapGetters(["getRealTimeList", "selectedRealTime"]),
     changedDbBlockGets: function() {
-      if (this.getDbBlockGetsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
+
       return (
-        this.getDbBlockGetsPerSec[this.getDbBlockGetsPerSec.length - 2] -
-        this.getDbBlockGetsPerSec[this.getDbBlockGetsPerSec.length - 1]
+        this.getDbBlockGetsPerSec[this.selectedRealTime - 1] -
+        this.getDbBlockGetsPerSec[this.selectedRealTime]
       ).toFixed(2);
     },
     changedLogicalReads: function() {
-      if (this.getLogicalReadsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getLogicalReadsPerSec[this.getLogicalReadsPerSec.length - 2] -
-        this.getLogicalReadsPerSec[this.getLogicalReadsPerSec.length - 1]
+        this.getLogicalReadsPerSec[this.selectedRealTime - 1] -
+        this.getLogicalReadsPerSec[this.selectedRealTime]
       ).toFixed(2);
     },
     changedRedoGenerated: function() {
-      if (this.getRedoGeneratedPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getRedoGeneratedPerSec[this.getRedoGeneratedPerSec.length - 2] -
-        this.getRedoGeneratedPerSec[this.getRedoGeneratedPerSec.length - 1]
+        this.getRedoGeneratedPerSec[this.selectedRealTime - 1] -
+        this.getRedoGeneratedPerSec[this.selectedRealTime]
       ).toFixed(2);
     }
   },

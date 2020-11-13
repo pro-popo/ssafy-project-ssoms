@@ -65,8 +65,15 @@ export default {
   },
   watch: {
     model: function() {
-      if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
-        this.$router.push({ name: "RealTimeMonitoring" });
+      if (this.model == 0 && this.$route.name !== "RealTimeMonitoring") {
+        setTimeout(
+          function() {
+            this.$router.push({ name: "RealTimeMonitoring" });
+          }.bind(this),
+          500
+        );
+      }
+      // this.$router.push({ name: "RealTimeMonitoring" });
       else if (this.$route.name !== "SchemaMonitoring") {
         this.$router.push({ name: "SchemaMonitoring" });
         this.SET_SELECTED_SCHEMA(name);

@@ -115,10 +115,12 @@ export default {
             if (this.getRealTime !== realTimeData.time) {
               if (this.getDatabaseCpuTimeRatioList.length >= 12) {
                 this.addRealtimeData(realTimeData);
+                this.SET_SELECTED_REALTIME(-1);
               } else {
                 setTimeout(
                   function() {
                     this.addRealtimeData(realTimeData);
+                    this.SET_SELECTED_REALTIME(-1);
                   }.bind(this),
                   1000
                 );
@@ -135,7 +137,7 @@ export default {
     },
     ...mapMutations("Oracle", ["SET_ORACLE_STATUS_LIST"]),
     ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
-    ...mapMutations(["SET_REALTIME"]),
+    ...mapMutations(["SET_REALTIME", "SET_SELECTED_REALTIME"]),
     ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"])
   },
   created() {
@@ -173,6 +175,6 @@ export default {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 50px 80px;
+  padding: 40px 80px;
 }
 </style>

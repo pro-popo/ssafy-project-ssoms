@@ -171,7 +171,7 @@ public class OracleRepoImpl implements OracleRepo{
 					"     , round(cpu_time/executions/1000000,2) cpu_time_avg\r\n" + 
 					"     , round(elapsed_time/executions/1000000,2) elapsed_time_avg\r\n" + 
 					"from   v$sql s\r\n" + 
-					"where  last_active_time >= sysdate - 7\r\n" + 
+					"where  last_active_time >= sysdate - 5/24/60\r\n" + 
 					"and    upper(parsing_schema_name) in (" + sqlPlus + ")\r\n" + 
 					"and    executions > 0\r\n" + 
 					"and NOT (TRIM(SQL_TEXT) LIKE '%:Q%'\r\n" + 
@@ -185,7 +185,7 @@ public class OracleRepoImpl implements OracleRepo{
 					"                    OR TRIM(SQL_TEXT) LIKE 'ALTER SESSION%'\r\n" + 
 					"                    OR TRIM(SQL_TEXT) LIKE '%v$%'\r\n" + 
 					"                    OR TRIM(SQL_TEXT) LIKE '%x$%')\r\n" + 
-					"and 	rownum <= 20\r\n" +
+					"and 	rownum <= 20 and last_active_time >= sysdate - 5/24/60\r\n" +
 					"order by CPU_TIME_AVG desc\r\n");
 			pstmt = con.prepareStatement(sql.toString());
 			int idx = 1;
@@ -226,7 +226,7 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT main.sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
+			sql.append("SELECT main.sql_id sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
 			sql.append(",main.cpu_time/1000 cpu_time_per_sec, main.cpu_time_ratio, main.elapsed_time/1000 elapsed_time_per_sec, main.elapsed_time_ratio, main.buffer_gets, main.buffer_gets_ratio\n");
 			sql.append("		, (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\n");
 			sql.append("          FROM  v$sqltext b WHERE b.sql_id = main.sql_id GROUP BY sql_id ) as sql_full_text\n");
@@ -256,7 +256,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY cpu_time/sum(cpu_time) OVER()*100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 20 and last_active_time >= sysdate - 5/24/60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
@@ -297,7 +297,7 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT main.sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
+			sql.append("SELECT main.sql_id sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
 			sql.append(",main.cpu_time/1000 cpu_time_per_sec, main.cpu_time_ratio, main.elapsed_time/1000 elapsed_time_per_sec, main.elapsed_time_ratio, main.buffer_gets, main.buffer_gets_ratio\n");
 			sql.append("		, (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\n");
 			sql.append("          FROM  v$sqltext b WHERE b.sql_id = main.sql_id GROUP BY sql_id ) as sql_full_text\n");
@@ -327,7 +327,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY elapsed_time/sum(elapsed_time) OVER() *100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 20 and last_active_time >= sysdate - 5/24/60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);
@@ -367,7 +367,7 @@ public class OracleRepoImpl implements OracleRepo{
 		try {
 			con = DBUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT main.sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
+			sql.append("SELECT main.sql_id sql_id, main.parsing_schema_name parsing_schema_name, module, to_char(LAST_ACTIVE_TIME,'yyyy-mm-dd hh24:mi:ss') last_active_time, main.executions executions\n");
 			sql.append(",main.cpu_time/1000 cpu_time_per_sec, main.cpu_time_ratio, main.elapsed_time/1000 elapsed_time_per_sec, main.elapsed_time_ratio, main.buffer_gets, main.buffer_gets_ratio\n");
 			sql.append("		, (SELECT rtrim(xmlagg(xmlelement(e, sql_text ,' ').extract('//text()') order by piece).GetClobVal(),' ')\n");
 			sql.append("          FROM  v$sqltext b WHERE b.sql_id = main.sql_id GROUP BY sql_id ) as sql_full_text\n");
@@ -397,7 +397,7 @@ public class OracleRepoImpl implements OracleRepo{
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%v$%'\n");
 			sql.append("                    OR TRIM(SQL_TEXT) LIKE '%x$%')\n");
 			sql.append("       ORDER BY buffer_gets/sum(buffer_gets) OVER()*100 desc ) main\n");
-			sql.append("WHERE rownum <= 20\n");
+			sql.append("WHERE rownum <= 20 and last_active_time >= sysdate - 5/24/60\n");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, schemaName);

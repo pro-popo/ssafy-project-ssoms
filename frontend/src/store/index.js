@@ -14,11 +14,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     time: 0,
-    timeList: []
+    timeList: [],
+    selectedRealTime: 0 // 시점의 인덱스 값으로 저장
   },
   getters: {
     getRealTime: (state) => state.time,
-    getRealTimeList: (state) => state.timeList
+    getRealTimeList: (state) => state.timeList,
+    selectedRealTime: (state) => state.selectedRealTime
   },
   mutations: {
     SET_REALTIME(state, data) {
@@ -27,6 +29,12 @@ export default new Vuex.Store({
       if (state.timeList.length > 12) {
         state.timeList.shift();
       }
+    },
+    SET_SELECTED_REALTIME(state, selectedTime) {
+      if (selectedTime == -1)
+        state.selectedRealTime = state.timeList.length - 1;
+      else state.selectedRealTime = selectedTime;
+      console.log(state.selectedRealTime);
     }
   },
   methods: {},
