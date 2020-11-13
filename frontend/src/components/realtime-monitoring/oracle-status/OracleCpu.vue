@@ -41,11 +41,19 @@
 
           <div style="height:100%; width:70%;">
             <div style="height:100%">
-              <IEcharts :option="option" style="padding-top:5px" />
+              <IEcharts
+                :option="option"
+                style="padding-top:5px"
+                :resizable="true"
+              />
             </div>
           </div>
           <div style="height:95%; width:30%;">
-            <IEcharts :option="gauge" style="margin-top:30px" />
+            <IEcharts
+              :option="gauge"
+              style="margin-top:30px"
+              :resizable="true"
+            />
           </div>
         </v-card-text>
       </v-card>
@@ -65,7 +73,11 @@
                 {{ getResponesTimePerTxn[selectedRealTime] }}
                 <span class="oracle-cpu-unit">sec</span>
                 <div style="height:50%">
-                  <IEcharts :option="small1" class="small-chart" />
+                  <IEcharts
+                    :option="small1"
+                    class="small-chart"
+                    :resizable="true"
+                  />
                 </div>
               </h1>
             </div>
@@ -82,7 +94,11 @@
                 <span>{{ getActiveSerialSessions[selectedRealTime] }}</span>
                 <span class="oracle-cpu-unit">count</span>
                 <div style="height:50%; width:auto">
-                  <IEcharts :option="small2" class="small-chart" />
+                  <IEcharts
+                    :option="small2"
+                    class="small-chart"
+                    :resizable="true"
+                  />
                 </div>
               </h1>
             </div>

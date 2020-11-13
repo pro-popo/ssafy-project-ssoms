@@ -116,7 +116,7 @@ export default {
 }
 .small-chart {
   height: 25px !important;
-  width: 90px !important;
+  max-width: 90px !important;
 
   position: initial;
 }
