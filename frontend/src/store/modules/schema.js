@@ -23,6 +23,19 @@ const Schema = {
       elapsedTimeAvg: [0],
       elapsedTimeMax: [123],
       elapsedTimeTot: [0]
+    },
+    timeAndCpuList:{
+        time : [],
+        cpu: [],
+        check : false
+    },
+    pastTimeData: {
+      allSchemaStastics: [],
+      oracleStatus: {},
+      schemas: [],
+      schemaList: [],
+      radarchart: [],
+      check : false
     }
   },
   getters: {
@@ -33,7 +46,9 @@ const Schema = {
     getRealTimeSchemaList2: (state) => state.realTimeSchemaList.cpuTimeTot,
     getRealTimeSchemaList3: (state) => state.realTimeSchemaList.elapsedTimeTot,
     getRealTimeSchemaList4: (state) => state.realTimeSchemaList.bufferGetsAvg,
-    getSchemaLength: (state) => state.schemaList.length
+    getSchemaLength: (state) => state.schemaList.length,
+    getTimeAndCpuList: (state) => state.timeAndCpuList,
+    getPastTimeData: (state) => state.pastTimeData
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
@@ -91,6 +106,45 @@ const Schema = {
           }
         }
       }
+    },
+    SET_TIME_AND_CPU_LIST(state, data){
+        let times = [];
+        let cpus = [];
+        data.forEach(element => {
+            // let temp = element.time.split(' ');
+            // let f = temp[0].split('-');
+            // let s = temp[1].split(':');
+            // times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
+            times.push(element.time);
+            cpus.push(element.databaseCpuTimeRatio);
+        });
+        state.timeAndCpuList.time = times;
+        state.timeAndCpuList.cpu = cpus;
+        state.timeAndCpuList.check = true;
+    },
+    SET_PAST_TIME_DATA(state, data){
+      state.pastTimeData.oracleStatus = data.oracleStatus;
+      let tempstat = {};
+      let tempsch = {};
+      let list = [];
+      let radar = [];
+      data.allSchemaStastics.forEach(element => {
+        tempstat[element.parsingSchemaName] = element;
+        
+        radar.push({
+            value : [element.bufferGetsAvg, element.cpuTimeAvg, element.cpuTimeMax, element.cpuTimeTot, element.sqlCnt],
+            name : element.parsingSchemaName
+        });
+        list.push(element.parsingSchemaName);
+      });
+      data.schemas.forEach(element => {
+        tempsch[element.bufferGets[0].parsingSchemaName] = element;
+      });
+      state.pastTimeData.allSchemaStastics = tempstat;
+      state.pastTimeData.schemas = tempsch;
+      state.pastTimeData.radarchart = radar;
+      state.pastTimeData.schemaList = list;
+      state.pastTimeData.check = true;
     }
   },
   actions: {
