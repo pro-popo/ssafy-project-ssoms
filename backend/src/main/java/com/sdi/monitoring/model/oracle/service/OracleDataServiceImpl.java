@@ -65,17 +65,7 @@ public class OracleDataServiceImpl implements OracleDataService {
 		 * 	2 : 한달 
 		 * 	3 : 6달
 		 */
-		int typeNum = calculatePeriod(startDate, endDate);
-		if (typeNum == 0) {
-			return realTimeMontoringEntityListToTimeAndCpuDTO(realTimeMonitoringMongoRepo.findByTimeBetween(startDate, endDate));
-		}else if(typeNum == 1) {
-			return oneHourMontoringEntityListToTimeAndCpuDTO(oneHourMonitoringMongoRepo.findByTimeBetween(startDate, endDate));
-		}else if(typeNum == 2) {
-			return sixHoursMontoringEntityListToTimeAndCpuDTO(SixHoursMonitoringMongoRepo.findByTimeBetween(startDate, endDate));
-		}else if(typeNum == 3) {
-			return oneDayMontoringEntityListToTimeAndCpuDTO(oneDayMonitoringMongoRepo.findByTimeBetween(startDate, endDate));
-		}
-		return null;
+		return calculatePeriod(startDate, endDate);
 	}
 
 	@Override
@@ -145,7 +135,7 @@ public class OracleDataServiceImpl implements OracleDataService {
 		return mapper.convertToDTO(realTimeMonitoringEntity, RealTimeMonitoringDTO.class);
 	}
 
-	private int calculatePeriod(String startDate, String endDate) {
+	private List<TimeAndCpuDTO> calculatePeriod(String startDate, String endDate) {
 		try {
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date start = transFormat.parse(startDate);
@@ -155,24 +145,27 @@ public class OracleDataServiceImpl implements OracleDataService {
 			startCal.setTime(start);
 			endCal.setTime(end);
 			if(startCal.compareTo(endCal) == 0) {
-				return 0; // 1일
+				endCal.add(Calendar.DATE, 1);
+				return realTimeMontoringEntityListToTimeAndCpuDTO(realTimeMonitoringMongoRepo.findByTimeBetween(startDate, transFormat.format(endCal.getTime()))); // 1일
 			}
 			startCal.add(Calendar.DATE, 14);
 			if (startCal.compareTo(endCal) == 1) {
-				return 1;
+				endCal.add(Calendar.DATE, 1);
+				return oneHourMontoringEntityListToTimeAndCpuDTO(oneHourMonitoringMongoRepo.findByTimeBetween(startDate, transFormat.format(endCal.getTime())));
 			}
 			startCal.add(Calendar.DATE, 17);
 			if (startCal.compareTo(endCal) == 1) {
-				return 2;
+				endCal.add(Calendar.DATE, 1);
+				return sixHoursMontoringEntityListToTimeAndCpuDTO(SixHoursMonitoringMongoRepo.findByTimeBetween(startDate, transFormat.format(endCal.getTime())));
 			}
 			startCal.add(Calendar.MONTH, 5);
 			if (startCal.compareTo(endCal) == 1) {
-				return 3;
+				endCal.add(Calendar.DATE, 1);
+				return oneDayMontoringEntityListToTimeAndCpuDTO(oneDayMonitoringMongoRepo.findByTimeBetween(startDate, transFormat.format(endCal.getTime())));
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-		return -1;
+		return null;
 	}
 }
