@@ -41,36 +41,76 @@
       </v-menu>
     </div>
     <div class="schema-chart-box">
-      <div v-if="items[0].isShow">
-        <h4>Executions(times)</h4>
-        <v-card elevation="2" class="schema-chart-size">
-          <IEcharts :option="option1" />
-        </v-card>
+      <div>
+        <div v-if="items[0].isShow">
+          <h4>Executions</h4>
+          <v-card elevation="2" class="schema-chart-size">
+            <IEcharts
+              :option="option1_line"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+            <IEcharts
+              :option="option1_pie"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+          </v-card>
+        </div>
+        <div v-if="items[1].isShow" class="mt-3">
+          <h4>CpuTimeTotal</h4>
+          <v-card elevation="2" class="schema-chart-size">
+            <IEcharts
+              :option="option2_line"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+            <IEcharts
+              :option="option2_pie"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+          </v-card>
+        </div>
       </div>
-      <div v-if="items[1].isShow">
-        <h4>CpuTimeTotal(%)</h4>
-        <v-card elevation="2" class="schema-chart-size">
-          <IEcharts :option="option2" />
-        </v-card>
-      </div>
-      <div v-if="items[2].isShow">
-        <h4>ElapsedTimeTotal(%)</h4>
-        <v-card elevation="2" class="schema-chart-size">
-          <IEcharts :option="option3" />
-        </v-card>
-      </div>
-      <div v-if="items[3].isShow">
-        <h4>BufferGetsAvg</h4>
-        <v-card elevation="2" class="schema-chart-size">
-          <IEcharts :option="option4" />
-        </v-card>
+      <div>
+        <div v-if="items[2].isShow">
+          <h4>ElapsedTimeTotal</h4>
+          <v-card elevation="2" class="schema-chart-size">
+            <IEcharts
+              :option="option3_line"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+            <IEcharts
+              :option="option3_pie"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+          </v-card>
+        </div>
+        <div v-if="items[3].isShow" class="mt-3">
+          <h4>BufferGetsAvg</h4>
+          <v-card elevation="2" class="schema-chart-size">
+            <IEcharts
+              :option="option4_line"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+            <IEcharts
+              :option="option4_pie"
+              :resizable="true"
+              class="schema-chart-size-in"
+            />
+          </v-card>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import IEcharts from "vue-echarts-v3/src/full.js";
 import axios from "axios";
 import SERVER from "@/api/spring.js";
@@ -82,6 +122,7 @@ export default {
   },
   data() {
     return {
+      toggle_exclusive: 5,
       items: [
         {
           title: "Executions",
@@ -108,7 +149,7 @@ export default {
           iconFalse: "mdi-checkbox-blank-circle-outline"
         }
       ],
-      option1: {
+      option1_line: {
         tooltip: {
           trigger: "axis"
         },
@@ -125,19 +166,56 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          }
         },
         yAxis: {
+          name: "(count)",
           min: function(value) {
             return value.min - value.min * 0.05;
           },
           max: function(value) {
             return value.max + value.max * 0.05;
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
         series: []
       },
-      option2: {
+      option1_pie: {
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          left: "center",
+          top: "bottom",
+          data: []
+        },
+        series: [
+          {
+            name: "Executions",
+            type: "pie",
+            radius: [30, 90],
+            roseType: "radius",
+            label: {
+              show: false
+            },
+            data: []
+          }
+        ]
+      },
+      option2_line: {
         tooltip: {
           trigger: "axis"
         },
@@ -154,19 +232,56 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          }
         },
         yAxis: {
+          name: "(%)",
           min: function(value) {
             return (value.min - value.min * 0.05).toFixed(2);
           },
           max: function(value) {
             return (value.max + value.max * 0.05).toFixed(2);
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
         series: []
       },
-      option3: {
+      option2_pie: {
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          left: "center",
+          top: "bottom",
+          data: []
+        },
+        series: [
+          {
+            name: "CpuTimeTotal",
+            type: "pie",
+            radius: [30, 90],
+            roseType: "radius",
+            label: {
+              show: false
+            },
+            data: []
+          }
+        ]
+      },
+      option3_line: {
         tooltip: {
           trigger: "axis"
         },
@@ -183,21 +298,72 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          }
         },
         yAxis: {
+          name: "(%)",
           min: function(value) {
             return (value.min - value.min * 0.05).toFixed(2);
           },
           max: function(value) {
             return (value.max + value.max * 0.05).toFixed(2);
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
         series: []
       },
-      option4: {
+      option3_pie: {
         tooltip: {
-          trigger: "axis"
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          left: "center",
+          top: "bottom",
+          data: []
+        },
+        series: [
+          {
+            name: "ElapsedTimeTotal",
+            type: "pie",
+            radius: [30, 90],
+            roseType: "radius",
+            label: {
+              show: false
+            },
+            data: []
+          }
+        ]
+      },
+      option4_line: {
+        tooltip: {
+          trigger: "axis",
+          triggerOn: "click",
+          axisPointer: {
+            label: {
+              background: "#ffff",
+              show: true,
+              formatter: function(params) {
+                if (params.seriesData[0] !== undefined)
+                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+                else
+                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+                return params.value;
+              }.bind(this)
+            }
+          }
         },
         legend: {
           type: "scroll",
@@ -212,71 +378,75 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+          axisPointer: {
+            handle: {
+              show: true
+            }
+          }
         },
         yAxis: {
+          name: "(?)",
           min: function(value) {
             return value.min - value.min * 0.05;
           },
           max: function(value) {
             return value.max + value.max * 0.05;
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ababab"
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
         series: []
+      },
+      option4_pie: {
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          left: "center",
+          top: "bottom",
+          data: []
+        },
+        series: [
+          {
+            name: "BufferGetsAvg",
+            type: "pie",
+            radius: [30, 90],
+            roseType: "radius",
+            label: {
+              show: false
+            },
+            data: []
+          }
+        ]
       }
     };
   },
   methods: {
+    ...mapMutations(["SET_SELECTED_REALTIME"]),
     toggleCheckBox(index) {
       if (this.items[index].isShow === true) {
         this.items[index].isShow = false;
       } else {
         this.items[index].isShow = true;
       }
-    },
-    changeChart(type) {
-      if (type === "line") {
-        console.log("line");
-      } else if (type === "pie") {
-        // this.option1.tooltip = {
-        //   trigger: "item",
-        //   formatter: "{a} <br/>{b} : {c} ({d}%)"
-        // };
-        // for(var i=0; i<this.option1.series.length; i++){
-        //   this.option1.series[i].type = 'pie'
-        //   this.option1.series[i].radius
-        // }
-
-        // delete option1.xAxis;
-        // delete option1.yAxis;
-        this.option1.series = [
-          {
-            name: "半径模式",
-            type: "pie",
-            radius: [30, 100],
-            roseType: "radius",
-            label: {
-              show: false
-            },
-            emphasis: {
-              label: {
-                show: true
-              }
-            },
-            data: [
-              { value: 10, name: "rose1" },
-              { value: 5, name: "rose2" },
-              { value: 15, name: "rose3" },
-              { value: 25, name: "rose4" },
-              { value: 20, name: "rose5" },
-              { value: 35, name: "rose6" },
-              { value: 30, name: "rose7" },
-              { value: 40, name: "rose8" }
-            ]
-          }
-        ];
-      }
     }
+    // changeChart(type) {
+    //   if (type === "line") {
+    //   } else if (type === "pie") {
+    // }
   },
   computed: {
     ...mapGetters("Schema", [
@@ -286,84 +456,144 @@ export default {
       "getRealTimeSchemaList4",
       "getSchemaList"
     ]),
-    ...mapGetters(["getRealTime", "getRealTimeList"])
+    ...mapGetters(["getRealTime", "getRealTimeList", "selectedRealTime"])
   },
   watch: {
     getRealTimeSchemaList1: {
       deep: true,
       handler() {
         var legendList = [];
+        const timeList = this.getRealTimeList;
         for (var i = 0; i < this.getRealTimeSchemaList1.length; i++) {
           legendList.push(this.getRealTimeSchemaList1[i].name);
-          this.option1.series[i].name = this.getRealTimeSchemaList1[i].name;
-          this.option1.series[i].data = this.getRealTimeSchemaList1[i].data;
+          this.option1_line.series[i].name = this.getRealTimeSchemaList1[
+            i
+          ].name;
+          this.option1_line.series[i].data = this.getRealTimeSchemaList1[
+            i
+          ].data;
+          this.option1_pie.series[0].data[
+            i
+          ].value = this.getRealTimeSchemaList1[i].data[timeList.length - 1];
+          this.option1_pie.series[0].data[i].name = this.getRealTimeSchemaList1[
+            i
+          ].name;
         }
-        this.option1.legend.data = legendList;
-        this.option1.xAxis.data = this.getRealTimeList;
+        this.option1_line.legend.data = legendList;
+        this.option1_line.xAxis.data = timeList;
       }
     },
     getRealTimeSchemaList2: {
       deep: true,
       handler() {
         var legendList = [];
+        const timeList = this.getRealTimeList;
         for (var i = 0; i < this.getRealTimeSchemaList2.length; i++) {
           legendList.push(this.getRealTimeSchemaList2[i].name);
-          this.option2.series[i].name = this.getRealTimeSchemaList2[i].name;
-          this.option2.series[i].data = this.getRealTimeSchemaList2[i].data;
+          this.option2_line.series[i].name = this.getRealTimeSchemaList2[
+            i
+          ].name;
+          this.option2_line.series[i].data = this.getRealTimeSchemaList2[
+            i
+          ].data;
+          this.option2_pie.series[0].data[
+            i
+          ].value = this.getRealTimeSchemaList2[i].data[timeList.length - 1];
+          this.option2_pie.series[0].data[i].name = this.getRealTimeSchemaList2[
+            i
+          ].name;
         }
-        this.option2.legend.data = legendList;
-        this.option2.xAxis.data = this.getRealTimeList;
+        this.option2_line.legend.data = legendList;
+        this.option2_line.xAxis.data = timeList;
       }
     },
     getRealTimeSchemaList3: {
       deep: true,
       handler() {
         var legendList = [];
+        const timeList = this.getRealTimeList;
         for (var i = 0; i < this.getRealTimeSchemaList3.length; i++) {
           legendList.push(this.getRealTimeSchemaList3[i].name);
-          this.option3.series[i].name = this.getRealTimeSchemaList3[i].name;
-          this.option3.series[i].data = this.getRealTimeSchemaList3[i].data;
+          this.option3_line.series[i].name = this.getRealTimeSchemaList3[
+            i
+          ].name;
+          this.option3_line.series[i].data = this.getRealTimeSchemaList3[
+            i
+          ].data;
+          this.option3_pie.series[0].data[
+            i
+          ].value = this.getRealTimeSchemaList3[i].data[timeList.length - 1];
+          this.option3_pie.series[0].data[i].name = this.getRealTimeSchemaList3[
+            i
+          ].name;
         }
-        this.option3.legend.data = legendList;
-        this.option3.xAxis.data = this.getRealTimeList;
+        this.option3_line.legend.data = legendList;
+        this.option3_line.xAxis.data = timeList;
       }
     },
     getRealTimeSchemaList4: {
       deep: true,
       handler() {
         var legendList = [];
+        const timeList = this.getRealTimeList;
         for (var i = 0; i < this.getRealTimeSchemaList4.length; i++) {
           legendList.push(this.getRealTimeSchemaList4[i].name);
-          this.option4.series[i].name = this.getRealTimeSchemaList4[i].name;
-          this.option4.series[i].data = this.getRealTimeSchemaList4[i].data;
+          this.option4_line.series[i].name = this.getRealTimeSchemaList4[
+            i
+          ].name;
+          this.option4_line.series[i].data = this.getRealTimeSchemaList4[
+            i
+          ].data;
+          this.option4_pie.series[0].data[
+            i
+          ].value = this.getRealTimeSchemaList4[i].data[timeList.length - 1];
+          this.option4_pie.series[0].data[i].name = this.getRealTimeSchemaList4[
+            i
+          ].name;
         }
-        this.option4.legend.data = legendList;
-        this.option4.xAxis.data = this.getRealTimeList;
+        this.option4_line.legend.data = legendList;
+        this.option4_line.xAxis.data = timeList;
       }
     }
   },
   created() {
     axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then((res) => {
       for (var i = 0; i < res.data.map.schema.length; i++) {
-        this.option1.series.push({
+        this.option1_line.series.push({
           name: "",
           type: "line",
           data: []
         });
-        this.option2.series.push({
+        this.option1_pie.series[0].data.push({
+          value: 0,
+          name: ""
+        });
+        this.option2_line.series.push({
           name: "",
           type: "line",
           data: []
         });
-        this.option3.series.push({
+        this.option2_pie.series[0].data.push({
+          value: 0,
+          name: ""
+        });
+        this.option3_line.series.push({
           name: "",
           type: "line",
           data: []
         });
-        this.option4.series.push({
+        this.option3_pie.series[0].data.push({
+          value: 0,
+          name: ""
+        });
+        this.option4_line.series.push({
           name: "",
           type: "line",
           data: []
+        });
+        this.option4_pie.series[0].data.push({
+          value: 0,
+          name: ""
         });
       }
     });
@@ -375,13 +605,17 @@ export default {
 .schema-chart-box {
   display: flex;
   justify-content: space-between;
-  height: 300px;
+  height: 550px;
 }
 .schema-chart-box > div {
-  width: 22%;
-  min-width: 220px;
+  width: 49%;
+  min-width: 500px;
 }
 .schema-chart-size {
   height: 250px;
+  display: flex;
+}
+.schema-chart-size-in {
+  width: 50% !important;
 }
 </style>
