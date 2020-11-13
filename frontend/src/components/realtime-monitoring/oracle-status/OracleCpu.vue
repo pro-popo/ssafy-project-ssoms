@@ -93,12 +93,8 @@
               <h1>
                 <span>{{ getActiveSerialSessions[selectedRealTime] }}</span>
                 <span class="oracle-cpu-unit">count</span>
-                <div style="height:50%; width:auto">
-                  <IEcharts
-                    :option="small2"
-                    class="small-chart"
-                    :resizable="true"
-                  />
+                <div style="height:50%; width:auto" class="small-chart">
+                  <IEcharts :option="small2" :resizable="true" />
                 </div>
               </h1>
             </div>
@@ -153,18 +149,7 @@ export default {
     ]),
     ...mapGetters(["getRealTimeList", "selectedRealTime"])
   },
-  created() {
-    if (this.getDatabaseCpuTimeRatioList.length - 1 != 0) {
-      setTimeout(
-        function() {
-          this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
-            this.getDatabaseCpuTimeRatioList.length - 1
-          ];
-        }.bind(this),
-        1500
-      );
-    }
-  },
+
   watch: {
     selectedRealTime: function() {
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
@@ -257,10 +242,11 @@ export default {
             label: {
               background: "#ffff",
               show: true,
+              snap: true,
               formatter: function(params) {
-                if (params.seriesData[0] !== undefined)
+                if (params.seriesData[0] !== undefined) {
                   this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-                else
+                } else
                   this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
                 return params.value;
               }.bind(this)
@@ -293,7 +279,7 @@ export default {
               formatter: "{value}%",
               show: true,
               color: "#6440e3",
-              offsetCenter: ["0", "50%"],
+              offsetCenter: ["0", "45%"],
               fontSize: 22,
               fontWeight: "bold"
             },
@@ -339,7 +325,7 @@ export default {
             },
             title: {
               show: true,
-              offsetCenter: [0, "80%"],
+              offsetCenter: [0, "75%"],
               color: "rgba(143, 143, 143, 1)",
               fontSize: 12,
               fontWeight: "bold"
