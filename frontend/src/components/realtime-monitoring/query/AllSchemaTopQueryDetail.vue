@@ -34,7 +34,7 @@
       height="230px"
       v-else
     >
-      <div>자세히 보고싶은 Query를 선택해주세요.</div>
+      <div>Query Detail</div>
     </v-card>
   </div>
 </template>
