@@ -35,7 +35,7 @@
             </div>
           </div>
           <div style="height:100%">
-            <IEcharts :option="option" />
+            <IEcharts :option="option" :resizable="true" />
           </div>
         </div>
       </v-card-text>

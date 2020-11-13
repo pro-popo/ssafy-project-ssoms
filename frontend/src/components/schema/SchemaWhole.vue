@@ -1,12 +1,19 @@
 <template>
-  <div class="whole-box">
-    <v-card elevation="2" width="600px" class="mx-auto mt-1">
-      <IEcharts width="600px" :option="chart1" @click="onClick" />
-    </v-card>
-    <v-card elevation="2" width="600px" class="mx-auto mt-1" v-if="getPastTimeData.check">
-      <IEcharts width="600px" :option="chart2" />
-    </v-card>
-  </div>
+  <table class="mx-auto" width="100%" height="315px">
+      <tr>
+          <td>
+            <v-card elevation="2" width="600px" height="315px" class="mx-auto mt-1" >
+                <IEcharts :option="chart1" @click="onClick" :resizable="true"/>
+            </v-card>
+          </td>
+          <!--<td width="50%" v-bind:class="{v_hidden:!getPastTimeData.check}">-->
+            <td>
+                <v-card elevation="2" width="600px" height="315px" class="mx-auto mt-1" v-if="getPastTimeData.check">
+                    <IEcharts :option="chart2" :resizable="true"/>
+                </v-card>
+            </td>
+      </tr>
+  </table>
 </template>
 
 <script>
@@ -118,7 +125,7 @@ export default {
         },
         series: [
           {
-            name: "预算 vs 开销（Budget vs spending）",
+            name: "Schema status",
             type: "radar",
             // areaStyle: {normal: {}},
             data: this.getPastTimeData.radarchart
@@ -131,12 +138,11 @@ export default {
   methods: {
     ...mapMutations("Schema", ["SET_PAST_TIME_DATA"]),
     onClick(eventInfo){
-      console.log(eventInfo.name)
       axios
         .get(SERVER.URL + SERVER.ROUTES.getPastData + '/' +eventInfo.name)
         .then((res) => {
             if(res.data.result ==="notExist"){
-                alert("data empty");
+                alert("data not exist");
             }
           if (res.data.result === "success") {
             console.log(res.data.map)
@@ -160,5 +166,23 @@ export default {
 }
 .whole-query-box2 {
   margin: 10px;
+}
+
+.width_0p{
+    width: 0%;
+    /*transform: scaleX(0%);*/
+}
+.width_100p{
+    width: 100%;
+    /*transform: scaleX(100%);*/
+}
+.v_hiden{
+    visibility: hidden !important;
+}
+.width_50p{
+    width: 50% !important;
+    /*transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in;*/
 }
 </style>

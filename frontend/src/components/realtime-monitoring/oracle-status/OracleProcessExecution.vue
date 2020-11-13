@@ -60,7 +60,7 @@
         </div>
       </div>
       <div style="height:70%; width:auto;">
-        <IEcharts :option="option" class="execution-pie" />
+        <IEcharts :option="option" class="execution-pie" :resizable="true" />
       </div>
     </v-card-text>
   </v-card>
