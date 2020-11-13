@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
@@ -127,23 +128,26 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		
         messagingTemplate.convertAndSend("/sendData/schedulerM", map);
         RealTimeMonitoringEntity realTimeMonitoringEntity = realTimeMonitoringEntityBuilder(realTimeMonitoringDTO);
-        if(realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime())) {
-	        realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
-	        if(cnt % (12) == 0) {
-	        	oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));
-	        	// 1시간 저장 logic
-	        }
-	        if(cnt % (12 * 6) == 0) {
-	        	sixHoursMonitoringMongoRepo.insert(sixHoursMonitoringEntityBuilder(realTimeMonitoringEntity));
-	        	// 6시간 저장 logic
-	        }
-	        if(cnt % (12 * 6 * 4) == 0) {
-	        	cnt = 0;
-	        	oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
-	        	// 1일 저장 logic
-	        }
-	        realTimeMonitoringEntity = null;
+        try {
+        	realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
+            if(cnt % (12) == 0) {
+            	oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));
+            	// 1시간 저장 logic
+            }
+            if(cnt % (12 * 6) == 0) {
+            	sixHoursMonitoringMongoRepo.insert(sixHoursMonitoringEntityBuilder(realTimeMonitoringEntity));
+            	// 6시간 저장 logic
+            }
+            if(cnt % (12 * 6 * 4) == 0) {
+            	cnt = 0;
+            	oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
+            	// 1일 저장 logic
+            }
+            realTimeMonitoringEntity = null;
+        }catch(DuplicateKeyException e) {
+        	realTimeMonitoringEntity = null;
         }
+        
 	}
 	
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {
