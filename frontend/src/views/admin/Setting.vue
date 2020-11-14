@@ -79,12 +79,12 @@
                     현 화면은 관리자만 접근 가능한 페이지로, <br />Oracle
                     Database와 Member를 관리하실 수 있습니다.
                   </p>
-                  <p style="margin-top:30px">
+                  <p style="margin-top:40px">
                     먼저, SSOMS 서비스 이용을 위해
                     <b>Oracle 연동</b>과 <b>Schema 설정</b>을 진행해주세요.
                   </p>
                   <v-btn
-                    style="margin-top:50px;"
+                    style="margin-top:15px;"
                     @click="model = 1"
                     color="black"
                     dark

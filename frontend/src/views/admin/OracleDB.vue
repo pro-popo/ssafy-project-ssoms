@@ -82,7 +82,7 @@
       </div>
     </form>
 
-    <div v-if="true">
+    <div v-if="false">
       <v-divider style="margin : 100px 0px 30px 0px"></v-divider>
       <h2 style="margin-bottom:10px">실시간 모니터링</h2>
       <v-btn color="success" v-if="scheduler" @click="connectScheduler"

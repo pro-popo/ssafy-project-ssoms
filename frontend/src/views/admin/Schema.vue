@@ -1,5 +1,5 @@
 <template>
-  <div style="max-width:800px">
+  <div class="shema-container" style="max-width:800px">
     <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
     <h4 style="color:var(--font-sub2-color); ">
       <v-icon color="var(--font-sub2-color)">mdi-database</v-icon> Schema
@@ -41,17 +41,20 @@
         <div class="add-schema-form">
           <v-text-field
             prepend-icon="mdi-database-plus"
-            label="스키마ID를 입력해주세요."
+            label="추가하실 스키마ID를 입력해주세요."
             v-model="userID"
             @keypress.enter="saveSchema"
           ></v-text-field>
           <v-btn
             style="margin-left:20px"
-            color="primary"
+            color="grey"
+            outlined
+            fab
+            small
             class="setting-schema-save-button"
             @click="saveSchema"
           >
-            SAVE
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
       </v-card>
@@ -155,7 +158,7 @@ export default {
     },
     saveSchema() {
       if (this.userID === "") {
-        alert("Schema를 입력해주세요");
+        alert("Schema ID를 입력해주세요.");
         return;
       }
       // 중복 및 존재여부 확인
@@ -166,7 +169,7 @@ export default {
         .then((res) => {
           console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
-            alert("이미 존재하는 스키마 ID 입니다.");
+            alert("이미 추가된 스키마 ID 입니다.");
           } else if (res.data.result === "notExist") {
             alert("DB에 존재하지 않는 스키마 ID 입니다.");
           } else if (res.data.result === "success") {
@@ -221,13 +224,13 @@ export default {
 #add-schema-btn:hover {
   background: var(--main-color) !important;
 }
-.slide-fade-enter-active {
+.shema-container .slide-fade-enter-active {
   transition: all 0.3s ease;
 }
-.slide-fade-leave-active {
+.shema-container .slide-fade-leave-active {
   transition: all 0.3s ease;
 }
-.slide-fade-enter, .slide-fade-leave-to
+.shema-container .slide-fade-enter, .shema-container .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(-20px);
   opacity: 0;
