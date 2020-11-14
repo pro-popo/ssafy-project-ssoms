@@ -47,9 +47,9 @@ import SchemaWhole from "@/components/schema/SchemaWhole.vue";
 import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
 import SchemaDetail from "@/components/schema/SchemaDetail.vue";
 import Loading from "@/components/schema/Loading.vue";
-import SERVER from "@/api/spring.js";
-import { mapMutations, mapGetters } from "vuex";
-import axios from "axios";
+//import SERVER from "@/api/spring.js";
+import { mapActions, mapMutations, mapGetters } from "vuex";
+//import axios from "axios";
 
 export default {
   name: "QueryMonitoring",
@@ -72,24 +72,27 @@ export default {
       }, 500)
       const start = '/'+document.getElementById("startDate").value;
       const end = '/'+document.getElementById("endDate").value;
-
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
-        .then((res) => {
-            if(res.data.result === "empty"){
-                alert("data not exist");
-            }
-          else if (res.data.result === "success") {
-            this.SET_TIME_AND_CPU_LIST(res.data.map.timeAndCpuList)
-          }
-        })
-        .catch((err) => console.log(err));
+        this.setTimeAndCpuList({'start':start, 'end':end});
+            
+    //  axios
+    //    .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
+    //    .then((res) => {
+    //        if(res.data.result === "empty"){
+    //            alert("data not exist");
+    //        }
+    //      else if (res.data.result === "success") {
+    //        this.SET_TIME_AND_CPU_LIST(res.data.map.timeAndCpuList)
+    //      }
+    //    })
+    //    .catch((err) => console.log(err));
     },
-    ...mapMutations("Schema", ["SET_TIME_AND_CPU_LIST"])
+    ...mapMutations("Schema", ["SET_TIME_AND_CPU_LIST"]),
+    ...mapActions("Schema", ["setTimeAndCpuList"])
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"]),
     ...mapGetters("Schema", ["getTimeAndCpuList"]),
+    
   },
   mounted() {
     document.getElementById(
@@ -98,6 +101,7 @@ export default {
     document.getElementById(
       "endDate"
     ).value = new Date().toISOString().substring(0, 10);
+    this.queryData();
   }
 };
 </script>

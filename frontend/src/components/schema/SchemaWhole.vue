@@ -6,7 +6,6 @@
                 <IEcharts :option="chart1" @click="onClick" :resizable="true"/>
             </v-card>
           </td>
-          <!--<td width="50%" v-bind:class="{v_hidden:!getPastTimeData.check}">-->
             <td>
                 <v-card elevation="2" width="600px" height="315px" class="mx-auto mt-1" v-if="getPastTimeData.check">
                     <IEcharts :option="chart2" :resizable="true"/>
@@ -18,10 +17,10 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-import { mapMutations, mapGetters } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 import echarts from 'echarts/lib/echarts';
-import SERVER from "@/api/spring.js";
-import axios from "axios";
+//import SERVER from "@/api/spring.js";
+//import axios from "axios";
 
 export default {
   name: "SchemaWhole",
@@ -136,20 +135,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions("Schema", ["setPastTimeData"]),
     ...mapMutations("Schema", ["SET_PAST_TIME_DATA"]),
     onClick(eventInfo){
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.getPastData + '/' +eventInfo.name)
-        .then((res) => {
-            if(res.data.result ==="notExist"){
-                alert("data not exist");
-            }
-          if (res.data.result === "success") {
-            console.log(res.data.map)
-            this.SET_PAST_TIME_DATA(res.data.map.realTimeMonitoring);
-          }
-        })
-        .catch((err) => console.log(err));
+    //  axios
+    //    .get(SERVER.URL + SERVER.ROUTES.getPastData + '/' +eventInfo.name)
+    //    .then((res) => {
+    //        if(res.data.result ==="notExist"){
+    //            alert("data not exist");
+    //        }
+    //      if (res.data.result === "success") {
+    //        console.log(res.data.map)
+    //        this.SET_PAST_TIME_DATA(res.data.map.realTimeMonitoring);
+    //      }
+    //    })
+    //    .catch((err) => console.log(err));
+        this.setPastTimeData(eventInfo.name);
     }
   }
 };
