@@ -95,6 +95,7 @@ export default {
     },
     chart2(){
       return {
+        color: this.$store.state.graphColor,
         tooltip: {},
         legend: {
           data: this.getPastTimeData.schemaList,
