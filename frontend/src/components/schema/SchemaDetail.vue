@@ -1,6 +1,6 @@
 <template>
   <v-card class="px-4 py-4" width="100%" elevation="2" outlined>
-      <table width="100%">
+      <table width="100%" v-if="getPastTimeData.allSchemaStastics.length != 0">
           <tr>
               <td>
                   <span>name
@@ -9,7 +9,8 @@
               </td>
               <td>
                     <span>cpuTimeAvg
-                        <div class="schema-detail-item">{{ getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeAvg }}</div>
+                        
+                        <div class="schema-detail-item">{{ getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeAvg}}</div>
                     </span>
               </td>
               <td>
