@@ -150,6 +150,7 @@ export default {
         }
       ],
       option1_line: {
+        color: this.getColor(),
         tooltip: {
           trigger: "axis"
         },
@@ -193,6 +194,8 @@ export default {
         series: []
       },
       option1_pie: {
+        color: this.getColor(),
+        // color: ["#f72585", "#7209b7", "#3a0ca3", "#4361ee", "#4cc9f0"],
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -216,6 +219,7 @@ export default {
         ]
       },
       option2_line: {
+        color: this.getColor(),
         tooltip: {
           trigger: "axis"
         },
@@ -259,6 +263,7 @@ export default {
         series: []
       },
       option2_pie: {
+        color: this.getColor(),
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -282,6 +287,7 @@ export default {
         ]
       },
       option3_line: {
+        color: this.getColor(),
         tooltip: {
           trigger: "axis"
         },
@@ -325,6 +331,7 @@ export default {
         series: []
       },
       option3_pie: {
+        color: this.getColor(),
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -348,6 +355,7 @@ export default {
         ]
       },
       option4_line: {
+        color: this.getColor(),
         tooltip: {
           trigger: "axis",
           triggerOn: "click",
@@ -410,6 +418,7 @@ export default {
         series: []
       },
       option4_pie: {
+        color: this.getColor(),
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -435,6 +444,9 @@ export default {
     };
   },
   methods: {
+    getColor() {
+      return this.$store.state.graphColor;
+    },
     ...mapMutations(["SET_SELECTED_REALTIME"]),
     toggleCheckBox(index) {
       if (this.items[index].isShow === true) {
@@ -557,7 +569,7 @@ export default {
     }
   },
   created() {
-    axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then((res) => {
+    axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then(res => {
       for (var i = 0; i < res.data.map.schema.length; i++) {
         this.option1_line.series.push({
           name: "",
