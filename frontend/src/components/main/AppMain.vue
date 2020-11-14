@@ -26,8 +26,8 @@ export default {
     moveMainPage() {
       if (this.isAdmin != null) {
         if (this.isAdmin) {
-          if (this.$route.name !== "OracleDB")
-            this.$router.push({ name: "OracleDB" });
+          if (this.$route.name !== "Setting")
+            this.$router.push({ name: "Setting" });
         } else if (this.$route.name !== "RealTimeMonitoring") {
           this.$router.push({ name: "RealTimeMonitoring" });
         }
@@ -37,4 +37,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.app-main {
+  width: 100%;
+  height: 100%;
+}
+</style>
