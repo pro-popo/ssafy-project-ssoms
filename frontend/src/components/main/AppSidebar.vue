@@ -8,6 +8,7 @@
     permanent
     dark
     style="height:100%"
+    class="sidebar"
   >
     <div style="height:100%" class="sidebar-container">
       <div>
@@ -103,6 +104,10 @@ export default {
 </script>
 
 <style>
+.sidebar{
+  position: absolute;
+  z-index: 100;
+}
 .sidebar-schema {
   max-height: 400px;
   overflow-y: auto;

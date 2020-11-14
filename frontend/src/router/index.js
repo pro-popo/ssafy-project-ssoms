@@ -46,7 +46,7 @@ const routes = [
 
       // user
       {
-        path: "/user/realtime",
+        path: "/user/realtime/:index",
         name: "RealTimeMonitoring",
         component: RealTimeMonitoring
       },

@@ -9,7 +9,6 @@
         <v-list-item-title>Real-Time Monitoring</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-
     <div class="schema-list">
       <v-icon> mdi-dns</v-icon>
       <div class="schema-title">
@@ -75,19 +74,10 @@ export default {
   },
   watch: {
     model: function() {
-      if (this.model == 0 && this.$route.name !== "RealTimeMonitoring") {
-        setTimeout(
-          function() {
-            this.$router.push({ name: "RealTimeMonitoring" });
-          }.bind(this),
-          500
-        );
+      if (this.model == 0) {
+        this.$router.push({ name: "RealTimeMonitoring", params:{index:0}});
       }
       // this.$router.push({ name: "RealTimeMonitoring" });
-      else if (this.$route.name !== "SchemaMonitoring") {
-        this.$router.push({ name: "SchemaMonitoring" });
-        this.SET_SELECTED_SCHEMA(name);
-      }
     }
   },
   created() {
@@ -98,13 +88,10 @@ export default {
   },
   methods: {
     toSchemaList(name) {
-      if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
-        this.$router.push({ name: "RealTimeMonitoring" });
-      else {
         if (this.$route.name !== "SchemaMonitoring")
           this.$router.push({ name: "SchemaMonitoring" });
         this.SET_SELECTED_SCHEMA(name);
-      }
+      
       // report
     },
     ...mapActions("Schema", ["getSettingSchema"]),

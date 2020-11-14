@@ -21,6 +21,7 @@ export default {
   color: linear-gradient(to right, var(--main-color), var(--main-point-color));
 }
 .logo {
+    margin-left: 56px;
   cursor: pointer;
   font-weight: 550;
 }
