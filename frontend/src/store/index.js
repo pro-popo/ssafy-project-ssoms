@@ -13,7 +13,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    graphColor: ["#f72585", "#7209b7", "#3a0ca3", "#4361ee", "#4cc9f0"],
+    graphColor: [
+      "#f72585",
+      "#7209b7",
+      "#3a0ca3",
+      "#4361ee",
+      "#4cc9f0",
+      "#6fffe9",
+      "#f87060",
+      "#ff7aa2",
+    ],
     time: 0,
     timeList: [],
     selectedRealTime: 0, // 시점의 인덱스 값으로 저장

@@ -193,6 +193,10 @@ export default {
         .catch((err) => console.log(err));
     },
     saveSchema() {
+      if (this.schemaList.length > 7) {
+        alert("최대 8개의 Schema까지 등록가능합니다.");
+        return;
+      }
       if (this.userID === "") {
         alert("Schema ID를 입력해주세요.");
         return;
