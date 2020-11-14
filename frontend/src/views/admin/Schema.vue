@@ -1,10 +1,10 @@
 <template>
   <div>
     <h2 class="mb-3">Schema 설정</h2>
-    <div class="schema-searchbar">
+    <!-- <div class="schema-searchbar">
       <span class="mdi mdi-magnify"></span>
       <v-text-field label="검색할 스키마명을 입력해주세요."></v-text-field>
-    </div>
+    </div> -->
     <div class="schema-box">
       <div
         class="schema-list-admin"
@@ -15,28 +15,23 @@
           {{
             schema.userID
           }}
-          <button @click="deleteSchema(schema.userID)">삭제</button>
+          <button class="delete-button" @click="deleteSchema(schema.userID)">
+            삭제
+          </button>
         </ol>
         <hr />
       </div>
     </div>
-    <div class="mt-7">
-      <span style="font-size:25px; color:gray;">Schema |</span>
-    </div>
-    <div class="setting-schema-data">
+    <div class="setting-schema-data mt-7">
       <span class="setting-schemaID-font">ID</span>
       <v-text-field
         label="스키마ID를 입력해주세요."
         v-model="userID"
       ></v-text-field>
+      <v-btn color="primary" class="mt-3 ml-2" @click="saveSchema">
+        Schema 추가
+      </v-btn>
     </div>
-    <v-btn
-      color="primary"
-      class="setting-schema-save-button"
-      @click="saveSchema"
-    >
-      저장
-    </v-btn>
   </div>
 </template>
 
@@ -54,39 +49,46 @@ export default {
   },
   methods: {
     deleteSchema(schemaId) {
-      const itemToFind = this.schemaList.find(function(item) {
-        return item.userID === schemaId;
-      });
-      const idx = this.schemaList.indexOf(itemToFind);
-      if (idx > -1) {
-        this.schemaList.splice(idx, 1);
+      var deleteConfirm = confirm("정말 삭제하시겠습니까?");
+      if (deleteConfirm) {
+        const itemToFind = this.schemaList.find(function(item) {
+          return item.userID === schemaId;
+        });
+        const idx = this.schemaList.indexOf(itemToFind);
+        if (idx > -1) {
+          this.schemaList.splice(idx, 1);
+        }
+        axios
+          .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
+          .then(res => {
+            console.log(res.data.result);
+            if (res.data.result === "saveSuccess") {
+              alert("스키마가 성공적으로 삭제되었습니다.");
+            }
+            this.userID = "";
+          })
+          .catch(err => console.log(err));
       }
-      axios
-        .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
-        .then((res) => {
-          console.log(res.data.result);
-          if (res.data.result === "saveSuccess") {
-            alert("스키마가 성공적으로 삭제되었습니다.");
-          }
-          this.userID = "";
-        })
-        .catch((err) => console.log(err));
     },
     getSettingsSchema() {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getSettingsSchema)
-        .then((res) => {
+        .then(res => {
           this.schemaList = res.data.map.schema;
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     },
     saveSchema() {
+      if (this.userID === "") {
+        alert("Schema를 입력해주세요");
+        return;
+      }
       // 중복 및 존재여부 확인
       axios
         .post(SERVER.URL + SERVER.ROUTES.checkSettingsSchema, {
           userID: this.userID
         })
-        .then((res) => {
+        .then(res => {
           console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
             alert("이미 존재하는 스키마 ID 입니다.");
@@ -100,7 +102,7 @@ export default {
                 SERVER.URL + SERVER.ROUTES.setSettingsSchema,
                 this.schemaList
               )
-              .then((res) => {
+              .then(res => {
                 console.log(res.data.result);
                 if (res.data.result === "saveSuccess") {
                   alert("스키마를 성공적으로 추가하였습니다.");
@@ -110,7 +112,7 @@ export default {
               .catch(() => console.log("실패"));
           }
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   },
   created() {
@@ -121,8 +123,9 @@ export default {
 
 <style>
 .setting-schema-data {
-  width: 700px;
+  width: 800px;
   display: flex;
+  justify-content: space-between;
   line-height: 65px;
 }
 .schema-searchbar {
@@ -160,11 +163,7 @@ export default {
   font-size: 20px;
   margin-right: 73px;
 }
-.setting-schema-save-button {
-  margin-top: 10px;
-  margin-right: 50px;
-  padding: 15px 20px !important;
-  font-size: 15px !important;
-  float: right;
+.delete-button {
+  color: red;
 }
 </style>
