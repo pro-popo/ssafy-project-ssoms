@@ -173,6 +173,7 @@ export default {
 .member-searchbar {
   width: 400px;
   margin-top: 25px;
+  margin-bottom: -10px;
 }
 thead th {
   background: #333333 !important;

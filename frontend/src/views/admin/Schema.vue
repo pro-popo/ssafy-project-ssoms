@@ -1,34 +1,44 @@
 <template>
   <div class="shema-container" style="max-width:800px">
     <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
-    <h4 style="color:var(--font-sub2-color); ">
-      <v-icon color="var(--font-sub2-color)">mdi-database</v-icon> Schema
-    </h4>
     <div class="schema-searchbar">
       <!-- <span class="mdi mdi-magnify"></span>
       <div style="width:50%">
         <v-text-field label="검색할 스키마명을 입력해주세요."></v-text-field>
       </div> -->
-
-      <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            style="margin-left:auto; margin-right:10px"
-            fab
-            small
-            elevation="2"
-            color="var(--font-sub2-color)"
-            v-bind="attrs"
-            v-on="on"
-            dark
-            @click="isCheckAdd = !isCheckAdd"
-            id="add-schema-btn"
-            ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
-            <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
-          >
-        </template>
-        <span>Add Schema</span>
-      </v-tooltip>
+      <div
+        style="width:400px; height:100%; padding-top:25px; margin-bottom:-10px"
+      >
+        <v-text-field
+          solo
+          style="border-radius:20px;"
+          append-icon="mdi-magnify"
+          label="검색할 Schema ID를 입력해주세요."
+          v-model="findSchemaName"
+          @keyup="findSchema"
+        ></v-text-field>
+      </div>
+      <div style="height:100%; margin-bottom:-8px">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              style="margin-left:auto; margin-right:10px"
+              fab
+              small
+              elevation="2"
+              color="var(--font-sub2-color)"
+              v-bind="attrs"
+              v-on="on"
+              dark
+              @click="isCheckAdd = !isCheckAdd"
+              id="add-schema-btn"
+              ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
+              <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
+            >
+          </template>
+          <span>Add Schema</span>
+        </v-tooltip>
+      </div>
     </div>
     <transition name="slide-fade">
       <v-card
@@ -78,7 +88,7 @@
             </tr>
           </thead>
           <tbody style="color:var(--font-sub2-color)">
-            <tr v-for="schema in schemaList" :key="schema.userID">
+            <tr v-for="schema in findSchemaList" :key="schema.userID">
               <td style="border-bottom:1px solid #d0d0d0;">
                 <v-icon
                   style="margin-bottom:3px; "
@@ -122,10 +132,36 @@ export default {
     return {
       schemaList: [],
       userID: "",
-      isCheckAdd: false
+      isCheckAdd: false,
+      findSchemaName: "",
+      findSchemaList: []
     };
   },
+  watch: {
+    schemaList: function() {
+      this.findSchemaList = this.schemaList;
+    }
+  },
   methods: {
+    findSchema() {
+      this.findSchemaList = [];
+      if (this.findSchemaName == "") this.findSchemaList = this.schemaList;
+      else {
+        this.schemaList.forEach((schema) => {
+          console.log(schema);
+          if (
+            schema.userID
+              .toLowerCase()
+              .includes(this.findSchemaName.toLowerCase()) ||
+            schema.userID
+              .toUpperCase()
+              .includes(this.findSchemaName.toUpperCase())
+          ) {
+            this.findSchemaList.push(schema);
+          }
+        });
+      }
+    },
     deleteSchema(schemaId) {
       var deleteConfirm = confirm("정말 삭제하시겠습니까?");
       if (deleteConfirm) {
@@ -203,7 +239,7 @@ export default {
 .schema-searchbar {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: space-between;
 }
 .add-schema-form {
   display: flex;
@@ -241,5 +277,12 @@ tr:hover {
 table {
   border-left: 1px solid #d0d0d0 !important;
   border-right: 1px solid #d0d0d0 !important;
+}
+.schema-searchbar .v-input__slot {
+  background: white !important;
+  color: var(--font-sub2-color) !important;
+}
+.schema-searchbar .v-input__slot * {
+  color: var(--font-sub2-color) !important;
 }
 </style>
