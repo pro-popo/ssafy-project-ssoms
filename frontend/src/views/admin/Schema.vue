@@ -148,7 +148,6 @@ export default {
       if (this.findSchemaName == "") this.findSchemaList = this.schemaList;
       else {
         this.schemaList.forEach((schema) => {
-          console.log(schema);
           if (
             schema.userID
               .toLowerCase()
