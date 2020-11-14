@@ -62,7 +62,7 @@ export default {
   name: "AppAdminSidebar",
   data() {
     return {
-      model: 1,
+      model: 0,
       menuShow: true,
       page: ["Setting", "OracleDB", "Schema", "Member"]
     };

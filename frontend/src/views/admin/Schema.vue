@@ -31,7 +31,12 @@
       </v-tooltip>
     </div>
     <transition name="slide-fade">
-      <v-card class="add-schema" v-if="isCheckAdd" dark>
+      <v-card
+        class="add-schema"
+        v-if="isCheckAdd"
+        dark
+        style="background:#333333"
+      >
         <h3>Add Schema</h3>
         <div class="add-schema-form">
           <v-text-field
