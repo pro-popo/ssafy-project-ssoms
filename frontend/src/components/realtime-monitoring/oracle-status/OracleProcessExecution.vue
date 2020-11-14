@@ -162,7 +162,7 @@ export default {
 
         tooltip: {
           trigger: "axis",
-          position: ["100%", "-50%"],
+          position: ["100%", "50%"],
           axisPointer: {
             type: "line"
           }

@@ -1,80 +1,101 @@
 <template>
   <div>
     <h2 class="mb-3">Member</h2>
-    <div class="member-searchbar">
+    <!-- <div class="member-searchbar">
       <span class="input-group-text mdi mdi-magnify"></span>
       <v-text-field label="검색할 유저명을 입력해주세요."></v-text-field>
-    </div>
-    <v-container>
-      <v-row>
-        <v-col cols="8">
-          <div class="tb_wrap">
-            <div class="tb_box">
-              <table class="tb table-bordered">
-                <tr class="fixed_top">
-                  <th class="cell1" scope="col">관리자</th>
-                  <th class="cell2" scope="col">이름</th>
-                  <th class="cell3" scope="col">사번</th>
-                  <th class="cell4" scope="col">이메일</th>
-                  <th class="cell5" scope="col">연락처</th>
-                  <th class="cell6" scope="col">접속이력</th>
-                </tr>
-                <tr
-                  class="table-cell"
-                  v-for="member in memberList"
-                  :key="member.info.employeeId"
+    </div> -->
+    <div style="display:flex">
+      <v-simple-table
+        fixed-header
+        height="400px"
+        color="red"
+        style="background:transparent;width:75%; margin-right:20px"
+      >
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">이름</th>
+              <th class="text-left">사번</th>
+              <th class="text-left">이메일</th>
+              <th class="text-left">연락처</th>
+              <th class="text-left">권한</th>
+              <th class="text-left">접속이력</th>
+            </tr>
+          </thead>
+          <tbody style="color:var(--font-sub2-color)">
+            <tr
+              v-for="member in memberList"
+              :key="member.info.employeeId"
+              @click="visitView(member)"
+              style="cursor: pointer;"
+            >
+              <td class="cell1">{{ member.info.name }}</td>
+              <td class="cell2">{{ member.info.employeeId }}</td>
+              <td class="cell3">
+                <v-icon size="18" style="margin-right:5px">mdi-email </v-icon>
+                {{ member.email }}
+              </td>
+              <td class="cell4">
+                <v-icon size="18" style="margin-right:5px">mdi-phone</v-icon
+                >{{ member.info.phoneNumber }}
+              </td>
+
+              <td class="cell5" scope="row">
+                <div class="rule-admin" v-if="member.info.admin === true">
+                  ADMIN
+                </div>
+                <div class="rule-user" v-if="member.info.admin === false">
+                  USER
+                </div>
+              </td>
+
+              <td class="cell6">
+                {{ member.visit.time[member.visit.time.length - 1] }}
+              </td>
+              <!-- <td style="border-bottom:1px solid #d0d0d0;">
+                <v-icon
+                  style="margin-bottom:3px; "
+                  size="22"
+                  color="var(--font-sub2-color)"
+                  >mdi-database</v-icon
                 >
-                  <th
-                    v-if="member.info.admin === true"
-                    class="cell1"
-                    scope="row"
-                  >
-                    O
-                  </th>
-                  <th
-                    v-if="member.info.admin === false"
-                    class="cell1"
-                    scope="row"
-                  >
-                    X
-                  </th>
-                  <td class="cell2">{{ member.info.name }}</td>
-                  <td class="cell3">{{ member.info.employeeId }}</td>
-                  <td class="cell4">{{ member.email }}</td>
-                  <td class="cell5">{{ member.info.phoneNumber }}</td>
-                  <td class="cell6">
-                    {{ member.visit.time[member.visit.time.length - 1] }}
-                    <v-btn small color="primary" text @click="visitView(member)"
-                      >조회</v-btn
-                    >
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </v-col>
-        <v-col cols="4">
-          <v-list v-if="visitTarget">
-            <v-subheader
-              >{{ visitTarget.info.name }} 님의 접속 이력</v-subheader
-            >
-            <v-list-item
-              v-for="(time, i) in visitTarget.visit.time.slice().reverse()"
-              :key="i"
-            >
-              <v-list-item-content>
-                <v-list-item-title v-text="time"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <small>
-                최근 10건의 접속 기록이 노출됩니다.
-              </small>
-            </v-list-item>
-          </v-list>
-        </v-col>
-      </v-row>
-    </v-container>
+                {{ schema.userID }}
+              </td>
+              <td
+                class="text-right"
+                style="border-bottom:1px solid #d0d0d0;"
+              ></td> -->
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+      <transition name="fade">
+        <v-list
+          v-if="visitTarget"
+          dense
+          elevation="3"
+          style="border-radius:5px"
+        >
+          <v-subheader>{{ visitTarget.info.name }} 님의 접속 이력</v-subheader>
+          <v-divider></v-divider>
+          <v-list-item
+            class="visit-list"
+            v-for="(time, i) in visitTarget.visit.time.slice().reverse()"
+            :key="i"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="time"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <small>
+              최근 10건의 접속 기록이 노출됩니다.
+            </small>
+          </v-list-item>
+        </v-list>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -87,7 +108,7 @@ export default {
   data() {
     return {
       visitTarget: null,
-      memberList: [],
+      memberList: []
     };
   },
   methods: {
@@ -102,11 +123,11 @@ export default {
           this.memberList = res.data.map.userList;
         })
         .catch((err) => console.log(err));
-    },
+    }
   },
   created() {
     this.getAllUser();
-  },
+  }
 };
 </script>
 
@@ -117,7 +138,47 @@ export default {
   width: 500px;
   margin-bottom: 25px;
 }
-tr:last-child {
+thead th {
+  background: #333333 !important;
+  color: white !important;
+}
+td {
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.visit-list :hover {
+  background: rgb(214, 214, 214);
+}
+.rule-admin {
+  background: rgb(116, 35, 209);
+  color: white;
+  width: 57px;
+  height: 25px;
+  border-radius: 12px;
+  padding-left: 9px;
+  padding-top: 4px;
+  font-size: 12px;
+}
+.rule-user {
+  background: rgb(74, 166, 241);
+  color: white;
+  width: 57px;
+  height: 25px;
+  border-radius: 12px;
+  padding-left: 14px;
+  padding-top: 3px;
+  font-size: 12px;
+}
+/* tr:last-child {
   border-bottom: 0;
 }
 th,
@@ -144,7 +205,6 @@ td {
 .cell1,
 .cell2 {
   width: 10%;
-  /* padding-left: 10px; */
 }
 .cell3 {
   width: 15%;
@@ -177,5 +237,5 @@ td {
 
 .table-cell {
   text-align: center;
-}
+} */
 </style>

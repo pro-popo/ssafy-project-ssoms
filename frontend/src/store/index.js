@@ -13,14 +13,24 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    graphColor: [
+      "#f72585",
+      "#7209b7",
+      "#3a0ca3",
+      "#4361ee",
+      "#4cc9f0",
+      "#6fffe9",
+      "#f87060",
+      "#ff7aa2",
+    ],
     time: 0,
     timeList: [],
-    selectedRealTime: 0 // 시점의 인덱스 값으로 저장
+    selectedRealTime: 0, // 시점의 인덱스 값으로 저장
   },
   getters: {
     getRealTime: (state) => state.time,
     getRealTimeList: (state) => state.timeList,
-    selectedRealTime: (state) => state.selectedRealTime
+    selectedRealTime: (state) => state.selectedRealTime,
   },
   mutations: {
     SET_REALTIME(state, data) {
@@ -35,7 +45,7 @@ export default new Vuex.Store({
         state.selectedRealTime = state.timeList.length - 1;
       else state.selectedRealTime = selectedTime;
       console.log(state.selectedRealTime);
-    }
+    },
   },
   methods: {},
   actions: {
@@ -60,12 +70,12 @@ export default new Vuex.Store({
           commit("SET_REALTIME", realTimeHistoricalData.time);
         });
       });
-    }
+    },
   },
   modules: {
     Account: Account,
     Oracle: Oracle,
     Schema: Schema,
-    TopQuery: TopQuery
-  }
+    TopQuery: TopQuery,
+  },
 });

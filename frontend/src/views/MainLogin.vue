@@ -50,8 +50,7 @@
     <div class="overlay-container" id="overlay">
       <div class="overlay">
         <div class="overlay-panel overlay-left">
-          <h1>회원가입창</h1>
-          <p>소개글</p>
+          <h1>SSOMS</h1>
           <v-btn
             class="change-btn"
             rounded
@@ -69,7 +68,6 @@
             <span>S</span>amsung <span>S</span>DI <span>O</span>racle
             <span>M</span>onitoring <span>S</span>olution
           </h3>
-          <p>소개글</p>
           <v-btn
             class="change-btn"
             rounded
