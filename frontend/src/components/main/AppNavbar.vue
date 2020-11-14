@@ -7,11 +7,6 @@
     <!-- <v-toolbar-title>Samsung SDI Oracle Monitoring Solution</v-toolbar-title> -->
     <!-- <span><a href=""><img src=@/assets/SDI.png></a></span> -->
     <v-spacer></v-spacer>
-    <span style="font-size:13px;">
-      <span>한국어</span>
-      <span style="padding:0px 8px;">|</span>
-      <span>ENGLISH</span>
-    </span>
   </v-app-bar>
 </template>
 

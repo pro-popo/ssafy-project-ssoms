@@ -37,4 +37,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.app-main {
+  width: 100%;
+  height: 100%;
+}
+</style>
