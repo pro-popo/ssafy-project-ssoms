@@ -75,7 +75,7 @@ export default {
   watch: {
     model: function() {
       if (this.model == 0) {
-        this.$router.push({ name: "RealTimeMonitoring", params:{index:0}});
+        this.$router.push({ name: "RealTimeMonitoring"});
       }
       // this.$router.push({ name: "RealTimeMonitoring" });
     }
