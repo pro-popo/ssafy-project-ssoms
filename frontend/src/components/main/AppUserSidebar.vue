@@ -9,19 +9,19 @@
         <v-list-item-title>Real-Time Monitoring</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+    <v-list-item @click="menuShow = !menuShow">
+      <v-list-item-icon>
+        <v-icon> mdi-dns</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Schema</v-list-item-title>
+      </v-list-item-content>
+      <v-list-item-icon>
+        <v-icon v-show="menuShow" class="float-right"> mdi-menu-up </v-icon>
+        <v-icon v-show="!menuShow" class="float-right"> mdi-menu-down </v-icon>
+      </v-list-item-icon>
+    </v-list-item>
 
-    <div class="schema-list">
-      <v-icon> mdi-dns</v-icon>
-      <div class="schema-title">
-        <span>Schema</span>
-        <v-btn small icon v-if="menuShow" @click="menuShow = false">
-          <v-icon> mdi-menu-down</v-icon>
-        </v-btn>
-        <v-btn small icon v-if="!menuShow" @click="menuShow = true">
-          <v-icon> mdi-menu-up</v-icon>
-        </v-btn>
-      </div>
-    </div>
     <div v-show="menuShow">
       <v-list-item
         v-for="(schema, index) in getSchemaList"
@@ -38,7 +38,7 @@
         </v-list-item-content>
       </v-list-item>
     </div>
-    <v-divider style="margin:10px 0px;"></v-divider>
+    <v-divider style="margin: 10px 0px"></v-divider>
 
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on, attrs }">
@@ -52,7 +52,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-      <ReportModal :Type="0" @killModal="dialog=false" />
+      <ReportModal :Type="0" @killModal="dialog = false" />
     </v-dialog>
   </v-list-item-group>
 </template>
@@ -63,21 +63,21 @@ import ReportModal from "./ReportModal";
 export default {
   name: "AppUserSidebar",
   components: {
-    ReportModal
+    ReportModal,
   },
   data() {
     return {
       dialog: false,
       model: 0,
       menuShow: true,
-      page: ["RealTimeMonitoring", "SchemaMonitoring", "SchemaMonitoring"]
+      page: ["RealTimeMonitoring", "SchemaMonitoring", "SchemaMonitoring"],
     };
   },
   watch: {
-    model: function() {
+    model: function () {
       if (this.model == 0 && this.$route.name !== "RealTimeMonitoring") {
         setTimeout(
-          function() {
+          function () {
             this.$router.push({ name: "RealTimeMonitoring" });
           }.bind(this),
           500
@@ -88,15 +88,18 @@ export default {
         this.$router.push({ name: "SchemaMonitoring" });
         this.SET_SELECTED_SCHEMA(name);
       }
-    }
+    },
   },
   created() {
     this.getSettingSchema();
   },
   computed: {
-    ...mapGetters("Schema", ["getSchemaList"])
+    ...mapGetters("Schema", ["getSchemaList"]),
   },
   methods: {
+    asdf() {
+      alert("asdf");
+    },
     toSchemaList(name) {
       if (this.model == 0 && this.$route.name !== "RealTimeMonitoring")
         this.$router.push({ name: "RealTimeMonitoring" });
@@ -108,8 +111,8 @@ export default {
       // report
     },
     ...mapActions("Schema", ["getSettingSchema"]),
-    ...mapMutations("Schema", ["SET_SELECTED_SCHEMA"])
-  }
+    ...mapMutations("Schema", ["SET_SELECTED_SCHEMA"]),
+  },
 };
 </script>
 
