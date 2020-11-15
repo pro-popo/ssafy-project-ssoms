@@ -60,7 +60,7 @@
         </div>
       </div>
       <div style="height:70%; width:auto;">
-        <IEcharts :option="option" class="execution-pie" :resizable="true" />
+        <IEcharts :option="option" :resizable="true" />
       </div>
     </v-card-text>
   </v-card>
@@ -162,7 +162,7 @@ export default {
 
         tooltip: {
           trigger: "axis",
-          position: ["100%", "-50%"],
+          position: ["100%", "50%"],
           axisPointer: {
             type: "line"
           }
@@ -252,8 +252,6 @@ export default {
 <style>
 .execution-pie {
   margin-top: -5px;
-  height: 100% !important;
-  width: 100% !important;
 }
 .execution-pie * {
   position: inherit !important;

@@ -1,42 +1,132 @@
 <template>
-  <div>
-    <h2 class="mb-3">Schema 설정</h2>
+  <div class="admin-schema-container">
+    <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
     <div class="schema-searchbar">
-      <span class="mdi mdi-magnify"></span>
-      <v-text-field label="검색할 스키마명을 입력해주세요."></v-text-field>
-    </div>
-    <div class="schema-box">
+      <!-- <span class="mdi mdi-magnify"></span>
+      <div style="width:50%">
+        <v-text-field label="검색할 스키마명을 입력해주세요."></v-text-field>
+      </div> -->
       <div
-        class="schema-list-admin"
-        v-for="schema in schemaList"
-        :key="schema.userID"
+        style="width:400px; height:100%; padding-top:25px; margin-bottom:-10px"
       >
-        <ol>
-          {{
-            schema.userID
-          }}
-          <button @click="deleteSchema(schema.userID)">삭제</button>
-        </ol>
-        <hr />
+        <v-text-field
+          solo
+          style="border-radius:20px;"
+          append-icon="mdi-magnify"
+          label="검색할 Schema ID를 입력해주세요."
+          v-model="findSchemaName"
+          @keyup="findSchema"
+        ></v-text-field>
+      </div>
+      <div style="height:100%; margin-bottom:-8px">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              style="margin-left:auto; margin-right:10px"
+              fab
+              small
+              elevation="2"
+              color="var(--font-sub2-color)"
+              v-bind="attrs"
+              v-on="on"
+              dark
+              @click="isCheckAdd = !isCheckAdd"
+              id="add-schema-btn"
+              ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
+              <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
+            >
+          </template>
+          <span>Add Schema</span>
+        </v-tooltip>
       </div>
     </div>
-    <div class="mt-7">
-      <span style="font-size:25px; color:gray;">Schema |</span>
+    <transition name="slide-fade">
+      <v-card
+        class="add-schema"
+        v-if="isCheckAdd"
+        dark
+        style="background:#333333"
+      >
+        <h3>Add Schema</h3>
+        <div class="add-schema-form">
+          <v-text-field
+            prepend-icon="mdi-database-plus"
+            label="추가하실 스키마ID를 입력해주세요."
+            v-model="userID"
+            @keypress.enter="saveSchema"
+          ></v-text-field>
+          <v-btn
+            style="margin-left:20px"
+            color="grey"
+            outlined
+            fab
+            small
+            class="setting-schema-save-button"
+            @click="saveSchema"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+      </v-card>
+    </transition>
+
+    <div>
+      <v-simple-table
+        fixed-header
+        height="290px"
+        color="red"
+        dark
+        style="background:transparent"
+      >
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left" style="padding-left:20px">Schema ID</th>
+              <th class="text-right" style="padding-right:25px">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="admin-schema-table-tbody"
+            style="color:var(--font-sub2-color)"
+          >
+            <tr v-if="findSchemaList.length == 0">
+              <td class="text-center" colspan="2">
+                조회된 Schema가 없습니다.
+              </td>
+            </tr>
+            <tr v-for="schema in findSchemaList" :key="schema.userID">
+              <td style="border-bottom:1px solid #d0d0d0;">
+                <v-icon
+                  style="margin-bottom:3px; "
+                  size="22"
+                  color="var(--font-sub2-color)"
+                  >mdi-database</v-icon
+                >
+                {{ schema.userID }}
+              </td>
+              <td class="text-right" style="border-bottom:1px solid #d0d0d0;">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      small
+                      elevation="1"
+                      color="error"
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="deleteSchema(schema.userID)"
+                      ><v-icon>mdi-delete</v-icon></v-btn
+                    >
+                  </template>
+                  <span>Delete Schema</span>
+                </v-tooltip>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </div>
-    <div class="setting-schema-data">
-      <span class="setting-schemaID-font">ID</span>
-      <v-text-field
-        label="스키마ID를 입력해주세요."
-        v-model="userID"
-      ></v-text-field>
-    </div>
-    <v-btn
-      color="primary"
-      class="setting-schema-save-button"
-      @click="saveSchema"
-    >
-      저장
-    </v-btn>
   </div>
 </template>
 
@@ -49,28 +139,57 @@ export default {
   data() {
     return {
       schemaList: [],
-      userID: ""
+      userID: "",
+      isCheckAdd: false,
+      findSchemaName: "",
+      findSchemaList: []
     };
   },
+  watch: {
+    schemaList: function() {
+      this.findSchemaList = this.schemaList;
+    }
+  },
   methods: {
-    deleteSchema(schemaId) {
-      const itemToFind = this.schemaList.find(function(item) {
-        return item.userID === schemaId;
-      });
-      const idx = this.schemaList.indexOf(itemToFind);
-      if (idx > -1) {
-        this.schemaList.splice(idx, 1);
-      }
-      axios
-        .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
-        .then((res) => {
-          console.log(res.data.result);
-          if (res.data.result === "saveSuccess") {
-            alert("스키마가 성공적으로 삭제되었습니다.");
+    findSchema() {
+      this.findSchemaList = [];
+      if (this.findSchemaName == "") this.findSchemaList = this.schemaList;
+      else {
+        this.schemaList.forEach((schema) => {
+          if (
+            schema.userID
+              .toLowerCase()
+              .includes(this.findSchemaName.toLowerCase()) ||
+            schema.userID
+              .toUpperCase()
+              .includes(this.findSchemaName.toUpperCase())
+          ) {
+            this.findSchemaList.push(schema);
           }
-          this.userID = "";
-        })
-        .catch((err) => console.log(err));
+        });
+      }
+    },
+    deleteSchema(schemaId) {
+      var deleteConfirm = confirm("정말 삭제하시겠습니까?");
+      if (deleteConfirm) {
+        const itemToFind = this.schemaList.find(function(item) {
+          return item.userID === schemaId;
+        });
+        const idx = this.schemaList.indexOf(itemToFind);
+        if (idx > -1) {
+          this.schemaList.splice(idx, 1);
+        }
+        axios
+          .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
+          .then((res) => {
+            console.log(res.data.result);
+            if (res.data.result === "saveSuccess") {
+              alert("스키마가 성공적으로 삭제되었습니다.");
+            }
+            this.userID = "";
+          })
+          .catch((err) => console.log(err));
+      }
     },
     getSettingsSchema() {
       axios
@@ -81,6 +200,14 @@ export default {
         .catch((err) => console.log(err));
     },
     saveSchema() {
+      if (this.schemaList.length > 7) {
+        alert("최대 8개의 Schema까지 등록가능합니다.");
+        return;
+      }
+      if (this.userID === "") {
+        alert("Schema ID를 입력해주세요.");
+        return;
+      }
       // 중복 및 존재여부 확인
       axios
         .post(SERVER.URL + SERVER.ROUTES.checkSettingsSchema, {
@@ -89,7 +216,7 @@ export default {
         .then((res) => {
           console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
-            alert("이미 존재하는 스키마 ID 입니다.");
+            alert("이미 추가된 스키마 ID 입니다.");
           } else if (res.data.result === "notExist") {
             alert("DB에 존재하지 않는 스키마 ID 입니다.");
           } else if (res.data.result === "success") {
@@ -120,51 +247,60 @@ export default {
 </script>
 
 <style>
-.setting-schema-data {
-  width: 700px;
-  display: flex;
-  line-height: 65px;
+.admin-schema-table-tbody td {
+  border-bottom: 1px solid #d0d0d0;
+}
+.admin-schema-container {
+  max-width: 800px;
 }
 .schema-searchbar {
   display: flex;
-  width: 500px;
-  line-height: 65px;
-  margin-bottom: 25px;
+  align-items: center;
+  justify-content: space-between;
 }
-.schema-list-admin {
-  font-size: 15px;
+.add-schema-form {
+  display: flex;
+  align-items: center;
 }
-.schema-list-admin ol {
-  padding-top: 7px;
-  margin-bottom: 7px;
+.add-schema {
+  border: 1px solid var(--font-sub-color);
+  border-radius: 5px;
+  padding: 15px 20px;
+  margin: 10px 0px;
+  box-shadow: 1 1 1 gray;
 }
-.schema-list-admin > ol > button {
-  float: right;
-  margin-right: 10px;
+
+.setting-schema {
+  max-width: 700px;
+  border: 1px solid #adadad;
 }
-.schema-box {
-  overflow: scroll;
-  overflow-x: hidden;
-  width: 800px;
-  height: 200px;
-  border: 2px solid gray;
+#add-schema-btn:hover {
+  background: var(--main-color) !important;
 }
-.schema-box hr {
-  margin: 0px;
+
+.admin-schema-container .slide-fade-enter-active {
+  transition: all 0.3s ease;
 }
-.setting-schemaID-font {
-  font-size: 20px;
-  margin-right: 20px;
+.admin-schema-container .slide-fade-leave-active {
+  transition: all 0.3s ease;
 }
-.setting-schemaPassword-font {
-  font-size: 20px;
-  margin-right: 73px;
+.admin-schema-container .slide-fade-enter, .admin-schema-container .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-20px);
+  opacity: 0;
 }
-.setting-schema-save-button {
-  margin-top: 10px;
-  margin-right: 50px;
-  padding: 15px 20px !important;
-  font-size: 15px !important;
-  float: right;
+.admin-schema-container tr:hover {
+  background: rgb(219, 219, 219) !important;
+}
+.admin-schema-container table {
+  border-left: 1px solid #d0d0d0 !important;
+  border-right: 1px solid #d0d0d0 !important;
+}
+.schema-searchbar .v-input__slot {
+  background: white !important;
+  color: var(--font-sub2-color) !important;
+}
+.schema-searchbar .v-input__slot * {
+  color: var(--font-sub2-color) !important;
 }
 </style>

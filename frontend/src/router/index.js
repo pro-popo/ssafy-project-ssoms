@@ -6,6 +6,7 @@ import Login from "@/views/MainLogin.vue";
 import SignUpAdmin from "@/components/non-account/SignUpAdmin.vue";
 
 // Admin
+import Setting from "@/views/admin/Setting.vue";
 import Member from "@/views/admin/Member.vue";
 import OracleDB from "@/views/admin/OracleDB.vue";
 import Schema from "@/views/admin/Schema.vue";
@@ -22,6 +23,11 @@ const routes = [
     name: "Home",
     component: Home,
     children: [
+      {
+        path: "/admin",
+        name: "Setting",
+        component: Setting
+      },
       {
         path: "/admin/member",
         name: "Member",
@@ -73,6 +79,7 @@ const router = new VueRouter({
   }
 });
 router.beforeEach((to, from, next) => {
+  // if (from.name == null) next(false);
   if (to.name == "SignUpAdmin") {
     if (!store.getters["Account/isExistedAdmin"]) next();
     else next({ name: "Home" });

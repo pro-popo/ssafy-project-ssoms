@@ -15,6 +15,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isSelected: true,
+    graphColor: [
+      "#f72585",
+      "#7209b7",
+      "#3a0ca3",
+      "#4361ee",
+      "#4cc9f0",
+      "#6fffe9",
+      "#f87060",
+      "#ff7aa2"
+    ],
     time: 0,
     timeList: [],
     selectedRealTime: 0 // 시점의 인덱스 값으로 저장
@@ -39,17 +49,14 @@ export default new Vuex.Store({
         state.isSelected = false;
       } else {
         state.selectedRealTime = selectedTime;
-        // console.log("체크", state.selectedRealTime);
       }
     },
     SET_SETTING_SELECTED(state, data) {
       state.isSelected = data;
-      // console.log("선택자", state.isSelected);
     }
   },
   actions: {
     initRealTimeData({ commit }) {
-      console.log("들어오나??????");
       axios.get(SERVER.URL + SERVER.ROUTES.getRealTimeData).then((res) => {
         const realTimeHistoricalDataList = res.data.map.realTimeMonitoringList;
 

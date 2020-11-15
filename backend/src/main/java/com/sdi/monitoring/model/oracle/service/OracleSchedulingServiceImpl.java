@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
@@ -127,7 +128,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService{
 		
         messagingTemplate.convertAndSend("/sendData/schedulerM", map);
         RealTimeMonitoringEntity realTimeMonitoringEntity = realTimeMonitoringEntityBuilder(realTimeMonitoringDTO);
-        if(realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime())) {
+    	
+        System.out.println(realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime()));
+        if(!realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime())) {
 	        realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
 	        if(cnt % (12) == 0) {
 	        	oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));

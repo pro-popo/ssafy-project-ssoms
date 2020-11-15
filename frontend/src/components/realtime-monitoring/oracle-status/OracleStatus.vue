@@ -139,8 +139,6 @@ export default {
 .small-chart {
   height: 25px !important;
   max-width: 90px !important;
-
-  position: initial;
 }
 
 .data-increase {
