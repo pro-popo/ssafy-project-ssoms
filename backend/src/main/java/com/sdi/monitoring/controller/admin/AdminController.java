@@ -223,9 +223,17 @@ public class AdminController {
 	public ResponseEntity deleteUser(@RequestBody DeleteForm form) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-		boolean isDelete = adminService.deleteUser(form);
+		int isDelete = adminService.deleteUser(form);
 		result.status = true;
-		result.result = isDelete ? "success" : "fail";
+		if(isDelete == 0) {//사용자 이메일 틀림
+			result.result = "wrong_user_email";
+		}else if(isDelete == 1) {//관리자 이메일 틀림
+			result.result = "wrong_admin_email";
+		}else if(isDelete == 2) {//관리자 비번 틀림
+			result.result = "wrong_admin_pw";
+		}else if(isDelete == 3) {//성공
+			result.result = "success";
+		}
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
