@@ -167,6 +167,7 @@ export default {
         },
         legend: {
           type: "scroll",
+          icon: "roundRect",
           data: []
         },
         grid: {
@@ -253,6 +254,7 @@ export default {
         },
         legend: {
           type: "scroll",
+          icon: "roundRect",
           data: []
         },
         grid: {
@@ -354,6 +356,7 @@ export default {
         },
         legend: {
           type: "scroll",
+          icon: "roundRect",
           data: []
         },
         grid: {
@@ -440,6 +443,7 @@ export default {
         },
         legend: {
           type: "scroll",
+          icon: "roundRect",
           data: []
         },
         grid: {

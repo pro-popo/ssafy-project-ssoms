@@ -123,10 +123,10 @@ export default {
   justify-content: space-between;
 }
 .top-query-left {
-  width: 65%;
+  width: 70%;
 }
 .top-query-right {
-  width: 30%;
+  width: 28%;
   margin: auto 0px;
 }
 .v-tap {
