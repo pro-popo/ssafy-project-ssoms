@@ -144,12 +144,12 @@
           </v-sheet>
         </v-carousel-item>
         <v-carousel-item>
-          <v-sheet color="transparent" height="100%" tile class="setting-sheet">
+          <v-sheet color="transparent" tile class="setting-sheet">
             <v-row class="fill-height" align="center">
               <div
                 style="display:flex; align-items:center; justify-content:center; width:100%;"
               >
-                <div style="width:55%">
+                <div style="width:55%;  ">
                   <h3 class="setting-sheet-step">Step 3</h3>
                   <Schema />
                 </div>
@@ -267,7 +267,7 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin: 100px 0;
+  margin: 110px 0;
   margin-left: -40px;
 }
 .setting-sheet {

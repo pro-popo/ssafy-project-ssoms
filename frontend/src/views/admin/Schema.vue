@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-schema-container" style="max-width:800px">
+  <div class="admin-schema-container">
     <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
     <div class="schema-searchbar">
       <!-- <span class="mdi mdi-magnify"></span>
@@ -87,7 +87,15 @@
               </th>
             </tr>
           </thead>
-          <tbody style="color:var(--font-sub2-color)">
+          <tbody
+            class="admin-schema-table-tbody"
+            style="color:var(--font-sub2-color)"
+          >
+            <tr v-if="findSchemaList.length == 0">
+              <td class="text-center" colspan="2">
+                조회된 Schema가 없습니다.
+              </td>
+            </tr>
             <tr v-for="schema in findSchemaList" :key="schema.userID">
               <td style="border-bottom:1px solid #d0d0d0;">
                 <v-icon
@@ -239,6 +247,12 @@ export default {
 </script>
 
 <style>
+.admin-schema-table-tbody td {
+  border-bottom: 1px solid #d0d0d0;
+}
+.admin-schema-container {
+  max-width: 800px;
+}
 .schema-searchbar {
   display: flex;
   align-items: center;
@@ -263,6 +277,7 @@ export default {
 #add-schema-btn:hover {
   background: var(--main-color) !important;
 }
+
 .admin-schema-container .slide-fade-enter-active {
   transition: all 0.3s ease;
 }

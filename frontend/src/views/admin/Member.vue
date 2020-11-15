@@ -32,13 +32,24 @@
               </tr>
             </thead>
             <tbody style="color:var(--font-sub2-color)">
+              <tr v-if="findMemberList.length == 0">
+                <td
+                  style="border:1px solid #d0d0d0;"
+                  class="text-center"
+                  colspan="6"
+                >
+                  조회된 회원이 없습니다.
+                </td>
+              </tr>
               <tr
                 v-for="member in findMemberList"
                 :key="member.info.employeeId"
                 @click="visitView(member)"
                 style="cursor: pointer;"
               >
-                <td class="cell1">{{ member.info.name }}</td>
+                <td class="cell1" style="border-left:1px solid #d0d0d0;">
+                  {{ member.info.name }}
+                </td>
                 <td class="cell2">{{ member.info.employeeId }}</td>
                 <td class="cell3">
                   <v-icon size="18" style="margin-right:5px">mdi-email </v-icon>
@@ -58,7 +69,7 @@
                   </div>
                 </td>
 
-                <td class="cell6">
+                <td class="cell6" style="border-right:1px solid #d0d0d0;">
                   <v-icon size="18" style="margin-right:5px">mdi-clock</v-icon
                   >{{ member.visit.time[member.visit.time.length - 1] }}
                 </td>
