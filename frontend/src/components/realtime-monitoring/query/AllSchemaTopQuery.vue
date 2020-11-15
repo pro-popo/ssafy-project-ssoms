@@ -25,9 +25,9 @@
         </thead>
         <tbody>
           <tr
-            v-for="(query, index) in getTopQueryList"
+            v-for="(query, index) in getTopQueryList[selectedRealTime]"
             :key="index"
-            @click="getQueryDetail(index)"
+            @click="getQueryDetail(selectedRealTime, index)"
             class="real-query-hover"
           >
             <td>{{ index + 1 }}</td>
@@ -50,14 +50,15 @@ export default {
     return {};
   },
   methods: {
-    getQueryDetail(index) {
-      this.SET_TOPQUERY_DETAIL(index);
+    getQueryDetail(selectedRealTime, index) {
+      this.SET_TOPQUERY_DETAIL([selectedRealTime, index]);
     },
     ...mapMutations("TopQuery", ["SET_TOPQUERY_DETAIL"])
   },
   computed: {
     ...mapGetters("TopQuery", ["getTopQueryList"]),
-    ...mapState("TopQuery", ["watch"])
+    ...mapState("TopQuery", ["watch"]),
+    ...mapGetters(["selectedRealTime"])
   },
   watch: {}
 };

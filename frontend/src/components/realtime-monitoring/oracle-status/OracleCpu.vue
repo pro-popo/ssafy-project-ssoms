@@ -40,7 +40,7 @@
           </div>
 
           <div style="height:100%; width:70%;">
-            <div style="height:100%">
+            <div style="height:100%" @click="selectedAxis">
               <IEcharts
                 :option="option"
                 style="padding-top:5px"
@@ -116,7 +116,25 @@ export default {
     IEcharts
   },
   methods: {
-    ...mapMutations(["SET_SELECTED_REALTIME"]),
+    ...mapMutations(["SET_SELECTED_REALTIME", "SET_SETTING_SELECTED"]),
+    changeXaxis(params) {
+      var setTime = 0;
+      if (!this.getIsSelected) {
+        setTime = 100;
+      }
+      setTimeout(
+        function() {
+          if (params.seriesData[0] !== undefined && this.getIsSelected) {
+            console.log("얘는 오라클111111");
+            this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+          } else {
+            console.log("얘는 오라클222222");
+            this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+          }
+        }.bind(this),
+        setTime
+      );
+    },
 
     changeChart(type) {
       console.log(type);
@@ -138,6 +156,10 @@ export default {
         element.areaStyle = areaStyle;
         element.color = this.option.color[cnt++];
       });
+    },
+    selectedAxis() {
+      this.SET_SETTING_SELECTED(true);
+      this.testData = true;
     }
   },
   computed: {
@@ -147,14 +169,21 @@ export default {
       "getResponesTimePerTxn",
       "getActiveSerialSessions"
     ]),
-    ...mapGetters(["getRealTimeList", "selectedRealTime"])
+    ...mapGetters([
+      "getRealTimeList",
+      "selectedRealTime",
+      "getIsSelected",
+      "getIsRealShow"
+    ])
   },
 
   watch: {
-    selectedRealTime: function() {
+    selectedRealTime: function(res) {
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.selectedRealTime
       ];
+      // res는 변한 값
+      this.option.xAxis.axisPointer.value = res;
     },
     getDatabaseCpuTimeRatioList: function() {
       this.option.series[0].data = this.getDatabaseCpuTimeRatioList;
@@ -182,7 +211,7 @@ export default {
     return {
       activeSerialSessions: [],
       toggle_exclusive: 2,
-
+      testData: false,
       option: {
         color: ["#81D4FA", "#42A5F5"],
         grid: {
@@ -196,6 +225,7 @@ export default {
           type: "category",
           boundaryGap: false,
           data: [],
+          triggerEvent: true,
           axisLine: {
             lineStyle: {
               color: "#ababab"
@@ -204,7 +234,8 @@ export default {
           axisPointer: {
             handle: {
               show: true
-            }
+            },
+            value: this.selectedRealTime
           }
           // triggerEvent: true
           // formatter: function(params, callback) {
@@ -233,6 +264,7 @@ export default {
           icon: "roundRect"
           // top: "30
         },
+        methods: {},
         tooltip: {
           trigger: "axis",
           triggerOn: "click",
@@ -244,10 +276,7 @@ export default {
               show: true,
               snap: true,
               formatter: function(params) {
-                if (params.seriesData[0] !== undefined) {
-                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-                } else
-                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+                this.changeXaxis(params);
                 return params.value;
               }.bind(this)
             }
