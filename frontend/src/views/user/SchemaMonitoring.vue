@@ -1,6 +1,6 @@
 <template>
   <div class="schema-monitoring-container">
-    <div class="container">
+    <v-container fluid>
       <b>
         <span>Schema Status</span> & <span>Top Query</span> |
         <span>{{ SelectedSchema }}</span>
@@ -29,8 +29,7 @@
           조회
         </button>
       </div>
-    </div>
-
+    </v-container>
     <v-container fluid v-if="getTimeAndCpuList.check">
       <SchemaWhole class="mb-2" />
       <SchemaDetail class="mb-2" />
