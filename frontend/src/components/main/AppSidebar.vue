@@ -2,18 +2,17 @@
   <v-navigation-drawer
     :expand-on-hover="fixedMini"
     :width="230"
-    color="#29292a"
     v-model="drawer"
     :mini-variant.sync="mini"
     permanent
     dark
-    style="height:100%"
+    style="height: 100%"
     class="sidebar"
   >
-    <div style="height:100%" class="sidebar-container">
+    <div style="height: 100%" class="sidebar-container">
       <div>
-        <v-list dense style="margin-top:-3px">
-          <v-list-item style="margin-left:-6px">
+        <v-list dense style="margin-top: -3px">
+          <v-list-item style="margin-left: -6px">
             <v-btn
               icon
               v-if="fixedMini"
@@ -21,7 +20,7 @@
                 mini = false;
                 fixedMini = false;
               "
-              style="margin-right:auto"
+              style="margin-right: auto"
             >
               <v-icon>mdi-menu</v-icon>
             </v-btn>
@@ -32,7 +31,7 @@
                 mini = true;
                 fixedMini = true;
               "
-              style="margin-left:auto"
+              style="margin-left: auto"
             >
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
@@ -40,12 +39,12 @@
           <v-list-item
             link
             @click="getMyProfile"
-            style="margin:14px 0px 7px 0px;"
+            style="margin: 14px 0px 7px 0px"
           >
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
-            <v-list-item-title style="margin-right:10px">
+            <v-list-item-title style="margin-right: 10px">
               <span>{{ email }}</span>
             </v-list-item-title>
           </v-list-item>
@@ -57,7 +56,7 @@
         </v-list>
       </div>
       <div class="logout" title="로그아웃">
-        <v-btn icon style="padding-left:3px" @click="userLogout"
+        <v-btn icon style="padding-left: 3px" @click="userLogout"
           ><v-icon>mdi-logout</v-icon></v-btn
         >
       </div>
@@ -73,10 +72,10 @@ export default {
   name: "AppSidebar",
   components: {
     AppAdminSidebar,
-    AppUserSidebar
+    AppUserSidebar,
   },
   props: {
-    isAdmin: Boolean
+    isAdmin: Boolean,
   },
 
   methods: {
@@ -89,7 +88,7 @@ export default {
     },
     getMyProfile() {
       if (!this.mini) this.$emit("user-profile");
-    }
+    },
   },
   data() {
     return {
@@ -97,16 +96,22 @@ export default {
       drawer: true,
       model: 0,
       mini: true,
-      fixedMini: true
+      fixedMini: true,
     };
-  }
+  },
 };
 </script>
 
 <style>
-.sidebar{
+.sidebar {
   position: absolute;
   z-index: 100;
+  background: rgb(41, 41, 42);
+  background: linear-gradient(
+    199deg,
+    rgba(41, 41, 42, 1) 35%,
+    rgba(16, 16, 18, 1) 85%
+  );
 }
 .sidebar-schema {
   max-height: 400px;

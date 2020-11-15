@@ -213,7 +213,7 @@ export default {
       toggle_exclusive: 2,
       testData: false,
       option: {
-        color: ["#81D4FA", "#42A5F5"],
+        color: ["#b1d3ff", "#075aff"],
         grid: {
           right: 20,
           left: 50,
@@ -228,7 +228,7 @@ export default {
           triggerEvent: true,
           axisLine: {
             lineStyle: {
-              color: "#ababab"
+              color: "#303030"
             }
           },
           axisPointer: {
@@ -252,7 +252,7 @@ export default {
           max: 100,
           axisLine: {
             lineStyle: {
-              color: "#ababab"
+              color: "#303030"
             }
           },
           axisTick: {
@@ -272,7 +272,7 @@ export default {
           axisPointer: {
             type: "line",
             label: {
-              background: "#ffff",
+              background: "#000000",
               show: true,
               snap: true,
               formatter: function(params) {
@@ -327,8 +327,8 @@ export default {
               lineStyle: {
                 color: [
                   [0.2, "#EF5350"],
-                  [0.8, "#039BE5"],
-                  [1, "#4CAF50"]
+                  [0.8, "#075aff"],
+                  [1, "#3dde43"]
                 ]
               }
             },
