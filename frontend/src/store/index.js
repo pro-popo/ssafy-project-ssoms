@@ -8,11 +8,13 @@ import TopQuery from "@/store/modules/topquery.js";
 
 import axios from "axios";
 import SERVER from "@/api/spring.js";
+// import router from "@/router";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    isSelected: true,
     time: 0,
     timeList: [],
     selectedRealTime: 0 // 시점의 인덱스 값으로 저장
@@ -20,6 +22,7 @@ export default new Vuex.Store({
   getters: {
     getRealTime: (state) => state.time,
     getRealTimeList: (state) => state.timeList,
+    getIsSelected: (state) => state.isSelected,
     selectedRealTime: (state) => state.selectedRealTime
   },
   mutations: {
@@ -31,15 +34,22 @@ export default new Vuex.Store({
       }
     },
     SET_SELECTED_REALTIME(state, selectedTime) {
-      if (selectedTime == -1)
+      if (selectedTime == -1 || selectedTime == 11) {
         state.selectedRealTime = state.timeList.length - 1;
-      else state.selectedRealTime = selectedTime;
-      console.log(state.selectedRealTime);
+        state.isSelected = false;
+      } else {
+        state.selectedRealTime = selectedTime;
+        // console.log("체크", state.selectedRealTime);
+      }
+    },
+    SET_SETTING_SELECTED(state, data) {
+      state.isSelected = data;
+      // console.log("선택자", state.isSelected);
     }
   },
-  methods: {},
   actions: {
     initRealTimeData({ commit }) {
+      console.log("들어오나??????");
       axios.get(SERVER.URL + SERVER.ROUTES.getRealTimeData).then((res) => {
         const realTimeHistoricalDataList = res.data.map.realTimeMonitoringList;
 
