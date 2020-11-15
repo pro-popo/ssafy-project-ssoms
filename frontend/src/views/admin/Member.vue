@@ -191,6 +191,7 @@
     <DeleteUserByAdmin
       :dialogDelete="dialogDelete"
       :deleteMemberEmail="deleteMemberEmail"
+      @delete-member-admin="getAllUser"
     />
 
     <TransferAuthority

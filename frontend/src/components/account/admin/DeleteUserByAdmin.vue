@@ -90,6 +90,8 @@ export default {
         .then((res) => {
           if (res.data.result == "success") {
             alert("회원 계정을 성공적으로 삭제하였습니다.");
+            this.dialog = false;
+            this.$emit("delete-member-admin");
           } else if (res.data.result == "wrong_admin_pw") {
             this.deleteSuccess = false;
           } else if (res.data.result == "wrong_user_email") {
@@ -112,13 +114,13 @@ export default {
   watch: {
     dialogDelete: function() {
       this.dialog = true;
+    },
+    dialog: function() {
+      if (this.account.email != "" || this.account.pw != "") {
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+      }
     }
-    // dialog: function() {
-    //   this.$refs.form.resetValidation();
-    //   if (this.account.email != "" || this.account.pw != "") {
-    //     this.$refs.form.reset();
-    //   }
-    // }
   },
   computed: {
     emailMatch() {
