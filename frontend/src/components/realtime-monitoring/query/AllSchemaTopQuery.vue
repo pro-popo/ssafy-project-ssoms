@@ -4,6 +4,7 @@
       fixed-header
       height="300px"
       class="elevation-2 realtime-top-query"
+      id="allSchemaTopQueryTable" 
     >
       <template v-slot:default>
         <thead>
