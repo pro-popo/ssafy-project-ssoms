@@ -1,24 +1,48 @@
 <template>
   <div class="member-container">
     <h2 class="mb-3">Member</h2>
-    <div style="display:flex">
-      <div style="width:75%;">
+    <div style="display:flex;">
+      <div style="width:100%;margin-right:40px">
         회원 관리 및 접속 이력에 대한 조회가 가능합니다.
         <div class="member-searchbar">
-          <v-text-field
-            solo
-            style="border-radius:20px"
-            append-icon="mdi-magnify"
-            label="검색할 회원명을 입력해주세요."
-            v-model="findMemberName"
-            @keyup="findMember"
-          ></v-text-field>
+          <div style="width:400px">
+            <v-text-field
+              solo
+              style="border-radius:20px"
+              append-icon="mdi-magnify"
+              label="검색할 회원명을 입력해주세요."
+              v-model="findMemberName"
+              @keyup="findMember"
+            ></v-text-field>
+          </div>
+          <div style="height:100%;margin-top:6px;">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  style="margin-left:auto; margin-right:10px"
+                  fab
+                  height="45"
+                  width="45"
+                  elevation="2"
+                  color="var(--font-sub2-color)"
+                  v-bind="attrs"
+                  v-on="on"
+                  dark
+                  @click="isClickEdit = !isClickEdit"
+                  id="edit-member-btn"
+                  ><v-icon v-if="!isClickEdit">mdi-account-edit</v-icon>
+                  <v-icon v-if="isClickEdit">mdi-close</v-icon></v-btn
+                >
+              </template>
+              <span>Edit Members</span>
+            </v-tooltip>
+          </div>
         </div>
         <v-simple-table
           fixed-header
           height="100%"
           color="red"
-          style="background:transparent; margin-right:40px"
+          style="background:transparent; "
         >
           <template v-slot:default>
             <thead>
@@ -29,6 +53,7 @@
                 <th class="text-left">연락처</th>
                 <th class="text-left">권한</th>
                 <th class="text-left">접속이력</th>
+                <th class="text-center" v-if="isClickEdit">Action</th>
               </tr>
             </thead>
             <tbody style="color:var(--font-sub2-color)">
@@ -73,19 +98,34 @@
                   <v-icon size="18" style="margin-right:5px">mdi-clock</v-icon
                   >{{ member.visit.time[member.visit.time.length - 1] }}
                 </td>
-                <!-- <td style="border-bottom:1px solid #d0d0d0;">
-                <v-icon
-                  style="margin-bottom:3px; "
-                  size="22"
-                  color="var(--font-sub2-color)"
-                  >mdi-database</v-icon
+                <td
+                  class="text-center"
+                  v-if="isClickEdit"
+                  style="border-right:1px solid #d0d0d0"
                 >
-                {{ schema.userID }}
-              </td>
-              <td
-                class="text-right"
-                style="border-bottom:1px solid #d0d0d0;"
-              ></td> -->
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        color="error"
+                        v-bind="attrs"
+                        v-on="on"
+                        icon
+                        style="margin-right:10px"
+                        ><v-icon>mdi-delete</v-icon></v-btn
+                      >
+                    </template>
+                    <span>Delete Member</span>
+                  </v-tooltip>
+
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn color="primary" icon v-bind="attrs" v-on="on"
+                        ><v-icon>mdi-account-cog</v-icon></v-btn
+                      >
+                    </template>
+                    <span> Transfer Authority</span>
+                  </v-tooltip>
+                </td>
               </tr>
             </tbody>
           </template>
@@ -145,7 +185,8 @@ export default {
       visitTarget: null,
       memberList: [],
       findMemberList: [],
-      findMemberName: ""
+      findMemberName: "",
+      isClickEdit: false
     };
   },
 
@@ -182,10 +223,12 @@ export default {
 
 <style>
 .member-searchbar {
-  width: 400px;
+  display: flex;
+  justify-content: space-between;
   margin-top: 25px;
   margin-bottom: -10px;
 }
+
 .member-container thead th {
   background: #333333 !important;
   color: white !important;
@@ -207,7 +250,7 @@ export default {
   background: rgb(214, 214, 214);
 }
 .rule-admin {
-  background: rgb(116, 35, 209);
+  background: #7423d1;
   color: white;
   width: 57px;
   height: 25px;
@@ -225,5 +268,9 @@ export default {
   padding-left: 14px;
   padding-top: 3px;
   font-size: 12px;
+}
+
+#edit-member-btn:hover {
+  background: #4caf50 !important;
 }
 </style>

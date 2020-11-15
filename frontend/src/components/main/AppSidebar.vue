@@ -52,7 +52,7 @@
         </v-list>
         <v-divider></v-divider>
         <v-list dense>
-          <AppAdminSidebar v-if="isAdmin" />
+          <AppAdminSidebar v-if="isAdmin" :mini="mini" />
           <AppUserSidebar v-if="!isAdmin" />
         </v-list>
       </div>
@@ -104,7 +104,7 @@ export default {
 </script>
 
 <style>
-.sidebar{
+.sidebar {
   position: absolute;
   z-index: 100;
 }

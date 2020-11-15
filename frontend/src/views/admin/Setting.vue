@@ -173,7 +173,7 @@
                     <p
                       style="margin-top:25px; font-size:16px; word-break:keep-all"
                     >
-                      반드시 하나 이상의 SCHEMA ID를 추가하신 후에 페이지로
+                      반드시 하나 이상의 SCHEMA를 추가하신 후에 다음 페이지로
                       넘어가 주세요.
                     </p>
                     <v-btn
@@ -272,6 +272,7 @@ export default {
 }
 .setting-sheet {
   padding-left: 50px;
+  height: 100%;
 }
 /* .setting-sheet * {
   color: var(--font-main-color);
