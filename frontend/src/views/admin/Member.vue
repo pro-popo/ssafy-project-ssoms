@@ -175,11 +175,11 @@ export default {
   margin-top: 25px;
   margin-bottom: -10px;
 }
-thead th {
+.member-container thead th {
   background: #333333 !important;
   color: white !important;
 }
-td {
+.member-container td {
   border-bottom: 1px solid #d0d0d0;
 }
 

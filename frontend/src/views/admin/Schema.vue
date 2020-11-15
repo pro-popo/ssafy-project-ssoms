@@ -1,5 +1,5 @@
 <template>
-  <div class="shema-container" style="max-width:800px">
+  <div class="admin-schema-container" style="max-width:800px">
     <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
     <div class="schema-searchbar">
       <!-- <span class="mdi mdi-magnify"></span>
@@ -263,21 +263,21 @@ export default {
 #add-schema-btn:hover {
   background: var(--main-color) !important;
 }
-.shema-container .slide-fade-enter-active {
+.admin-schema-container .slide-fade-enter-active {
   transition: all 0.3s ease;
 }
-.shema-container .slide-fade-leave-active {
+.admin-schema-container .slide-fade-leave-active {
   transition: all 0.3s ease;
 }
-.shema-container .slide-fade-enter, .shema-container .slide-fade-leave-to
+.admin-schema-container .slide-fade-enter, .admin-schema-container .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(-20px);
   opacity: 0;
 }
-tr:hover {
+.admin-schema-container tr:hover {
   background: rgb(219, 219, 219) !important;
 }
-table {
+.admin-schema-container table {
   border-left: 1px solid #d0d0d0 !important;
   border-right: 1px solid #d0d0d0 !important;
 }

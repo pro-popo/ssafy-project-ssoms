@@ -133,4 +133,7 @@ export default {
 h4 {
   flex: 1 0 auto;
 }
+.realtime-container {
+  margin-bottom: 50px;
+}
 </style>
