@@ -25,7 +25,7 @@ import echarts from "echarts/lib/echarts";
 export default {
   name: "SchemaWhole",
   components: {
-    IEcharts,
+    IEcharts
   },
   computed: {
     ...mapGetters("Schema", ["getTimeAndCpuList"]),
@@ -34,32 +34,32 @@ export default {
       return {
         tooltip: {
           trigger: "axis",
-          position: function (pt) {
+          position: function(pt) {
             return [pt[0], "10%"];
           },
           // axisPointer: {
           //     type: 'shadow',
           //     triggerEvent: true,
           // },
-          triggerEvent: true,
+          triggerEvent: true
         },
         title: {
           left: "center",
           text: "CPU",
-          padding: [15, 0, 0, 0],
+          padding: [15, 0, 0, 0]
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: this.getTimeAndCpuList.time,
+          data: this.getTimeAndCpuList.time
         },
         yAxis: {
           type: "value",
-          boundaryGap: [0, "100%"],
+          boundaryGap: [0, "100%"]
         },
         dataZoom: [
           {
-            type: "inside",
+            type: "inside"
           },
           {
             handleIcon:
@@ -70,9 +70,9 @@ export default {
               shadowBlur: 3,
               shadowColor: "rgba(0, 0, 0, 0.6)",
               shadowOffsetX: 2,
-              shadowOffsetY: 2,
-            },
-          },
+              shadowOffsetY: 2
+            }
+          }
         ],
         series: [
           {
@@ -81,23 +81,23 @@ export default {
             smooth: true,
             sampling: "average",
             itemStyle: {
-              color: "rgb(255, 70, 131)",
+              color: "rgb(255, 70, 131)"
             },
             areaStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: "rgb(255, 158, 68)",
+                  color: "rgb(255, 158, 68)"
                 },
                 {
                   offset: 1,
-                  color: "rgb(255, 70, 131)",
-                },
-              ]),
+                  color: "rgb(255, 70, 131)"
+                }
+              ])
             },
-            data: this.getTimeAndCpuList.cpu,
-          },
-        ],
+            data: this.getTimeAndCpuList.cpu
+          }
+        ]
       };
     },
     chart2() {
@@ -106,7 +106,7 @@ export default {
         tooltip: {},
         legend: {
           data: this.getPastTimeData.schemaList,
-          bottom: 10,
+          bottom: 10
         },
         radar: {
           // shape: 'circle',
@@ -115,27 +115,27 @@ export default {
               color: "#fff",
               backgroundColor: "#999",
               borderRadius: 3,
-              padding: [3, 5],
-            },
+              padding: [3, 5]
+            }
           },
           indicator: [
             { name: "bufferGetsAvg" },
             { name: "cpuTimeAvg" },
             { name: "cpuTimeMax" },
             { name: "cpuTimeTot" },
-            { name: "sqlCnt" },
-          ],
+            { name: "sqlCnt" }
+          ]
         },
         series: [
           {
             name: "Schema status",
             type: "radar",
             // areaStyle: {normal: {}},
-            data: this.getPastTimeData.radarchart,
-          },
-        ],
+            data: this.getPastTimeData.radarchart
+          }
+        ]
       };
-    },
+    }
   },
   methods: {
     ...mapActions("Schema", ["setPastTimeData"]),
@@ -154,8 +154,8 @@ export default {
       //    })
       //    .catch((err) => console.log(err));
       this.setPastTimeData(eventInfo.name);
-    },
-  },
+    }
+  }
 };
 </script>
 
