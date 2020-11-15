@@ -1,38 +1,114 @@
 <template>
   <v-row style="height: 300px" v-if="getPastTimeData.check">
+    <v-tabs style="padding: 0px 16px" v-model="tab">
+      <v-tab v-for="item in items" :key="item.tab">
+        {{ item.tab }}
+      </v-tab>
+    </v-tabs>
     <v-col cols="7">
-      <v-simple-table
-      
-        fixed-header
-        height="300px"
-        class="elevation-2 realtime-top-query"
-      >
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-center">Rank</th>
-              <th class="text-center">SQL ID</th>
-              <th class="text-center">SQL</th>
-              <th class="text-center">Schema Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(query, index) in getPastTimeData.schemas[SelectedSchema]
-                .cpuUsed"
-              :key="index"
-              @click="getQueryDetail(index)"
-              class="real-query-hover"
-            >
-              <td>{{ index + 1 }}</td>
-              <td>{{ query.sqlId }}</td>
-              <td align="left">{{ query.sql }}</td>
-              <td>{{ query.parsingSchemaName }}</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <v-simple-table
+            fixed-header
+            height="300px"
+            class="elevation-2 realtime-top-query"
+          >
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">Rank</th>
+                  <th class="text-center">SQL ID</th>
+                  <th class="text-center">SQL</th>
+                  <th class="text-center">Schema Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(query, index) in getPastTimeData.schemas[
+                    SelectedSchema
+                  ].cpuUsed"
+                  :key="index"
+                  @click="getCPUQueryDetail(index)"
+                  class="real-query-hover"
+                >
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ query.sqlId }}</td>
+                  <td align="left">{{ query.sql }}</td>
+                  <td>{{ query.parsingSchemaName }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+        <v-tab-item>
+          <v-simple-table
+            fixed-header
+            height="300px"
+            class="elevation-2 realtime-top-query"
+          >
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">Rank</th>
+                  <th class="text-center">SQL ID</th>
+                  <th class="text-center">SQL</th>
+                  <th class="text-center">Schema Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(query, index) in getPastTimeData.schemas[
+                    SelectedSchema
+                  ].elapsedTime"
+                  :key="index"
+                  @click="getElapsedQueryDetail(index)"
+                  class="real-query-hover"
+                >
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ query.sqlId }}</td>
+                  <td align="left">{{ query.sql }}</td>
+                  <td>{{ query.parsingSchemaName }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+        <v-tab-item>
+          <v-simple-table
+            fixed-header
+            height="300px"
+            class="elevation-2 realtime-top-query"
+          >
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">Rank</th>
+                  <th class="text-center">SQL ID</th>
+                  <th class="text-center">SQL</th>
+                  <th class="text-center">Schema Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(query, index) in getPastTimeData.schemas[
+                    SelectedSchema
+                  ].bufferGets"
+                  :key="index"
+                  @click="getBufferQueryDetail(index)"
+                  class="real-query-hover"
+                >
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ query.sqlId }}</td>
+                  <td align="left">{{ query.sql }}</td>
+                  <td>{{ query.parsingSchemaName }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+      </v-tabs-items>
     </v-col>
+
     <v-col cols="5">
       <v-card
         elevation="2"
@@ -75,7 +151,7 @@
         height="300px"
         v-else
       >
-        <div>자세히 보고싶은 Query를 선택해주세요.</div>
+        <div>Query Detail</div>
       </v-card>
     </v-col>
   </v-row>
@@ -89,18 +165,34 @@ export default {
   data() {
     return {
       detailData: false,
+      tab: null,
+      items: [
+        { tab: "CPU", content: "" },
+        { tab: "Elapsed", content: "" },
+        { tab: "Buffer", content: "" }
+      ]
     };
   },
   methods: {
-    getQueryDetail(index) {
+    getCPUQueryDetail(index) {
       this.detailData = this.getPastTimeData.schemas[
         this.SelectedSchema
       ].cpuUsed[index];
     },
+    getElapsedQueryDetail(index) {
+      this.detailData = this.getPastTimeData.schemas[
+        this.SelectedSchema
+      ].elapsedTime[index];
+    },
+    getBufferQueryDetail(index) {
+      this.detailData = this.getPastTimeData.schemas[
+        this.SelectedSchema
+      ].bufferGets[index];
+    }
   },
   computed: {
     ...mapGetters("Schema", ["getPastTimeData"]),
-    ...mapGetters("Schema", ["SelectedSchema"]),
-  },
+    ...mapGetters("Schema", ["SelectedSchema"])
+  }
 };
 </script>
