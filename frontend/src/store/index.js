@@ -8,11 +8,13 @@ import TopQuery from "@/store/modules/topquery.js";
 
 import axios from "axios";
 import SERVER from "@/api/spring.js";
+// import router from "@/router";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    isSelected: true,
     graphColor: [
       "#f72585",
       "#7209b7",
@@ -21,16 +23,17 @@ export default new Vuex.Store({
       "#4cc9f0",
       "#6fffe9",
       "#f87060",
-      "#ff7aa2",
+      "#ff7aa2"
     ],
     time: 0,
     timeList: [],
-    selectedRealTime: 0, // 시점의 인덱스 값으로 저장
+    selectedRealTime: 0 // 시점의 인덱스 값으로 저장
   },
   getters: {
     getRealTime: (state) => state.time,
     getRealTimeList: (state) => state.timeList,
-    selectedRealTime: (state) => state.selectedRealTime,
+    getIsSelected: (state) => state.isSelected,
+    selectedRealTime: (state) => state.selectedRealTime
   },
   mutations: {
     SET_REALTIME(state, data) {
@@ -41,13 +44,17 @@ export default new Vuex.Store({
       }
     },
     SET_SELECTED_REALTIME(state, selectedTime) {
-      if (selectedTime == -1)
+      if (selectedTime == -1 || selectedTime == 11) {
         state.selectedRealTime = state.timeList.length - 1;
-      else state.selectedRealTime = selectedTime;
-      console.log(state.selectedRealTime);
+        state.isSelected = false;
+      } else {
+        state.selectedRealTime = selectedTime;
+      }
     },
+    SET_SETTING_SELECTED(state, data) {
+      state.isSelected = data;
+    }
   },
-  methods: {},
   actions: {
     initRealTimeData({ commit }) {
       axios.get(SERVER.URL + SERVER.ROUTES.getRealTimeData).then((res) => {
@@ -70,12 +77,12 @@ export default new Vuex.Store({
           commit("SET_REALTIME", realTimeHistoricalData.time);
         });
       });
-    },
+    }
   },
   modules: {
     Account: Account,
     Oracle: Oracle,
     Schema: Schema,
-    TopQuery: TopQuery,
-  },
+    TopQuery: TopQuery
+  }
 });

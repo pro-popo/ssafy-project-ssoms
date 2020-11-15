@@ -5,8 +5,10 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.sdi.monitoring.model.admin.dto.DeleteForm;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.user.dto.UserDTO;
+import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 
 public interface AdminService {
 	public boolean changeAdmin(String prevAdmin, String nextAdmin);
@@ -26,4 +28,6 @@ public interface AdminService {
 	public boolean checkDuplicateSchema(String schemaName);
 	
 	public boolean checkSchemaExistence(String schemaName);
+
+	public int deleteUser(DeleteForm form);
 }

@@ -152,10 +152,22 @@ export default {
       option1_line: {
         color: this.getColor(),
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          triggerOn: "none",
+          axisPointer: {
+            label: {
+              background: "#ffff",
+              show: true,
+              formatter: function(params) {
+                // this.changeXaxis(params);
+                return params.value;
+              }.bind(this)
+            }
+          }
         },
         legend: {
           type: "scroll",
+          icon: "roundRect",
           data: []
         },
         grid: {
@@ -172,15 +184,22 @@ export default {
             lineStyle: {
               color: "#ababab"
             }
+          },
+          axisPointer: {
+            handle: {
+              show: true
+            },
+            value: this.selectedRealTime
           }
         },
         yAxis: {
           name: "(count)",
+          type: "value",
           min: function(value) {
-            return value.min - value.min * 0.05;
+            return (value.min - value.min * 0.05).toFixed(0);
           },
           max: function(value) {
-            return value.max + value.max * 0.05;
+            return (value.max + value.max * 0.05).toFixed(0);
           },
           axisLine: {
             lineStyle: {
@@ -221,10 +240,21 @@ export default {
       option2_line: {
         color: this.getColor(),
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
+          triggerOn: "none",
+          axisPointer: {
+            label: {
+              background: "#ffff",
+              show: true,
+              formatter: function(params) {
+                return params.value;
+              }.bind(this)
+            }
+          }
         },
         legend: {
           type: "scroll",
+          icon: "roundRect",
           data: []
         },
         grid: {
@@ -241,15 +271,22 @@ export default {
             lineStyle: {
               color: "#ababab"
             }
+          },
+          axisPointer: {
+            handle: {
+              show: true
+            },
+            value: this.selectedRealTime
           }
         },
         yAxis: {
           name: "(%)",
+          type: "value",
           min: function(value) {
-            return (value.min - value.min * 0.05).toFixed(2);
+            return (value.min - value.min * 0.3).toFixed(3);
           },
           max: function(value) {
-            return (value.max + value.max * 0.05).toFixed(2);
+            return (value.max + value.max * 0.3).toFixed(3);
           },
           axisLine: {
             lineStyle: {
@@ -287,20 +324,6 @@ export default {
         ]
       },
       option3_line: {
-        color: this.getColor(),
-        tooltip: {
-          trigger: "axis"
-        },
-        legend: {
-          type: "scroll",
-          data: []
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -309,15 +332,48 @@ export default {
             lineStyle: {
               color: "#ababab"
             }
+          },
+          axisPointer: {
+            handle: {
+              show: true
+            },
+            value: this.selectedRealTime
           }
         },
+        color: this.getColor(),
+        tooltip: {
+          trigger: "axis",
+          triggerOn: "none",
+          axisPointer: {
+            label: {
+              background: "#ffff",
+              show: true,
+              formatter: function(params) {
+                return params.value;
+              }.bind(this)
+            }
+          }
+        },
+        legend: {
+          type: "scroll",
+          icon: "roundRect",
+          data: []
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+
         yAxis: {
           name: "(%)",
+          type: "value",
           min: function(value) {
-            return (value.min - value.min * 0.05).toFixed(2);
+            return (value.min - value.min * 0.3).toFixed(3);
           },
           max: function(value) {
-            return (value.max + value.max * 0.05).toFixed(2);
+            return (value.max + value.max * 0.3).toFixed(3);
           },
           axisLine: {
             lineStyle: {
@@ -355,34 +411,6 @@ export default {
         ]
       },
       option4_line: {
-        color: this.getColor(),
-        tooltip: {
-          trigger: "axis",
-          triggerOn: "click",
-          axisPointer: {
-            label: {
-              background: "#ffff",
-              show: true,
-              formatter: function(params) {
-                if (params.seriesData[0] !== undefined)
-                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-                else
-                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
-                return params.value;
-              }.bind(this)
-            }
-          }
-        },
-        legend: {
-          type: "scroll",
-          data: []
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -395,16 +423,44 @@ export default {
           axisPointer: {
             handle: {
               show: true
+            },
+            value: this.selectedRealTime
+          }
+        },
+        color: this.getColor(),
+        tooltip: {
+          trigger: "axis",
+          triggerOn: "none",
+          axisPointer: {
+            label: {
+              background: "#ffff",
+              show: true,
+              formatter: function(params) {
+                return params.value;
+              }.bind(this)
             }
           }
         },
+        legend: {
+          type: "scroll",
+          icon: "roundRect",
+          data: []
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+
         yAxis: {
           name: "(?)",
+          type: "value",
           min: function(value) {
-            return value.min - value.min * 0.05;
+            return value.min - value.min * 0.3;
           },
           max: function(value) {
-            return value.max + value.max * 0.05;
+            return value.max + value.max * 0.3;
           },
           axisLine: {
             lineStyle: {
@@ -454,7 +510,38 @@ export default {
       } else {
         this.items[index].isShow = true;
       }
+    },
+    changeXaxis(params) {
+      var setTime = 0;
+      if (!this.getIsSelected) {
+        setTime = 100;
+      }
+      setTimeout(
+        function() {
+          if (params.seriesData[0] !== undefined && this.getIsSelected) {
+            console.log("얘는 스키마11111111");
+            this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+          } else {
+            console.log("얘는 스키마22222222");
+            this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+          }
+        }.bind(this),
+        setTime
+      );
     }
+
+    // changeAxis(index, params) {
+    //   console.log("왜이래", index, params);
+    //   if (index === 3) {
+    //     if (params.seriesData[0] !== undefined)
+    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+    //   } else if (index === 4) {
+    //     if (params.seriesData[0] !== undefined)
+    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+    //   }
+    // }
     // changeChart(type) {
     //   if (type === "line") {
     //   } else if (type === "pie") {
@@ -471,6 +558,27 @@ export default {
     ...mapGetters(["getRealTime", "getRealTimeList", "selectedRealTime"])
   },
   watch: {
+    selectedRealTime: function() {
+      const select = this.selectedRealTime;
+      for (var i = 0; i < this.getRealTimeSchemaList2.length; i++) {
+        this.option1_pie.series[0].data[i].value = this.getRealTimeSchemaList1[
+          i
+        ].data[select];
+        this.option2_pie.series[0].data[i].value = this.getRealTimeSchemaList2[
+          i
+        ].data[select];
+        this.option3_pie.series[0].data[i].value = this.getRealTimeSchemaList3[
+          i
+        ].data[select];
+        this.option4_pie.series[0].data[i].value = this.getRealTimeSchemaList4[
+          i
+        ].data[select];
+      }
+      this.option1_line.xAxis.axisPointer.value = select;
+      this.option2_line.xAxis.axisPointer.value = select;
+      this.option3_line.xAxis.axisPointer.value = select;
+      this.option4_line.xAxis.axisPointer.value = select;
+    },
     getRealTimeSchemaList1: {
       deep: true,
       handler() {
@@ -486,7 +594,7 @@ export default {
           ].data;
           this.option1_pie.series[0].data[
             i
-          ].value = this.getRealTimeSchemaList1[i].data[timeList.length - 1];
+          ].value = this.getRealTimeSchemaList1[i].data[this.selectedRealTime];
           this.option1_pie.series[0].data[i].name = this.getRealTimeSchemaList1[
             i
           ].name;
@@ -510,7 +618,7 @@ export default {
           ].data;
           this.option2_pie.series[0].data[
             i
-          ].value = this.getRealTimeSchemaList2[i].data[timeList.length - 1];
+          ].value = this.getRealTimeSchemaList2[i].data[this.selectedRealTime];
           this.option2_pie.series[0].data[i].name = this.getRealTimeSchemaList2[
             i
           ].name;
@@ -534,7 +642,7 @@ export default {
           ].data;
           this.option3_pie.series[0].data[
             i
-          ].value = this.getRealTimeSchemaList3[i].data[timeList.length - 1];
+          ].value = this.getRealTimeSchemaList3[i].data[this.selectedRealTime];
           this.option3_pie.series[0].data[i].name = this.getRealTimeSchemaList3[
             i
           ].name;
@@ -558,7 +666,7 @@ export default {
           ].data;
           this.option4_pie.series[0].data[
             i
-          ].value = this.getRealTimeSchemaList4[i].data[timeList.length - 1];
+          ].value = this.getRealTimeSchemaList4[i].data[this.selectedRealTime];
           this.option4_pie.series[0].data[i].name = this.getRealTimeSchemaList4[
             i
           ].name;
@@ -569,7 +677,7 @@ export default {
     }
   },
   created() {
-    axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then(res => {
+    axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then((res) => {
       for (var i = 0; i < res.data.map.schema.length; i++) {
         this.option1_line.series.push({
           name: "",

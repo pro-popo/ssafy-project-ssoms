@@ -17,13 +17,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdi.monitoring.domain.SuccessResponse;
+import com.sdi.monitoring.model.admin.dto.DeleteForm;
 import com.sdi.monitoring.model.admin.service.AdminService;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserDTO;
+import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateAdminDTO;
 
 @CrossOrigin("*")
@@ -216,4 +219,22 @@ public class AdminController {
 		return response;
 	}
 	
+	@PostMapping("/delete")
+	public ResponseEntity deleteUser(@RequestBody DeleteForm form) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		int isDelete = adminService.deleteUser(form);
+		result.status = true;
+		if(isDelete == 0) {//사용자 이메일 틀림
+			result.result = "wrong_user_email";
+		}else if(isDelete == 1) {//관리자 이메일 틀림
+			result.result = "wrong_admin_email";
+		}else if(isDelete == 2) {//관리자 비번 틀림
+			result.result = "wrong_admin_pw";
+		}else if(isDelete == 3) {//성공
+			result.result = "success";
+		}
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
 }

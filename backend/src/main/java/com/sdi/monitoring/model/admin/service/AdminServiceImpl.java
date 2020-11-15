@@ -5,13 +5,16 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sdi.monitoring.model.admin.dto.DeleteForm;
 import com.sdi.monitoring.model.admin.repository.AdminSettingsRepo;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.oracle.repository.OracleRepo;
 import com.sdi.monitoring.model.user.dto.UserDTO;
+import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
 import com.sdi.monitoring.model.user.repository.UserMongoRepo;
 import com.sdi.monitoring.util.JsonParser;
@@ -155,5 +158,27 @@ public class AdminServiceImpl implements AdminService{
 		userMongoRepo.save(userEntity);
 	}
 	
-
+	@Override
+	public int deleteUser(DeleteForm form) {
+		UserEntity userEntity = null;
+		userEntity = userMongoRepo.findUserByEmail(form.getDeleteemail());
+		UserEntity adminEntity = null;
+		adminEntity = userMongoRepo.findUserByEmail(form.getAdminemail());
+		if(userEntity == null) {
+			return 0;
+		} if(adminEntity == null) {
+			return 1;
+		} 
+		System.out.println(adminEntity.getInfo().getPw());
+		if(!cmpPasswordWithEncryptionPassword(form.getPw(), adminEntity.getInfo().getPw())) {
+			return 2;
+		}
+		
+		userMongoRepo.deleteByEmail(form.getDeleteemail());
+		return 3;
+	}
+	
+	private boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {
+		return BCrypt.checkpw(cmp1, cmp2);
+	}
 }

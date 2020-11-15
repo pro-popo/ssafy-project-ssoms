@@ -1,7 +1,3 @@
-// import axios from "axios";
-// import SERVER from "@/api/spring.js";
-// import router from "@/router";
-
 const TopQuery = {
   namespaced: true,
   state: {
@@ -14,10 +10,15 @@ const TopQuery = {
   },
   mutations: {
     SET_TOPQUERY_LIST(state, data) {
-      state.topQueryList = data;
+      state.topQueryList.push(data);
+      if (state.topQueryList.length > 12) {
+        state.topQueryList.shift();
+      }
     },
     SET_TOPQUERY_DETAIL(state, data) {
-      state.topQueryDetail = state.topQueryList[data];
+      const selectedRealTime = data[0];
+      const index = data[1];
+      state.topQueryDetail = state.topQueryList[selectedRealTime][index];
     }
   },
   actions: {},

@@ -1,6 +1,6 @@
 <template>
   <div class="schema-monitoring-container">
-    <div class="container">
+    <v-container fluid>
       <b>
         <span>Schema Status</span> & <span>Top Query</span> |
         <span>{{ SelectedSchema }}</span>
@@ -29,27 +29,12 @@
           조회
         </button>
       </div>
-    </div>
-
-    <div v-if="getTimeAndCpuList.check">
-      <SchemaWhole class="mb-2 mx-auto" />
-      <SchemaDetail class="mb-2 mx-auto" />
-      <SchemaTopQuery class="mx-auto" />
-      <!-- <v-carousel
-        hide-delimiters
-        light
-        show-arrows-on-hover
-        style="height: 250px; width: 140vh"
-        class="schema-carousel"
-      >
-        <v-sheet>
-          <v-carousel-item><SchemaTopQuery /></v-carousel-item>
-        </v-sheet>
-        <v-sheet>
-          <v-carousel-item><SchemaDetail /></v-carousel-item>
-        </v-sheet>
-      </v-carousel> -->
-    </div>
+    </v-container>
+    <v-container fluid v-if="getTimeAndCpuList.check">
+      <SchemaWhole class="mb-2" />
+      <SchemaDetail class="mb-2" />
+      <SchemaTopQuery />
+    </v-container>
     <div
       v-if="getTimeAndCpuList.ani_flag && !getTimeAndCpuList.check && loading"
     >
