@@ -160,31 +160,37 @@ const Schema = {
         commit("SET_SCHEMA_LIST", res.data.map.schema);
       });
     },
-    
-    setTimeAndCpuList({commit, dispatch}, {start, end}){
-        axios.get(SERVER.URL + SERVER.ROUTES.getPastData + `${start}${end}`)
-            .then((res) => {
-                if(res.data.result === "empty"){
-                    alert("data not exist");
-                }
-                else if (res.data.result === "success") {
-                    commit('SET_TIME_AND_CPU_LIST', res.data.map.timeAndCpuList)
-                    dispatch('setPastTimeData', res.data.map.timeAndCpuList[res.data.map.timeAndCpuList.length-1].time)
-                }
-            })
-            .catch((err) => console.log(err));
+
+    setTimeAndCpuList({ commit, dispatch }, { start, end }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getPastData + `${start}${end}`)
+        .then((res) => {
+          if (res.data.result === "empty") {
+            alert("data not exist");
+          } else if (res.data.result === "success") {
+            commit("SET_TIME_AND_CPU_LIST", res.data.map.timeAndCpuList);
+            dispatch(
+              "setPastTimeData",
+              res.data.map.timeAndCpuList[
+                res.data.map.timeAndCpuList.length - 1
+              ].time
+            );
+          }
+        })
+        .catch((err) => console.log(err));
     },
-    setPastTimeData({commit}, date){
-        axios.get(SERVER.URL + SERVER.ROUTES.getPastData + '/' + date)
-            .then((res) => {
-                if(res.data.result ==="notExist"){
-                    alert("data not exist");
-                }
-            if (res.data.result === "success") {
-                commit('SET_PAST_TIME_DATA', res.data.map.realTimeMonitoring)
-            }
-            })
-            .catch((err) => console.log(err));
+    setPastTimeData({ commit }, date) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getPastData + "/" + date)
+        .then((res) => {
+          if (res.data.result === "notExist") {
+            alert("data not exist");
+          }
+          if (res.data.result === "success") {
+            commit("SET_PAST_TIME_DATA", res.data.map.realTimeMonitoring);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
 };
