@@ -159,21 +159,23 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public boolean deleteUser(DeleteForm form) {
+	public int deleteUser(DeleteForm form) {
 		UserEntity userEntity = null;
 		userEntity = userMongoRepo.findUserByEmail(form.getDeleteemail());
 		UserEntity adminEntity = null;
 		adminEntity = userMongoRepo.findUserByEmail(form.getAdminemail());
-		if(userEntity == null || adminEntity == null) {
-			return false;
-		}
+		if(userEntity == null) {
+			return 0;
+		} if(adminEntity == null) {
+			return 1;
+		} 
 		System.out.println(adminEntity.getInfo().getPw());
 		if(!cmpPasswordWithEncryptionPassword(form.getPw(), adminEntity.getInfo().getPw())) {
-			return false;
+			return 2;
 		}
 		
 		userMongoRepo.deleteByEmail(form.getDeleteemail());
-		return true;
+		return 3;
 	}
 	
 	private boolean cmpPasswordWithEncryptionPassword(String cmp1, String cmp2) {

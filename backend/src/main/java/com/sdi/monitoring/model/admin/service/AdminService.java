@@ -29,5 +29,5 @@ public interface AdminService {
 	
 	public boolean checkSchemaExistence(String schemaName);
 
-	boolean deleteUser(DeleteForm form);
+	public int deleteUser(DeleteForm form);
 }
