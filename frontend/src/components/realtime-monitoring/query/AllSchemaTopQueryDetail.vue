@@ -3,7 +3,7 @@
     <v-card
       elevation="2"
       class="realtime-detail-query"
-      height="230px"
+      height="300px"
       v-if="getTopQueryDetail"
     >
       <div>
@@ -31,7 +31,7 @@
       elevation="2"
       color="#E0E0E0"
       class="realtime-non-query"
-      height="230px"
+      height="300px"
       v-else
     >
       <div>Query Detail</div>
