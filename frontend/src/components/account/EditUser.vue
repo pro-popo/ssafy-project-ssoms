@@ -114,7 +114,11 @@
             EDIT
           </v-btn>
 
-          <p class="delete-text" @click="deleteDialog = !deleteDialog">
+          <p
+            class="delete-text"
+            @click="deleteDialog = !deleteDialog"
+            v-if="!profile.admin"
+          >
             Do you want to delete your account?
           </p>
         </v-card-text>

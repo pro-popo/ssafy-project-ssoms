@@ -5,11 +5,11 @@ export default {
     logout: "/user/logout/",
     signup: "/nonuser/signup",
 
+    // admin
     isExistedAdmin: "/nonuser/existence/admin",
     isAdmin: "/user/authorization/",
-    changeAdmin: "",
-    getAllUserList: "",
-    getUserVisitedHistory: "",
+    changeAdmin: "/admin/change",
+    deleteMember: "/admin/delete",
 
     getMyProfile: "/user/profile/",
     allUser: "/admin/alluser",

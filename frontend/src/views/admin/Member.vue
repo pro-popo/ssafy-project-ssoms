@@ -2,7 +2,7 @@
   <div class="member-container">
     <h2 class="mb-3">Member</h2>
     <div style="display:flex;">
-      <div style="width:100%;margin-right:40px">
+      <div style="width:90%;margin-right:40px">
         회원 관리 및 접속 이력에 대한 조회가 가능합니다.
         <div class="member-searchbar">
           <div style="width:400px">
@@ -69,23 +69,28 @@
               <tr
                 v-for="member in findMemberList"
                 :key="member.info.employeeId"
-                @click="visitView(member)"
                 style="cursor: pointer;"
               >
-                <td class="cell1" style="border-left:1px solid #d0d0d0;">
+                <td
+                  class="cell1"
+                  style="border-left:1px solid #d0d0d0;"
+                  @click="visitView(member)"
+                >
                   {{ member.info.name }}
                 </td>
-                <td class="cell2">{{ member.info.employeeId }}</td>
-                <td class="cell3">
+                <td class="cell2" @click="visitView(member)">
+                  {{ member.info.employeeId }}
+                </td>
+                <td class="cell3" @click="visitView(member)">
                   <v-icon size="18" style="margin-right:5px">mdi-email </v-icon>
                   {{ member.email }}
                 </td>
-                <td class="cell4">
+                <td class="cell4" @click="visitView(member)">
                   <v-icon size="18" style="margin-right:5px">mdi-phone</v-icon
                   >{{ member.info.phoneNumber }}
                 </td>
 
-                <td class="cell5" scope="row">
+                <td class="cell5" @click="visitView(member)" scope="row">
                   <div class="rule-admin" v-if="member.info.admin === true">
                     ADMIN
                   </div>
@@ -94,7 +99,11 @@
                   </div>
                 </td>
 
-                <td class="cell6" style="border-right:1px solid #d0d0d0;">
+                <td
+                  class="cell6"
+                  @click="visitView(member)"
+                  style="border-right:1px solid #d0d0d0;"
+                >
                   <v-icon size="18" style="margin-right:5px">mdi-clock</v-icon
                   >{{ member.visit.time[member.visit.time.length - 1] }}
                 </td>
@@ -106,11 +115,13 @@
                   <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
+                        v-if="member.email != adminEmail"
+                        @click="deleteMember(member.email)"
                         color="error"
                         v-bind="attrs"
                         v-on="on"
                         icon
-                        style="margin-right:10px"
+                        style="margin-right:10px; "
                         ><v-icon>mdi-delete</v-icon></v-btn
                       >
                     </template>
@@ -119,7 +130,13 @@
 
                   <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn color="primary" icon v-bind="attrs" v-on="on"
+                      <v-btn
+                        v-if="member.email != adminEmail"
+                        color="primary"
+                        icon
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="transferAuthority(member.email)"
                         ><v-icon>mdi-account-cog</v-icon></v-btn
                       >
                     </template>
@@ -136,7 +153,7 @@
           v-if="visitTarget"
           dense
           elevation="3"
-          style="border-radius:5px;width:25%;height: 100%;"
+          style="border-radius:5px;width:30%;height: 100%;"
         >
           <v-card-text>
             <div style="display:flex; justify-content:space-between">
@@ -171,26 +188,57 @@
         </v-list>
       </transition>
     </div>
+    <DeleteUserByAdmin
+      :dialogDelete="dialogDelete"
+      :deleteMemberEmail="deleteMemberEmail"
+    />
+
+    <TransferAuthority
+      :dialogTransfer="dialogTransfer"
+      :transferAuthorityMember="transferAuthorityMemberEmail"
+    />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import SERVER from "@/api/spring.js";
+import DeleteUserByAdmin from "@/components/account/admin/DeleteUserByAdmin.vue";
+import TransferAuthority from "@/components/account/admin/TransferAuthority.vue";
 
 export default {
   name: "Member",
   data() {
     return {
+      adminEmail: sessionStorage.getItem("loginSession"),
       visitTarget: null,
       memberList: [],
       findMemberList: [],
       findMemberName: "",
-      isClickEdit: false
+      isClickEdit: false,
+
+      dialogDelete: false,
+      deleteMemberEmail: "",
+
+      dialogTransfer: false,
+      transferAuthorityMemberEmail: "",
+
+      dialogAdmin: false
     };
   },
-
+  components: {
+    DeleteUserByAdmin,
+    TransferAuthority
+  },
   methods: {
+    deleteMember(email) {
+      this.deleteMemberEmail = email;
+      this.dialogDelete = !this.dialogDelete;
+    },
+    transferAuthority(email) {
+      this.transferAuthorityMemberEmail = email;
+      this.dialogTransfer = !this.dialogTransfer;
+    },
     findMember() {
       this.findMemberList = [];
       if (this.findMemberName == "") this.findMemberList = this.memberList;

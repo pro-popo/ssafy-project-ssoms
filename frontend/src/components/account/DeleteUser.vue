@@ -10,11 +10,12 @@
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text style="padding-top:20px;">
-        <span style="font-size:18px; padding-top:20px;">
-          To delete your account:
-        </span>
-        <span>Please enter your email and password.</span>
+      <v-card-text style="padding-top:30px;">
+        <h2 style="font-size:20px;">계정을 영구적으로 삭제하시겠습니까?</h2>
+
+        <p style="margin-top:10px">
+          계정 삭제를 원하신다면, 당신의 이메일과 패스워드를 입력해주세요.
+        </p>
         <v-form ref="form" class="delete-input">
           <v-text-field
             prepend-icon="mdi-email"
