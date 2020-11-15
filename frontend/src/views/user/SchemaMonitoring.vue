@@ -34,20 +34,6 @@
       <SchemaWhole class="mb-2" />
       <SchemaDetail class="mb-2" />
       <SchemaTopQuery />
-      <!-- <v-carousel
-        hide-delimiters
-        light
-        show-arrows-on-hover
-        style="height: 250px; width: 140vh"
-        class="schema-carousel"
-      >
-        <v-sheet>
-          <v-carousel-item><SchemaTopQuery /></v-carousel-item>
-        </v-sheet>
-        <v-sheet>
-          <v-carousel-item><SchemaDetail /></v-carousel-item>
-        </v-sheet>
-      </v-carousel> -->
     </v-container>
     <div
       v-if="getTimeAndCpuList.ani_flag && !getTimeAndCpuList.check && loading"
@@ -75,14 +61,14 @@ export default {
   name: "QueryMonitoring",
   data() {
     return {
-      loading: false,
+      loading: false
     };
   },
   components: {
     SchemaWhole,
     SchemaTopQuery,
     SchemaDetail,
-    Loading,
+    Loading
   },
   methods: {
     queryData() {
@@ -107,11 +93,11 @@ export default {
       //    .catch((err) => console.log(err));
     },
     ...mapMutations("Schema", ["SET_TIME_AND_CPU_LIST"]),
-    ...mapActions("Schema", ["setTimeAndCpuList"]),
+    ...mapActions("Schema", ["setTimeAndCpuList"])
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"]),
-    ...mapGetters("Schema", ["getTimeAndCpuList"]),
+    ...mapGetters("Schema", ["getTimeAndCpuList"])
   },
   mounted() {
     document.getElementById(
@@ -121,7 +107,7 @@ export default {
       "endDate"
     ).value = new Date().toISOString().substring(0, 10);
     this.queryData();
-  },
+  }
 };
 </script>
 
