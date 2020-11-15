@@ -37,6 +37,7 @@
             class="ml-3"
             v-bind="attrs"
             v-on="on"
+            @click="moveScrollToTop"
           >
             <v-icon> mdi-file-pdf </v-icon>
           </v-btn>
@@ -105,6 +106,9 @@ export default {
             .scrollIntoView({ behavior: "smooth" });
           break;
       }
+    },
+    moveScrollToTop(){
+        document.getElementById("allSchemaTopQueryTable").firstElementChild.scrollTo({top:0, left:0, behavior:'auto'});
     }
   },
   created() {
