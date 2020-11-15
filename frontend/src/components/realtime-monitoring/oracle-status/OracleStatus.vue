@@ -2,23 +2,37 @@
   <div style="height: 72vh; margin-bottom:15px">
     <h2 style="margin-bottom:15px; color:var(--font-main-color);">
       Oracle DB Status
-      <v-tooltip top style="margin-left:auto">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            fab
-            dark
-            small
-            elevation="2"
-            v-bind="attrs"
-            v-on="on"
-            @click="SET_SELECTED_REALTIME(-1)"
-            width="30"
-            height="30"
-            ><v-icon size="18">mdi-refresh</v-icon></v-btn
-          >
-        </template>
-        <span>Move Last Update</span>
-      </v-tooltip>
+      <div style="float: right">
+        <span class="live-font mr-1">LIVE</span>
+        <v-tooltip top style="margin-left:auto">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-if="selectedRealTime === getRealTimeList.length - 1"
+              fab
+              color="red accent-4"
+              dark
+              x-small
+              elevation="2"
+              v-bind="attrs"
+              v-on="on"
+              @click="startRealTime"
+              ><v-icon size="22">mdi-access-point</v-icon></v-btn
+            >
+            <v-btn
+              v-else
+              fab
+              color="grey"
+              x-small
+              elevation="2"
+              v-bind="attrs"
+              v-on="on"
+              @click="startRealTime"
+              ><v-icon size="18">mdi-access-point</v-icon></v-btn
+            >
+          </template>
+          <span>Move Last Update</span>
+        </v-tooltip>
+      </div>
     </h2>
 
     <div style="height: 30vh;">
@@ -53,7 +67,7 @@ import OracleMemory from "@/components/realtime-monitoring/oracle-status/OracleM
 import OracleProcess from "@/components/realtime-monitoring/oracle-status/OracleProcess.vue";
 import OracleProcessExecution from "@/components/realtime-monitoring/oracle-status/OracleProcessExecution.vue";
 import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "OracleStatus",
@@ -65,7 +79,15 @@ export default {
     OracleStorage
   },
   methods: {
-    ...mapMutations(["SET_SELECTED_REALTIME"])
+    ...mapMutations(["SET_SELECTED_REALTIME"]),
+    ...mapActions(["initRealTimeData"]),
+    startRealTime() {
+      this.SET_SELECTED_REALTIME(-1);
+      this.initRealTimeData();
+    }
+  },
+  computed: {
+    ...mapGetters(["selectedRealTime", "getRealTimeList"])
   }
 };
 </script>
@@ -144,5 +166,10 @@ export default {
 
 .data-default {
   margin-bottom: -5px;
+}
+
+.live-font {
+  font-size: 15px;
+  /* float: right; */
 }
 </style>
