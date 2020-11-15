@@ -14,8 +14,10 @@
         <v-list dense style="margin-top: -3px">
           <v-list-item style="margin-left: -6px">
             <v-btn
+              class="animate__animated"
+              :class="{animate__fadeOutRight : !fixedMini, animate__fadeInRight: fixedMini}"
               icon
-              v-if="fixedMini"
+              :disabled=!fixedMini
               @click.stop="
                 mini = false;
                 fixedMini = false;
@@ -26,7 +28,9 @@
             </v-btn>
             <v-btn
               icon
-              v-if="!fixedMini"
+              class="animate__animated"
+              :class="{animate__fadeOutLeft: fixedMini, animate__fadeInLeft: !fixedMini}"
+              :disabled=fixedMini
               @click.stop="
                 mini = true;
                 fixedMini = true;
@@ -68,6 +72,8 @@
 import AppAdminSidebar from "@/components/main/AppAdminSidebar.vue";
 import AppUserSidebar from "@/components/main/AppUserSidebar.vue";
 import { mapActions } from "vuex";
+import "animate.css";
+
 export default {
   name: "AppSidebar",
   components: {
