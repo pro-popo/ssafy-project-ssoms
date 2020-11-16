@@ -327,7 +327,7 @@ export default {
               lineStyle: {
                 color: [
                   [0.4, "#e34a6d"],
-                  [0.8, "#5b55b0"],
+                  [0.8, "#4358c3"],
                   [1, "#67abf6"]
                 ]
               }
