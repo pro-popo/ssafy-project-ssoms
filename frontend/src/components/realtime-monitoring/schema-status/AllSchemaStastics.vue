@@ -52,7 +52,7 @@
                     group
                     mandatory
                     color="#039BE5"
-                    v-model="toggle_exclusive"
+                    v-model="toggle_exclusive[0]"
                     style="display:flex;  flex-direction: column;"
                   >
                     <v-btn small icon @click="changeChart(1, 'bar')"
@@ -98,16 +98,16 @@
                     group
                     mandatory
                     color="#039BE5"
-                    v-model="toggle_exclusive"
+                    v-model="toggle_exclusive[1]"
                     style="display:flex;  flex-direction: column;"
                   >
-                    <v-btn small icon @click="changeChart(1, 'bar')"
+                    <v-btn small icon @click="changeChart(2, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
                     >
-                    <v-btn small icon @click="changeChart(1, 'line')"
+                    <v-btn small icon @click="changeChart(2, 'line')"
                       ><v-icon>mdi-chart-line</v-icon></v-btn
                     >
-                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                    <v-btn small icon @click="changeChart(2, 'areaspline')"
                       ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
                     >
                   </v-btn-toggle>
@@ -145,16 +145,16 @@
                     group
                     mandatory
                     color="#039BE5"
-                    v-model="toggle_exclusive"
+                    v-model="toggle_exclusive[2]"
                     style="display:flex;  flex-direction: column;"
                   >
-                    <v-btn small icon @click="changeChart(1, 'bar')"
+                    <v-btn small icon @click="changeChart(3, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
                     >
-                    <v-btn small icon @click="changeChart(1, 'line')"
+                    <v-btn small icon @click="changeChart(3, 'line')"
                       ><v-icon>mdi-chart-line</v-icon></v-btn
                     >
-                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                    <v-btn small icon @click="changeChart(3, 'areaspline')"
                       ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
                     >
                   </v-btn-toggle>
@@ -192,16 +192,16 @@
                     group
                     mandatory
                     color="#039BE5"
-                    v-model="toggle_exclusive"
+                    v-model="toggle_exclusive[3]"
                     style="display:flex;  flex-direction: column;"
                   >
-                    <v-btn small icon @click="changeChart(1, 'bar')"
+                    <v-btn small icon @click="changeChart(4, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
                     >
-                    <v-btn small icon @click="changeChart(1, 'line')"
+                    <v-btn small icon @click="changeChart(4, 'line')"
                       ><v-icon>mdi-chart-line</v-icon></v-btn
                     >
-                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                    <v-btn small icon @click="changeChart(4, 'areaspline')"
                       ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
                     >
                   </v-btn-toggle>
@@ -238,7 +238,8 @@ export default {
   },
   data() {
     return {
-      toggle_exclusive: 5,
+      toggle_exclusive: [1, 1, 1, 1],
+
       items: [
         {
           title: "Executions",
@@ -631,6 +632,42 @@ export default {
         this.items[index].isShow = true;
       }
     },
+    changeChart(optionName, type) {
+      let option = "";
+      switch (optionName) {
+        case 1:
+          option = this.option1_line;
+          break;
+        case 2:
+          option = this.option2_line;
+          break;
+        case 3:
+          option = this.option3_line;
+          break;
+        case 4:
+          option = this.option4_line;
+          break;
+      }
+
+      let areaStyle = null;
+      if (type == "areaspline") {
+        areaStyle = "";
+        type = "line";
+      }
+      if (type == "bar") {
+        option.xAxis.boundaryGap = true;
+        option.tooltip.axisPointer.type = "shadow";
+      } else {
+        option.xAxis.boundaryGap = false;
+        option.tooltip.axisPointer.type = "line";
+      }
+      let cnt = 0;
+      option.series.forEach((element) => {
+        element.type = type;
+        element.areaStyle = areaStyle;
+        element.color = option.color[cnt++];
+      });
+    },
     changeXaxis(params) {
       var setTime = 0;
       if (!this.getIsSelected) {
@@ -802,6 +839,9 @@ export default {
         this.option1_line.series.push({
           name: "",
           type: "line",
+          stack: "one",
+          areaStyle: null,
+          showSymbol: false,
           data: []
         });
         this.option1_pie.series[0].data.push({
@@ -811,6 +851,9 @@ export default {
         this.option2_line.series.push({
           name: "",
           type: "line",
+          stack: "one",
+          areaStyle: null,
+          showSymbol: false,
           data: []
         });
         this.option2_pie.series[0].data.push({
@@ -820,6 +863,9 @@ export default {
         this.option3_line.series.push({
           name: "",
           type: "line",
+          stack: "one",
+          areaStyle: null,
+          showSymbol: false,
           data: []
         });
         this.option3_pie.series[0].data.push({
@@ -829,6 +875,9 @@ export default {
         this.option4_line.series.push({
           name: "",
           type: "line",
+          stack: "one",
+          areaStyle: null,
+          showSymbol: false,
           data: []
         });
         this.option4_pie.series[0].data.push({
