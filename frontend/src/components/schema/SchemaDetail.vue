@@ -1,6 +1,11 @@
 <template>
   <v-row>
     <v-col cols="12">
+      <h2
+        style="margin-bottom:15px; margin-top:20px; color:var(--font-main-color);"
+      >
+        {{ SelectedSchema }}'<span style="margin-left:3px" />s Status
+      </h2>
       <v-card class="px-2 py-2" width="100%" elevation="2" outlined>
         <table
           width="100%"
@@ -149,11 +154,11 @@ export default {
   components: {},
   computed: {
     ...mapGetters("Schema", ["getPastTimeData"]),
-    ...mapGetters("Schema", ["SelectedSchema"]),
+    ...mapGetters("Schema", ["SelectedSchema"])
   },
   data() {
     return {};
-  },
+  }
 };
 </script>
 

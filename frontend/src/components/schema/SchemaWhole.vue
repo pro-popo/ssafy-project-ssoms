@@ -1,15 +1,21 @@
 <template>
   <v-row>
-    <v-col cols="6"
-      ><v-card elevation="2" height="315px">
+    <v-col cols="6">
+      <h2 style="margin-bottom:15px; color:var(--font-main-color);">
+        Oracle DB CPU Time
+      </h2>
+      <v-card elevation="2" height="315px">
         <IEcharts
           :option="chart1"
           @click="onClick"
           :resizable="true"
         /> </v-card
     ></v-col>
-    <v-col cols="6"
-      ><v-card elevation="2" height="315px" v-if="getPastTimeData.check">
+    <v-col cols="6">
+      <h2 style="margin-bottom:15px; color:var(--font-main-color);">
+        All Schema'<span style="margin-left:3px" />s Status
+      </h2>
+      <v-card elevation="2" height="315px" v-if="getPastTimeData.check">
         <IEcharts :option="chart2" :resizable="true" /> </v-card
     ></v-col>
   </v-row>

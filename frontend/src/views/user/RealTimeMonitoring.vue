@@ -1,7 +1,7 @@
 <template>
   <div class="realtime-container">
     <div
-      style="display:flex; justify-content: space-between; align-items:flex-start; margin-bottom:20px"
+      style="display:flex; justify-content: space-between; align-items:flex-start;"
     >
       <h3>
         Real-Time Monitorting
@@ -23,14 +23,6 @@
           <ReportModal :Type="1" @killModal="dialog = false" />
         </v-dialog>
       </h3>
-
-      <div>
-        <span style="font-size:14px">Last Update </span>
-        <span style="font-size:14px"
-          ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
-          {{ getRealTime }}</span
-        >
-      </div>
     </div>
     <div>
       <!-- <template>
@@ -52,7 +44,9 @@
       <AllSchemaStastics style="margin:40px 0px;" />
     </div>
     <div id="allSchemaTopQuery" style="margin-top:30px">
-      <h2 class="mb-3 mt-3">Top Query</h2>
+      <h2 class="mb-3 mt-3">
+        All Schema'<span style="margin-left:3px" />s Top Query
+      </h2>
       <div class="realtime-top-query-outer">
         <AllSchemaTopQuery class="top-query-left" />
         <AllSchemaTopQueryDetail class="top-query-right" />

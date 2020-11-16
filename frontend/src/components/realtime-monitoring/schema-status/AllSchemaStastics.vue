@@ -2,7 +2,9 @@
   <div>
     <div style="display: flex; justify-content: space-between">
       <div style="display: flex; margin-bottom:10px">
-        <h2 class="mt-2 mr-3">Schema Status</h2>
+        <h2 class="mt-2 mr-3">
+          All Schema'<span style="margin-left:3px" />s Status
+        </h2>
       </div>
       <v-menu
         style="z-index:10"

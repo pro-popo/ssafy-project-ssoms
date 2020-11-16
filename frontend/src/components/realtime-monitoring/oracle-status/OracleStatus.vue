@@ -3,6 +3,12 @@
     <h2 style="margin-bottom:15px; color:var(--font-main-color);">
       Oracle DB Status
       <div style="float: right">
+        <span style="font-size:14px; margin-right:10px "
+          ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
+          {{
+            getRealTime.substring(0, 11) + getRealTimeList[selectedRealTime]
+          }}</span
+        >
         <span class="live-font mr-1">LIVE</span>
         <v-tooltip top style="margin-left:auto">
           <template v-slot:activator="{ on, attrs }">
@@ -87,7 +93,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["selectedRealTime", "getRealTimeList"])
+    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"])
   }
 };
 </script>
