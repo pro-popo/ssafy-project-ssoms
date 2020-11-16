@@ -3,11 +3,12 @@
     <h2 style="margin-bottom:15px; color:var(--font-main-color);">
       Oracle DB Status
       <div style="float: right">
-        <span style="font-size:14px; margin-right:10px "
+        <span
+          v-if="getRealTime !== 0"
+          style="font-size:14px; margin-right:10px "
           ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
-          {{
-            getRealTime.substring(0, 11) + getRealTimeList[selectedRealTime]
-          }}</span
+          {{ getRealTime.substring(0, 11) }}
+          {{ getRealTimeList[selectedRealTime] }}</span
         >
         <span class="live-font mr-1">LIVE</span>
         <v-tooltip top style="margin-left:auto">
@@ -84,6 +85,7 @@ export default {
     OracleProcessExecution,
     OracleStorage
   },
+
   methods: {
     ...mapMutations(["SET_SELECTED_REALTIME"]),
     ...mapActions(["initRealTimeData"]),
