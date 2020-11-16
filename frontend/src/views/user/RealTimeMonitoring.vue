@@ -5,6 +5,23 @@
     >
       <h3>
         Real-Time Monitorting
+        <v-dialog v-model="dialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="secondary"
+              fab
+              small
+              dark
+              class="ml-3"
+              v-bind="attrs"
+              v-on="on"
+              @click="moveScrollToTop"
+            >
+              <v-icon> mdi-file-pdf </v-icon>
+            </v-btn>
+          </template>
+          <ReportModal :Type="1" @killModal="dialog = false" />
+        </v-dialog>
       </h3>
 
       <div>
@@ -16,7 +33,7 @@
       </div>
     </div>
     <div>
-      <template>
+      <!-- <template>
         <v-tabs
           vertical
           background-color="transparent"
@@ -26,24 +43,7 @@
           <v-tab @click="moveScroll(1)">All Schema</v-tab>
           <v-tab @click="moveScroll(2)">Top Query</v-tab>
         </v-tabs>
-      </template>
-      <v-dialog v-model="dialog" max-width="600px">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="secondary"
-            fab
-            small
-            dark
-            class="ml-3"
-            v-bind="attrs"
-            v-on="on"
-            @click="moveScrollToTop"
-          >
-            <v-icon> mdi-file-pdf </v-icon>
-          </v-btn>
-        </template>
-        <ReportModal :Type="1" @killModal="dialog = false" />
-      </v-dialog>
+      </template> -->
     </div>
     <br />
     <div id="oracleStatus"><OracleStatus /></div>
@@ -51,7 +51,7 @@
     <div id="allSchemaStatics">
       <AllSchemaStastics style="margin:40px 0px;" />
     </div>
-    <div id="allSchemaTopQuery">
+    <div id="allSchemaTopQuery" style="margin-top:30px">
       <h2 class="mb-3 mt-3">Top Query</h2>
       <div class="realtime-top-query-outer">
         <AllSchemaTopQuery class="top-query-left" />
@@ -107,8 +107,10 @@ export default {
           break;
       }
     },
-    moveScrollToTop(){
-        document.getElementById("allSchemaTopQueryTable").firstElementChild.scrollTo({top:0, left:0, behavior:'auto'});
+    moveScrollToTop() {
+      document
+        .getElementById("allSchemaTopQueryTable")
+        .firstElementChild.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
   },
   created() {

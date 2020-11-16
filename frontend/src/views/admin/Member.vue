@@ -320,6 +320,6 @@ export default {
 }
 
 #edit-member-btn:hover {
-  background: #4caf50 !important;
+  background: var(--main-color) !important;
 }
 </style>

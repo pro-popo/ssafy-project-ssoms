@@ -1,25 +1,16 @@
 <template>
   <div>
     <div style="display: flex; justify-content: space-between">
-      <div style="display: flex">
+      <div style="display: flex; margin-bottom:10px">
         <h2 class="mt-2 mr-3">Schema Status</h2>
-        <v-btn-toggle
-          group
-          mandatory
-          color="#2196F3"
-          v-model="toggle_exclusive"
-        >
-          <v-btn @click="changeChart('line')" style="margin: 4px 0px;"
-            ><v-icon>mdi-chart-line</v-icon></v-btn
-          >
-          <v-btn @click="changeChart('pie')" style="margin: 4px 0px;"
-            ><v-icon>mdi-chart-pie</v-icon></v-btn
-          >
-        </v-btn-toggle>
       </div>
-      <v-menu transition="slide-y-transition" :close-on-content-click="false">
+      <v-menu
+        style="z-index:10"
+        transition="slide-y-transition"
+        :close-on-content-click="false"
+      >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" fab x-small class="mt-2">
+          <v-btn v-bind="attrs" v-on="on" dark fab small class="mt-1">
             <v-icon>mdi-playlist-plus</v-icon>
           </v-btn>
         </template>
@@ -41,69 +32,192 @@
       </v-menu>
     </div>
     <div class="schema-chart-box">
-      <div>
-        <div v-if="items[0].isShow">
-          <h4>Executions</h4>
-          <v-card elevation="2" class="schema-chart-size">
-            <IEcharts
-              :option="option1_line"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-            <IEcharts
-              :option="option1_pie"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-          </v-card>
-        </div>
-        <div v-if="items[1].isShow" class="mt-3">
-          <h4>CpuTimeTotal</h4>
-          <v-card elevation="2" class="schema-chart-size">
-            <IEcharts
-              :option="option2_line"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-            <IEcharts
-              :option="option2_pie"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-          </v-card>
-        </div>
+      <div v-if="items[0].isShow" style="width:49.5%">
+        <v-card elevation="2" class="schema-chart-size">
+          <v-card-text
+            style="padding:8px 15px; display:flex; align-items:center"
+          >
+            <h3>Executions</h3>
+            <div style="margin-left:auto">
+              <v-menu offset-y attach>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn small icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <div style="background:white">
+                  <v-btn-toggle
+                    group
+                    mandatory
+                    color="#039BE5"
+                    v-model="toggle_exclusive"
+                    style="display:flex;  flex-direction: column;"
+                  >
+                    <v-btn small icon @click="changeChart(1, 'bar')"
+                      ><v-icon>mdi-chart-bar</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'line')"
+                      ><v-icon>mdi-chart-line</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                      ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
+                    >
+                  </v-btn-toggle>
+                </div>
+              </v-menu>
+            </div>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-text>
+            <div class="schema-chart-size-in-line">
+              <IEcharts :option="option1_line" :resizable="true" />
+            </div>
+            <div class="schema-chart-size-in-pie">
+              <IEcharts :option="option1_pie" :resizable="true" />
+            </div>
+          </v-card-text>
+        </v-card>
       </div>
-      <div>
-        <div v-if="items[2].isShow">
-          <h4>ElapsedTimeTotal</h4>
-          <v-card elevation="2" class="schema-chart-size">
-            <IEcharts
-              :option="option3_line"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-            <IEcharts
-              :option="option3_pie"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-          </v-card>
-        </div>
-        <div v-if="items[3].isShow" class="mt-3">
-          <h4>BufferGetsAvg</h4>
-          <v-card elevation="2" class="schema-chart-size">
-            <IEcharts
-              :option="option4_line"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-            <IEcharts
-              :option="option4_pie"
-              :resizable="true"
-              class="schema-chart-size-in"
-            />
-          </v-card>
-        </div>
+      <div v-if="items[1].isShow" style="width:49.5%">
+        <v-card elevation="2" class="schema-chart-size">
+          <v-card-text
+            style="padding:8px 15px; display:flex; align-items:center"
+          >
+            <h3>CpuTimeTotal</h3>
+            <div style="margin-left:auto">
+              <v-menu offset-y attach>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn small icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <div style="background:white">
+                  <v-btn-toggle
+                    group
+                    mandatory
+                    color="#039BE5"
+                    v-model="toggle_exclusive"
+                    style="display:flex;  flex-direction: column;"
+                  >
+                    <v-btn small icon @click="changeChart(1, 'bar')"
+                      ><v-icon>mdi-chart-bar</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'line')"
+                      ><v-icon>mdi-chart-line</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                      ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
+                    >
+                  </v-btn-toggle>
+                </div>
+              </v-menu>
+            </div>
+          </v-card-text>
+
+          <v-divider></v-divider>
+          <v-card-text>
+            <div class="schema-chart-size-in-line">
+              <IEcharts :option="option2_line" :resizable="true" />
+            </div>
+            <div class="schema-chart-size-in-pie">
+              <IEcharts :option="option2_pie" :resizable="true" />
+            </div>
+          </v-card-text>
+        </v-card>
+      </div>
+      <div v-if="items[2].isShow" style="width:49.5%">
+        <v-card elevation="2" class="schema-chart-size">
+          <v-card-text
+            style="padding:8px 15px; display:flex; align-items:center"
+          >
+            <h3>ElapsedTimeTotal</h3>
+            <div style="margin-left:auto">
+              <v-menu offset-y attach>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn small icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <div style="background:white">
+                  <v-btn-toggle
+                    group
+                    mandatory
+                    color="#039BE5"
+                    v-model="toggle_exclusive"
+                    style="display:flex;  flex-direction: column;"
+                  >
+                    <v-btn small icon @click="changeChart(1, 'bar')"
+                      ><v-icon>mdi-chart-bar</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'line')"
+                      ><v-icon>mdi-chart-line</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                      ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
+                    >
+                  </v-btn-toggle>
+                </div>
+              </v-menu>
+            </div>
+          </v-card-text>
+
+          <v-divider></v-divider>
+          <v-card-text>
+            <div class="schema-chart-size-in-line">
+              <IEcharts :option="option3_line" :resizable="true" />
+            </div>
+            <div class="schema-chart-size-in-pie">
+              <IEcharts :option="option3_pie" :resizable="true" />
+            </div>
+          </v-card-text>
+        </v-card>
+      </div>
+      <div v-if="items[3].isShow" style="width:49.5%">
+        <v-card elevation="2" class="schema-chart-size">
+          <v-card-text
+            style="padding:8px 15px; display:flex; align-items:center"
+          >
+            <h3>BufferGetsAvg</h3>
+            <div style="margin-left:auto">
+              <v-menu offset-y attach>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-btn small icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <div style="background:white">
+                  <v-btn-toggle
+                    group
+                    mandatory
+                    color="#039BE5"
+                    v-model="toggle_exclusive"
+                    style="display:flex;  flex-direction: column;"
+                  >
+                    <v-btn small icon @click="changeChart(1, 'bar')"
+                      ><v-icon>mdi-chart-bar</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'line')"
+                      ><v-icon>mdi-chart-line</v-icon></v-btn
+                    >
+                    <v-btn small icon @click="changeChart(1, 'areaspline')"
+                      ><v-icon>mdi-chart-areaspline-variant</v-icon></v-btn
+                    >
+                  </v-btn-toggle>
+                </div>
+              </v-menu>
+            </div>
+          </v-card-text>
+
+          <v-divider></v-divider>
+          <v-card-text>
+            <div class="schema-chart-size-in-line">
+              <IEcharts :option="option4_line" :resizable="true" />
+            </div>
+            <div class="schema-chart-size-in-pie">
+              <IEcharts :option="option4_pie" :resizable="true" />
+            </div>
+          </v-card-text>
+        </v-card>
       </div>
     </div>
   </div>
@@ -171,9 +285,10 @@ export default {
           data: []
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
+          left: 20,
+          right: "35%",
+          top: 70,
+          bottom: 7,
           containLabel: true
         },
         xAxis: {
@@ -228,7 +343,7 @@ export default {
           {
             name: "Executions",
             type: "pie",
-            radius: [30, 90],
+            radius: [30, 70],
             roseType: "radius",
             label: {
               show: false
@@ -258,9 +373,10 @@ export default {
           data: []
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
+          left: 20,
+          right: "35%",
+          top: 70,
+          bottom: 7,
           containLabel: true
         },
         xAxis: {
@@ -314,7 +430,7 @@ export default {
           {
             name: "CpuTimeTotal",
             type: "pie",
-            radius: [30, 90],
+            radius: [30, 70],
             roseType: "radius",
             label: {
               show: false
@@ -360,12 +476,12 @@ export default {
           data: []
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
+          left: 20,
+          right: "35%",
+          top: 70,
+          bottom: 7,
           containLabel: true
         },
-
         yAxis: {
           name: "(%)",
           type: "value",
@@ -401,7 +517,7 @@ export default {
           {
             name: "ElapsedTimeTotal",
             type: "pie",
-            radius: [30, 90],
+            radius: [30, 70],
             roseType: "radius",
             label: {
               show: false
@@ -411,8 +527,16 @@ export default {
         ]
       },
       option4_line: {
+        grid: {
+          left: 20,
+          right: "35%",
+          top: 70,
+          bottom: 7,
+          containLabel: true
+        },
         xAxis: {
           type: "category",
+
           boundaryGap: false,
           data: [],
           axisLine: {
@@ -445,12 +569,6 @@ export default {
           type: "scroll",
           icon: "roundRect",
           data: []
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
         },
 
         yAxis: {
@@ -488,7 +606,7 @@ export default {
           {
             name: "BufferGetsAvg",
             type: "pie",
-            radius: [30, 90],
+            radius: [30, 70],
             roseType: "radius",
             label: {
               show: false
@@ -725,17 +843,27 @@ export default {
 .schema-chart-box {
   display: flex;
   justify-content: space-between;
-  height: 550px;
+  /* height: 80vh; */
+  width: 100%;
+  flex-wrap: wrap;
 }
 .schema-chart-box > div {
-  width: 49%;
-  min-width: 500px;
+  margin-bottom: 15px;
 }
 .schema-chart-size {
-  height: 250px;
-  display: flex;
+  height: 300px;
+  /* display: flex; */
 }
-.schema-chart-size-in {
-  width: 50% !important;
+.schema-chart-size-in-line {
+  position: absolute;
+  width: 90%;
+  height: 75%;
+}
+.schema-chart-size-in-pie {
+  position: absolute;
+  width: 50%;
+  margin-left: 55%;
+  margin-top: 10px;
+  height: 85%;
 }
 </style>

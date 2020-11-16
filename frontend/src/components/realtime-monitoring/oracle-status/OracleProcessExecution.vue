@@ -104,10 +104,10 @@ export default {
     ...mapGetters(["getRealTimeList", "selectedRealTime"]),
 
     changedExecutions: function() {
-      if (this.getExecutionsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getExecutionsPerSec[this.selectedRealTime - 1] -
-        this.getExecutionsPerSec[this.selectedRealTime]
+        this.getExecutionsPerSec[this.selectedRealTime] -
+        this.getExecutionsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     }
   },
@@ -122,7 +122,7 @@ export default {
       executionsPerSec: 3.86,
       toggle_exclusive: 1,
       option: {
-        color: ["#42A5F5"],
+        color: ["#67abf6"],
         grid: {
           left: 30,
           bottom: 20,

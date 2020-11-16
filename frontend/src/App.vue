@@ -45,7 +45,7 @@ html {
   /* -ms-overflow-style: none; */
 }
 #app {
-  background: #fafcfd;
+  background: #fbfdfd;
 }
 /* 스크롤 바 넓이 16px */
 ::-webkit-scrollbar {
