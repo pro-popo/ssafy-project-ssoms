@@ -130,6 +130,11 @@ public class AdminServiceImpl implements AdminService{
 		return true;
 	}
 	
+	@Override
+	public List<String> findAllSchema() {
+		return oracleRepo.findAllSchema();
+	}
+	
 	private List<UserDTO> EntityListToDTOList(List<UserEntity> userEntityList){
 		List<UserDTO> userDTOList = new ArrayList<UserDTO>();
 		for (UserEntity userEntity : userEntityList) {

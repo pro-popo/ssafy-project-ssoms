@@ -28,6 +28,8 @@ public interface AdminService {
 	public boolean checkDuplicateSchema(String schemaName);
 	
 	public boolean checkSchemaExistence(String schemaName);
+	
+	public List<String> findAllSchema();
 
 	public int deleteUser(DeleteForm form);
 }

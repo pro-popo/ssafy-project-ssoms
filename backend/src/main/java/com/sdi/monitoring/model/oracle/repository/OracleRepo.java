@@ -21,4 +21,6 @@ public interface OracleRepo {
 	public List<UsedBySchemaDTO> findBufferGetsBySchema(String schemaName);
 	
 	public boolean findSchema(String schemaName);
+	
+	public List<String> findAllSchema();
 }

@@ -144,6 +144,7 @@ public class AdminController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		result.status = true;
 		boolean save = adminService.setSettingsSchema(jlist);
 		result.result = save ? "saveSuccess" : "saveFail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
@@ -168,23 +169,23 @@ public class AdminController {
 		return response;
 	}
 	
-//	@PostMapping("/settings/schema/save")
-//	public ResponseEntity setSettingsSchemaDel(@RequestBody String userID) {
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		JSONParser parser = new JSONParser();
-//		JSONArray jlist = null;
-//		try {
-//			jlist = (JSONArray)parser.parse(userID);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		boolean save = adminService.setSettingsSchema(jlist);
-//		result.status = true;
-//		result.result = save ? "saveSuccess" : "saveFail";
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
+	@GetMapping("/settings/schema/all")
+	public ResponseEntity findAllSchemaList() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		List<String> allSchemaList = adminService.findAllSchema();
+		result.status = true;
+		if(allSchemaList.isEmpty() || allSchemaList == null) {
+			result.result = "empty";
+		}else {
+			result.result = "success";
+			Map<String, Object> map = new HashMap<>();
+			map.put("schemaList", allSchemaList);
+			result.map = map;
+		}
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
 	
 	@GetMapping("/realtime/start")
 	public ResponseEntity startRealTime() {
