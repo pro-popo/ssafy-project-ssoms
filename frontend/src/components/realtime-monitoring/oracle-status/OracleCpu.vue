@@ -40,10 +40,10 @@
           </div>
 
           <div style="height:100%; width:70%;">
-            <div style="height:100%" @click="selectedAxis">
+            <div style="height:100%;" @click="selectedAxis">
               <IEcharts
                 :option="option"
-                style="padding-top:5px"
+                style="padding-top:5px; "
                 :resizable="true"
               />
             </div>
@@ -502,6 +502,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 .oracle-cpu-data > .v-icon {
   width: 9vh;

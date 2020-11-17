@@ -43,14 +43,8 @@
     <div id="allSchemaStatics">
       <AllSchemaStastics style="margin:40px 0px;" />
     </div>
-    <div id="allSchemaTopQuery" style="margin-top:30px">
-      <h2 class="mb-3 mt-3">
-        All Schema'<span style="margin-left:3px" />s Top Query
-      </h2>
-      <div class="realtime-top-query-outer">
-        <AllSchemaTopQuery class="top-query-left" />
-        <AllSchemaTopQueryDetail class="top-query-right" />
-      </div>
+    <div id="allSchemaTopQuery" class="realtime-top-query-outer">
+      <AllSchemaTopQuery class="top-query-left" />
     </div>
   </div>
 </template>
@@ -58,7 +52,6 @@
 <script>
 import OracleStatus from "@/components/realtime-monitoring/oracle-status/OracleStatus.vue";
 import AllSchemaTopQuery from "@/components/realtime-monitoring/query/AllSchemaTopQuery.vue";
-import AllSchemaTopQueryDetail from "@/components/realtime-monitoring/query/AllSchemaTopQueryDetail.vue";
 import AllSchemaStastics from "@/components/realtime-monitoring/schema-status/AllSchemaStastics.vue";
 import ReportModal from "@/components/main/ReportModal";
 
@@ -73,7 +66,7 @@ export default {
   components: {
     OracleStatus,
     AllSchemaTopQuery,
-    AllSchemaTopQueryDetail,
+
     AllSchemaStastics,
     ReportModal
   },
@@ -115,16 +108,15 @@ export default {
 
 <style>
 .realtime-top-query-outer {
-  display: flex;
-  justify-content: space-between;
+  margin-top: 30px;
 }
-.top-query-left {
+/* .top-query-left {
   width: 70%;
 }
 .top-query-right {
   width: 28%;
   margin: auto 0px;
-}
+} */
 .v-tap {
   background: transparent;
 }

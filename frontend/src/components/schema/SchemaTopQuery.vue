@@ -123,7 +123,7 @@
           elevation="2"
           class="realtime-detail-query"
           height="300px"
-          style="justify-content: space-around"
+          style="display:flex; justify-content: space-around; align-items: center"
           v-if="detailData"
         >
           <div>

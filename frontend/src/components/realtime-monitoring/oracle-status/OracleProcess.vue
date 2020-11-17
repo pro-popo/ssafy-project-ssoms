@@ -408,6 +408,9 @@ export default {
   align-items: center;
   height: 100%;
 }
+.oracle-data div {
+  overflow: hidden;
+}
 .oracle-data h1 {
   margin-top: 5px;
   color: #6440e3;

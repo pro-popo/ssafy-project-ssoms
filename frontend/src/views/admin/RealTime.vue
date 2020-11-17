@@ -66,7 +66,7 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.scheduleStatus)
         .then((res) => {
           if (res.data.result == "running") {
-            alert("현재 실시간 모니터링이 시작된 상태 입니다 !!");
+            alert("현재 실시간 모니터링이 시작된 상태 입니다.");
           } else if (res.data.result == "end") {
             alert("현재 실시간 모니터링이 종료된 상태 입니다.");
           }

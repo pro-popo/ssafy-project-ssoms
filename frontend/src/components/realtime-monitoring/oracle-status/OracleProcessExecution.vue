@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="2" style="height:100%; margin-right:15px">
-    <v-card-text style="height:100%; display:flex; flex-direction: column;">
+    <v-card-text class="card-execution">
       <div style="height:30%; display:flex; flex-direction: column;">
         <div style="display:flex; align-items:center; margin-top:-5px">
           <h4 class="oracle-status-name">
@@ -255,5 +255,11 @@ export default {
 }
 .execution-pie * {
   position: inherit !important;
+}
+.card-execution {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 </style>
