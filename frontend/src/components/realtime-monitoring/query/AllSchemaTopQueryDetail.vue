@@ -45,14 +45,14 @@
           <div>
             <h4 class="query-detail-title">bufferGetsAvg</h4>
             <span class="query-detail-text">
-              {{ getTopQueryDetail.bufferGets }} <span>buffer</span>
+              {{ getTopQueryDetail.bufferGets }} <span>count</span>
             </span>
           </div>
 
           <div>
             <h4 class="query-detail-title">diskReadsAvg</h4>
             <span class="query-detail-text">
-              {{ getTopQueryDetail.diskReads }} <span>disk</span>
+              {{ getTopQueryDetail.diskReads }} <span>count</span>
             </span>
           </div>
           <div>
@@ -75,7 +75,7 @@
       elevation="2"
       color="#E0E0E0"
       class="realtime-non-query"
-      height="225px"
+      height="200px"
       v-else
     >
       <div>Query Detail</div>
