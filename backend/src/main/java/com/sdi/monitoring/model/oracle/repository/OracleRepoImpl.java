@@ -455,4 +455,31 @@ public class OracleRepoImpl implements OracleRepo{
 		}
 		return false;
 	}
+	
+	@Override
+	public List<String> findAllSchema() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			List<String> allSchemaList = new ArrayList<>();
+			con = DBUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select username from all_users");
+			
+			pstmt = con.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				allSchemaList.add(rs.getString("username"));
+			}
+			return allSchemaList;
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+			DBUtil.close(con);
+		}
+		return null;
+	}
 }

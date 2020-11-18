@@ -77,7 +77,7 @@ public class OracleDataServiceImpl implements OracleDataService {
 
 		return null;
 	}
-
+	
 	private List<RealTimeMonitoringDTO> realTimeMontoringEntityListToDTOList(Page<RealTimeMonitoringEntity> realTimeMonitoringEntityList) {
 		List<RealTimeMonitoringDTO> realTimeMonitoringDTOList = new ArrayList<>();
 
