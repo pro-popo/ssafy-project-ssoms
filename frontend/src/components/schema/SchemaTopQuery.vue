@@ -18,9 +18,10 @@
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-simple-table
-              fixed-header
-              height="300px"
-              class="elevation-2 realtime-top-query"
+            fixed-header
+            height="300px"
+            id="SchemaQuerys"
+            class="elevation-2 realtime-top-query"
             >
               <template v-slot:default>
                 <thead>
