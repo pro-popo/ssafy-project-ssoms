@@ -40,7 +40,7 @@
           </div>
 
           <div style="height:100%; width:70%;">
-            <div style="height:100%;" @click="selectedAxis">
+            <div style="height:100%;" @click="clickChart">
               <IEcharts
                 :option="option"
                 style="padding-top:5px; "
@@ -116,23 +116,36 @@ export default {
     IEcharts
   },
   methods: {
-    ...mapMutations(["SET_SELECTED_REALTIME", "SET_SETTING_SELECTED"]),
+    clickChart() {
+      this.SET_SELECTED_TOOLTIP("oracle");
+      this.SET_SETTING_SELECTED(true);
+    },
+    ...mapMutations([
+      "SET_SELECTED_REALTIME",
+      "SET_SETTING_SELECTED",
+      "SET_SELECTED_TOOLTIP"
+    ]),
     changeXaxis(params) {
-      var setTime = 0;
-      if (!this.getIsSelected) {
-        setTime = 100;
-      }
       setTimeout(
         function() {
-          if (params.seriesData[0] !== undefined && this.getIsSelected) {
-            console.log("얘는 오라클111111");
-            this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-          } else {
-            console.log("얘는 오라클222222");
-            this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+          if (this.selectedTooltip == "oracle") {
+            var setTime = 0;
+            if (!this.getIsSelected) {
+              setTime = 100;
+            }
+            setTimeout(
+              function() {
+                if (params.seriesData[0] !== undefined && this.getIsSelected) {
+                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+                } else {
+                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+                }
+              }.bind(this),
+              setTime
+            );
           }
         }.bind(this),
-        setTime
+        200
       );
     },
 
@@ -173,7 +186,8 @@ export default {
       "getRealTimeList",
       "selectedRealTime",
       "getIsSelected",
-      "getIsRealShow"
+      "getIsRealShow",
+      "selectedTooltip"
     ])
   },
 
