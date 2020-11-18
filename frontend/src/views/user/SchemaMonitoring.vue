@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="pastMonitering">
     <div class="container">
       <b>
         <span>Schema Status</span> & <span>Top Query</span> |
@@ -13,8 +13,8 @@
     </div>
 
     <div v-if="getTimeAndCpuList.check">
-      <SchemaWhole class="mb-2 mx-auto" />
-      <SchemaDetail class="mb-2 mx-auto" />
+      <SchemaWhole id="SchemaWhole" class="mb-2 mx-auto" />
+      <SchemaDetail id="SchemaDetail" class="mb-2 mx-auto" />
       <SchemaTopQuery class="mx-auto"/>
       <!-- <v-carousel
         hide-delimiters

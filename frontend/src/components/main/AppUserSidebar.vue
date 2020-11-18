@@ -52,7 +52,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-      <ReportModal :Type="0" @killModal="dialog = false" />
+      <ReportModal @kill-modal="dialog = false" />
     </v-dialog>
   </v-list-item-group>
 </template>
