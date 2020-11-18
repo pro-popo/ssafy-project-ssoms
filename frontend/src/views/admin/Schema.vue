@@ -73,7 +73,7 @@
     <div>
       <v-simple-table
         fixed-header
-        height="290px"
+        max-height="290px"
         color="red"
         dark
         style="background:transparent"

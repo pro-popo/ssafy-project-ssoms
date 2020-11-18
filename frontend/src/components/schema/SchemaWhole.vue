@@ -5,11 +5,7 @@
         Oracle DB CPU Time
       </h2>
       <v-card elevation="2" height="315px">
-        <IEcharts
-          :option="chart1"
-          @click="onClick"
-          :resizable="true"
-        /> </v-card
+        <IEcharts :option="chart1" :resizable="true" /> </v-card
     ></v-col>
     <v-col cols="6">
       <h2 style="margin-bottom:15px; color:var(--font-main-color);">
@@ -40,14 +36,23 @@ export default {
       return {
         tooltip: {
           trigger: "axis",
+          triggerOn: "click",
           position: function(pt) {
             return [pt[0], "10%"];
           },
-          // axisPointer: {
-          //     type: 'shadow',
-          //     triggerEvent: true,
-          // },
-          triggerEvent: true
+          //
+          axisPointer: {
+            type: "line",
+            label: {
+              background: "#000000",
+              show: true,
+              snap: true,
+              formatter: function(params) {
+                this.setPastTimeData(params.value);
+                return params.value;
+              }.bind(this)
+            }
+          }
         },
         title: {
           left: "center",
@@ -57,7 +62,19 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: this.getTimeAndCpuList.time
+          data: this.getTimeAndCpuList.time,
+          axisLine: {
+            lineStyle: {
+              color: "#303030"
+            }
+          },
+          axisPointer: {
+            handle: {
+              show: true,
+              size: [0, 0]
+            }
+            // value: this.selectedRealTime
+          }
         },
         yAxis: {
           type: "value",
@@ -147,6 +164,8 @@ export default {
     ...mapActions("Schema", ["setPastTimeData"]),
     ...mapMutations("Schema", ["SET_PAST_TIME_DATA"]),
     onClick(eventInfo) {
+      console.log("zzzzz");
+      console.log(eventInfo.name);
       //  axios
       //    .get(SERVER.URL + SERVER.ROUTES.getPastData + '/' +eventInfo.name)
       //    .then((res) => {

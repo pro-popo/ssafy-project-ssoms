@@ -35,10 +35,7 @@
           >
             <td class="text-center" style="width:70px">{{ index + 1 }}</td>
             <td>{{ query.sqlId }}</td>
-            <td
-              align="left"
-              style="max-width: 600px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;"
-            >
+            <td align="left" class="query-table-sql">
               {{ query.sql }}
             </td>
             <td>{{ query.parsingSchemaName }}</td>
@@ -98,7 +95,6 @@ export default {
   background: rgb(214, 214, 214);
 }
 .realtime-top-query {
-  display: inline-block;
   width: 100%;
 }
 .real-query-hover:hover {
@@ -107,9 +103,15 @@ export default {
 
 .topquery-table-th {
   color: white !important;
-  background: rgb(65, 65, 65) !important;
+  background: #414141 !important;
 }
 .topquery-table-th:nth-child(1) {
   border-top-left-radius: 5px !important;
+}
+.query-table-sql {
+  max-width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

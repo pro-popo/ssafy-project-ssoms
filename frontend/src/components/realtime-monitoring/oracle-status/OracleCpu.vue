@@ -233,7 +233,8 @@ export default {
           },
           axisPointer: {
             handle: {
-              show: true
+              show: true,
+              size: [0, 0]
             },
             value: this.selectedRealTime
           }
