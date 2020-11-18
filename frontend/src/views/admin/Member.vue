@@ -1,117 +1,256 @@
 <template>
-  <div>
+  <div class="member-container">
     <h2 class="mb-3">Member</h2>
-    <!-- <div class="member-searchbar">
-      <span class="input-group-text mdi mdi-magnify"></span>
-      <v-text-field label="검색할 유저명을 입력해주세요."></v-text-field>
-    </div> -->
-    <div style="display:flex">
-      <v-simple-table
-        fixed-header
-        height="400px"
-        color="red"
-        style="background:transparent;width:75%; margin-right:20px"
-      >
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">이름</th>
-              <th class="text-left">사번</th>
-              <th class="text-left">이메일</th>
-              <th class="text-left">연락처</th>
-              <th class="text-left">권한</th>
-              <th class="text-left">접속이력</th>
-            </tr>
-          </thead>
-          <tbody style="color:var(--font-sub2-color)">
-            <tr
-              v-for="member in memberList"
-              :key="member.info.employeeId"
-              @click="visitView(member)"
-              style="cursor: pointer;"
-            >
-              <td class="cell1">{{ member.info.name }}</td>
-              <td class="cell2">{{ member.info.employeeId }}</td>
-              <td class="cell3">
-                <v-icon size="18" style="margin-right:5px">mdi-email </v-icon>
-                {{ member.email }}
-              </td>
-              <td class="cell4">
-                <v-icon size="18" style="margin-right:5px">mdi-phone</v-icon
-                >{{ member.info.phoneNumber }}
-              </td>
-
-              <td class="cell5" scope="row">
-                <div class="rule-admin" v-if="member.info.admin === true">
-                  ADMIN
-                </div>
-                <div class="rule-user" v-if="member.info.admin === false">
-                  USER
-                </div>
-              </td>
-
-              <td class="cell6">
-                {{ member.visit.time[member.visit.time.length - 1] }}
-              </td>
-              <!-- <td style="border-bottom:1px solid #d0d0d0;">
-                <v-icon
-                  style="margin-bottom:3px; "
-                  size="22"
+    <div style="display:flex;">
+      <div style="width:90%;margin-right:40px">
+        회원 관리 및 접속 이력에 대한 조회가 가능합니다.
+        <div class="member-searchbar">
+          <div style="width:400px">
+            <v-text-field
+              solo
+              style="border-radius:20px"
+              append-icon="mdi-magnify"
+              label="검색할 회원명을 입력해주세요."
+              v-model="findMemberName"
+              @keyup="findMember"
+            ></v-text-field>
+          </div>
+          <div style="height:100%;margin-top:6px;">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  style="margin-left:auto; margin-right:10px"
+                  fab
+                  height="45"
+                  width="45"
+                  elevation="2"
                   color="var(--font-sub2-color)"
-                  >mdi-database</v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  dark
+                  @click="isClickEdit = !isClickEdit"
+                  id="edit-member-btn"
+                  ><v-icon v-if="!isClickEdit">mdi-account-edit</v-icon>
+                  <v-icon v-if="isClickEdit">mdi-close</v-icon></v-btn
                 >
-                {{ schema.userID }}
-              </td>
-              <td
-                class="text-right"
-                style="border-bottom:1px solid #d0d0d0;"
-              ></td> -->
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+              </template>
+              <span>Edit Members</span>
+            </v-tooltip>
+          </div>
+        </div>
+        <v-simple-table
+          fixed-header
+          height="100%"
+          color="red"
+          style="background:transparent; "
+        >
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">이름</th>
+                <th class="text-left">사번</th>
+                <th class="text-left">이메일</th>
+                <th class="text-left">연락처</th>
+                <th class="text-left">권한</th>
+                <th class="text-left">접속이력</th>
+                <th class="text-center" v-if="isClickEdit">Action</th>
+              </tr>
+            </thead>
+            <tbody style="color:var(--font-sub2-color)">
+              <tr v-if="findMemberList.length == 0">
+                <td
+                  style="border:1px solid #d0d0d0;"
+                  class="text-center"
+                  colspan="6"
+                >
+                  조회된 회원이 없습니다.
+                </td>
+              </tr>
+              <tr
+                v-for="member in findMemberList"
+                :key="member.info.employeeId"
+                style="cursor: pointer;"
+              >
+                <td
+                  class="cell1"
+                  style="border-left:1px solid #d0d0d0;"
+                  @click="visitView(member)"
+                >
+                  {{ member.info.name }}
+                </td>
+                <td class="cell2" @click="visitView(member)">
+                  {{ member.info.employeeId }}
+                </td>
+                <td class="cell3" @click="visitView(member)">
+                  <v-icon size="18" style="margin-right:5px">mdi-email </v-icon>
+                  {{ member.email }}
+                </td>
+                <td class="cell4" @click="visitView(member)">
+                  <v-icon size="18" style="margin-right:5px">mdi-phone</v-icon
+                  >{{ member.info.phoneNumber }}
+                </td>
+
+                <td class="cell5" @click="visitView(member)" scope="row">
+                  <div class="rule-admin" v-if="member.info.admin === true">
+                    ADMIN
+                  </div>
+                  <div class="rule-user" v-if="member.info.admin === false">
+                    USER
+                  </div>
+                </td>
+
+                <td
+                  class="cell6"
+                  @click="visitView(member)"
+                  style="border-right:1px solid #d0d0d0;"
+                >
+                  <v-icon size="18" style="margin-right:5px">mdi-clock</v-icon
+                  >{{ member.visit.time[member.visit.time.length - 1] }}
+                </td>
+                <td
+                  class="text-center"
+                  v-if="isClickEdit"
+                  style="border-right:1px solid #d0d0d0"
+                >
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        v-if="member.email != adminEmail"
+                        @click="deleteMember(member.email)"
+                        color="error"
+                        v-bind="attrs"
+                        v-on="on"
+                        icon
+                        style="margin-right:10px; "
+                        ><v-icon>mdi-delete</v-icon></v-btn
+                      >
+                    </template>
+                    <span>Delete Member</span>
+                  </v-tooltip>
+
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        v-if="member.email != adminEmail"
+                        color="primary"
+                        icon
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="transferAuthority(member.email)"
+                        ><v-icon>mdi-account-cog</v-icon></v-btn
+                      >
+                    </template>
+                    <span> Transfer Authority</span>
+                  </v-tooltip>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </div>
       <transition name="fade">
         <v-list
           v-if="visitTarget"
           dense
           elevation="3"
-          style="border-radius:5px"
+          style="border-radius:5px;width:30%;height: 100%;"
         >
-          <v-subheader>{{ visitTarget.info.name }} 님의 접속 이력</v-subheader>
-          <v-divider></v-divider>
-          <v-list-item
-            class="visit-list"
-            v-for="(time, i) in visitTarget.visit.time.slice().reverse()"
-            :key="i"
-          >
-            <v-list-item-content>
-              <v-list-item-title v-text="time"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <small>
+          <v-card-text>
+            <div style="display:flex; justify-content:space-between">
+              <h3>{{ visitTarget.info.name }} 님의 접속 이력</h3>
+              <v-btn
+                style="margin-top:-5px"
+                small
+                icon
+                @click="visitTarget = false"
+                ><v-icon>mdi-close</v-icon></v-btn
+              >
+            </div>
+            <small style="color:var(--font-sub-color)">
               최근 10건의 접속 기록이 노출됩니다.
             </small>
-          </v-list-item>
+            <v-divider style="margin-top: 10px"></v-divider>
+
+            <v-timeline align-top dense>
+              <v-timeline-item
+                color="#7209b7"
+                small
+                v-for="(time, i) in visitTarget.visit.time.slice().reverse()"
+                :key="i"
+              >
+                <v-row class="pt-1">
+                  <div>{{ time }}</div>
+                </v-row>
+              </v-timeline-item>
+            </v-timeline>
+            <v-divider></v-divider>
+          </v-card-text>
         </v-list>
       </transition>
     </div>
+    <DeleteUserByAdmin
+      :dialogDelete="dialogDelete"
+      :deleteMemberEmail="deleteMemberEmail"
+      @delete-member-admin="getAllUser"
+    />
+
+    <TransferAuthority
+      :dialogTransfer="dialogTransfer"
+      :transferAuthorityMember="transferAuthorityMemberEmail"
+    />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import SERVER from "@/api/spring.js";
+import DeleteUserByAdmin from "@/components/account/admin/DeleteUserByAdmin.vue";
+import TransferAuthority from "@/components/account/admin/TransferAuthority.vue";
 
 export default {
   name: "Member",
   data() {
     return {
+      adminEmail: sessionStorage.getItem("loginSession"),
       visitTarget: null,
-      memberList: []
+      memberList: [],
+      findMemberList: [],
+      findMemberName: "",
+      isClickEdit: false,
+
+      dialogDelete: false,
+      deleteMemberEmail: "",
+
+      dialogTransfer: false,
+      transferAuthorityMemberEmail: "",
+
+      dialogAdmin: false
     };
   },
+  components: {
+    DeleteUserByAdmin,
+    TransferAuthority
+  },
   methods: {
+    deleteMember(email) {
+      this.deleteMemberEmail = email;
+      this.dialogDelete = !this.dialogDelete;
+    },
+    transferAuthority(email) {
+      this.transferAuthorityMemberEmail = email;
+      this.dialogTransfer = !this.dialogTransfer;
+    },
+    findMember() {
+      this.findMemberList = [];
+      if (this.findMemberName == "") this.findMemberList = this.memberList;
+      else {
+        this.memberList.forEach((member) => {
+          if (member.info.name.includes(this.findMemberName)) {
+            this.findMemberList.push(member);
+          }
+        });
+      }
+    },
     visitView(member) {
       this.visitTarget = member;
     },
@@ -119,8 +258,8 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.allUser)
         .then((res) => {
-          console.log(res.data.map.userList);
           this.memberList = res.data.map.userList;
+          this.findMemberList = this.memberList;
         })
         .catch((err) => console.log(err));
     }
@@ -134,24 +273,25 @@ export default {
 <style>
 .member-searchbar {
   display: flex;
-  line-height: 65px;
-  width: 500px;
-  margin-bottom: 25px;
+  justify-content: space-between;
+  margin-top: 25px;
+  margin-bottom: -10px;
 }
-thead th {
+
+.member-container thead th {
   background: #333333 !important;
   color: white !important;
 }
-td {
+.member-container td {
   border-bottom: 1px solid #d0d0d0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.member-container .fade-enter-active,
+.member-container .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter,
-.fade-leave-to {
+.member-container .fade-enter,
+.member-container .fade-leave-to {
   opacity: 0;
 }
 
@@ -159,7 +299,7 @@ td {
   background: rgb(214, 214, 214);
 }
 .rule-admin {
-  background: rgb(116, 35, 209);
+  background: #7423d1;
   color: white;
   width: 57px;
   height: 25px;
@@ -178,64 +318,8 @@ td {
   padding-top: 3px;
   font-size: 12px;
 }
-/* tr:last-child {
-  border-bottom: 0;
-}
-th,
-td {
-  height: 35px;
-  font: 500 15px "spoqa han sans";
-}
 
-.tb_wrap {
-  position: relative;
-  padding-top: 40px;
+#edit-member-btn:hover {
+  background: var(--main-color) !important;
 }
-.tb_box {
-  max-height: 500px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  border-bottom: 1px solid #dedede;
-}
-.tb {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-}
-.cell1,
-.cell2 {
-  width: 10%;
-}
-.cell3 {
-  width: 15%;
-}
-.cell4,
-.cell5,
-.cell6 {
-  width: 20%;
-}
-
-.sub_fixed_top {
-  display: inline-table;
-  width: calc(100% - 17px);
-  background: #eef7ff;
-  text-align: center;
-}
-
-.fixed_top {
-  display: inline-table;
-  position: absolute;
-  top: 0;
-  width: calc(100% - 17px);
-  background: #eef7ff;
-  text-align: center;
-}
-.fixed_top th {
-  border-top: 1px solid #dedede;
-  border-bottom: 1px solid #dedede;
-}
-
-.table-cell {
-  text-align: center;
-} */
 </style>

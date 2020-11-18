@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="2" style="height:100%; margin-right:15px">
-    <v-card-text style="height:100%; display:flex; flex-direction: column;">
+    <v-card-text class="card-execution">
       <div style="height:30%; display:flex; flex-direction: column;">
         <div style="display:flex; align-items:center; margin-top:-5px">
           <h4 class="oracle-status-name">
@@ -104,10 +104,10 @@ export default {
     ...mapGetters(["getRealTimeList", "selectedRealTime"]),
 
     changedExecutions: function() {
-      if (this.getExecutionsPerSec.length <= 1) return 0;
+      if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getExecutionsPerSec[this.selectedRealTime - 1] -
-        this.getExecutionsPerSec[this.selectedRealTime]
+        this.getExecutionsPerSec[this.selectedRealTime] -
+        this.getExecutionsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     }
   },
@@ -122,7 +122,7 @@ export default {
       executionsPerSec: 3.86,
       toggle_exclusive: 1,
       option: {
-        color: ["#42A5F5"],
+        color: ["#67abf6"],
         grid: {
           left: 30,
           bottom: 20,
@@ -255,5 +255,11 @@ export default {
 }
 .execution-pie * {
   position: inherit !important;
+}
+.card-execution {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 </style>

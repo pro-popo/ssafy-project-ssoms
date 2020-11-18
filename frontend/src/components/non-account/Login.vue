@@ -7,6 +7,7 @@
         v-model="account.email"
         :rules="[rules.required]"
         label="E-mail"
+        @keypress.enter="login"
         required
       ></v-text-field>
       <v-text-field

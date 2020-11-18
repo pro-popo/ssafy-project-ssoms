@@ -2,18 +2,23 @@
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
       <v-card-title class="delete-headline">
-        <span style="margin-left:5px; color:var(--font-sub2-color)"
-          >Delete Your Account
+        <span style="margin-left:10px; color:var(--font-sub2-color)">
+          Delete Member
         </span>
         <v-btn icon @click="dialog = !dialog">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text style="padding-top:30px;">
-        <h2 style="font-size:20px;">계정을 영구적으로 삭제하시겠습니까?</h2>
+      <v-card-text style="padding-top:20px; padding-left:30px">
+        <h2
+          style="font-size:20px; padding:15px 0px 10px 0px ;  word-break:keep-all"
+        >
+          {{ deleteMemberEmail }} 님의 계정을
+        </h2>
+        <h2 style="font-size:20px;">영구적으로 삭제하시겠습니까?</h2>
 
-        <p style="margin-top:10px">
+        <p style="margin-top:30px">
           계정 삭제를 원하신다면, 당신의 이메일과 패스워드를 입력해주세요.
         </p>
         <v-form ref="form" class="delete-input">
@@ -31,7 +36,6 @@
             :type="'password'"
             name="input-10-1"
             label="Password"
-            @keypress.enter="dialog = false"
           ></v-text-field>
           <v-text-field
             v-model="confirmPw"
@@ -47,7 +51,9 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="var(--main-color)" @click="deleteUser">Submit</v-btn>
+        <v-btn text color="var(--main-color)" @click="deleteMember"
+          >Submit</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -56,13 +62,12 @@
 <script>
 import SERVER from "@/api/spring.js";
 import axios from "axios";
-import { mapActions } from "vuex";
-
 export default {
-  name: "DeleteUser",
+  name: "DeleteUserByAdmin",
   data() {
     return {
       dialog: false,
+
       account: {
         email: "",
         pw: ""
@@ -74,6 +79,49 @@ export default {
       deleteSuccess: true
     };
   },
+  methods: {
+    deleteMember() {
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.deleteMember, {
+          adminemail: this.account.email,
+          deleteemail: this.deleteMemberEmail,
+          pw: this.account.pw
+        })
+        .then((res) => {
+          if (res.data.result == "success") {
+            alert("회원 계정을 성공적으로 삭제하였습니다.");
+            this.dialog = false;
+            this.$emit("delete-member-admin");
+          } else if (res.data.result == "wrong_admin_pw") {
+            this.deleteSuccess = false;
+          } else if (res.data.result == "wrong_user_email") {
+            alert(
+              "삭제할 계정이 존재하지 않습니다. 새로고침 후, 다시 시도해주세요."
+            );
+          } else if (res.data.result == "wrong_admin_email") {
+            alert(
+              "현재 계정은 관리자 권한이 없습니다. 새로고침 후, 다시 시도해주세요."
+            );
+          }
+        });
+    }
+  },
+  props: {
+    dialogDelete: Boolean,
+    deleteMemberEmail: String
+  },
+
+  watch: {
+    dialogDelete: function() {
+      this.dialog = true;
+    },
+    dialog: function() {
+      if (this.account.email != "" || this.account.pw != "") {
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+      }
+    }
+  },
   computed: {
     emailMatch() {
       return (
@@ -83,50 +131,8 @@ export default {
     pwConfirmRules() {
       return this.account.pw === this.confirmPw || "Password do not match.";
     }
-  },
-  props: {
-    deleteDialog: Boolean
-  },
-  watch: {
-    deleteDialog: function() {
-      this.dialog = true;
-    },
-    dialog: function() {
-      this.$refs.form.resetValidation();
-      if (this.account.email != "" || this.account.pw != "") {
-        this.$refs.form.reset();
-        this.deleteSuccess = true;
-      }
-    }
-  },
-
-  methods: {
-    ...mapActions("Account", ["logout"]),
-    deleteUser() {
-      if (this.$refs.form.validate()) {
-        axios
-          .post(SERVER.URL + SERVER.ROUTES.deleteUser, this.account)
-          .then((res) => {
-            if (res.data.result == "success") {
-              this.logout();
-            } else if (res.data.result == "fail") {
-              this.deleteSuccess = false;
-              console.log("실패");
-            }
-          });
-      }
-    }
   }
 };
 </script>
 
-<style>
-.delete-headline {
-  justify-content: space-between;
-  height: 40px;
-  padding: 10px 20px 42px 20px !important;
-}
-.delete-input {
-  margin-top: 15px !important;
-}
-</style>
+<style></style>

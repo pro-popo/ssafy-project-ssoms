@@ -50,7 +50,21 @@
     <div class="overlay-container" id="overlay">
       <div class="overlay">
         <div class="overlay-panel overlay-left">
+          <img
+            width="80px"
+            src="@/assets/SSOMS.png"
+            alt=""
+            style="opacity:95%; margin-bottom:10px"
+          />
           <h1>SSOMS</h1>
+          <h3 style="margin-bottom:20px; font-size:15px; color:#95b3da">
+            <span>S</span>amsung <span>S</span>DI <span>O</span>racle
+            <span>M</span>onitoring <span>S</span>olution
+          </h3>
+          <p style="margin-top:10px; word-break:keep-all;opacity:80%">
+            TOP-DOWN 방식의 실시간 모니터링이 가능한 전문적인 Monitoring
+            Solution <br />
+          </p>
           <v-btn
             class="change-btn"
             rounded
@@ -63,11 +77,12 @@
           </v-btn>
         </div>
         <div class="overlay-panel overlay-right">
-          <h1>SSOMS</h1>
-          <h3>
-            <span>S</span>amsung <span>S</span>DI <span>O</span>racle
-            <span>M</span>onitoring <span>S</span>olution
-          </h3>
+          <img width="250px" src="@/assets/SSOMS-long.png" alt="" />
+
+          <p style="margin-top:20px; ">
+            쉽고 빠른 데이터베이스 모니터링 <br />
+            SSOMS와 함께하세요.
+          </p>
           <v-btn
             class="change-btn"
             rounded

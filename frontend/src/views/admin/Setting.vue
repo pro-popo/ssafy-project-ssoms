@@ -79,12 +79,12 @@
                     현 화면은 관리자만 접근 가능한 페이지로, <br />Oracle
                     Database와 Member를 관리하실 수 있습니다.
                   </p>
-                  <p style="margin-top:30px">
+                  <p style="margin-top:40px">
                     먼저, SSOMS 서비스 이용을 위해
                     <b>Oracle 연동</b>과 <b>Schema 설정</b>을 진행해주세요.
                   </p>
                   <v-btn
-                    style="margin-top:50px;"
+                    style="margin-top:15px;"
                     @click="model = 1"
                     color="black"
                     dark
@@ -109,7 +109,7 @@
               <div
                 style="display:flex; align-items:center; justify-content:center; width:100%;"
               >
-                <div style="width:55%">
+                <div style="width:55%; height:80%">
                   <h3 class="setting-sheet-step">Step 2</h3>
                   <OracleDB @oracle-save="oracleSave" />
                 </div>
@@ -144,12 +144,12 @@
           </v-sheet>
         </v-carousel-item>
         <v-carousel-item>
-          <v-sheet color="transparent" height="100%" tile class="setting-sheet">
+          <v-sheet color="transparent" tile class="setting-sheet">
             <v-row class="fill-height" align="center">
               <div
                 style="display:flex; align-items:center; justify-content:center; width:100%;"
               >
-                <div style="width:55%">
+                <div style="width:55%;  ">
                   <h3 class="setting-sheet-step">Step 3</h3>
                   <Schema />
                 </div>
@@ -173,7 +173,7 @@
                     <p
                       style="margin-top:25px; font-size:16px; word-break:keep-all"
                     >
-                      반드시 하나 이상의 SCHEMA ID를 추가하신 후에 페이지로
+                      반드시 하나 이상의 SCHEMA를 추가하신 후에 다음 페이지로
                       넘어가 주세요.
                     </p>
                     <v-btn
@@ -267,11 +267,12 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin: 100px 0;
+  margin: 110px 0;
   margin-left: -40px;
 }
 .setting-sheet {
   padding-left: 50px;
+  height: 100%;
 }
 /* .setting-sheet * {
   color: var(--font-main-color);

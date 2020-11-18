@@ -164,22 +164,22 @@ export default {
     changedExecutions: function() {
       if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getExecutionsPerSec[this.selectedRealTime - 1] -
-        this.getExecutionsPerSec[this.selectedRealTime]
+        this.getExecutionsPerSec[this.selectedRealTime] -
+        this.getExecutionsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
     changedTotalParseCount: function() {
       if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getTotalParseCountPerSec[this.selectedRealTime - 1] -
-        this.getTotalParseCountPerSec[this.selectedRealTime]
+        this.getTotalParseCountPerSec[this.selectedRealTime] -
+        this.getTotalParseCountPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
     changedOpenCursors: function() {
       if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getOpenCursorsPerSec[this.selectedRealTime - 1] -
-        this.getOpenCursorsPerSec[this.selectedRealTime]
+        this.getOpenCursorsPerSec[this.selectedRealTime] -
+        this.getOpenCursorsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
     changedUserCommits: function() {
@@ -407,6 +407,9 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
+}
+.oracle-data div {
+  overflow: hidden;
 }
 .oracle-data h1 {
   margin-top: 5px;

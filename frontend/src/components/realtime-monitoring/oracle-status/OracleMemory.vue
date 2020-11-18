@@ -163,22 +163,22 @@ export default {
       if (this.selectedRealTime <= 1) return 0;
 
       return (
-        this.getDbBlockGetsPerSec[this.selectedRealTime - 1] -
-        this.getDbBlockGetsPerSec[this.selectedRealTime]
+        this.getDbBlockGetsPerSec[this.selectedRealTime] -
+        this.getDbBlockGetsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
     changedLogicalReads: function() {
       if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getLogicalReadsPerSec[this.selectedRealTime - 1] -
-        this.getLogicalReadsPerSec[this.selectedRealTime]
+        this.getLogicalReadsPerSec[this.selectedRealTime] -
+        this.getLogicalReadsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
     changedRedoGenerated: function() {
       if (this.selectedRealTime <= 1) return 0;
       return (
-        this.getRedoGeneratedPerSec[this.selectedRealTime - 1] -
-        this.getRedoGeneratedPerSec[this.selectedRealTime]
+        this.getRedoGeneratedPerSec[this.selectedRealTime] -
+        this.getRedoGeneratedPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     }
   },

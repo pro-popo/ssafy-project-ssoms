@@ -1,34 +1,44 @@
 <template>
-  <div style="max-width:800px">
+  <div class="admin-schema-container">
     <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
-    <h4 style="color:var(--font-sub2-color); ">
-      <v-icon color="var(--font-sub2-color)">mdi-database</v-icon> Schema
-    </h4>
     <div class="schema-searchbar">
       <!-- <span class="mdi mdi-magnify"></span>
       <div style="width:50%">
         <v-text-field label="검색할 스키마명을 입력해주세요."></v-text-field>
       </div> -->
-
-      <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            style="margin-left:auto; margin-right:10px"
-            fab
-            small
-            elevation="2"
-            color="var(--font-sub2-color)"
-            v-bind="attrs"
-            v-on="on"
-            dark
-            @click="isCheckAdd = !isCheckAdd"
-            id="add-schema-btn"
-            ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
-            <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
-          >
-        </template>
-        <span>Add Schema</span>
-      </v-tooltip>
+      <div
+        style="width:400px; height:100%; padding-top:25px; margin-bottom:-10px"
+      >
+        <v-text-field
+          solo
+          style="border-radius:20px;"
+          append-icon="mdi-magnify"
+          label="검색할 Schema ID를 입력해주세요."
+          v-model="findSchemaName"
+          @keyup="findSchema"
+        ></v-text-field>
+      </div>
+      <div style="height:100%; margin-bottom:-8px">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              style="margin-left:auto; margin-right:10px"
+              fab
+              small
+              elevation="2"
+              color="var(--font-sub2-color)"
+              v-bind="attrs"
+              v-on="on"
+              dark
+              @click="isCheckAdd = !isCheckAdd"
+              id="add-schema-btn"
+              ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
+              <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
+            >
+          </template>
+          <span>Add Schema</span>
+        </v-tooltip>
+      </div>
     </div>
     <transition name="slide-fade">
       <v-card
@@ -41,17 +51,20 @@
         <div class="add-schema-form">
           <v-text-field
             prepend-icon="mdi-database-plus"
-            label="스키마ID를 입력해주세요."
+            label="추가하실 스키마ID를 입력해주세요."
             v-model="userID"
             @keypress.enter="saveSchema"
           ></v-text-field>
           <v-btn
             style="margin-left:20px"
-            color="primary"
+            color="grey"
+            outlined
+            fab
+            small
             class="setting-schema-save-button"
             @click="saveSchema"
           >
-            SAVE
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
       </v-card>
@@ -74,8 +87,16 @@
               </th>
             </tr>
           </thead>
-          <tbody style="color:var(--font-sub2-color)">
-            <tr v-for="schema in schemaList" :key="schema.userID">
+          <tbody
+            class="admin-schema-table-tbody"
+            style="color:var(--font-sub2-color)"
+          >
+            <tr v-if="findSchemaList.length == 0">
+              <td class="text-center" colspan="2">
+                조회된 Schema가 없습니다.
+              </td>
+            </tr>
+            <tr v-for="schema in findSchemaList" :key="schema.userID">
               <td style="border-bottom:1px solid #d0d0d0;">
                 <v-icon
                   style="margin-bottom:3px; "
@@ -119,10 +140,35 @@ export default {
     return {
       schemaList: [],
       userID: "",
-      isCheckAdd: false
+      isCheckAdd: false,
+      findSchemaName: "",
+      findSchemaList: []
     };
   },
+  watch: {
+    schemaList: function() {
+      this.findSchemaList = this.schemaList;
+    }
+  },
   methods: {
+    findSchema() {
+      this.findSchemaList = [];
+      if (this.findSchemaName == "") this.findSchemaList = this.schemaList;
+      else {
+        this.schemaList.forEach((schema) => {
+          if (
+            schema.userID
+              .toLowerCase()
+              .includes(this.findSchemaName.toLowerCase()) ||
+            schema.userID
+              .toUpperCase()
+              .includes(this.findSchemaName.toUpperCase())
+          ) {
+            this.findSchemaList.push(schema);
+          }
+        });
+      }
+    },
     deleteSchema(schemaId) {
       var deleteConfirm = confirm("정말 삭제하시겠습니까?");
       if (deleteConfirm) {
@@ -159,7 +205,7 @@ export default {
         return;
       }
       if (this.userID === "") {
-        alert("Schema를 입력해주세요");
+        alert("Schema ID를 입력해주세요.");
         return;
       }
       // 중복 및 존재여부 확인
@@ -170,7 +216,7 @@ export default {
         .then((res) => {
           console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
-            alert("이미 존재하는 스키마 ID 입니다.");
+            alert("이미 추가된 스키마 ID 입니다.");
           } else if (res.data.result === "notExist") {
             alert("DB에 존재하지 않는 스키마 ID 입니다.");
           } else if (res.data.result === "success") {
@@ -201,10 +247,16 @@ export default {
 </script>
 
 <style>
+.admin-schema-table-tbody td {
+  border-bottom: 1px solid #d0d0d0;
+}
+.admin-schema-container {
+  max-width: 800px;
+}
 .schema-searchbar {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: space-between;
 }
 .add-schema-form {
   display: flex;
@@ -225,22 +277,30 @@ export default {
 #add-schema-btn:hover {
   background: var(--main-color) !important;
 }
-.slide-fade-enter-active {
+
+.admin-schema-container .slide-fade-enter-active {
   transition: all 0.3s ease;
 }
-.slide-fade-leave-active {
+.admin-schema-container .slide-fade-leave-active {
   transition: all 0.3s ease;
 }
-.slide-fade-enter, .slide-fade-leave-to
+.admin-schema-container .slide-fade-enter, .admin-schema-container .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(-20px);
   opacity: 0;
 }
-tr:hover {
+.admin-schema-container tr:hover {
   background: rgb(219, 219, 219) !important;
 }
-table {
+.admin-schema-container table {
   border-left: 1px solid #d0d0d0 !important;
   border-right: 1px solid #d0d0d0 !important;
+}
+.schema-searchbar .v-input__slot {
+  background: white !important;
+  color: var(--font-sub2-color) !important;
+}
+.schema-searchbar .v-input__slot * {
+  color: var(--font-sub2-color) !important;
 }
 </style>

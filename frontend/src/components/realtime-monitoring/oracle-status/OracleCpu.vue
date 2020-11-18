@@ -40,10 +40,10 @@
           </div>
 
           <div style="height:100%; width:70%;">
-            <div style="height:100%">
+            <div style="height:100%;" @click="selectedAxis">
               <IEcharts
                 :option="option"
-                style="padding-top:5px"
+                style="padding-top:5px; "
                 :resizable="true"
               />
             </div>
@@ -116,7 +116,25 @@ export default {
     IEcharts
   },
   methods: {
-    ...mapMutations(["SET_SELECTED_REALTIME"]),
+    ...mapMutations(["SET_SELECTED_REALTIME", "SET_SETTING_SELECTED"]),
+    changeXaxis(params) {
+      var setTime = 0;
+      if (!this.getIsSelected) {
+        setTime = 100;
+      }
+      setTimeout(
+        function() {
+          if (params.seriesData[0] !== undefined && this.getIsSelected) {
+            console.log("얘는 오라클111111");
+            this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+          } else {
+            console.log("얘는 오라클222222");
+            this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+          }
+        }.bind(this),
+        setTime
+      );
+    },
 
     changeChart(type) {
       console.log(type);
@@ -138,6 +156,10 @@ export default {
         element.areaStyle = areaStyle;
         element.color = this.option.color[cnt++];
       });
+    },
+    selectedAxis() {
+      this.SET_SETTING_SELECTED(true);
+      this.testData = true;
     }
   },
   computed: {
@@ -147,14 +169,21 @@ export default {
       "getResponesTimePerTxn",
       "getActiveSerialSessions"
     ]),
-    ...mapGetters(["getRealTimeList", "selectedRealTime"])
+    ...mapGetters([
+      "getRealTimeList",
+      "selectedRealTime",
+      "getIsSelected",
+      "getIsRealShow"
+    ])
   },
 
   watch: {
-    selectedRealTime: function() {
+    selectedRealTime: function(res) {
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.selectedRealTime
       ];
+      // res는 변한 값
+      this.option.xAxis.axisPointer.value = res;
     },
     getDatabaseCpuTimeRatioList: function() {
       this.option.series[0].data = this.getDatabaseCpuTimeRatioList;
@@ -182,9 +211,9 @@ export default {
     return {
       activeSerialSessions: [],
       toggle_exclusive: 2,
-
+      testData: false,
       option: {
-        color: ["#81D4FA", "#42A5F5"],
+        color: ["#b1d3ff", "#075aff"],
         grid: {
           right: 20,
           left: 50,
@@ -196,15 +225,17 @@ export default {
           type: "category",
           boundaryGap: false,
           data: [],
+          triggerEvent: true,
           axisLine: {
             lineStyle: {
-              color: "#ababab"
+              color: "#303030"
             }
           },
           axisPointer: {
             handle: {
               show: true
-            }
+            },
+            value: this.selectedRealTime
           }
           // triggerEvent: true
           // formatter: function(params, callback) {
@@ -221,7 +252,7 @@ export default {
           max: 100,
           axisLine: {
             lineStyle: {
-              color: "#ababab"
+              color: "#303030"
             }
           },
           axisTick: {
@@ -233,6 +264,7 @@ export default {
           icon: "roundRect"
           // top: "30
         },
+        methods: {},
         tooltip: {
           trigger: "axis",
           triggerOn: "click",
@@ -240,14 +272,11 @@ export default {
           axisPointer: {
             type: "line",
             label: {
-              background: "#ffff",
+              background: "#000000",
               show: true,
               snap: true,
               formatter: function(params) {
-                if (params.seriesData[0] !== undefined) {
-                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-                } else
-                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+                this.changeXaxis(params);
                 return params.value;
               }.bind(this)
             }
@@ -297,9 +326,9 @@ export default {
               show: true,
               lineStyle: {
                 color: [
-                  [0.2, "#EF5350"],
-                  [0.8, "#039BE5"],
-                  [1, "#4CAF50"]
+                  [0.4, "#e34a6d"],
+                  [0.8, "#4358c3"],
+                  [1, "#67abf6"]
                 ]
               }
             },
@@ -375,7 +404,7 @@ export default {
             name: "ResponseTimePerTransaction",
             data: [],
             type: "line",
-            color: "#039BE5",
+            color: "#67abf6",
             showSymbol: false,
             areaStyle: ""
           }
@@ -415,7 +444,7 @@ export default {
             name: "ActiveSerialSessions",
             data: [],
             type: "line",
-            color: "#039BE5",
+            color: "#67abf6",
             showSymbol: false,
             areaStyle: ""
           }
@@ -473,6 +502,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 .oracle-cpu-data > .v-icon {
   width: 9vh;

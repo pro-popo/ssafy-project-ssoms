@@ -81,31 +81,12 @@
         </div>
       </div>
     </form>
-
-    <div v-if="true">
-      <v-divider style="margin : 100px 0px 30px 0px"></v-divider>
-      <h2 style="margin-bottom:10px">실시간 모니터링</h2>
-      <v-btn color="success" v-if="scheduler" @click="connectScheduler"
-        >실시간 모니터링 시작</v-btn
-      >
-
-      <v-btn color="error" v-if="!scheduler" @click="disconnectScheduler"
-        >실시간 모니터링 종료</v-btn
-      >
-      <v-btn
-        color="primary"
-        style="margin-left:10px"
-        @click="checkConnectScheduler"
-        >실시간 모니터링 상태 확인</v-btn
-      >
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import SERVER from "@/api/spring.js";
-
 export default {
   name: "OracleDB",
   data() {
@@ -117,8 +98,7 @@ export default {
         oraclePassword: "",
         oracleSID: ""
       },
-      testString: "",
-      scheduler: true
+      testString: ""
     };
   },
   watch: {
@@ -131,60 +111,6 @@ export default {
   },
 
   methods: {
-    // 실시간 모니터링 (나중에 삭제 예정)
-    connectScheduler() {
-      console.log("---스케줄러 연결 중---");
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.scheduleStart)
-        .then((res) => {
-          if (res.data.result == "success") {
-            alert("실시간 모니터링이 시작 되었습니다 !!");
-            this.scheduler = false;
-          } else if (res.data.result == "fail") {
-            alert(
-              "실시간 모니터링 연결에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
-            );
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    checkConnectScheduler() {
-      console.log("---스케줄러 연결 확인 중---");
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.scheduleStatus)
-        .then((res) => {
-          if (res.data.result == "running") {
-            alert("현재 실시간 모니터링이 시작된 상태 입니다 !!");
-          } else if (res.data.result == "end") {
-            alert("현재 실시간 모니터링이 종료된 상태 입니다.");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    disconnectScheduler() {
-      console.log("---스케줄러 연결 해제 중---");
-
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.scheduleStop)
-        .then((res) => {
-          if (res.data.result == "success") {
-            alert("실시간 모니터링이 성공적으로 종료 되었습니다 !!");
-            this.scheduler = true;
-          } else if (res.data.result == "fail") {
-            alert(
-              "실시간 모니터링 종료에 문제가 생겼습니다... 관리자에게 연락 부탁드립니다..."
-            );
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-
     setSettingsOracleDB() {
       axios
         .post(SERVER.URL + SERVER.ROUTES.setSettingsOracleDB, this.oracleData)
@@ -237,20 +163,6 @@ export default {
   },
   created() {
     this.getSettingsOracleDB();
-    axios
-      .get(SERVER.URL + SERVER.ROUTES.scheduleStatus)
-      .then((res) => {
-        if (res.data.result == "running") {
-          this.scheduler = false;
-          console.log("현재 실시간 모니터링이 시작된 상태 입니다 !!");
-        } else if (res.data.result == "end") {
-          this.scheduler = true;
-          console.log("현재 실시간 모니터링이 종료된 상태 입니다.");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 };
 </script>

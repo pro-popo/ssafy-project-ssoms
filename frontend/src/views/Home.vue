@@ -94,11 +94,13 @@ export default {
       this.requestEditUser = false;
     },
     addRealtimeData(realTimeData) {
-      this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
-      this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
+      if (!this.getIsSelected) {
+        this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
+        this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
 
-      this.SET_REALTIME(realTimeData.time);
-      this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+        this.SET_REALTIME(realTimeData.time);
+        this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
+      }
     },
     connect() {
       const serverURL = "http://localhost:8080/ssoms/stomp";
@@ -115,12 +117,12 @@ export default {
             if (this.getRealTime !== realTimeData.time) {
               if (this.getDatabaseCpuTimeRatioList.length >= 12) {
                 this.addRealtimeData(realTimeData);
-                this.SET_SELECTED_REALTIME(-1);
+                // this.SET_SELECTED_REALTIME(-1);
               } else {
                 setTimeout(
                   function() {
                     this.addRealtimeData(realTimeData);
-                    this.SET_SELECTED_REALTIME(-1);
+                    // this.SET_SELECTED_REALTIME(-1);
                   }.bind(this),
                   1000
                 );
@@ -145,7 +147,7 @@ export default {
     this.connect();
   },
   computed: {
-    ...mapGetters(["getRealTime"]),
+    ...mapGetters(["getRealTime", "getIsSelected"]),
     ...mapGetters("Oracle", ["getDatabaseCpuTimeRatioList"])
   }
 };
@@ -175,6 +177,6 @@ export default {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 40px 80px;
+  padding: 50px 80px 30px 130px;
 }
 </style>

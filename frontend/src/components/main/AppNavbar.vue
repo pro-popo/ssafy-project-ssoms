@@ -17,11 +17,15 @@ export default {
 </script>
 
 <style>
+.nav-bar {
+  background: rgb(41, 41, 42);
+  /* background: linear-gradient(130deg, rgba(41,41,42,1) 66%, rgba(25,45,156,1) 100%); */
+}
 .v-toolbar-title {
   color: linear-gradient(to right, var(--main-color), var(--main-point-color));
 }
 .logo {
-    margin-left: 56px;
+  margin-left: 56px;
   cursor: pointer;
   font-weight: 550;
 }

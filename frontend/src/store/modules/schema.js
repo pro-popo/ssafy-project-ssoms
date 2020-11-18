@@ -24,11 +24,11 @@ const Schema = {
       elapsedTimeMax: [123],
       elapsedTimeTot: [0]
     },
-    timeAndCpuList:{
-        time : [],
-        cpu: [],
-        check : false,
-        ani_flag : false
+    timeAndCpuList: {
+      time: [],
+      cpu: [],
+      check: false,
+      ani_flag: false
     },
     pastTimeData: {
       allSchemaStastics: [],
@@ -36,7 +36,7 @@ const Schema = {
       schemas: [],
       schemaList: [],
       radarchart: [],
-      check : false
+      check: false
     }
   },
   getters: {
@@ -108,37 +108,43 @@ const Schema = {
         }
       }
     },
-    SET_TIME_AND_CPU_LIST(state, data){
-        let times = [];
-        let cpus = [];
-        data.forEach(element => {
-            // let temp = element.time.split(' ');
-            // let f = temp[0].split('-');
-            // let s = temp[1].split(':');
-            // times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
-            times.push(element.time);
-            cpus.push(element.databaseCpuTimeRatio);
-        });
-        state.timeAndCpuList.time = times;
-        state.timeAndCpuList.cpu = cpus;
-        state.timeAndCpuList.check = true;
+    SET_TIME_AND_CPU_LIST(state, data) {
+      let times = [];
+      let cpus = [];
+      data.forEach((element) => {
+        // let temp = element.time.split(' ');
+        // let f = temp[0].split('-');
+        // let s = temp[1].split(':');
+        // times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
+        times.push(element.time);
+        cpus.push(element.databaseCpuTimeRatio);
+      });
+      state.timeAndCpuList.time = times;
+      state.timeAndCpuList.cpu = cpus;
+      state.timeAndCpuList.check = true;
     },
-    SET_PAST_TIME_DATA(state, data){
+    SET_PAST_TIME_DATA(state, data) {
       state.pastTimeData.oracleStatus = data.oracleStatus;
       let tempstat = {};
       let tempsch = {};
       let list = [];
       let radar = [];
-      data.allSchemaStastics.forEach(element => {
+      data.allSchemaStastics.forEach((element) => {
         tempstat[element.parsingSchemaName] = element;
-        
+
         radar.push({
-            value : [element.bufferGetsAvg, element.cpuTimeAvg, element.cpuTimeMax, element.cpuTimeTot, element.sqlCnt],
-            name : element.parsingSchemaName
+          value: [
+            element.bufferGetsAvg,
+            element.cpuTimeAvg,
+            element.cpuTimeMax,
+            element.cpuTimeTot,
+            element.sqlCnt
+          ],
+          name: element.parsingSchemaName
         });
         list.push(element.parsingSchemaName);
       });
-      data.schemas.forEach(element => {
+      data.schemas.forEach((element) => {
         tempsch[element.bufferGets[0].parsingSchemaName] = element;
       });
       state.pastTimeData.allSchemaStastics = tempstat;
@@ -154,31 +160,37 @@ const Schema = {
         commit("SET_SCHEMA_LIST", res.data.map.schema);
       });
     },
-    
-    setTimeAndCpuList({commit, dispatch}, {start, end}){
-        axios.get(SERVER.URL + SERVER.ROUTES.getPastData + `${start}${end}`)
-            .then((res) => {
-                if(res.data.result === "empty"){
-                    alert("data not exist");
-                }
-                else if (res.data.result === "success") {
-                    commit('SET_TIME_AND_CPU_LIST', res.data.map.timeAndCpuList)
-                    dispatch('setPastTimeData', res.data.map.timeAndCpuList[res.data.map.timeAndCpuList.length-1].time)
-                }
-            })
-            .catch((err) => console.log(err));
+
+    setTimeAndCpuList({ commit, dispatch }, { start, end }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getPastData + `${start}${end}`)
+        .then((res) => {
+          if (res.data.result === "empty") {
+            alert("data not exist");
+          } else if (res.data.result === "success") {
+            commit("SET_TIME_AND_CPU_LIST", res.data.map.timeAndCpuList);
+            dispatch(
+              "setPastTimeData",
+              res.data.map.timeAndCpuList[
+                res.data.map.timeAndCpuList.length - 1
+              ].time
+            );
+          }
+        })
+        .catch((err) => console.log(err));
     },
-    setPastTimeData({commit}, date){
-        axios.get(SERVER.URL + SERVER.ROUTES.getPastData + '/' + date)
-            .then((res) => {
-                if(res.data.result ==="notExist"){
-                    alert("data not exist");
-                }
-            if (res.data.result === "success") {
-                commit('SET_PAST_TIME_DATA', res.data.map.realTimeMonitoring)
-            }
-            })
-            .catch((err) => console.log(err));
+    setPastTimeData({ commit }, date) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getPastData + "/" + date)
+        .then((res) => {
+          if (res.data.result === "notExist") {
+            alert("data not exist");
+          }
+          if (res.data.result === "success") {
+            commit("SET_PAST_TIME_DATA", res.data.map.realTimeMonitoring);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
 };
