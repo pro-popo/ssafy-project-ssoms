@@ -1,13 +1,9 @@
 <template>
   <div id="pastMonitering" class="schema-monitoring-container">
     <v-container fluid>
-      <b>
-        <span>Schema Status</span> & <span>Top Query</span> |
-        <span>{{ SelectedSchema }}</span>
-      </b>
-
       <div
-        class="text-center"
+        class="text-right"
+        style="width:100%"
         v-bind:class="{ float_right: getTimeAndCpuList.ani_flag }"
       >
         <input
