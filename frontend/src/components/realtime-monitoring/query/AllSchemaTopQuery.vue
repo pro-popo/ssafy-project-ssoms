@@ -75,7 +75,10 @@ export default {
 
       this.SET_TOPQUERY_DETAIL([selectedRealTime, index]);
     },
-    ...mapMutations("TopQuery", ["SET_TOPQUERY_DETAIL"])
+    ...mapMutations("TopQuery", [
+      "SET_TOPQUERY_DETAIL",
+      "SET_TOPQUERY_DETAIL_EMPTY"
+    ])
   },
   computed: {
     ...mapGetters("TopQuery", ["getTopQueryList"]),
@@ -85,6 +88,14 @@ export default {
   watch: {
     getTopQueryList: function() {
       this.getQueryDetail(this.selectedRealTime, this.clickRow);
+    },
+    selectedRealTime: function() {
+      const trList = document
+        .getElementById("allSchemaTopQueryTable")
+        .getElementsByTagName("tr");
+      if (this.clickRow != -1)
+        trList[this.clickRow + 1].classList.remove("real-query-click-tr");
+      this.SET_TOPQUERY_DETAIL_EMPTY();
     }
   }
 };
