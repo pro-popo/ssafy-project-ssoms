@@ -252,15 +252,18 @@
           </div>
         </v-card-text>
       </v-card>
+
       <v-card
-        class="realtime-non-query "
         elevation="2"
         color="#E0E0E0"
+        class="realtime-non-query"
         style="margin-top:10px"
         height="300px"
         v-else
       >
-        <div>Query Detail</div>
+        <v-card-text style="display:flex; justify-content:center">
+          <h3>Query Detail</h3>
+        </v-card-text>
       </v-card>
     </div>
   </div>

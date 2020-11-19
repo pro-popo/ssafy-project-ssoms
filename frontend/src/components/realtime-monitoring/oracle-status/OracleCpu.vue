@@ -219,6 +219,10 @@ export default {
 
       this.small1.series[0].data = this.getResponesTimePerTxn;
       this.small2.series[0].data = this.getActiveSerialSessions;
+
+      this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+        this.selectedRealTime
+      ];
     }
   },
   data() {
