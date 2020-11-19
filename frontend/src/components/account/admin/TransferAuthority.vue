@@ -7,7 +7,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
-      <v-card-text style="padding-left:50px">
+      <v-card-text style="padding: 20px 30px">
         <v-icon size="40">mdi-account-convert</v-icon>
         <h2
           style="font-size:20px; padding:15px 0px 10px 0px ;  word-break:keep-all"
