@@ -5,13 +5,16 @@
         Oracle DB CPU Time
       </h2>
       <v-card elevation="2" height="315px">
-        <IEcharts :option="chart1" :resizable="true" /> </v-card
-    ></v-col>
+        <div @click="clickOracleChart" style="height:315px">
+          <IEcharts :option="chart1" :resizable="true" />
+        </div>
+      </v-card>
+    </v-col>
     <v-col cols="6">
       <h2 style="margin-bottom:15px; color:var(--font-main-color);">
         All Schema'<span style="margin-left:3px" />s Status
       </h2>
-      <v-card elevation="2" height="315px" v-if="getPastTimeData.check">
+      <v-card elevation="2" height="315px">
         <IEcharts :option="chart2" :resizable="true" /> </v-card
     ></v-col>
   </v-row>
@@ -162,7 +165,13 @@ export default {
   },
   methods: {
     ...mapActions("Schema", ["setPastTimeData"]),
-    ...mapMutations("Schema", ["SET_PAST_TIME_DATA"]),
+    ...mapMutations("Schema", [
+      "SET_PAST_TIME_DATA",
+      "SET_PAST_TIME_DATA_CHECK"
+    ]),
+    clickOracleChart() {
+      this.SET_PAST_TIME_DATA_CHECK();
+    },
     onClick(eventInfo) {
       console.log("zzzzz");
       console.log(eventInfo.name);

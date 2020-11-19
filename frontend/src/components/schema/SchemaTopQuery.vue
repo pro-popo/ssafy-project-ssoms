@@ -19,7 +19,7 @@
       </v-tab>
     </v-tabs>
 
-    <div v-if="getPastTimeData.check">
+    <div>
       <v-tabs-items v-model="tab">
         <v-tab-item>
           <v-simple-table
@@ -34,7 +34,7 @@
                   <th class="text-center topquery-table-th">Rank</th>
                   <th class="text-left topquery-table-th">SQL ID</th>
                   <th class="text-left topquery-table-th">SQL</th>
-                  <th class="text-left topquery-table-th">Schema Name</th>
+                  <th class="text-left topquery-table-th">CPU Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,9 +49,19 @@
                   <td class="text-center" style="width:70px">
                     {{ index + 1 }}
                   </td>
-                  <td>{{ query.sqlId }}</td>
+                  <td style="width:250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
-                  <td>{{ query.parsingSchemaName }}</td>
+                  <td>
+                    {{ query.cpuTimeRatio }} %
+                    <v-progress-circular
+                      v-if="query.cpuTimeRatio != 0"
+                      style="margin-left:10px"
+                      :value="query.cpuTimeRatio"
+                      :size="20"
+                      :width="5"
+                      color="#6440e3 "
+                    ></v-progress-circular>
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -70,7 +80,7 @@
                   <th class="text-center topquery-table-th">Rank</th>
                   <th class="text-left topquery-table-th">SQL ID</th>
                   <th class="text-left topquery-table-th">SQL</th>
-                  <th class="text-left topquery-table-th">Schema Name</th>
+                  <th class="text-left topquery-table-th">Elapsed Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -85,9 +95,20 @@
                   <td class="text-center" style="width:70px">
                     {{ index + 1 }}
                   </td>
-                  <td>{{ query.sqlId }}</td>
+                  <td style="width:250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
-                  <td>{{ query.parsingSchemaName }}</td>
+                  <td>
+                    {{ query.elapsedTimeRatio }}
+                    %
+                    <v-progress-circular
+                      v-if="query.elapsedTimeRatio != 0"
+                      style="margin-left:10px"
+                      :value="query.elapsedTimeRatio"
+                      :size="20"
+                      :width="5"
+                      color="#6440e3 "
+                    ></v-progress-circular>
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -106,7 +127,7 @@
                   <th class="text-center topquery-table-th">Rank</th>
                   <th class="text-left topquery-table-th">SQL ID</th>
                   <th class="text-left topquery-table-th">SQL</th>
-                  <th class="text-left topquery-table-th">Schema Name</th>
+                  <th class="text-left topquery-table-th">Buffer Gets</th>
                 </tr>
               </thead>
               <tbody>
@@ -121,9 +142,20 @@
                   <td class="text-center" style="width:70px">
                     {{ index + 1 }}
                   </td>
-                  <td>{{ query.sqlId }}</td>
+                  <td style="width:250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
-                  <td>{{ query.parsingSchemaName }}</td>
+                  <td>
+                    {{ query.bufferGetsRatio }}
+                    %
+                    <v-progress-circular
+                      v-if="query.bufferGetsRatio != 0"
+                      style="margin-left:10px"
+                      :value="query.bufferGetsRatio"
+                      :size="20"
+                      :width="5"
+                      color="#6440e3 "
+                    ></v-progress-circular>
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -136,7 +168,7 @@
         elevation="2"
         v-if="detailData"
         style="margin-top:10px"
-        class="animate__animated animate__fadeIn "
+        class="animate__animated animate__fadeIn animate__fadeIn"
       >
         <v-card-text>
           <div>
@@ -180,17 +212,6 @@
             <div class="schema-query-detail-right">
               <div>
                 <h3 class="query-detail-title" style="margin:10px 0px -5px">
-                  BufferGets
-                </h3>
-                <!-- <div class="query-detail-text">
-                  {{ detailData.bufferGetsRatio }}
-                </div> -->
-                <div class="schema-query-detail-pie">
-                  <IEcharts :option="option1" :resizable="true" />
-                </div>
-              </div>
-              <div>
-                <h3 class="query-detail-title" style="margin:10px 0px -5px">
                   CpuTime
                 </h3>
                 <!-- <div class="query-detail-text">
@@ -200,6 +221,18 @@
                   <IEcharts :option="option2" :resizable="true" />
                 </div>
               </div>
+              <div>
+                <h3 class="query-detail-title" style="margin:10px 0px -5px">
+                  BufferGets
+                </h3>
+                <!-- <div class="query-detail-text">
+                  {{ detailData.bufferGetsRatio }}
+                </div> -->
+                <div class="schema-query-detail-pie">
+                  <IEcharts :option="option1" :resizable="true" />
+                </div>
+              </div>
+
               <div>
                 <h3 class="query-detail-title" style="margin:10px 0px -5px">
                   ElapsedTime
@@ -220,9 +253,9 @@
         </v-card-text>
       </v-card>
       <v-card
+        class="realtime-non-query "
         elevation="2"
         color="#E0E0E0"
-        class="realtime-non-query"
         style="margin-top:10px"
         height="300px"
         v-else
@@ -291,7 +324,7 @@ export default {
             labelLine: {
               show: false
             },
-            color: ["#2196F3", "#E0E0E0"],
+            color: ["#6440e3", "#E0E0E0"],
             data: [
               {
                 value: 0,
@@ -345,7 +378,7 @@ export default {
             labelLine: {
               show: false
             },
-            color: ["#6440e3", "#E0E0E0"],
+            color: ["#2196F3", "#E0E0E0"],
             data: [
               {
                 value: 0,
@@ -417,6 +450,20 @@ export default {
       selectedTableId: ""
     };
   },
+  watch: {
+    getPastTimeDataCheck: function() {
+      if (this.clickRow != -1) {
+        const trList = document
+          .getElementById(this.selectedTableId)
+          .getElementsByTagName("tr");
+        trList[this.clickRow + 1].classList.remove("real-query-click-tr");
+        this.clickRow = -1;
+        this.selectedTableId = "";
+      }
+      this.tab = 0;
+      this.detailData = false;
+    }
+  },
   methods: {
     tableSelect(tableId, index) {
       if (this.clickRow != -1) {
@@ -437,11 +484,11 @@ export default {
       this.detailData = this.getPastTimeData.schemas[
         this.SelectedSchema
       ].cpuUsed[index];
-      this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
-      this.option1.series[0].data[0].name = "BufferGets";
-
       this.option2.series[0].data[0].value = this.detailData.cpuTimeRatio;
       this.option2.series[0].data[0].name = "CpuTime";
+
+      this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
+      this.option1.series[0].data[0].name = "BufferGets";
 
       this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
       this.option3.series[0].data[0].name = "ElapsedTime";
@@ -451,11 +498,11 @@ export default {
       this.detailData = this.getPastTimeData.schemas[
         this.SelectedSchema
       ].elapsedTime[index];
-      this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
-      this.option1.series[0].data[0].name = "BufferGets";
-
       this.option2.series[0].data[0].value = this.detailData.cpuTimeRatio;
       this.option2.series[0].data[0].name = "CpuTime";
+
+      this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
+      this.option1.series[0].data[0].name = "BufferGets";
 
       this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
       this.option3.series[0].data[0].name = "ElapsedTime";
@@ -466,17 +513,17 @@ export default {
         this.SelectedSchema
       ].bufferGets[index];
       this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
-      this.option1.series[0].data[0].name = "BufferGets";
-
       this.option2.series[0].data[0].value = this.detailData.cpuTimeRatio;
       this.option2.series[0].data[0].name = "CpuTime";
+
+      this.option1.series[0].data[0].name = "BufferGets";
 
       this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
       this.option3.series[0].data[0].name = "ElapsedTime";
     }
   },
   computed: {
-    ...mapGetters("Schema", ["getPastTimeData"]),
+    ...mapGetters("Schema", ["getPastTimeData", "getPastTimeDataCheck"]),
     ...mapGetters("Schema", ["SelectedSchema"])
   }
 };

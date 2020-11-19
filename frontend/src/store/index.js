@@ -46,10 +46,6 @@ export default new Vuex.Store({
       }
     },
     SET_SELECTED_REALTIME(state, selectedTime) {
-      console.log("selected realtime---------------");
-      console.log(selectedTime);
-      console.log("selected realtime---------------");
-
       if (selectedTime == -1 || selectedTime == 11) {
         state.selectedRealTime = state.timeList.length - 1;
         state.isSelected = false;
