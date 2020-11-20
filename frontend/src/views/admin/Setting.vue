@@ -109,7 +109,7 @@
               <div
                 style="display:flex; align-items:center; justify-content:center; width:100%;"
               >
-                <div style="width:55%; height:80%">
+                <div style="width:55%; height:75%; margin-top:-10px">
                   <h3 class="setting-sheet-step">Step 2</h3>
                   <OracleDB @oracle-save="oracleSave" />
                 </div>

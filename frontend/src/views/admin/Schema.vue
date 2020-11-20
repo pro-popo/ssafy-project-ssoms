@@ -47,8 +47,8 @@
                     </small>
                     <div class="add-schema-form">
                       <v-text-field
-                        prepend-icon="mdi-database-plus"
-                        label="추가하실 스키마ID를 입력해주세요."
+                        append-outer-icon="mdi-magnify"
+                        label="검색할 스키마ID를 입력해주세요."
                         v-model="findSchemaName"
                         @keyup="findSchema"
                       ></v-text-field>
@@ -273,7 +273,7 @@ export default {
 
 <style>
 .all-schema-list-item {
-  overflow: scroll;
+  overflow-y: scroll;
   height: 403px;
 }
 
