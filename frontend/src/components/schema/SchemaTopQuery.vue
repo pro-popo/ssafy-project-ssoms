@@ -1,10 +1,12 @@
 <template>
   <div>
-    <h2 style="margin-top:30px; color:var(--font-main-color);">
-      {{ SelectedSchema }}'<span style="margin-left:3px" />s Top Query
-    </h2>
+    <v-card-subtitle>
+      <h2 style="margin-top:30px; color:var(--font-main-color);">
+        {{ SelectedSchema }}'<span style="margin-left:3px" />s Top Query
+      </h2>
+    </v-card-subtitle>
     <v-tabs
-      style="width: 100%; margin:5px 5px 10px;"
+      style="width: 100%; margin:5px 0px 10px;"
       background-color="rgba(1,1,1,0)"
       center-active
       v-model="tab"
@@ -18,7 +20,6 @@
         {{ item.tab }}
       </v-tab>
     </v-tabs>
-
     <div>
       <v-tabs-items v-model="tab">
         <v-tab-item>
@@ -27,6 +28,7 @@
             height="285px"
             class="elevation-2 realtime-top-query "
             id="schemaTopQueryTable1"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
             <template v-slot:default>
               <thead>
@@ -52,15 +54,19 @@
                   <td style="width:250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
                   <td>
-                    {{ query.cpuTimeRatio }} %
-                    <v-progress-circular
-                      v-if="query.cpuTimeRatio != 0"
-                      style="margin-left:10px"
-                      :value="query.cpuTimeRatio"
-                      :size="20"
-                      :width="5"
-                      color="#6440e3 "
-                    ></v-progress-circular>
+                    <div
+                      style="display:flex; justify-content:space-between; align-items:center; width:85px"
+                    >
+                      {{ query.cpuTimeRatio }} %
+                      <v-progress-circular
+                        v-if="query.cpuTimeRatio != 0"
+                        style="margin-left:10px"
+                        :value="query.cpuTimeRatio"
+                        :size="20"
+                        :width="5"
+                        color="#6440e3 "
+                      ></v-progress-circular>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -73,6 +79,7 @@
             height="285px"
             class="elevation-2 realtime-top-query"
             id="schemaTopQueryTable2"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
             <template v-slot:default>
               <thead>
@@ -98,16 +105,20 @@
                   <td style="width:250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
                   <td>
-                    {{ query.elapsedTimeRatio }}
-                    %
-                    <v-progress-circular
-                      v-if="query.elapsedTimeRatio != 0"
-                      style="margin-left:10px"
-                      :value="query.elapsedTimeRatio"
-                      :size="20"
-                      :width="5"
-                      color="#6440e3 "
-                    ></v-progress-circular>
+                    <div
+                      style="display:flex; justify-content:space-between; align-items:center; width:85px"
+                    >
+                      {{ query.elapsedTimeRatio }}
+                      %
+                      <v-progress-circular
+                        v-if="query.elapsedTimeRatio != 0"
+                        style="margin-left:10px"
+                        :value="query.elapsedTimeRatio"
+                        :size="20"
+                        :width="5"
+                        color="#6440e3 "
+                      ></v-progress-circular>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -120,6 +131,7 @@
             height="285px"
             class="elevation-2 realtime-top-query"
             id="schemaTopQueryTable3"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
             <template v-slot:default>
               <thead>
@@ -145,16 +157,19 @@
                   <td style="width:250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
                   <td>
-                    {{ query.bufferGetsRatio }}
-                    %
-                    <v-progress-circular
-                      v-if="query.bufferGetsRatio != 0"
-                      style="margin-left:10px"
-                      :value="query.bufferGetsRatio"
-                      :size="20"
-                      :width="5"
-                      color="#6440e3 "
-                    ></v-progress-circular>
+                    <div
+                      style="display:flex; justify-content:space-between; align-items:center; width:85px"
+                    >
+                      <span>{{ query.bufferGetsRatio }} %</span>
+                      <v-progress-circular
+                        v-if="query.bufferGetsRatio != 0"
+                        style="margin-left:10px"
+                        :value="query.bufferGetsRatio"
+                        :size="20"
+                        :width="5"
+                        color="#6440e3 "
+                      ></v-progress-circular>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -302,7 +317,7 @@ export default {
         series: [
           {
             type: "pie",
-            radius: ["50%", "85%"],
+            radius: ["50%", "80%"],
             label: {
               show: true,
               formatter: function(event) {
@@ -356,7 +371,7 @@ export default {
         series: [
           {
             type: "pie",
-            radius: ["50%", "85%"],
+            radius: ["50%", "80%"],
             label: {
               show: true,
               formatter: function(event) {
@@ -410,7 +425,7 @@ export default {
         series: [
           {
             type: "pie",
-            radius: ["50%", "85%"],
+            radius: ["50%", "80%"],
             label: {
               show: true,
               formatter: function(event) {

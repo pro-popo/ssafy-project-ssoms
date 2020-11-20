@@ -1,13 +1,59 @@
 <template>
   <div id="pastMonitering" class="schema-monitoring-container">
-    <v-container fluid>
-      <b>
-        <span>Schema Status</span> & <span>Top Query</span> |
-        <span>{{ SelectedSchema }}</span>
-      </b>
-
+    <div
+      style="display:flex; height:60px; width: 350px; margin-right:10px; margin-left:auto;"
+    >
+      <v-menu
+        v-model="menu2"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="250px;"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            width="250px;"
+            v-model="dateRangeText"
+            prepend-inner-icon="mdi-calendar"
+            readonly
+            solo
+            v-bind="attrs"
+            v-on="on"
+            style="margin-right:10px; border-radius:30px; "
+          >
+          </v-text-field>
+        </template>
+        <v-date-picker
+          v-model="dates"
+          no-title
+          range
+          scrollable
+          :max="tomorrow"
+        >
+        </v-date-picker>
+      </v-menu>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            dark
+            elevation="2"
+            style="margin-top:5px"
+            @click="queryData"
+            v-bind="attrs"
+            v-on="on"
+            ><v-icon>mdi-magnify</v-icon></v-btn
+          >
+        </template>
+        <span>Data Search</span>
+      </v-tooltip>
+    </div>
+    <!-- <v-container fluid>
       <div
-        class="text-center"
+        class="text-right"
+        style="width:100%"
         v-bind:class="{ float_right: getTimeAndCpuList.ani_flag }"
       >
         <input
@@ -31,21 +77,32 @@
         </button>
       </div>
     </v-container>
-    <v-container fluid v-if="getTimeAndCpuList.check">
+    -->
+    <div v-if="!getTimeAndCpuList.check">
+      <Loading class="mt-10" />
+    </div>
+
+    <div
+      v-else-if="getTimeAndCpuList.isEmpty"
+      class="animate__animated  animate__headShake v-spinner ma-10;"
+      align="center"
+    >
+      <NotExistData />
+    </div>
+
+    <v-container
+      v-if="
+        getTimeAndCpuList.check &&
+          !getTimeAndCpuList.isEmpty &&
+          getTimeAndCpuList.cpu.length != 0
+      "
+      class="animate__animated animate__fadeIn"
+      fluid
+    >
       <SchemaWhole id="SchemaWhole" class="mb-2" />
       <SchemaDetail id="SchemaDetail" class="mb-2" />
       <SchemaTopQuery />
     </v-container>
-    <div
-      v-if="getTimeAndCpuList.ani_flag && !getTimeAndCpuList.check && loading"
-    >
-      <Loading class="mt-10" />
-    </div>
-    <!--<div class="text-center mt-10" v-else>
-        <input class="fs2rem solid-black py-1 mx-1 mb-10" type="date" id="startDate"/>
-        <input class="fs2rem solid-black py-1 mx-1 mb-10" type="date" id="endDate"/>
-        <button class="fs1_5rem d-block mx-auto solid-black py-1 px-1 mx-1" @click="queryData">조회</button>
-    </div>-->
   </div>
 </template>
 
@@ -54,6 +111,7 @@ import SchemaWhole from "@/components/schema/SchemaWhole.vue";
 import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
 import SchemaDetail from "@/components/schema/SchemaDetail.vue";
 import Loading from "@/components/schema/Loading.vue";
+import NotExistData from "@/components/schema/NotExistData.vue";
 //import SERVER from "@/api/spring.js";
 import { mapActions, mapMutations, mapGetters } from "vuex";
 //import axios from "axios";
@@ -62,23 +120,44 @@ export default {
   name: "QueryMonitoring",
   data() {
     return {
-      loading: false
+      tomorrow: new Date(),
+
+      dates: [
+        new Date().toISOString().substr(0, 10),
+        new Date().toISOString().substr(0, 10)
+      ],
+      menu: false,
+      modal: false,
+      menu2: false
     };
   },
   components: {
     SchemaWhole,
     SchemaTopQuery,
     SchemaDetail,
-    Loading
+    Loading,
+    NotExistData
+  },
+  watch: {
+    dates: function() {
+      if (this.dates.length == 2) {
+        let temp = this.dates[0];
+        if (this.dates[0] > this.dates[1]) {
+          this.dates[0] = this.dates[1];
+          this.dates[1] = temp;
+        }
+        this.menu2 = false;
+      }
+    }
   },
   methods: {
     queryData() {
       this.getTimeAndCpuList.ani_flag = true;
-      setTimeout(() => {
-        this.loading = true;
-      }, 500);
-      const start = "/" + document.getElementById("startDate").value;
-      const end = "/" + document.getElementById("endDate").value;
+      this.SET_TIME_AND_CPU_LIST_CHECK(false);
+
+      const start = "/" + this.dates[0];
+      if (this.dates.length != 2) this.dates[1] = this.dates[0];
+      const end = "/" + this.dates[1];
       this.setTimeAndCpuList({ start: start, end: end });
 
       // init top query style
@@ -98,27 +177,42 @@ export default {
     },
     ...mapMutations("Schema", [
       "SET_TIME_AND_CPU_LIST",
+      "SET_TIME_AND_CPU_LIST_CHECK",
       "SET_PAST_TIME_DATA_CHECK"
     ]),
     ...mapActions("Schema", ["setTimeAndCpuList"])
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"]),
-    ...mapGetters("Schema", ["getTimeAndCpuList"])
+    ...mapGetters("Schema", ["getTimeAndCpuList"]),
+    dateRangeText() {
+      return this.dates.join(" ~ ");
+    }
   },
   mounted() {
-    document.getElementById(
-      "startDate"
-    ).value = new Date().toISOString().substring(0, 10);
-    document.getElementById(
-      "endDate"
-    ).value = new Date().toISOString().substring(0, 10);
+    // document.getElementById(
+    //   "startDate"
+    // ).value = new Date().toISOString().substring(0, 10);
+    // document.getElementById(
+    //   "endDate"
+    // ).value = new Date().toISOString().substring(0, 10);
     this.queryData();
+
+    this.tomorrow.setDate(new Date().getDate());
+    this.tomorrow = this.tomorrow.toISOString().substring(0, 10);
   }
 };
 </script>
 
 <style>
+.data-notexist {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .fs2rem {
   font-size: 2rem;
 }
@@ -195,6 +289,7 @@ export default {
 }
 
 .schema-monitoring-container {
+  width: 100%;
   margin-bottom: 50px;
 }
 </style>

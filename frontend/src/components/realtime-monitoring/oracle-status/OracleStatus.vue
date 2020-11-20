@@ -1,6 +1,8 @@
 <template>
-  <div style="height: 72vh; margin-bottom: 15px">
-    <h2 style="margin-bottom: 15px; color: var(--font-main-color)">
+  <div style="height: 72vh; margin-bottom:15px">
+    <h2
+      style="font-size:22px; margin-bottom:15px; color:var(--font-main-color);"
+    >
       Oracle DB Status
       <div style="float: right">
         <span
@@ -85,7 +87,7 @@ export default {
   name: "OracleStatus",
   data() {
     return {
-      isMainView: false,
+      isMainView: false
     };
   },
   components: {
@@ -93,7 +95,7 @@ export default {
     OracleMemory,
     OracleProcess,
     OracleProcessExecution,
-    OracleStorage,
+    OracleStorage
   },
 
   methods: {
@@ -105,11 +107,11 @@ export default {
     startRealTime() {
       this.SET_SELECTED_REALTIME(-1);
       this.initRealTimeData();
-    },
+    }
   },
   computed: {
-    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"]),
-  },
+    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"])
+  }
 };
 </script>
 

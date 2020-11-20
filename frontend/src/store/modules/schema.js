@@ -28,7 +28,8 @@ const Schema = {
       time: [],
       cpu: [],
       check: false,
-      ani_flag: false
+      ani_flag: false,
+      isEmpty: false
     },
     pastTimeData: {
       allSchemaStastics: [],
@@ -53,6 +54,9 @@ const Schema = {
     getPastTimeDataCheck: (state) => state.pastTimeData.check
   },
   mutations: {
+    SET_TIME_AND_CPU_LIST_CHECK(state, data) {
+      state.timeAndCpuList.check = data;
+    },
     SET_SCHEMA_LIST(state, data) {
       state.schemaList = data;
     },
@@ -112,14 +116,15 @@ const Schema = {
     SET_TIME_AND_CPU_LIST(state, data) {
       let times = [];
       let cpus = [];
-      data.forEach((element) => {
-        // let temp = element.time.split(' ');
-        // let f = temp[0].split('-');
-        // let s = temp[1].split(':');
-        // times.push(f[0]+'/'+f[1]+'/'+f[2]+'/'+s[0]+'/'+s[1]);
-        times.push(element.time);
-        cpus.push(element.databaseCpuTimeRatio);
-      });
+      if (data != null) {
+        state.timeAndCpuList.isEmpty = false;
+        data.forEach((element) => {
+          times.push(element.time);
+          cpus.push(element.databaseCpuTimeRatio);
+        });
+      } else {
+        state.timeAndCpuList.isEmpty = true;
+      }
       state.timeAndCpuList.time = times;
       state.timeAndCpuList.cpu = cpus;
       state.timeAndCpuList.check = true;
@@ -155,6 +160,9 @@ const Schema = {
     },
     SET_PAST_TIME_DATA_CHECK(state) {
       state.pastTimeData.check = !state.pastTimeData.check;
+    },
+    SET_IS_EMPTY_CPU_DATA(state, data) {
+      state.timeAndCpuList.isEmpty = data;
     }
   },
   actions: {
@@ -169,7 +177,7 @@ const Schema = {
         .get(SERVER.URL + SERVER.ROUTES.getPastData + `${start}${end}`)
         .then((res) => {
           if (res.data.result === "empty") {
-            alert("data not exist");
+            commit("SET_TIME_AND_CPU_LIST", null);
           } else if (res.data.result === "success") {
             commit("SET_TIME_AND_CPU_LIST", res.data.map.timeAndCpuList);
             dispatch(
