@@ -49,7 +49,8 @@ const Schema = {
     getRealTimeSchemaList4: (state) => state.realTimeSchemaList.bufferGetsAvg,
     getSchemaLength: (state) => state.schemaList.length,
     getTimeAndCpuList: (state) => state.timeAndCpuList,
-    getPastTimeData: (state) => state.pastTimeData
+    getPastTimeData: (state) => state.pastTimeData,
+    getPastTimeDataCheck: (state) => state.pastTimeData.check
   },
   mutations: {
     SET_SCHEMA_LIST(state, data) {
@@ -151,7 +152,9 @@ const Schema = {
       state.pastTimeData.schemas = tempsch;
       state.pastTimeData.radarchart = radar;
       state.pastTimeData.schemaList = list;
-      state.pastTimeData.check = true;
+    },
+    SET_PAST_TIME_DATA_CHECK(state) {
+      state.pastTimeData.check = !state.pastTimeData.check;
     }
   },
   actions: {

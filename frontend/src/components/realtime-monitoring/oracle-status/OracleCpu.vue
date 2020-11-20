@@ -1,28 +1,36 @@
 <template>
   <div class="oracle-cpu">
-    <div class="oracle-cpu-card1">
+    <div
+      :class="{ 'oracle-cpu-card1': !isMainView, 'oracle-cpu-card1-extend': isMainView}"
+    >
       <v-card elevation="2">
-        <v-card-text style="height:100%; display:flex">
+        <v-card-text style="height: 100%; display: flex">
           <div class="oracle-title-icon">
             <!-- <v-icon id="chart-title-icon" size="18" dark
               >mdi-desktop-classic</v-icon
             > -->
             <h3 class="oracle-status-name">CPU & Wait Time</h3>
-
             <div style="margin: 0px 25px 0px auto">
+              <v-btn icon small @click="$emit('changeMainView')">
+                <v-icon>
+                  {{
+                    isMainView ? "mdi-arrow-top-left" : "mdi-arrow-bottom-right"
+                  }}
+                </v-icon>
+              </v-btn>
               <v-menu offset-y attach>
                 <template v-slot:activator="{ attrs, on }">
                   <v-btn small icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <div style="background:white">
+                <div style="background: white">
                   <v-btn-toggle
                     group
                     mandatory
                     color="#039BE5"
                     v-model="toggle_exclusive"
-                    style="display:flex;  flex-direction: column;"
+                    style="display: flex; flex-direction: column"
                   >
                     <v-btn small icon @click="changeChart('bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
@@ -39,40 +47,42 @@
             </div>
           </div>
 
-          <div style="height:100%; width:70%;">
-            <div style="height:100%;" @click="selectedAxis">
+          <div style="height: 100%; width: 70%">
+            <div style="height: 100%" @click="clickChart">
               <IEcharts
                 :option="option"
-                style="padding-top:5px; "
+                style="padding-top: 5px"
                 :resizable="true"
               />
             </div>
           </div>
-          <div style="height:95%; width:30%;">
+          <div style="height: 95%; width: 30%">
             <IEcharts
               :option="gauge"
-              style="margin-top:30px"
+              style="margin-top: 30px"
               :resizable="true"
             />
           </div>
         </v-card-text>
       </v-card>
     </div>
-    <div class="oracle-cpu-card2">
+    <div class="oracle-cpu-card2" v-show="!isMainView">
       <div class="oracle-cpu-card2-2">
         <v-card elevation="2">
           <v-card-text class="oracle-cpu-data">
             <v-icon color="white">mdi-timeline-clock</v-icon>
             <div
-              style="display:flex; flex-direction:column; justify-contents:center"
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-contents: center;
+              "
             >
-              <h4>
-                Response Time Per Transaction
-              </h4>
+              <h4>Response Time Per Transaction</h4>
               <h1>
                 {{ getResponesTimePerTxn[selectedRealTime] }}
                 <span class="oracle-cpu-unit">sec</span>
-                <div style="height:50%">
+                <div style="height: 50%">
                   <IEcharts
                     :option="small1"
                     class="small-chart"
@@ -93,7 +103,7 @@
               <h1>
                 <span>{{ getActiveSerialSessions[selectedRealTime] }}</span>
                 <span class="oracle-cpu-unit">count</span>
-                <div style="height:50%; width:auto" class="small-chart">
+                <div style="height: 50%; width: auto" class="small-chart">
                   <IEcharts :option="small2" :resizable="true" />
                 </div>
               </h1>
@@ -113,26 +123,42 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "OracleCpu",
   components: {
-    IEcharts
+    IEcharts,
+  },
+  props: {
+    isMainView: Boolean,
   },
   methods: {
-    ...mapMutations(["SET_SELECTED_REALTIME", "SET_SETTING_SELECTED"]),
+    clickChart() {
+      this.SET_SELECTED_TOOLTIP("oracle");
+      this.SET_SETTING_SELECTED(true);
+    },
+    ...mapMutations([
+      "SET_SELECTED_REALTIME",
+      "SET_SETTING_SELECTED",
+      "SET_SELECTED_TOOLTIP",
+    ]),
     changeXaxis(params) {
-      var setTime = 0;
-      if (!this.getIsSelected) {
-        setTime = 100;
-      }
       setTimeout(
-        function() {
-          if (params.seriesData[0] !== undefined && this.getIsSelected) {
-            console.log("얘는 오라클111111");
-            this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-          } else {
-            console.log("얘는 오라클222222");
-            this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+        function () {
+          if (this.selectedTooltip == "oracle") {
+            var setTime = 0;
+            if (!this.getIsSelected) {
+              setTime = 100;
+            }
+            setTimeout(
+              function () {
+                if (params.seriesData[0] !== undefined && this.getIsSelected) {
+                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+                } else {
+                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+                }
+              }.bind(this),
+              setTime
+            );
           }
         }.bind(this),
-        setTime
+        200
       );
     },
 
@@ -160,32 +186,33 @@ export default {
     selectedAxis() {
       this.SET_SETTING_SELECTED(true);
       this.testData = true;
-    }
+    },
   },
   computed: {
     ...mapGetters("Oracle", [
       "getDatabaseCpuTimeRatioList",
       "getDatabaseWaitTimeRatio",
       "getResponesTimePerTxn",
-      "getActiveSerialSessions"
+      "getActiveSerialSessions",
     ]),
     ...mapGetters([
       "getRealTimeList",
       "selectedRealTime",
       "getIsSelected",
-      "getIsRealShow"
-    ])
+      "getIsRealShow",
+      "selectedTooltip",
+    ]),
   },
 
   watch: {
-    selectedRealTime: function(res) {
+    selectedRealTime: function (res) {
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.selectedRealTime
       ];
       // res는 변한 값
       this.option.xAxis.axisPointer.value = res;
     },
-    getDatabaseCpuTimeRatioList: function() {
+    getDatabaseCpuTimeRatioList: function () {
       this.option.series[0].data = this.getDatabaseCpuTimeRatioList;
       this.option.series[1].data = this.getDatabaseWaitTimeRatio;
       // this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
@@ -205,6 +232,10 @@ export default {
 
       this.small1.series[0].data = this.getResponesTimePerTxn;
       this.small2.series[0].data = this.getActiveSerialSessions;
+
+      this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
+        this.selectedRealTime
+      ];
     }
   },
   data() {
@@ -218,7 +249,7 @@ export default {
           right: 20,
           left: 50,
           bottom: 25,
-          top: 65
+          top: 65,
         },
         // title: { text: "CPU Time" },
         xAxis: {
@@ -228,15 +259,16 @@ export default {
           triggerEvent: true,
           axisLine: {
             lineStyle: {
-              color: "#303030"
-            }
+              color: "#303030",
+            },
           },
           axisPointer: {
             handle: {
-              show: true
+              show: true,
+              size: [0, 0],
             },
-            value: this.selectedRealTime
-          }
+            value: this.selectedRealTime,
+          },
           // triggerEvent: true
           // formatter: function(params, callback) {
           //   console.log(callback);
@@ -252,16 +284,16 @@ export default {
           max: 100,
           axisLine: {
             lineStyle: {
-              color: "#303030"
-            }
+              color: "#303030",
+            },
           },
           axisTick: {
-            show: false
-          }
+            show: false,
+          },
         },
         legend: {
           data: ["CpuTime", "WaitTime"],
-          icon: "roundRect"
+          icon: "roundRect",
           // top: "30
         },
         methods: {},
@@ -275,12 +307,12 @@ export default {
               background: "#000000",
               show: true,
               snap: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.changeXaxis(params);
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         series: [
           {
@@ -288,16 +320,16 @@ export default {
             data: [],
             areaStyle: "",
             type: "line",
-            showSymbol: false
+            showSymbol: false,
           },
           {
             name: "WaitTime",
             data: [],
             areaStyle: "",
             type: "line",
-            showSymbol: false
-          }
-        ]
+            showSymbol: false,
+          },
+        ],
       },
       gauge: {
         series: [
@@ -310,15 +342,15 @@ export default {
               color: "#6440e3",
               offsetCenter: ["0", "45%"],
               fontSize: 22,
-              fontWeight: "bold"
+              fontWeight: "bold",
             },
             data: [
               {
                 value: 0,
-                name: "CpuTime"
-              }
+                name: "CpuTime",
+              },
             ],
-            radius: "80%",
+            radius: "75%",
             startAngle: 180,
             endAngle: 0,
             splitNumber: 5,
@@ -328,76 +360,76 @@ export default {
                 color: [
                   [0.4, "#e34a6d"],
                   [0.8, "#4358c3"],
-                  [1, "#67abf6"]
-                ]
-              }
+                  [1, "#67abf6"],
+                ],
+              },
             },
             splitLine: {
-              show: true
+              show: true,
             },
             axisTick: {
               show: true,
               splitNumber: 2,
-              length: 6
+              length: 6,
             },
             axisLabel: {
               show: true,
-              distance: -53
+              distance: -53,
             },
             pointer: {
               show: true,
               length: "50%",
-              width: 6
+              width: 6,
             },
             itemStyle: {
-              color: "rgba(85, 85, 85, 1)"
+              color: "rgba(85, 85, 85, 1)",
             },
             title: {
               show: true,
               offsetCenter: [0, "75%"],
               color: "rgba(143, 143, 143, 1)",
               fontSize: 12,
-              fontWeight: "bold"
+              fontWeight: "bold",
             },
             markPoint: {
               data: [
                 {
-                  type: "max"
-                }
-              ]
+                  type: "max",
+                },
+              ],
             },
-            animationEasing: "backOut"
-          }
-        ]
+            animationEasing: "backOut",
+          },
+        ],
       },
       small1: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -406,38 +438,38 @@ export default {
             type: "line",
             color: "#67abf6",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
       small2: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -446,12 +478,12 @@ export default {
             type: "line",
             color: "#67abf6",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
-      }
+            areaStyle: "",
+          },
+        ],
+      },
     };
-  }
+  },
 };
 </script>
 
@@ -464,7 +496,14 @@ export default {
   width: 75%;
   margin-right: 15px;
 }
+.oracle-cpu-card1-extend {
+  width: 100%;
+}
 .oracle-cpu-card1 .v-card {
+  height: 100%;
+  width: 100%;
+}
+.oracle-cpu-card1-extend .v-card {
   height: 100%;
   width: 100%;
 }

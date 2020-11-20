@@ -78,7 +78,9 @@
       height="200px"
       v-else
     >
-      <div>Query Detail</div>
+      <v-card-text style="display:flex; justify-content:center">
+        <h3>Query Detail</h3>
+      </v-card-text>
     </v-card>
   </div>
 </template>

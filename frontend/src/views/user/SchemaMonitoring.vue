@@ -1,10 +1,11 @@
 <template>
-  <div class="schema-monitoring-container">
+  <div id="pastMonitering" class="schema-monitoring-container">
     <v-container fluid>
       <b>
         <span>Schema Status</span> & <span>Top Query</span> |
         <span>{{ SelectedSchema }}</span>
       </b>
+
       <div
         class="text-center"
         v-bind:class="{ float_right: getTimeAndCpuList.ani_flag }"
@@ -31,8 +32,8 @@
       </div>
     </v-container>
     <v-container fluid v-if="getTimeAndCpuList.check">
-      <SchemaWhole class="mb-2" />
-      <SchemaDetail class="mb-2" />
+      <SchemaWhole id="SchemaWhole" class="mb-2" />
+      <SchemaDetail id="SchemaDetail" class="mb-2" />
       <SchemaTopQuery />
     </v-container>
     <div
@@ -80,6 +81,9 @@ export default {
       const end = "/" + document.getElementById("endDate").value;
       this.setTimeAndCpuList({ start: start, end: end });
 
+      // init top query style
+      this.SET_PAST_TIME_DATA_CHECK();
+
       //  axios
       //    .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
       //    .then((res) => {
@@ -92,7 +96,10 @@ export default {
       //    })
       //    .catch((err) => console.log(err));
     },
-    ...mapMutations("Schema", ["SET_TIME_AND_CPU_LIST"]),
+    ...mapMutations("Schema", [
+      "SET_TIME_AND_CPU_LIST",
+      "SET_PAST_TIME_DATA_CHECK"
+    ]),
     ...mapActions("Schema", ["setTimeAndCpuList"])
   },
   computed: {

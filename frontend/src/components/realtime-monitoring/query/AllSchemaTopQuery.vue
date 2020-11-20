@@ -35,10 +35,7 @@
           >
             <td class="text-center" style="width:70px">{{ index + 1 }}</td>
             <td>{{ query.sqlId }}</td>
-            <td
-              align="left"
-              style="max-width: 600px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap;"
-            >
+            <td align="left" class="query-table-sql">
               {{ query.sql }}
             </td>
             <td>{{ query.parsingSchemaName }}</td>
@@ -78,7 +75,10 @@ export default {
 
       this.SET_TOPQUERY_DETAIL([selectedRealTime, index]);
     },
-    ...mapMutations("TopQuery", ["SET_TOPQUERY_DETAIL"])
+    ...mapMutations("TopQuery", [
+      "SET_TOPQUERY_DETAIL",
+      "SET_TOPQUERY_DETAIL_EMPTY"
+    ])
   },
   computed: {
     ...mapGetters("TopQuery", ["getTopQueryList"]),
@@ -88,6 +88,14 @@ export default {
   watch: {
     getTopQueryList: function() {
       this.getQueryDetail(this.selectedRealTime, this.clickRow);
+    },
+    selectedRealTime: function() {
+      const trList = document
+        .getElementById("allSchemaTopQueryTable")
+        .getElementsByTagName("tr");
+      if (this.clickRow != -1)
+        trList[this.clickRow + 1].classList.remove("real-query-click-tr");
+      this.SET_TOPQUERY_DETAIL_EMPTY();
     }
   }
 };
@@ -98,7 +106,6 @@ export default {
   background: rgb(214, 214, 214);
 }
 .realtime-top-query {
-  display: inline-block;
   width: 100%;
 }
 .real-query-hover:hover {
@@ -107,9 +114,15 @@ export default {
 
 .topquery-table-th {
   color: white !important;
-  background: rgb(65, 65, 65) !important;
+  background: #414141 !important;
 }
 .topquery-table-th:nth-child(1) {
   border-top-left-radius: 5px !important;
+}
+.query-table-sql {
+  max-width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

@@ -19,6 +19,9 @@ const TopQuery = {
       const selectedRealTime = data[0];
       const index = data[1];
       state.topQueryDetail = state.topQueryList[selectedRealTime][index];
+    },
+    SET_TOPQUERY_DETAIL_EMPTY(state) {
+      state.topQueryDetail = "";
     }
   },
   actions: {},

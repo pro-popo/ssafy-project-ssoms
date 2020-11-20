@@ -128,8 +128,8 @@
                       SSOMS와 ORACLE DB 연결
                     </h2>
                     <h3 style="margin-top:20px; word-break:keep-all">
-                      DB 모니터링을 위해 필수적으로 입력해야 하는 정보로 반드시
-                      정확하게 기입해주세요!
+                      DB 모니터링을 위해 필수적으로 입력해야 하는 정보이며, 최초
+                      1회만 설정하시면 됩니다.
                     </h3>
                     <p
                       style="margin-top:25px; font-size:16px; word-break:keep-all"
@@ -205,12 +205,18 @@
                   <p style="font-size:18px; margin-top:10px">
                     모든 정보 입력을 완료하셨습니다.
                   </p>
-                  <p style="margin-top:50px">
+                  <p>
+                    아래의 버튼을 클릭하시면, 실시간 모니터링이 시작됩니다.
+                  </p>
+                  <div style="width:30%">
+                    <RealTime />
+                  </div>
+                  <p style="margin-top:40px">
                     마지막으로, USER 계정으로 회원가입 및 로그인 진행 후 SSOMS를
                     이용해주세요.
                   </p>
                   <v-btn
-                    style="margin-top:15px;"
+                    style="margin-top:5px;"
                     @click="logout"
                     color="black"
                     dark
@@ -233,6 +239,8 @@
 <script>
 import OracleDB from "@/views/admin/OracleDB";
 import Schema from "@/views/admin/Schema";
+import RealTime from "@/views/admin/RealTime";
+
 import { mapActions } from "vuex";
 export default {
   data() {
@@ -243,7 +251,8 @@ export default {
   },
   components: {
     OracleDB,
-    Schema
+    Schema,
+    RealTime
   },
   methods: {
     ...mapActions("Account", ["logout"]),
