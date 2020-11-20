@@ -20,7 +20,7 @@
               <v-icon> mdi-file-pdf </v-icon>
             </v-btn>
           </template>
-          <ReportModal :Type="1" @killModal="dialog = false" />
+          <ReportModal @kill-modal="dialog = false" />
         </v-dialog>
       </h3>
     </div>
