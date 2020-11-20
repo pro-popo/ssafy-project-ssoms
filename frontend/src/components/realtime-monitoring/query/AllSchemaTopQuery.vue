@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="mb-3 mt-3">
+    <h2 style="font-size:22px;" class="mb-3 mt-3">
       All Schema'<span style="margin-left:3px" />s CPU Top Query
     </h2>
     <v-simple-table

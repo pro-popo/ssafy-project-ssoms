@@ -1,6 +1,8 @@
 <template>
   <div style="height: 72vh; margin-bottom:15px">
-    <h2 style="margin-bottom:15px; color:var(--font-main-color);">
+    <h2
+      style="font-size:22px; margin-bottom:15px; color:var(--font-main-color);"
+    >
       Oracle DB Status
       <div style="float: right">
         <span

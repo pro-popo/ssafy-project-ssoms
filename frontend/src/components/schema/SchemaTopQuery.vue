@@ -1,10 +1,12 @@
 <template>
   <div>
-    <h2 style="margin-top:30px; color:var(--font-main-color);">
-      {{ SelectedSchema }}'<span style="margin-left:3px" />s Top Query
-    </h2>
+    <v-card-subtitle>
+      <h2 style="margin-top:30px; color:var(--font-main-color);">
+        {{ SelectedSchema }}'<span style="margin-left:3px" />s Top Query
+      </h2>
+    </v-card-subtitle>
     <v-tabs
-      style="width: 100%; margin:5px 5px 10px;"
+      style="width: 100%; margin:5px 0px 10px;"
       background-color="rgba(1,1,1,0)"
       center-active
       v-model="tab"
@@ -18,7 +20,6 @@
         {{ item.tab }}
       </v-tab>
     </v-tabs>
-
     <div>
       <v-tabs-items v-model="tab">
         <v-tab-item>
@@ -27,6 +28,7 @@
             height="285px"
             class="elevation-2 realtime-top-query "
             id="schemaTopQueryTable1"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
             <template v-slot:default>
               <thead>
@@ -77,6 +79,7 @@
             height="285px"
             class="elevation-2 realtime-top-query"
             id="schemaTopQueryTable2"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
             <template v-slot:default>
               <thead>
@@ -128,6 +131,7 @@
             height="285px"
             class="elevation-2 realtime-top-query"
             id="schemaTopQueryTable3"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
             <template v-slot:default>
               <thead>
