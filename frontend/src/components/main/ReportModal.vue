@@ -7,6 +7,9 @@
       <h3>출력 항목 선택</h3>
       <v-container>
         <v-row>
+          <small>*현재 화면을 기준으로 캡쳐됩니다.</small>
+        </v-row>
+        <v-row>
           <v-col cols="12">
             <v-select
               v-model="toPdf[0]"
@@ -50,7 +53,6 @@ export default {
   data() {
     return {
       toPdf: [[], []],
-      titles_kor: ["상세", "전체", "스키마별"],
       elems: [
                 [
                     {text: "Oracle DB Status", value: "oracleStatus"},
@@ -64,21 +66,6 @@ export default {
             ],
     };
   },
-//  watch:{
-//      '$route'(){
-//          console.log(this.$route.name)
-//          if(this.$route.name == "RealTimeMonitoring"){
-//            this.elems = [{text: "Oracle DB Status", value: "oracleStatus"},
-//                    {text: "Schema Status", value: "allSchemaStatics"},
-//                    {text: "Top Query", value: "allSchemaTopQuery"}]
-//          }else if(this.$route.name == "SchemaMonitoring"){
-//            this.elems = [
-//                {text: "SchemaStatus", value:"pastMonitering"},
-//                {text: "Top Query", value:"SchemaQuerys"}
-//            ]
-//          }
-//      }
-//  },
   methods: {
       makebtn(){
           if(this.$route.name == 'RealTimeMonitoring'){
