@@ -91,10 +91,8 @@ export default {
 			window.html2canvas = html2canvas
             let pdf = new jsPDF('p', 'mm', 'a4');
             
-			if(!ele){
-				console.warn( ' is not exist.')
+			if(!ele)
 				return false
-            }
             let idx = 0;
             let beforeheight = 0;
             ele.forEach(element => {
@@ -106,10 +104,7 @@ export default {
                 let imgHeight = pageWidth * height/width // 이미지 높이값 px to mm 변환
                 html2canvas(element).then(canvas => {
                     let imgData = canvas.toDataURL('image/png');
-                    console.log(beforeheight)
-                    console.log(idx)
                     pdf.addImage(imgData, 'png', 0, beforeheight, pageWidth, imgHeight, 'image'+String(idx), 'SLOW');
-                    console.log("save")
                     if(idx == ele.length - 1){
                         let date = new Date();
                         pdf.save( date.getFullYear()+"_"+date.getMonth()+"_"+date.getDay()+"_"+date.getHours()+"_"+date.getMinutes()+"_"+name+".pdf")
