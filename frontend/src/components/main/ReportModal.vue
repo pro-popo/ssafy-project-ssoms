@@ -104,7 +104,7 @@ export default {
                 let imgHeight = pageWidth * height/width // 이미지 높이값 px to mm 변환
                 html2canvas(element).then(canvas => {
                     let imgData = canvas.toDataURL('image/png');
-                    pdf.addImage(imgData, 'png', 0, beforeheight, pageWidth, imgHeight, 'image'+String(idx), 'SLOW');
+                    pdf.addImage(imgData, 'png', 0, beforeheight, pageWidth, imgHeight, 'image'+String(idx), 'FAST');
                     if(idx == ele.length - 1){
                         let date = new Date();
                         pdf.save( date.getFullYear()+"_"+date.getMonth()+"_"+date.getDay()+"_"+date.getHours()+"_"+date.getMinutes()+"_"+name+".pdf")
