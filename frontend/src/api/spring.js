@@ -22,6 +22,7 @@ export default {
     getSettingsSchema: "/admin/settings/schema",
     checkConOracleDB: "/admin/settings/oracledb/check",
     checkSettingsSchema: "/admin/settings/schema/check",
+    getAllSchemaList: "/admin/settings/schema/all",
 
     scheduleStart: "/admin/realtime/start",
     scheduleStop: "/admin/realtime/stop",
