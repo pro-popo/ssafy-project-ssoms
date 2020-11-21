@@ -10,7 +10,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
 
 import com.sdi.monitoring.model.oracle.dto.OracleStatusDTO;
 import com.sdi.monitoring.model.oracle.dto.RealTimeMonitoringDTO;
@@ -21,6 +20,7 @@ import com.sdi.monitoring.model.oracle.dto.UsedBySchemaDTO;
 import com.sdi.monitoring.model.oracle.entity.OneDayMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.OneHourMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.OracleStatusEntity;
+import com.sdi.monitoring.model.oracle.entity.OutlierDataEntity;
 import com.sdi.monitoring.model.oracle.entity.RealTimeMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaInfoEntity;
 import com.sdi.monitoring.model.oracle.entity.SchemaQueryEntity;
@@ -30,6 +30,7 @@ import com.sdi.monitoring.model.oracle.entity.UsedBySchemaEntity;
 import com.sdi.monitoring.model.oracle.repository.OneDayMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.OneHourMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.OracleRepoImpl;
+import com.sdi.monitoring.model.oracle.repository.OutlierDataMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.RealTimeMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.SixHoursMonitoringMongoRepo;
 import com.sdi.monitoring.util.JsonParser;
@@ -57,6 +58,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 	@Autowired
 	private OneDayMonitoringMongoRepo oneDayMonitoringMongoRepo;
 
+	@Autowired
+	private OutlierDataMongoRepo outlierDataMongoRepo;
+	
 	private SimpMessagingTemplate messagingTemplate;
 
 	@Autowired
@@ -129,8 +133,8 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 				schemas.put(schemaName, schemaInfoDTO);
 			}
 			
-//        stopWatch.stop();
-//		System.out.println(stopWatch.getTotalTimeSeconds());
+//        	stopWatch.stop();
+//			System.out.println(stopWatch.getTotalTimeSeconds());
 			realTimeMonitoringDTO.setSchemas(schemaInfoDTOList);
 			map.put("schemas", schemas);
 			
@@ -152,6 +156,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 					cnt = 0;
 					oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
 					// 1일 저장 logic
+				}
+				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
+					outlierDataMongoRepo.insert(outlierDataEntityBuilder(realTimeMonitoringEntity));
 				}
 				realTimeMonitoringEntity = null;
 			}
@@ -267,6 +274,13 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 
 	private OneDayMonitoringEntity oneDayMonitoringEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
 		return OneDayMonitoringEntity.builder().time(realTimeMonitoringEntity.getTime())
+				.oracleStatus(realTimeMonitoringEntity.getOracleStatus()).schemas(realTimeMonitoringEntity.getSchemas())
+				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
+				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo()).build();
+	}
+	
+	private OutlierDataEntity outlierDataEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
+		return OutlierDataEntity.builder().time(realTimeMonitoringEntity.getTime())
 				.oracleStatus(realTimeMonitoringEntity.getOracleStatus()).schemas(realTimeMonitoringEntity.getSchemas())
 				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
 				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo()).build();

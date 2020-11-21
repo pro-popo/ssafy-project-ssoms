@@ -12,13 +12,13 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-@Document("sixhoursdata")
-public class SixHoursMonitoringEntity {
+@Document("outlierdata")
+public class OutlierDataEntity {
 	private String time;
 	private OracleStatusEntity oracleStatus;
 	private List<SchemaInfoEntity> schemas;
 	private List<SchemaStasticsEntity> allSchemaStastics;
 	private List<SchemaQueryEntity> allSchemaQueryInfo;
 	
-	public SixHoursMonitoringEntity() {}
+	public OutlierDataEntity() {}
 }
