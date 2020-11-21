@@ -1,5 +1,6 @@
+var serverURL = window.location.hostname;
 export default {
-  URL: "http://localhost:8080/ssoms",
+  URL: `http://${serverURL}:8080/ssoms`,
   ROUTES: {
     signin: "/nonuser/signin",
     logout: "/user/logout/",
