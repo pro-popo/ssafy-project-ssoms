@@ -98,9 +98,15 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 
 		System.out.println("========== Oracle 전체 상태 ==========");
 		OracleStatusDTO oracleStatusDTO = oracleRepoImpl.findOracleStastics();
-		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()
+		System.out.println(periodCnt);
+		System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
+//		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()
+//				|| periodCnt % 5 == 0) {
+		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95
 				|| periodCnt % 5 == 0) {
-			periodCnt = 0;
+			periodCnt = periodCnt == 5 ? 0 : periodCnt;
+			System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
+			System.out.println(periodCnt);
 			List<String> schemaList = JsonParser.getSchemaInfo();
 			Map<String, Object> map = new HashMap<>();
 			RealTimeMonitoringDTO realTimeMonitoringDTO = new RealTimeMonitoringDTO();
@@ -108,7 +114,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 			realTimeMonitoringDTO.setTime(format.format(time));
 			map.put("time", realTimeMonitoringDTO.getTime());
 			
-			realTimeMonitoringDTO.setOracleStatus(oracleRepoImpl.findOracleStastics());
+			realTimeMonitoringDTO.setOracleStatus(oracleStatusDTO);
 			map.put("oracleStatus", realTimeMonitoringDTO.getOracleStatus());
 			
 //		System.out.println("========== 전체 스키마 정보 ==========");
@@ -157,8 +163,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 					oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
 					// 1일 저장 logic
 				}
-				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
-					outlierDataMongoRepo.insert(outlierDataEntityBuilder(realTimeMonitoringEntity));
+//				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
+				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95) {
+					outlierDataMongoRepo.insert(outlierDataEntityBuilder(format.format(time), oracleStatusDTO.getDatabaseCpuTimeRatio()));
 				}
 				realTimeMonitoringEntity = null;
 			}
@@ -279,11 +286,8 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo()).build();
 	}
 	
-	private OutlierDataEntity outlierDataEntityBuilder(RealTimeMonitoringEntity realTimeMonitoringEntity) {
-		return OutlierDataEntity.builder().time(realTimeMonitoringEntity.getTime())
-				.oracleStatus(realTimeMonitoringEntity.getOracleStatus()).schemas(realTimeMonitoringEntity.getSchemas())
-				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
-				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo()).build();
+	private OutlierDataEntity outlierDataEntityBuilder(String time, double databaseCpuTimeRatio) {
+		return OutlierDataEntity.builder().time(time)
+				.databaseCpuTimeRatio(databaseCpuTimeRatio).build();
 	}
-
 }

@@ -43,7 +43,7 @@ public class OracleDataController {
 	}
 
 	@GetMapping("/past/{startDate}/{endDate}")
-	public ResponseEntity pastData(@PathVariable(value = "startDate") String startDate
+	public ResponseEntity findPastData(@PathVariable(value = "startDate") String startDate
 									,@PathVariable(value = "endDate") String endDate) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
@@ -62,7 +62,7 @@ public class OracleDataController {
 	}
 
 	@GetMapping("/past/{date}")
-	public ResponseEntity pastFullData(@PathVariable(value = "date") String date) {
+	public ResponseEntity findPastFullData(@PathVariable(value = "date") String date) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		// 12개 가져오는 로직
@@ -72,6 +72,25 @@ public class OracleDataController {
 		}else {
 			Map<String, Object> map = new HashMap<>();
 			map.put("realTimeMonitoring", realTimeMonitoringDTO);
+			result.result = "success";
+			result.map = map;
+		}
+		result.status = true;
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/past/outlier/{startDate}/{endDate}")
+	public ResponseEntity findOutlierData(@PathVariable(value = "startDate") String startDate
+									,@PathVariable(value = "endDate") String endDate) {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		List<TimeAndCpuDTO> timeAndCpuDTOList = oracleDataService.findOutlerDataTimeAndCpuDTO(startDate, endDate);
+		if(timeAndCpuDTOList.isEmpty()) {
+			result.result = "empty";
+		}else {
+			Map<String, Object> map = new HashMap<>();
+			map.put("timeAndCpuList", timeAndCpuDTOList);
 			result.result = "success";
 			result.map = map;
 		}

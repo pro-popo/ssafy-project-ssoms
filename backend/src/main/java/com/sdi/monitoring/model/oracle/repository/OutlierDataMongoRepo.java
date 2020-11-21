@@ -9,6 +9,5 @@ import com.sdi.monitoring.model.oracle.entity.OutlierDataEntity;
 import com.sdi.monitoring.model.oracle.entity.SixHoursMonitoringEntity;
 
 public interface OutlierDataMongoRepo extends MongoRepository<OutlierDataEntity, String>{
-	List<SixHoursMonitoringEntity> findByTimeBetween(String timeGT, String timeLT);
-	Optional<SixHoursMonitoringEntity> findByTime(String time);
+	List<OutlierDataEntity> findByTimeBetween(String timeGT, String timeLT);
 }
