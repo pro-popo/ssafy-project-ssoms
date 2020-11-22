@@ -1,7 +1,11 @@
 <template>
   <div class="realtime-container">
     <div
-      style="display:flex; justify-content: space-between; align-items:flex-start;"
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      "
     >
       <h3>
         Real-Time Monitorting
@@ -41,7 +45,7 @@
     <div id="oracleStatus"><OracleStatus /></div>
 
     <div id="allSchemaStatics">
-      <AllSchemaStastics style="margin:40px 0px;" />
+      <AllSchemaStastics style="margin: 40px 0px" />
     </div>
     <div id="allSchemaTopQuery" class="realtime-top-query-outer">
       <AllSchemaTopQuery class="top-query-left" />
@@ -60,7 +64,7 @@ export default {
   name: "RealTimeMonitoring",
   data() {
     return {
-      dialog: false
+      dialog: false,
     };
   },
   components: {
@@ -68,10 +72,10 @@ export default {
     AllSchemaTopQuery,
 
     AllSchemaStastics,
-    ReportModal
+    ReportModal,
   },
   computed: {
-    ...mapGetters(["getRealTime"])
+    ...mapGetters(["getRealTime"]),
   },
   methods: {
     ...mapActions(["initRealTimeData"]),
@@ -98,11 +102,11 @@ export default {
       document
         .getElementById("allSchemaTopQueryTable")
         .firstElementChild.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    }
+    },
   },
   created() {
     this.initRealTimeData();
-  }
+  },
 };
 </script>
 
@@ -126,6 +130,6 @@ h4 {
   flex: 1 0 auto;
 }
 .realtime-container {
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
 </style>

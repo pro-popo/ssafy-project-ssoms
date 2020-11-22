@@ -1,7 +1,13 @@
 <template>
   <div id="pastMonitering" class="schema-monitoring-container">
     <div
-      style="display:flex; height:60px; width: 350px; margin-right:10px; margin-left:auto;"
+      style="
+        display: flex;
+        height: 60px;
+        width: 350px;
+        margin-right: 10px;
+        margin-left: auto;
+      "
     >
       <v-menu
         v-model="menu2"
@@ -20,7 +26,7 @@
             solo
             v-bind="attrs"
             v-on="on"
-            style="margin-right:10px; border-radius:30px; "
+            style="margin-right: 10px; border-radius: 30px"
           >
           </v-text-field>
         </template>
@@ -40,7 +46,7 @@
             small
             dark
             elevation="2"
-            style="margin-top:5px"
+            style="margin-top: 5px"
             @click="queryData"
             v-bind="attrs"
             v-on="on"
@@ -84,7 +90,7 @@
 
     <div
       v-else-if="getTimeAndCpuList.isEmpty"
-      class="animate__animated  animate__headShake v-spinner ma-10;"
+      class="animate__animated animate__headShake v-spinner ma-10;"
       align="center"
     >
       <NotExistData />
@@ -93,8 +99,8 @@
     <v-container
       v-if="
         getTimeAndCpuList.check &&
-          !getTimeAndCpuList.isEmpty &&
-          getTimeAndCpuList.cpu.length != 0
+        !getTimeAndCpuList.isEmpty &&
+        getTimeAndCpuList.cpu.length != 0
       "
       class="animate__animated animate__fadeIn"
       fluid
@@ -124,11 +130,11 @@ export default {
 
       dates: [
         new Date().toISOString().substr(0, 10),
-        new Date().toISOString().substr(0, 10)
+        new Date().toISOString().substr(0, 10),
       ],
       menu: false,
       modal: false,
-      menu2: false
+      menu2: false,
     };
   },
   components: {
@@ -136,10 +142,10 @@ export default {
     SchemaTopQuery,
     SchemaDetail,
     Loading,
-    NotExistData
+    NotExistData,
   },
   watch: {
-    dates: function() {
+    dates: function () {
       if (this.dates.length == 2) {
         let temp = this.dates[0];
         if (this.dates[0] > this.dates[1]) {
@@ -148,7 +154,7 @@ export default {
         }
         this.menu2 = false;
       }
-    }
+    },
   },
   methods: {
     queryData() {
@@ -178,16 +184,16 @@ export default {
     ...mapMutations("Schema", [
       "SET_TIME_AND_CPU_LIST",
       "SET_TIME_AND_CPU_LIST_CHECK",
-      "SET_PAST_TIME_DATA_CHECK"
+      "SET_PAST_TIME_DATA_CHECK",
     ]),
-    ...mapActions("Schema", ["setTimeAndCpuList"])
+    ...mapActions("Schema", ["setTimeAndCpuList"]),
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"]),
     ...mapGetters("Schema", ["getTimeAndCpuList"]),
     dateRangeText() {
       return this.dates.join(" ~ ");
-    }
+    },
   },
   mounted() {
     // document.getElementById(
@@ -200,7 +206,7 @@ export default {
 
     this.tomorrow.setDate(new Date().getDate());
     this.tomorrow = this.tomorrow.toISOString().substring(0, 10);
-  }
+  },
 };
 </script>
 
@@ -290,6 +296,6 @@ export default {
 
 .schema-monitoring-container {
   width: 100%;
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
 </style>
