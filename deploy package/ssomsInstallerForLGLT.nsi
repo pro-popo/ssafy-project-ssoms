@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "SSOMS"
-!define PRODUCT_VERSION "1.0"
+!define PRODUCT_VERSION "1.1"
 !define PRODUCT_PUBLISHER "SSAFY 32sec"
 !define PRODUCT_WEB_SITE "https://www.ssafy.com/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\launch.exe"
@@ -16,14 +16,14 @@ SetCompressor lzma
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\Sub\icon.ico"
+!define MUI_ICON "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\Sub\icon.ico"
 
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\Sub\License.txt"
+!insertmacro MUI_PAGE_LICENSE "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\Sub\License.txt"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
@@ -46,7 +46,7 @@ SetCompressor lzma
 
 ; MUI end ------
 
-Dir "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\"
+
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "SSOMSInstaller.exe"
 InstallDir "$PROGRAMFILES\SSOMS"
@@ -57,30 +57,28 @@ ShowUnInstDetails show
 Section "MainPackage" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite on
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\monitoring-0.0.1-SNAPSHOT.war"
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\readme.txt"
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\Server launcher.cmd"
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\DBSetter.sql"
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\DBSetter - 최초1회.cmd"
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\settings.json"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\outfile\monitoring-0.0.1-SNAPSHOT.war"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\Sub\readme.txt"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\install program\Server launcher.cmd"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\install program\settings.json"
   CreateDirectory "$SMPROGRAMS\SSOMS"
   ;CreateShortCut "$SMPROGRAMS\SSOMS\SSOMS.lnk" "$INSTDIR\launch.exe"
   ;CreateShortCut "$DESKTOP\SSOMS.lnk" "$INSTDIR\launch.exe"
 SectionEnd
 
 SectionGroup /e "InfraSW" M2
-;Section  "NodeJS" SEC02
-  ;File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\pre_installSW\node-v14.15.0-x64.msi"
-  ;execwait 'msiexec /i "$INSTDIR\node-v14.15.0-x64.msi"'
-  ;Delete "$INSTDIR\node-v14.15.0-x64.msi"
-;SectionEnd
-SEction "mariaDB" SEC03
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\pre_installSW\mariadbInst.msi"
-  execwait 'msiexec /i "$INSTDIR\mariadbInst.msi"'
-  Delete "$INSTDIR\mariadbInst.msi"
+SEction "MongoDB" SEC03
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\outfile\mongodb_installer.msi"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\install program\mongoSetter.cmd"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\s03p31b303\deploy package\install program\mongoSetter.js"
+  execwait 'msiexec /i "$INSTDIR\mongodb_installer.msi"'
+  execwait '$INSTDIR\mongoSetter.cmd'
+  Delete "$INSTDIR\mongodb_installer.msi"
+  Delete "$INSTDIR\mongoSetter.cmd"
+  Delete "$INSTDIR\mongoSetter.js"
 SectionEnd
 SEction "JDK1.8" SEC04
-  File "C:\Users\multicampus\Desktop\inho\PJT\Final\s03p31b303\deploy package\install program\pre_installSW\jdk-8u271-windows-x64.exe"
+  File "C:\Users\LG\Desktop\Inho\SW\PJT\outfile\jdk-8u271-windows-x64.exe"
   execwait "$INSTDIR\jdk-8u271-windows-x64.exe"
   Delete "$INSTDIR\jdk-8u271-windows-x64.exe"
 SectionEnd
@@ -103,11 +101,10 @@ SectionEnd
 
 ; Section descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "(필수)DB 모니터링 서버 개설을 위한 패키지 입니다."
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "(선택) Node.js 서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "(선택) MariaDB 서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "(선택) JDK1.8 서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
-  !insertmacro MUI_DESCRIPTION_TEXT ${M2} "(선택)서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "DB 모니터링 서버 개설을 위한 패키지 입니다."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "MongoDB 서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "JDK1.8 서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
+  !insertmacro MUI_DESCRIPTION_TEXT ${M2} "서버를 구동하기 위한 소프트웨어입니다. 한 번 설치했다면 재설치하지 않아도 됩니다."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -124,9 +121,6 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\monitoring-0.0.1-SNAPSHOT.war"
-  Delete "$INSTDIR\mariadbInst.msi"
-  Delete "$INSTDIR\DBSetter.sql"
-  Delete "$INSTDIR\DBSetter - 최초1회.cmd"
   Delete "$INSTDIR\Server launcher.cmd"
   Delete "$INSTDIR\readme.txt"
   Delete "$INSTDIR\settings.json"
