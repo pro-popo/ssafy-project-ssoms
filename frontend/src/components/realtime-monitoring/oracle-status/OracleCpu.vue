@@ -3,7 +3,7 @@
     <div
       :class="{
         'oracle-cpu-card1': !isMainView,
-        'oracle-cpu-card1-extend': isMainView
+        'oracle-cpu-card1-extend': isMainView,
       }"
     >
       <v-card elevation="2">
@@ -14,7 +14,7 @@
             > -->
             <h3 class="oracle-status-name">CPU & Wait Time</h3>
             <div style="margin: 0px 25px 0px auto">
-              <v-btn icon small @click="$emit('changeMainView')">
+              <v-btn icon small @click="$emit('change-main-view')">
                 <v-icon>
                   {{
                     isMainView ? "mdi-arrow-top-left" : "mdi-arrow-bottom-right"
@@ -126,10 +126,10 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "OracleCpu",
   components: {
-    IEcharts
+    IEcharts,
   },
   props: {
-    isMainView: Boolean
+    isMainView: Boolean,
   },
   methods: {
     clickChart() {
@@ -139,18 +139,18 @@ export default {
     ...mapMutations([
       "SET_SELECTED_REALTIME",
       "SET_SETTING_SELECTED",
-      "SET_SELECTED_TOOLTIP"
+      "SET_SELECTED_TOOLTIP",
     ]),
     changeXaxis(params) {
       setTimeout(
-        function() {
+        function () {
           if (this.selectedTooltip == "oracle") {
             var setTime = 0;
             if (!this.getIsSelected) {
               setTime = 100;
             }
             setTimeout(
-              function() {
+              function () {
                 if (params.seriesData[0] !== undefined && this.getIsSelected) {
                   this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
                   if (
@@ -211,33 +211,33 @@ export default {
     selectedAxis() {
       this.SET_SETTING_SELECTED(true);
       this.testData = true;
-    }
+    },
   },
   computed: {
     ...mapGetters("Oracle", [
       "getDatabaseCpuTimeRatioList",
       "getDatabaseWaitTimeRatio",
       "getResponesTimePerTxn",
-      "getActiveSerialSessions"
+      "getActiveSerialSessions",
     ]),
     ...mapGetters([
       "getRealTimeList",
       "selectedRealTime",
       "getIsSelected",
       "getIsRealShow",
-      "selectedTooltip"
-    ])
+      "selectedTooltip",
+    ]),
   },
 
   watch: {
-    selectedRealTime: function(res) {
+    selectedRealTime: function (res) {
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.selectedRealTime
       ];
       // res는 변한 값
       this.option.xAxis.axisPointer.value = res;
     },
-    getDatabaseCpuTimeRatioList: function() {
+    getDatabaseCpuTimeRatioList: function () {
       if (
         this.getDatabaseCpuTimeRatioList[
           this.getDatabaseCpuTimeRatioList.length - 1
@@ -272,7 +272,7 @@ export default {
       this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
         this.selectedRealTime
       ];
-    }
+    },
   },
   data() {
     return {
@@ -285,7 +285,7 @@ export default {
           right: 20,
           left: 50,
           bottom: 25,
-          top: 65
+          top: 65,
         },
         // title: { text: "CPU Time" },
         xAxis: {
@@ -295,16 +295,16 @@ export default {
           triggerEvent: true,
           axisLine: {
             lineStyle: {
-              color: "#303030"
-            }
+              color: "#303030",
+            },
           },
           axisPointer: {
             handle: {
               show: true,
-              size: [0, 0]
+              size: [0, 0],
             },
-            value: this.selectedRealTime
-          }
+            value: this.selectedRealTime,
+          },
           // triggerEvent: true
           // formatter: function(params, callback) {
           //   console.log(callback);
@@ -320,16 +320,16 @@ export default {
           max: 100,
           axisLine: {
             lineStyle: {
-              color: "#303030"
-            }
+              color: "#303030",
+            },
           },
           axisTick: {
-            show: false
-          }
+            show: false,
+          },
         },
         legend: {
           data: ["CpuTime", "WaitTime"],
-          icon: "roundRect"
+          icon: "roundRect",
           // top: "30
         },
         methods: {},
@@ -343,12 +343,12 @@ export default {
               background: "#000000",
               show: true,
               snap: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.changeXaxis(params);
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         series: [
           {
@@ -356,16 +356,16 @@ export default {
             data: [],
             areaStyle: "",
             type: "line",
-            showSymbol: false
+            showSymbol: false,
           },
           {
             name: "WaitTime",
             data: [],
             areaStyle: "",
             type: "line",
-            showSymbol: false
-          }
-        ]
+            showSymbol: false,
+          },
+        ],
       },
       gauge: {
         series: [
@@ -378,13 +378,13 @@ export default {
               color: "#6440e3",
               offsetCenter: ["0", "45%"],
               fontSize: 22,
-              fontWeight: "bold"
+              fontWeight: "bold",
             },
             data: [
               {
                 value: 0,
-                name: "CpuTime"
-              }
+                name: "CpuTime",
+              },
             ],
             radius: "75%",
             startAngle: 180,
@@ -396,76 +396,76 @@ export default {
                 color: [
                   [0.4, "#e34a6d"],
                   [0.8, "#4358c3"],
-                  [1, "#67abf6"]
-                ]
-              }
+                  [1, "#67abf6"],
+                ],
+              },
             },
             splitLine: {
-              show: true
+              show: true,
             },
             axisTick: {
               show: true,
               splitNumber: 2,
-              length: 6
+              length: 6,
             },
             axisLabel: {
               show: true,
-              distance: -53
+              distance: -53,
             },
             pointer: {
               show: true,
               length: "50%",
-              width: 6
+              width: 6,
             },
             itemStyle: {
-              color: "rgba(85, 85, 85, 1)"
+              color: "rgba(85, 85, 85, 1)",
             },
             title: {
               show: true,
               offsetCenter: [0, "75%"],
               color: "rgba(143, 143, 143, 1)",
               fontSize: 12,
-              fontWeight: "bold"
+              fontWeight: "bold",
             },
             markPoint: {
               data: [
                 {
-                  type: "max"
-                }
-              ]
+                  type: "max",
+                },
+              ],
             },
-            animationEasing: "backOut"
-          }
-        ]
+            animationEasing: "backOut",
+          },
+        ],
       },
       small1: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -474,38 +474,38 @@ export default {
             type: "line",
             color: "#67abf6",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
       small2: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -514,12 +514,12 @@ export default {
             type: "line",
             color: "#67abf6",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
-      }
+            areaStyle: "",
+          },
+        ],
+      },
     };
-  }
+  },
 };
 </script>
 

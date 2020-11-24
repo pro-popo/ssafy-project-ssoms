@@ -1,7 +1,7 @@
 <template>
   <div id="pastMonitering" class="schema-monitoring-container">
     <v-navigation-drawer
-      v-if="getTimeAndCpuList.check"
+      v-if="getTimeAndCpuList.check && !getTimeAndCpuList.isEmpty"
       class="side-navbar-right"
       :expand-on-hover="fixedMini"
       :mini-variant.sync="mini"
