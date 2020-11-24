@@ -80,18 +80,42 @@ export default {
           this.makePDF(list, "RealTimeMonitoring");
         });
       } else if (this.$route.name == "SchemaMonitoring") {
-        this.toPdf[1].forEach((element) => {
-          if (element == "pastMonitering") {
-            list.push(document.getElementById("SchemaWhole"));
-            list.push(document.getElementById("SchemaDetail"));
-          } else if (element == "SchemaQuerys") {
-            list.push(
-              document.getElementById("SchemaQuerys").firstElementChild
-                .firstElementChild
-            );
-          }
+        if (this.toPdf[1].length == 2) {
+          list.push(document.getElementById("SchemaWhole"));
+          list.push(document.getElementById("SchemaDetail"));
+          list.push(document.getElementById("SchemaQuerysTitle"));
+          list.push(
+            document
+              .getElementById("SchemaQuerys")
+              .getElementsByTagName("table")[0].firstElementChild
+          );
+          list.push(
+            document
+              .getElementById("SchemaQuerys")
+              .getElementsByTagName("table")[0].lastElementChild
+          );
           this.makePDF(list, "SchemaMonitoring");
-        });
+        } else {
+          this.toPdf[1].forEach((element) => {
+            if (element == "pastMonitering") {
+              list.push(document.getElementById("SchemaWhole"));
+              list.push(document.getElementById("SchemaDetail"));
+            } else if (element == "SchemaQuerys") {
+              list.push(document.getElementById("SchemaQuerysTitle"));
+              list.push(
+                document
+                  .getElementById("SchemaQuerys")
+                  .getElementsByTagName("table")[0].firstElementChild
+              );
+              list.push(
+                document
+                  .getElementById("SchemaQuerys")
+                  .getElementsByTagName("table")[0].lastElementChild
+              );
+            }
+            this.makePDF(list, "SchemaMonitoring");
+          });
+        }
       }
     },
     makePDF(ele, name) {
