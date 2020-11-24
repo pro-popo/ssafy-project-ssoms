@@ -37,16 +37,14 @@
       <v-btn color="blue darken-1" text @click="$emit('kill-modal')">
         닫기
       </v-btn>
-      <v-btn color="blue darken-1" text @click="makebtn">
-        저장
-      </v-btn>
+      <v-btn color="blue darken-1" text @click="makebtn"> 저장 </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default {
   name: "ReportModal",
@@ -54,16 +52,16 @@ export default {
     return {
       toPdf: [[], []],
       elems: [
-                [
-                    {text: "Oracle DB Status", value: "oracleStatus"},
-                    {text: "Schema Status", value: "allSchemaStatics"},
-                    {text: "Top Query", value: "allSchemaTopQuery"}
-                ],
-                [
-                    {text: "Schema Status", value:"pastMonitering"},
-                    {text: "Top Query", value:"SchemaQuerys"}
-                ]
-            ],
+        [
+          { text: "Oracle DB Status", value: "oracleStatus" },
+          { text: "Schema Status", value: "allSchemaStatics" },
+          { text: "Top Query", value: "allSchemaTopQuery" },
+        ],
+        [
+          { text: "Schema Status", value: "pastMonitering" },
+          { text: "Top Query", value: "SchemaQuerys" },
+        ],
+      ],
     };
   },
   methods: {
@@ -124,12 +122,11 @@ export default {
                     console.log(err)
                 });
           });
-            this.$emit('kill-modal')
-		},
+      });
+      this.$emit("kill-modal");
+    },
   },
-  mounted() {
-    
-  }
+  mounted() {},
 };
 </script>
 

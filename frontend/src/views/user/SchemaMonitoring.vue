@@ -107,7 +107,7 @@
     >
       <SchemaWhole id="SchemaWhole" class="mb-2" />
       <SchemaDetail id="SchemaDetail" class="mb-2" />
-      <SchemaTopQuery />
+      <SchemaTopQuery id="SchemaQuerys" />
     </v-container>
   </div>
 </template>
