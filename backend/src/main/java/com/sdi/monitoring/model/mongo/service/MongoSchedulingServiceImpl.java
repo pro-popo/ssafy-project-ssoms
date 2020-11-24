@@ -7,6 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sdi.monitoring.model.oracle.repository.OneHourMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.RealTimeMonitoringMongoRepo;
 import com.sdi.monitoring.util.MongoScheduler;
 
@@ -18,7 +19,10 @@ public class MongoSchedulingServiceImpl implements MongoSchedulingService{
 	
 	@Autowired
 	private RealTimeMonitoringMongoRepo realTimeMonitoringMongoRepo;
-
+	
+	@Autowired
+	private OneHourMonitoringMongoRepo oneHourMonitoringMongoRepo;
+	
 	@Override
 	public boolean start() {
 		return mongoScheduler.startScheduler();
@@ -32,6 +36,7 @@ public class MongoSchedulingServiceImpl implements MongoSchedulingService{
 	@Override
 	public void mongoRemoveDataScheduler() {
 		realTimeMonitoringMongoRepo.deleteByTimeBetween(findBeforeThreeMonthAndOneDayDate(), findBeforeThreeMonthDate());
+		oneHourMonitoringMongoRepo.deleteByTimeBetween(findBeforeThreeMonthAndOneDayDate(), findBeforeThreeMonthDate());
 	}
 	
 	private String findBeforeThreeMonthDate() {
