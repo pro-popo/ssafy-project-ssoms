@@ -65,86 +65,62 @@ export default {
     };
   },
   methods: {
-    makebtn() {
-      if (this.$route.name == "RealTimeMonitoring") {
-        this.toPdf[0].forEach((element) => {
-          if (element == "allSchemaTopQuery") {
-            this.makePDF(
-              [
-                document.getElementById("allSchemaTopQueryTable")
-                  .firstElementChild.firstElementChild,
-              ],
-              element
-            );
-          } else {
-            this.makePDF([document.getElementById(element)], element);
+      makebtn(){
+          let list = [];
+          if(this.$route.name == 'RealTimeMonitoring'){
+              this.toPdf[0].forEach(element => {
+                if (element == "allSchemaTopQuery"){
+                    list.push(document.getElementById('allSchemaTopQueryTable').firstElementChild.firstElementChild);
+                }else{
+                    list.push(document.getElementById(element));
+                }
+                this.makePDF(list, 'RealTimeMonitoring');
+              });
+          }else if(this.$route.name == 'SchemaMonitoring'){
+              this.toPdf[1].forEach(element => {
+              if(element == "pastMonitering"){
+                  list.push(document.getElementById('SchemaWhole'));
+                  list.push(document.getElementById('SchemaDetail'));
+              }else if(element == "SchemaQuerys"){
+                  list.push(document.getElementById('SchemaQuerys').firstElementChild.firstElementChild);
+              }
+                this.makePDF(list, 'SchemaMonitoring');
+            });
           }
-        });
-      } else if (this.$route.name == "SchemaMonitoring") {
-        this.toPdf[1].forEach((element) => {
-          if (element == "pastMonitering") {
-            this.makePDF(
-              [
-                document.getElementById("SchemaWhole"),
-                document.getElementById("SchemaDetail"),
-              ],
-              element
-            );
-          } else if (element == "SchemaQuerys") {
-            this.makePDF([document.getElementById("SchemaQuerys")], element);
-          }
-        });
-      }
-    },
-    makePDF(ele, name) {
-      window.html2canvas = html2canvas;
-      let pdf = new jsPDF("p", "mm", "a4");
-
-      if (!ele) return false;
-      let idx = 0;
-      let beforeheight = 0;
-      ele.forEach((element) => {
-        let canvas = pdf.canvas;
-        const pageWidth = 210; //캔버스 너비 mm
-        canvas.width = pageWidth;
-        let width = element.offsetWidth; // 셀렉트한 요소의 px 너비
-        let height = element.offsetHeight; // 셀렉트한 요소의 px 높이
-        let imgHeight = (pageWidth * height) / width; // 이미지 높이값 px to mm 변환
-        html2canvas(element)
-          .then((canvas) => {
-            let imgData = canvas.toDataURL("image/png");
-            pdf.addImage(
-              imgData,
-              "png",
-              0,
-              beforeheight,
-              pageWidth,
-              imgHeight,
-              "image" + String(idx),
-              "SLOW"
-            );
-            if (idx == ele.length - 1) {
-              let date = new Date();
-              pdf.save(
-                date.getFullYear() +
-                  "_" +
-                  date.getMonth() +
-                  "_" +
-                  date.getDay() +
-                  "_" +
-                  date.getHours() +
-                  "_" +
-                  date.getMinutes() +
-                  "_" +
-                  name +
-                  ".pdf"
-              );
-            }
-            idx++;
-            beforeheight += imgHeight;
-          })
-          .catch((err) => {
-            console.log(err);
+          
+      },
+      makePDF(ele, name) {
+			window.html2canvas = html2canvas
+            let pdf = new jsPDF('p', 'mm', 'a4');
+            
+			if(!ele)
+				return false
+            let idx = 0;
+            let beforeheight = 0;
+            ele.forEach(element => {
+                let canvas = pdf.canvas
+                const pageWidth = 210 //캔버스 너비 mm
+                const pageHeight = 297
+                canvas.width = pageWidth
+                let width = element.offsetWidth // 셀렉트한 요소의 px 너비
+                let height = element.offsetHeight // 셀렉트한 요소의 px 높이
+                let imgHeight = pageWidth * height/width // 이미지 높이값 px to mm 변환
+                html2canvas(element).then(canvas => {
+                    let imgData = canvas.toDataURL('image/png');
+                    if(pageHeight <= beforeheight + imgHeight){
+                        pdf.addPage();
+                        beforeheight = 0;
+                    }
+                    pdf.addImage(imgData, 'png', 0, beforeheight, pageWidth, imgHeight, 'image'+String(idx), 'FAST');
+                    if(idx == ele.length - 1){
+                        let date = new Date();
+                        pdf.save( date.getFullYear()+"_"+date.getMonth()+"_"+date.getDay()+"_"+date.getHours()+"_"+date.getMinutes()+"_"+name+".pdf")
+                    }
+                    idx++;
+                    beforeheight += imgHeight;
+                }).catch(err => {
+                    console.log(err)
+                });
           });
       });
       this.$emit("kill-modal");
