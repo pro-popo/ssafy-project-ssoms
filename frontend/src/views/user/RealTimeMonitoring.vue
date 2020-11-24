@@ -126,25 +126,6 @@
       <v-dialog v-model="dialog" max-width="600px">
         <ReportModal @kill-modal="dialog = false" />
       </v-dialog>
-      <h3>
-        Real-Time Monitorting
-        <v-dialog v-model="dialog" max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="secondary"
-              fab
-              small
-              dark
-              class="ml-3"
-              v-bind="attrs"
-              v-on="on"
-              @click="moveScrollToTop"
-            >
-              <v-icon> mdi-file-pdf </v-icon>
-            </v-btn>
-          </template>
-        </v-dialog>
-      </h3>
     </div>
 
     <div id="oracleStatus"><OracleStatus /></div>
