@@ -17,16 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdi.monitoring.domain.SuccessResponse;
 import com.sdi.monitoring.model.admin.dto.DeleteForm;
 import com.sdi.monitoring.model.admin.service.AdminService;
+import com.sdi.monitoring.model.mongo.service.MongoSchedulingService;
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserDTO;
-import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateAdminDTO;
 
 @CrossOrigin("*")
@@ -39,6 +38,9 @@ public class AdminController {
 	
 	@Autowired
 	private OracleSchedulingService oracleScedulingService;
+	
+	@Autowired
+	private MongoSchedulingService mongoScedulingService;
 	
 	// 이거 권한 맞는지 확인하는 로직 필요함
 	@PutMapping("/change")
@@ -192,6 +194,7 @@ public class AdminController {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		boolean ret = oracleScedulingService.start();
+		mongoScedulingService.start();
 		result.status = true;
 		result.result = ret ? "success" : "fail";
 		response = new ResponseEntity<>(result, HttpStatus.OK);

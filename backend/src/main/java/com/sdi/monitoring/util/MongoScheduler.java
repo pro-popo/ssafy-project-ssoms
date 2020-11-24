@@ -5,17 +5,18 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
 
-import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
+import com.sdi.monitoring.model.mongo.service.MongoSchedulingService;
 
 @Component
 public class MongoScheduler {
 	private ThreadPoolTaskScheduler scheduler;
 	 
 	@Autowired
-	private OracleSchedulingService oss;
+	private MongoSchedulingService mss;
 	
 	public boolean hasScheduler() {
 		if(scheduler != null) {
@@ -46,13 +47,14 @@ public class MongoScheduler {
  
     private Runnable getRunnable(){
         return () -> {
-//        	oss.sampleMethod();
+        	mss.mongoRemoveDataScheduler();
         };
     }
  
     private Trigger getTrigger() {
         // 작업 주기 설정 
 //    	return (Trigger) new FixedDelay(5000);
-        return new PeriodicTrigger(10, TimeUnit.SECONDS);
+    	return new CronTrigger("0 0/1 * * * *");
+//      return new CronTrigger("0 0 1 * * ?");
     }
 }

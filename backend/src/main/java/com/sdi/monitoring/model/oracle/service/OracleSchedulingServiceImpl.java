@@ -89,6 +89,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 
 	@Override
 	public void oracleGetDataScheduler() {
+		System.out.println(new Date());
 		cnt++;
 		periodCnt++;
 //		StopWatch stopWatch = new StopWatch();
