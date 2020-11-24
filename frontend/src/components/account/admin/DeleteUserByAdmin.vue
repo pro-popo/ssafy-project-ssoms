@@ -2,15 +2,13 @@
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
       <v-card-title class="delete-headline">
-        <span style="margin-left:10px; color:var(--font-sub2-color)">
-          Delete Member
-        </span>
+        <span></span>
         <v-btn icon @click="dialog = !dialog">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
-      <v-divider></v-divider>
-      <v-card-text style="padding-top:20px; padding-left:30px">
+      <v-card-text style="padding:20px 30px">
+        <v-icon size="40">mdi-account-remove</v-icon>
         <h2
           style="font-size:20px; padding:15px 0px 10px 0px ;  word-break:keep-all"
         >

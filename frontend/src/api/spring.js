@@ -1,5 +1,6 @@
+var serverURL = window.location.hostname;
 export default {
-  URL: "http://localhost:8080/ssoms",
+  URL: `http://${serverURL}:8080/ssoms`,
   ROUTES: {
     signin: "/nonuser/signin",
     logout: "/user/logout/",
@@ -22,6 +23,7 @@ export default {
     getSettingsSchema: "/admin/settings/schema",
     checkConOracleDB: "/admin/settings/oracledb/check",
     checkSettingsSchema: "/admin/settings/schema/check",
+    getAllSchemaList: "/admin/settings/schema/all",
 
     scheduleStart: "/admin/realtime/start",
     scheduleStop: "/admin/realtime/stop",

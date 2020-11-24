@@ -1,146 +1,160 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <h2
-        style="margin-bottom:15px; margin-top:20px; color:var(--font-main-color);"
-      >
-        {{ SelectedSchema }}'<span style="margin-left:3px" />s Status
-      </h2>
-      <v-card class="px-2 py-2" width="100%" elevation="2" outlined>
-        <table
-          width="100%"
-          v-if="getPastTimeData.allSchemaStastics.length != 0"
-        >
-          <tr>
-            <td>
-              <span
-                >name
-                <div class="schema-detail-item">{{ SelectedSchema }}</div>
-              </span>
-            </td>
-            <td>
-              <span
-                >cpuTimeAvg
+      <v-card-subtitle>
+        <h2 style="color:var(--font-main-color);margin-top:10px">
+          {{ SelectedSchema }}'<span style="margin-left:3px" />s Status
+        </h2>
+      </v-card-subtitle>
+      <v-card width="100%" elevation="2" outlined>
+        <v-divider></v-divider>
+        <v-card-text>
+          <table
+            width="100%"
+            v-if="getPastTimeData.allSchemaStastics.length != 0"
+            id="monitoring-schema-table"
+          >
+            <tr>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">cpuTimeAvg</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .cpuTimeAvg
+                    }}
+                    <span>sec</span>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">cpuTimeMax</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .cpuTimeMax
+                    }}
+                    <span>sec</span>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">cpuTimeTot</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .cpuTimeTot
+                    }}
+                    <span>sec</span>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">bufferGetsAvg</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .bufferGetsAvg
+                    }}
+                    <span>count</span>
+                  </span>
+                </div>
+              </td>
+            </tr>
 
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeAvg
-                  }}
+            <tr>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">diskReadsAvg</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .diskReadsAvg
+                    }}
+                    <span>count</span>
+                  </span>
                 </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >cpuTimeMax
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeMax
-                  }}
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">elapsedTimeAvg</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .elapsedTimeAvg
+                    }}
+                    <span>sec</span>
+                  </span>
                 </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >cpuTimeTot
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema].cpuTimeTot
-                  }}
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">elapsedTimeMax</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .elapsedTimeMax
+                    }}
+                    <span>sec</span>
+                  </span>
                 </div>
-              </span>
-            </td>
-          </tr>
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">elapsedTimeTot</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .elapsedTimeTot
+                    }}
+                    <span>sec</span>
+                  </span>
+                </div>
+              </td>
+            </tr>
 
-          <tr>
-            <td>
-              <span
-                >diskReadsAvg
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema]
-                      .diskReadsAvg
-                  }}
+            <tr>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">executions</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .executions
+                    }}
+                    <span>count</span>
+                  </span>
                 </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >elapsedTimeAvg
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema]
-                      .elapsedTimeAvg
-                  }}
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">rowsProcessedAvg</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema]
+                        .rowsProcessedAvg
+                    }}
+                    <span>count</span>
+                  </span>
                 </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >elapsedTimeMax
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema]
-                      .elapsedTimeMax
-                  }}
+              </td>
+              <td>
+                <div>
+                  <h4 class="query-detail-title">sqlCnt</h4>
+                  <span class="query-detail-text">
+                    {{
+                      getPastTimeData.allSchemaStastics[SelectedSchema].sqlCnt
+                    }}
+                    <span>count</span>
+                  </span>
                 </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >elapsedTimeTot
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema]
-                      .elapsedTimeTot
-                  }}
-                </div>
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <span>
-                executions
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema].executions
-                  }}
-                </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >rowsProcessedAvg
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema]
-                      .rowsProcessedAvg
-                  }}
-                </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >sqlCnt
-                <div class="schema-detail-item">
-                  {{ getPastTimeData.allSchemaStastics[SelectedSchema].sqlCnt }}
-                </div>
-              </span>
-            </td>
-            <td>
-              <span
-                >bufferGetsAvg
-                <div class="schema-detail-item">
-                  {{
-                    getPastTimeData.allSchemaStastics[SelectedSchema]
-                      .bufferGetsAvg
-                  }}
-                </div>
-              </span>
-            </td>
-          </tr>
-        </table>
+              </td>
+            </tr>
+          </table>
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
@@ -178,5 +192,9 @@ export default {
 .schema-detail-item {
   font-size: 30px;
   font-weight: 900;
+}
+
+#monitoring-schema-table td {
+  padding: 10px;
 }
 </style>

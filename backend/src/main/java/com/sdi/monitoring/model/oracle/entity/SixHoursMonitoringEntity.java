@@ -21,6 +21,4 @@ public class SixHoursMonitoringEntity {
 	private List<SchemaQueryEntity> allSchemaQueryInfo;
 	
 	public SixHoursMonitoringEntity() {}
-	
-	
 }

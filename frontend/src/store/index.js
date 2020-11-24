@@ -27,13 +27,15 @@ export default new Vuex.Store({
     ],
     time: 0,
     timeList: [],
-    selectedRealTime: 0 // 시점의 인덱스 값으로 저장
+    selectedRealTime: 0, // 시점의 인덱스 값으로 저장
+    selectedTooltip: ""
   },
   getters: {
     getRealTime: (state) => state.time,
     getRealTimeList: (state) => state.timeList,
     getIsSelected: (state) => state.isSelected,
-    selectedRealTime: (state) => state.selectedRealTime
+    selectedRealTime: (state) => state.selectedRealTime,
+    selectedTooltip: (state) => state.selectedTooltip
   },
   mutations: {
     SET_REALTIME(state, data) {
@@ -49,10 +51,14 @@ export default new Vuex.Store({
         state.isSelected = false;
       } else {
         state.selectedRealTime = selectedTime;
+        state.isSelected = true;
       }
     },
     SET_SETTING_SELECTED(state, data) {
       state.isSelected = data;
+    },
+    SET_SELECTED_TOOLTIP(state, data) {
+      state.selectedTooltip = data;
     }
   },
   actions: {
@@ -76,6 +82,7 @@ export default new Vuex.Store({
           );
           commit("SET_REALTIME", realTimeHistoricalData.time);
         });
+        commit("SET_SELECTED_REALTIME", realTimeHistoricalDataList.length - 1);
       });
     }
   },

@@ -19,10 +19,12 @@ import com.sdi.monitoring.model.oracle.dto.RealTimeMonitoringDTO;
 import com.sdi.monitoring.model.oracle.dto.TimeAndCpuDTO;
 import com.sdi.monitoring.model.oracle.entity.OneDayMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.OneHourMonitoringEntity;
+import com.sdi.monitoring.model.oracle.entity.OutlierDataEntity;
 import com.sdi.monitoring.model.oracle.entity.RealTimeMonitoringEntity;
 import com.sdi.monitoring.model.oracle.entity.SixHoursMonitoringEntity;
 import com.sdi.monitoring.model.oracle.repository.OneDayMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.OneHourMonitoringMongoRepo;
+import com.sdi.monitoring.model.oracle.repository.OutlierDataMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.RealTimeMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.SixHoursMonitoringMongoRepo;
 import com.sdi.monitoring.util.Mapper;
@@ -42,6 +44,9 @@ public class OracleDataServiceImpl implements OracleDataService {
 	@Autowired
 	private OneDayMonitoringMongoRepo oneDayMonitoringMongoRepo;
 
+	@Autowired
+	private OutlierDataMongoRepo outlierDataMongoRepo;
+	
 	@Autowired
 	private Mapper mapper;
 
@@ -76,6 +81,11 @@ public class OracleDataServiceImpl implements OracleDataService {
 		}
 
 		return null;
+	}
+	
+	@Override
+	public List<TimeAndCpuDTO> findOutlerDataTimeAndCpuDTO(String startDate, String endDate) {
+		return outlierDataEntityToTimeAndCpuDTO(outlierDataMongoRepo.findByTimeBetween(startDate, endDate));
 	}
 	
 	private List<RealTimeMonitoringDTO> realTimeMontoringEntityListToDTOList(Page<RealTimeMonitoringEntity> realTimeMonitoringEntityList) {
@@ -133,6 +143,14 @@ public class OracleDataServiceImpl implements OracleDataService {
 
 	private RealTimeMonitoringDTO realTimeMontoringEntityToDTO(RealTimeMonitoringEntity realTimeMonitoringEntity) {
 		return mapper.convertToDTO(realTimeMonitoringEntity, RealTimeMonitoringDTO.class);
+	}
+	
+	private List<TimeAndCpuDTO> outlierDataEntityToTimeAndCpuDTO(List<OutlierDataEntity> outlierDataEntityList){
+		List<TimeAndCpuDTO> timeAndCpuDTOList = new ArrayList<>();
+		for(OutlierDataEntity outlierDataEntity : outlierDataEntityList) {
+			timeAndCpuDTOList.add(mapper.convertToDTO(outlierDataEntity, TimeAndCpuDTO.class));
+		}
+		return timeAndCpuDTOList;
 	}
 
 	private List<TimeAndCpuDTO> calculatePeriod(String startDate, String endDate) {

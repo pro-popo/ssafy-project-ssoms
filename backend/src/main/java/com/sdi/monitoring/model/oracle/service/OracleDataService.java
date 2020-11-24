@@ -11,4 +11,6 @@ public interface OracleDataService {
 	public List<TimeAndCpuDTO> findTimeAndCpuDTO(String startDate, String endDate);
 	
 	public RealTimeMonitoringDTO findDataByTime(String date);
+	
+	public List<TimeAndCpuDTO> findOutlerDataTimeAndCpuDTO(String startDate, String endDate);
 }

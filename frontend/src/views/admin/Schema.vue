@@ -1,131 +1,146 @@
 <template>
-  <div class="admin-schema-container">
-    <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
-    <div class="schema-searchbar">
-      <!-- <span class="mdi mdi-magnify"></span>
-      <div style="width:50%">
-        <v-text-field label="검색할 스키마명을 입력해주세요."></v-text-field>
-      </div> -->
-      <div
-        style="width:400px; height:100%; padding-top:25px; margin-bottom:-10px"
-      >
-        <v-text-field
-          solo
-          style="border-radius:20px;"
-          append-icon="mdi-magnify"
-          label="검색할 Schema ID를 입력해주세요."
-          v-model="findSchemaName"
-          @keyup="findSchema"
-        ></v-text-field>
-      </div>
-      <div style="height:100%; margin-bottom:-8px">
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              style="margin-left:auto; margin-right:10px"
-              fab
-              small
-              elevation="2"
-              color="var(--font-sub2-color)"
-              v-bind="attrs"
-              v-on="on"
-              dark
-              @click="isCheckAdd = !isCheckAdd"
-              id="add-schema-btn"
-              ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
-              <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
-            >
-          </template>
-          <span>Add Schema</span>
-        </v-tooltip>
-      </div>
-    </div>
-    <transition name="slide-fade">
-      <v-card
-        class="add-schema"
-        v-if="isCheckAdd"
-        dark
-        style="background:#333333"
-      >
-        <h3>Add Schema</h3>
-        <div class="add-schema-form">
-          <v-text-field
-            prepend-icon="mdi-database-plus"
-            label="추가하실 스키마ID를 입력해주세요."
-            v-model="userID"
-            @keypress.enter="saveSchema"
-          ></v-text-field>
-          <v-btn
-            style="margin-left:20px"
-            color="grey"
-            outlined
-            fab
-            small
-            class="setting-schema-save-button"
-            @click="saveSchema"
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </div>
-      </v-card>
-    </transition>
-
-    <div>
-      <v-simple-table
-        fixed-header
-        height="290px"
-        color="red"
-        dark
-        style="background:transparent"
-      >
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left" style="padding-left:20px">Schema ID</th>
-              <th class="text-right" style="padding-right:25px">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody
-            class="admin-schema-table-tbody"
-            style="color:var(--font-sub2-color)"
-          >
-            <tr v-if="findSchemaList.length == 0">
-              <td class="text-center" colspan="2">
-                조회된 Schema가 없습니다.
-              </td>
-            </tr>
-            <tr v-for="schema in findSchemaList" :key="schema.userID">
-              <td style="border-bottom:1px solid #d0d0d0;">
-                <v-icon
-                  style="margin-bottom:3px; "
-                  size="22"
-                  color="var(--font-sub2-color)"
-                  >mdi-database</v-icon
-                >
-                {{ schema.userID }}
-              </td>
-              <td class="text-right" style="border-bottom:1px solid #d0d0d0;">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
+  <div style="display:flex;">
+    <div class="admin-schema-container">
+      <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
+      <div class="schema-searchbar">
+        <div
+          style="width:400px; height:100%; padding-top:25px; margin-bottom:-10px"
+        ></div>
+        <div style="height:100%; margin-bottom:-8px">
+          <v-dialog v-model="dialog" persistent max-width="500">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                style="margin-left:auto; margin-right:10px; margin-bottom:20px;"
+                fab
+                small
+                elevation="2"
+                color="var(--font-sub2-color)"
+                v-bind="attrs"
+                v-on="on"
+                dark
+                @click="getAllSchemaList"
+                id="add-schema-btn"
+                ><v-icon v-if="!isCheckAdd">mdi-plus</v-icon>
+                <v-icon v-if="isCheckAdd">mdi-close</v-icon></v-btn
+              >
+            </template>
+            <v-card>
+              <v-list
+                dense
+                elevation="3"
+                style="border-radius:5px;width:500;height: 100%;"
+              >
+                <v-card-text>
+                  <div style="display:flex; justify-content:space-between">
+                    <h3>스키마 목록</h3>
                     <v-btn
+                      style="margin-top:-5px"
                       small
-                      elevation="1"
-                      color="error"
-                      v-bind="attrs"
-                      v-on="on"
-                      @click="deleteSchema(schema.userID)"
-                      ><v-icon>mdi-delete</v-icon></v-btn
+                      icon
+                      @click="[(dialog = false), (isCheckAdd = false)]"
+                      ><v-icon>mdi-close</v-icon></v-btn
                     >
-                  </template>
-                  <span>Delete Schema</span>
-                </v-tooltip>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+                  </div>
+                  <div>
+                    <small style="color:var(--font-sub-color)">
+                      모든 스키마의 목록입니다.
+                    </small>
+                    <div class="add-schema-form">
+                      <v-text-field
+                        append-outer-icon="mdi-magnify"
+                        label="검색할 스키마ID를 입력해주세요."
+                        v-model="findSchemaName"
+                        @keyup="findSchema"
+                      ></v-text-field>
+                    </div>
+                  </div>
+
+                  <v-divider style="margin-top: 10px"></v-divider>
+                  <v-simple-table class="all-schema-list-item">
+                    <template v-slot:default>
+                      <tbody>
+                        <tr v-if="findSchemaList.length == 0">
+                          <td class="text-center" colspan="2">
+                            조회된 Schema가 없습니다.
+                          </td>
+                        </tr>
+                        <tr v-for="(schema, i) in findSchemaList" :key="i">
+                          <td style="width: 100%">{{ schema }}</td>
+                          <td>
+                            <v-btn
+                              color="grey"
+                              outlined
+                              fab
+                              x-small
+                              class="setting-schema-save-button"
+                              @click="saveSchema(schema)"
+                            >
+                              <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <v-divider></v-divider>
+                </v-card-text>
+              </v-list>
+            </v-card>
+          </v-dialog>
+        </div>
+      </div>
+      <div>
+        <v-simple-table
+          fixed-header
+          height="290px"
+          color="red"
+          dark
+          style="background:transparent"
+        >
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left" style="padding-left:20px">Schema ID</th>
+                <th class="text-right" style="padding-right:25px">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="admin-schema-table-tbody"
+              style="color:var(--font-sub2-color)"
+            >
+              <tr v-for="schema in schemaList" :key="schema.userID">
+                <td style="border-bottom:1px solid #d0d0d0;">
+                  <v-icon
+                    style="margin-bottom:3px; "
+                    size="22"
+                    color="var(--font-sub2-color)"
+                    >mdi-database</v-icon
+                  >
+                  {{ schema.userID }}
+                </td>
+                <td class="text-right" style="border-bottom:1px solid #d0d0d0;">
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        small
+                        elevation="1"
+                        color="error"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="deleteSchema(schema.userID)"
+                        ><v-icon>mdi-delete</v-icon></v-btn
+                      >
+                    </template>
+                    <span>Delete Schema</span>
+                  </v-tooltip>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </div>
     </div>
   </div>
 </template>
@@ -138,31 +153,29 @@ export default {
   name: "Schema",
   data() {
     return {
+      dialog: false,
       schemaList: [],
+      allSchemaList: [],
       userID: "",
       isCheckAdd: false,
       findSchemaName: "",
       findSchemaList: []
     };
   },
-  watch: {
-    schemaList: function() {
-      this.findSchemaList = this.schemaList;
-    }
-  },
+  // watch: {
+  //   findSchemaList: function() {
+  //     this.findSchemaList = this.allSchemaList;
+  //   }
+  // },
   methods: {
     findSchema() {
       this.findSchemaList = [];
-      if (this.findSchemaName == "") this.findSchemaList = this.schemaList;
+      if (this.findSchemaName == "") this.findSchemaList = this.allSchemaList;
       else {
-        this.schemaList.forEach((schema) => {
+        this.allSchemaList.forEach((schema) => {
           if (
-            schema.userID
-              .toLowerCase()
-              .includes(this.findSchemaName.toLowerCase()) ||
-            schema.userID
-              .toUpperCase()
-              .includes(this.findSchemaName.toUpperCase())
+            schema.toLowerCase().includes(this.findSchemaName.toLowerCase()) ||
+            schema.toUpperCase().includes(this.findSchemaName.toUpperCase())
           ) {
             this.findSchemaList.push(schema);
           }
@@ -199,15 +212,16 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    saveSchema() {
+    saveSchema(schema) {
       if (this.schemaList.length > 7) {
         alert("최대 8개의 Schema까지 등록가능합니다.");
         return;
       }
-      if (this.userID === "") {
-        alert("Schema ID를 입력해주세요.");
-        return;
-      }
+      // if (this.userID === "") {
+      //   alert("Schema ID를 입력해주세요.");
+      //   return;
+      // }
+      this.userID = schema;
       // 중복 및 존재여부 확인
       axios
         .post(SERVER.URL + SERVER.ROUTES.checkSettingsSchema, {
@@ -238,6 +252,17 @@ export default {
           }
         })
         .catch((err) => console.log(err));
+    },
+    getAllSchemaList() {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getAllSchemaList)
+        .then((res) => {
+          this.allSchemaList = res.data.map.schemaList;
+          this.findSchemaList = res.data.map.schemaList;
+          this.isCheckAdd = !this.isCheckAdd;
+          this.findSchemaName = "";
+        })
+        .catch((err) => console.log(err));
     }
   },
   created() {
@@ -247,11 +272,17 @@ export default {
 </script>
 
 <style>
+.all-schema-list-item {
+  overflow-y: scroll;
+  height: 403px;
+}
+
 .admin-schema-table-tbody td {
   border-bottom: 1px solid #d0d0d0;
 }
 .admin-schema-container {
   max-width: 800px;
+  width: 100%;
 }
 .schema-searchbar {
   display: flex;
@@ -278,13 +309,13 @@ export default {
   background: var(--main-color) !important;
 }
 
-.admin-schema-container .slide-fade-enter-active {
+.slide-fade-enter-active {
   transition: all 0.3s ease;
 }
-.admin-schema-container .slide-fade-leave-active {
+.slide-fade-leave-active {
   transition: all 0.3s ease;
 }
-.admin-schema-container .slide-fade-enter, .admin-schema-container .slide-fade-leave-to
+.slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(-20px);
   opacity: 0;

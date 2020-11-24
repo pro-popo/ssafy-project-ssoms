@@ -1,17 +1,19 @@
 <template>
   <div style="height: 72vh; margin-bottom:15px">
-    <h2 style="margin-bottom:15px; color:var(--font-main-color);">
+    <h2
+      style="font-size:22px; margin-bottom:15px; color:var(--font-main-color);"
+    >
       Oracle DB Status
       <div style="float: right">
         <span
           v-if="getRealTime !== 0"
-          style="font-size:14px; margin-right:10px "
+          style="font-size: 14px; margin-right: 10px"
           ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
           {{ getRealTime.substring(0, 11) }}
           {{ getRealTimeList[selectedRealTime] }}</span
         >
         <span class="live-font mr-1">LIVE</span>
-        <v-tooltip top style="margin-left:auto">
+        <v-tooltip top style="margin-left: auto">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-if="selectedRealTime === getRealTimeList.length - 1"
@@ -42,26 +44,31 @@
       </div>
     </h2>
 
-    <div style="height: 30vh;">
-      <OracleCpu />
+    <div :class="{ mainCpu: isMainView, notMainCpu: !isMainView }">
+      <OracleCpu @changeMainView="changeMainView" :isMainView="isMainView" />
     </div>
-    <div style="display:flex; height:32vh">
+    <div style="display: flex; height: 32vh" v-show="!isMainView">
       <div
-        style="width:75%;height:100%; margin:15px 15px 15px 0px; display:flex"
+        style="
+          width: 75%;
+          height: 100%;
+          margin: 15px 15px 15px 0px;
+          display: flex;
+        "
       >
-        <div style="width:25%;">
+        <div style="width: 25%">
           <OracleProcessExecution />
         </div>
-        <div style="width:75%;display:flex; flex-direction: column;">
-          <div style="height:50%; width:100%; margin-bottom:15px">
+        <div style="width: 75%; display: flex; flex-direction: column">
+          <div style="height: 50%; width: 100%; margin-bottom: 15px">
             <OracleProcess />
           </div>
-          <div style="height:50%;width:100%;">
+          <div style="height: 50%; width: 100%">
             <OracleMemory />
           </div>
         </div>
       </div>
-      <div style="width:25%;height:100%; margin:15px 0px 15px 0px;">
+      <div style="width: 25%; height: 100%; margin: 15px 0px 15px 0px">
         <OracleStorage />
       </div>
     </div>
@@ -78,6 +85,11 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "OracleStatus",
+  data() {
+    return {
+      isMainView: false
+    };
+  },
   components: {
     OracleCpu,
     OracleMemory,
@@ -87,6 +99,9 @@ export default {
   },
 
   methods: {
+    changeMainView() {
+      this.isMainView = !this.isMainView;
+    },
     ...mapMutations(["SET_SELECTED_REALTIME"]),
     ...mapActions(["initRealTimeData"]),
     startRealTime() {
@@ -101,6 +116,12 @@ export default {
 </script>
 
 <style>
+.mainCpu {
+  height: 62vh;
+}
+.notMainCpu {
+  height: 30vh;
+}
 .oracle-chart {
   top: -30px !important;
   display: flex;

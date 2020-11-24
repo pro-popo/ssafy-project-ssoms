@@ -2,7 +2,7 @@
   <div>
     <div style="display: flex; justify-content: space-between">
       <div style="display: flex; margin-bottom:10px">
-        <h2 class="mt-2 mr-3">
+        <h2 style="font-size:22px;" class="mt-2 mr-3">
           All Schema'<span style="margin-left:3px" />s Status
         </h2>
       </div>
@@ -71,7 +71,10 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-text>
-            <div class="schema-chart-size-in-line">
+            <div
+              class="schema-chart-size-in-line"
+              @click="clickChart('option1')"
+            >
               <IEcharts :option="option1_line" :resizable="true" />
             </div>
             <div class="schema-chart-size-in-pie">
@@ -118,7 +121,10 @@
 
           <v-divider></v-divider>
           <v-card-text>
-            <div class="schema-chart-size-in-line">
+            <div
+              class="schema-chart-size-in-line"
+              @click="clickChart('option2')"
+            >
               <IEcharts :option="option2_line" :resizable="true" />
             </div>
             <div class="schema-chart-size-in-pie">
@@ -165,7 +171,10 @@
 
           <v-divider></v-divider>
           <v-card-text>
-            <div class="schema-chart-size-in-line">
+            <div
+              class="schema-chart-size-in-line"
+              @click="clickChart('option3')"
+            >
               <IEcharts :option="option3_line" :resizable="true" />
             </div>
             <div class="schema-chart-size-in-pie">
@@ -212,7 +221,10 @@
 
           <v-divider></v-divider>
           <v-card-text>
-            <div class="schema-chart-size-in-line">
+            <div
+              class="schema-chart-size-in-line"
+              @click="clickChart('option4')"
+            >
               <IEcharts :option="option4_line" :resizable="true" />
             </div>
             <div class="schema-chart-size-in-pie">
@@ -270,13 +282,14 @@ export default {
         color: this.getColor(),
         tooltip: {
           trigger: "axis",
-          triggerOn: "none",
+          triggerOn: "click",
           axisPointer: {
+            type: "line",
             label: {
               background: "#ffff",
               show: true,
               formatter: function(params) {
-                // this.changeXaxis(params);
+                this.changeXaxis(params, "option1");
                 return params.value;
               }.bind(this)
             }
@@ -305,7 +318,8 @@ export default {
           },
           axisPointer: {
             handle: {
-              show: true
+              show: true,
+              size: [0, 0]
             },
             value: this.selectedRealTime
           }
@@ -359,12 +373,13 @@ export default {
         color: this.getColor(),
         tooltip: {
           trigger: "axis",
-          triggerOn: "none",
+          triggerOn: "click",
           axisPointer: {
             label: {
               background: "#ffff",
               show: true,
               formatter: function(params) {
+                this.changeXaxis(params, "option2");
                 return params.value;
               }.bind(this)
             }
@@ -399,7 +414,7 @@ export default {
           }
         },
         yAxis: {
-          name: "(%)",
+          name: "(sec)",
           type: "value",
           min: function(value) {
             return (value.min - value.min * 0.3).toFixed(3);
@@ -445,6 +460,7 @@ export default {
       option3_line: {
         xAxis: {
           type: "category",
+
           boundaryGap: false,
           data: [],
           axisLine: {
@@ -462,12 +478,13 @@ export default {
         color: this.getColor(),
         tooltip: {
           trigger: "axis",
-          triggerOn: "none",
+          triggerOn: "click",
           axisPointer: {
             label: {
               background: "#ffff",
               show: true,
               formatter: function(params) {
+                this.changeXaxis(params, "option3");
                 return params.value;
               }.bind(this)
             }
@@ -486,7 +503,7 @@ export default {
           containLabel: true
         },
         yAxis: {
-          name: "(%)",
+          name: "(sec)",
           type: "value",
           min: function(value) {
             return (value.min - value.min * 0.3).toFixed(3);
@@ -557,12 +574,13 @@ export default {
         color: this.getColor(),
         tooltip: {
           trigger: "axis",
-          triggerOn: "none",
+          triggerOn: "click",
           axisPointer: {
             label: {
               background: "#ffff",
               show: true,
               formatter: function(params) {
+                this.changeXaxis(params, "option4");
                 return params.value;
               }.bind(this)
             }
@@ -575,7 +593,7 @@ export default {
         },
 
         yAxis: {
-          name: "(?)",
+          name: "(count)",
           type: "value",
           min: function(value) {
             return value.min - value.min * 0.3;
@@ -624,7 +642,11 @@ export default {
     getColor() {
       return this.$store.state.graphColor;
     },
-    ...mapMutations(["SET_SELECTED_REALTIME"]),
+    ...mapMutations([
+      "SET_SELECTED_REALTIME",
+      "SET_SETTING_SELECTED",
+      "SET_SELECTED_TOOLTIP"
+    ]),
     toggleCheckBox(index) {
       if (this.items[index].isShow === true) {
         this.items[index].isShow = false;
@@ -654,36 +676,49 @@ export default {
         areaStyle = "";
         type = "line";
       }
+      let stack = null;
       if (type == "bar") {
         option.xAxis.boundaryGap = true;
         option.tooltip.axisPointer.type = "shadow";
+        stack = "one";
       } else {
         option.xAxis.boundaryGap = false;
         option.tooltip.axisPointer.type = "line";
+        stack = null;
       }
       let cnt = 0;
       option.series.forEach((element) => {
         element.type = type;
         element.areaStyle = areaStyle;
         element.color = option.color[cnt++];
+        element.stack = stack;
       });
     },
-    changeXaxis(params) {
-      var setTime = 0;
-      if (!this.getIsSelected) {
-        setTime = 100;
-      }
+    clickChart(optionText) {
+      this.SET_SELECTED_TOOLTIP(optionText);
+      this.SET_SETTING_SELECTED(true);
+    },
+    changeXaxis(params, optionText) {
       setTimeout(
         function() {
-          if (params.seriesData[0] !== undefined && this.getIsSelected) {
-            console.log("얘는 스키마11111111");
-            this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-          } else {
-            console.log("얘는 스키마22222222");
-            this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+          if (this.selectedTooltip == optionText) {
+            var setTime = 0;
+            if (!this.getIsSelected) {
+              setTime = 100;
+            }
+            setTimeout(
+              function() {
+                if (params.seriesData[0] !== undefined && this.getIsSelected) {
+                  this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+                } else {
+                  this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+                }
+              }.bind(this),
+              setTime
+            );
           }
         }.bind(this),
-        setTime
+        200
       );
     }
 
@@ -712,10 +747,17 @@ export default {
       "getRealTimeSchemaList4",
       "getSchemaList"
     ]),
-    ...mapGetters(["getRealTime", "getRealTimeList", "selectedRealTime"])
+    ...mapGetters([
+      "getRealTime",
+      "getRealTimeList",
+      "getIsSelected",
+      "selectedRealTime",
+      "selectedTooltip"
+    ])
   },
   watch: {
     selectedRealTime: function() {
+      console.log("seleted RealTime");
       const select = this.selectedRealTime;
       for (var i = 0; i < this.getRealTimeSchemaList2.length; i++) {
         this.option1_pie.series[0].data[i].value = this.getRealTimeSchemaList1[
@@ -839,7 +881,7 @@ export default {
         this.option1_line.series.push({
           name: "",
           type: "line",
-          stack: "one",
+          // stack: "one",
           areaStyle: null,
           showSymbol: false,
           data: []
@@ -851,7 +893,6 @@ export default {
         this.option2_line.series.push({
           name: "",
           type: "line",
-          stack: "one",
           areaStyle: null,
           showSymbol: false,
           data: []
@@ -863,7 +904,6 @@ export default {
         this.option3_line.series.push({
           name: "",
           type: "line",
-          stack: "one",
           areaStyle: null,
           showSymbol: false,
           data: []
@@ -875,7 +915,6 @@ export default {
         this.option4_line.series.push({
           name: "",
           type: "line",
-          stack: "one",
           areaStyle: null,
           showSymbol: false,
           data: []
@@ -907,13 +946,13 @@ export default {
 }
 .schema-chart-size-in-line {
   position: absolute;
-  width: 90%;
+  width: 92%;
   height: 75%;
 }
 .schema-chart-size-in-pie {
   position: absolute;
-  width: 50%;
-  margin-left: 55%;
+  width: 35%;
+  margin-left: 62%;
   margin-top: 10px;
   height: 85%;
 }
