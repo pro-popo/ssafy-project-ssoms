@@ -9,15 +9,15 @@ import { mapGetters } from "vuex";
 export default {
   name: "AppMain",
   computed: {
-    ...mapGetters
+    ...mapGetters,
   },
   props: {
-    isAdmin: Boolean
+    isAdmin: Boolean,
   },
   watch: {
-    isAdmin: function() {
+    isAdmin: function () {
       this.moveMainPage();
-    }
+    },
   },
   created() {
     this.moveMainPage();
@@ -32,8 +32,8 @@ export default {
           this.$router.push({ name: "RealTimeMonitoring" });
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
