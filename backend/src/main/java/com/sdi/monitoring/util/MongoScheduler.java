@@ -53,8 +53,6 @@ public class MongoScheduler {
  
     private Trigger getTrigger() {
         // 작업 주기 설정 
-//    	return (Trigger) new FixedDelay(5000);
-    	return new CronTrigger("0 0/1 * * * *");
-//      return new CronTrigger("0 0 1 * * ?");
+      return new CronTrigger("0 0 1 * * ?");
     }
 }
