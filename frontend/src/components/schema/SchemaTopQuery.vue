@@ -1,19 +1,19 @@
 <template>
   <div>
     <v-card-subtitle>
-      <h2 style="margin-top:30px; color:var(--font-main-color);">
-        {{ SelectedSchema }}'<span style="margin-left:3px" />s Top Query
+      <h2 style="margin-top: 30px; color: var(--font-main-color)">
+        {{ SelectedSchema }}'<span style="margin-left: 3px" />s Top Query
       </h2>
     </v-card-subtitle>
     <v-tabs
-      style="width: 100%; margin:5px 0px 10px;"
+      style="width: 100%; margin: 5px 0px 10px"
       background-color="rgba(1,1,1,0)"
       center-active
       v-model="tab"
       color="black"
     >
       <v-tab
-        style="background:rgba(1,1,1,0)"
+        style="background: rgba(1, 1, 1, 0)"
         v-for="item in items"
         :key="item.tab"
       >
@@ -26,7 +26,7 @@
           <v-simple-table
             fixed-header
             height="285px"
-            class="elevation-2 realtime-top-query "
+            class="elevation-2 realtime-top-query"
             id="schemaTopQueryTable1"
             v-if="getPastTimeData.schemas[SelectedSchema] != null"
           >
@@ -46,21 +46,26 @@
                   ].cpuUsed"
                   :key="index"
                   @click="getCPUQueryDetail('schemaTopQueryTable1', index)"
-                  class="real-query-hover "
+                  class="real-query-hover"
                 >
-                  <td class="text-center" style="width:70px">
+                  <td class="text-center" style="width: 70px">
                     {{ index + 1 }}
                   </td>
-                  <td style="width:250px">{{ query.sqlId }}</td>
+                  <td style="width: 250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
                   <td>
                     <div
-                      style="display:flex; justify-content:space-between; align-items:center; width:85px"
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 85px;
+                      "
                     >
                       {{ query.cpuTimeRatio }} %
                       <v-progress-circular
                         v-if="query.cpuTimeRatio != 0"
-                        style="margin-left:10px"
+                        style="margin-left: 10px"
                         :value="query.cpuTimeRatio"
                         :size="20"
                         :width="5"
@@ -99,20 +104,25 @@
                   @click="getElapsedQueryDetail('schemaTopQueryTable2', index)"
                   class="real-query-hover"
                 >
-                  <td class="text-center" style="width:70px">
+                  <td class="text-center" style="width: 70px">
                     {{ index + 1 }}
                   </td>
-                  <td style="width:250px">{{ query.sqlId }}</td>
+                  <td style="width: 250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
                   <td>
                     <div
-                      style="display:flex; justify-content:space-between; align-items:center; width:85px"
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 85px;
+                      "
                     >
                       {{ query.elapsedTimeRatio }}
                       %
                       <v-progress-circular
                         v-if="query.elapsedTimeRatio != 0"
-                        style="margin-left:10px"
+                        style="margin-left: 10px"
                         :value="query.elapsedTimeRatio"
                         :size="20"
                         :width="5"
@@ -151,19 +161,24 @@
                   @click="getBufferQueryDetail('schemaTopQueryTable3', index)"
                   class="real-query-hover"
                 >
-                  <td class="text-center" style="width:70px">
+                  <td class="text-center" style="width: 70px">
                     {{ index + 1 }}
                   </td>
-                  <td style="width:250px">{{ query.sqlId }}</td>
+                  <td style="width: 250px">{{ query.sqlId }}</td>
                   <td align="left" class="query-table-sql">{{ query.sql }}</td>
                   <td>
                     <div
-                      style="display:flex; justify-content:space-between; align-items:center; width:85px"
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 85px;
+                      "
                     >
                       <span>{{ query.bufferGetsRatio }} %</span>
                       <v-progress-circular
                         v-if="query.bufferGetsRatio != 0"
-                        style="margin-left:10px"
+                        style="margin-left: 10px"
                         :value="query.bufferGetsRatio"
                         :size="20"
                         :width="5"
@@ -182,13 +197,13 @@
       <v-card
         elevation="2"
         v-if="detailData"
-        style="margin-top:10px"
+        style="margin-top: 10px"
         class="animate__animated animate__fadeIn animate__fadeIn"
       >
         <v-card-text>
           <div>
             <v-icon>mdi-database</v-icon>
-            <b style="font-size:16px"> {{ detailData.parsingSchemaName }}</b>
+            <b style="font-size: 16px"> {{ detailData.parsingSchemaName }}</b>
           </div>
           <div class="realtime-query-detail-sql" style="padding: 5px 29px 0px">
             <div>
@@ -197,13 +212,13 @@
             </div>
             <div>
               <p>SQL</p>
-              <b style="word-break:normal; width:90%">{{ detailData.sql }}</b>
+              <b style="word-break: normal; width: 90%">{{ detailData.sql }}</b>
             </div>
           </div>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-text style="padding: 10px 16px">
-          <div style="display:flex">
+          <div style="display: flex">
             <div class="schema-query-detail-left">
               <div>
                 <h4 class="query-detail-title">Executions</h4>
@@ -216,17 +231,17 @@
                 <h4 class="query-detail-title">LastActiveTime</h4>
                 <span
                   class="query-detail-text"
-                  style="font-size:22px; color:var(--main-point-color)"
+                  style="font-size: 22px; color: var(--main-point-color)"
                 >
                   {{ detailData.lastActiveTime.split(" ")[0] }}
-                  <span style="margin-left:5px"></span>
+                  <span style="margin-left: 5px"></span>
                   {{ detailData.lastActiveTime.split(" ")[1] }}
                 </span>
               </div>
             </div>
             <div class="schema-query-detail-right">
               <div>
-                <h3 class="query-detail-title" style="margin:10px 0px -5px">
+                <h3 class="query-detail-title" style="margin: 10px 0px -5px">
                   CpuTime
                 </h3>
                 <!-- <div class="query-detail-text">
@@ -237,7 +252,7 @@
                 </div>
               </div>
               <div>
-                <h3 class="query-detail-title" style="margin:10px 0px -5px">
+                <h3 class="query-detail-title" style="margin: 10px 0px -5px">
                   BufferGets
                 </h3>
                 <!-- <div class="query-detail-text">
@@ -249,7 +264,7 @@
               </div>
 
               <div>
-                <h3 class="query-detail-title" style="margin:10px 0px -5px">
+                <h3 class="query-detail-title" style="margin: 10px 0px -5px">
                   ElapsedTime
                 </h3>
                 <!-- <div class="query-detail-text">
@@ -272,11 +287,11 @@
         elevation="2"
         color="#E0E0E0"
         class="realtime-non-query"
-        style="margin-top:10px"
+        style="margin-top: 10px"
         height="300px"
         v-else
       >
-        <v-card-text style="display:flex; justify-content:center">
+        <v-card-text style="display: flex; justify-content: center">
           <h3>Query Detail</h3>
         </v-card-text>
       </v-card>
@@ -291,7 +306,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "SchemaTopQuery",
   components: {
-    IEcharts
+    IEcharts,
   },
   data() {
     return {
@@ -300,7 +315,7 @@ export default {
       items: [
         { tab: "CPU Time", content: "" },
         { tab: "Elapsed Time", content: "" },
-        { tab: "Buffer Gets", content: "" }
+        { tab: "Buffer Gets", content: "" },
       ],
       option1: {
         // title: {
@@ -311,7 +326,7 @@ export default {
           height: "100%",
           right: 10,
           left: 10,
-          bottom: 0
+          bottom: 0,
         },
 
         series: [
@@ -320,7 +335,7 @@ export default {
             radius: ["50%", "80%"],
             label: {
               show: true,
-              formatter: function(event) {
+              formatter: function (event) {
                 if (event.data.name == "") return "";
                 return "{c|" + event.data.value + "} {d|%}";
               },
@@ -328,33 +343,33 @@ export default {
                 c: {
                   fontSize: "20",
                   fontWeight: "bold",
-                  padding: [0, 0, 5, 0]
+                  padding: [0, 0, 5, 0],
                 },
                 d: {
                   fontSize: "16",
                   fontWeight: "bold",
-                  padding: [0, 0, 5, 0]
-                }
+                  padding: [0, 0, 5, 0],
+                },
               },
-              position: "center"
+              position: "center",
             },
 
             labelLine: {
-              show: false
+              show: false,
             },
             color: ["#6440e3", "#E0E0E0"],
             data: [
               {
                 value: 0,
-                name: ""
+                name: "",
               },
               {
                 value: 100,
-                name: ""
-              }
-            ]
-          }
-        ]
+                name: "",
+              },
+            ],
+          },
+        ],
       },
       option2: {
         // title: {
@@ -365,7 +380,7 @@ export default {
           height: "100%",
           right: 10,
           left: 10,
-          bottom: 0
+          bottom: 0,
         },
 
         series: [
@@ -374,7 +389,7 @@ export default {
             radius: ["50%", "80%"],
             label: {
               show: true,
-              formatter: function(event) {
+              formatter: function (event) {
                 if (event.data.name == "") return "";
                 return "{c|" + event.data.value + "} {d|%}";
               },
@@ -382,33 +397,33 @@ export default {
                 c: {
                   fontSize: "20",
                   fontWeight: "bold",
-                  padding: [0, 0, 5, 0]
+                  padding: [0, 0, 5, 0],
                 },
                 d: {
                   fontSize: "16",
                   fontWeight: "bold",
-                  padding: [0, 0, 5, 0]
-                }
+                  padding: [0, 0, 5, 0],
+                },
               },
-              position: "center"
+              position: "center",
             },
 
             labelLine: {
-              show: false
+              show: false,
             },
             color: ["#2196F3", "#E0E0E0"],
             data: [
               {
                 value: 0,
-                name: ""
+                name: "",
               },
               {
                 value: 100,
-                name: ""
-              }
-            ]
-          }
-        ]
+                name: "",
+              },
+            ],
+          },
+        ],
       },
       option3: {
         // title: {
@@ -419,7 +434,7 @@ export default {
           height: "100%",
           right: 10,
           left: 10,
-          bottom: 0
+          bottom: 0,
         },
 
         series: [
@@ -428,7 +443,7 @@ export default {
             radius: ["50%", "80%"],
             label: {
               show: true,
-              formatter: function(event) {
+              formatter: function (event) {
                 if (event.data.name == "") return "";
                 return "{c|" + event.data.value + "} {d|%}";
               },
@@ -436,40 +451,40 @@ export default {
                 c: {
                   fontSize: "20",
                   fontWeight: "bold",
-                  padding: [0, 0, 5, 0]
+                  padding: [0, 0, 5, 0],
                 },
                 d: {
                   fontSize: "16",
                   fontWeight: "bold",
-                  padding: [0, 0, 5, 0]
-                }
+                  padding: [0, 0, 5, 0],
+                },
               },
-              position: "center"
+              position: "center",
             },
 
             labelLine: {
-              show: false
+              show: false,
             },
             color: ["#2196F3", "#E0E0E0"],
             data: [
               {
                 value: 0,
-                name: ""
+                name: "",
               },
               {
                 value: 100,
-                name: ""
-              }
-            ]
-          }
-        ]
+                name: "",
+              },
+            ],
+          },
+        ],
       },
       clickRow: -1,
-      selectedTableId: ""
+      selectedTableId: "",
     };
   },
   watch: {
-    getPastTimeDataCheck: function() {
+    getPastTimeDataCheck: function () {
       if (this.clickRow != -1) {
         const trList = document
           .getElementById(this.selectedTableId)
@@ -480,7 +495,7 @@ export default {
       }
       this.tab = 0;
       this.detailData = false;
-    }
+    },
   },
   methods: {
     tableSelect(tableId, index) {
@@ -538,12 +553,12 @@ export default {
 
       this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
       this.option3.series[0].data[0].name = "ElapsedTime";
-    }
+    },
   },
   computed: {
     ...mapGetters("Schema", ["getPastTimeData", "getPastTimeDataCheck"]),
-    ...mapGetters("Schema", ["SelectedSchema"])
-  }
+    ...mapGetters("Schema", ["SelectedSchema"]),
+  },
 };
 </script>
 <style>
