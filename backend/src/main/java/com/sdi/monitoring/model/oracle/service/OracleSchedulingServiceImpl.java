@@ -100,6 +100,8 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 		OracleStatusDTO oracleStatusDTO = oracleRepoImpl.findOracleStastics();
 		System.out.println(periodCnt);
 		System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
+		Map<String, Object> map = new HashMap<>();
+		boolean outlier = false;
 //		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()
 //				|| periodCnt % 5 == 0) {
 		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95
@@ -108,7 +110,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 			System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
 			System.out.println(periodCnt);
 			List<String> schemaList = JsonParser.getSchemaInfo();
-			Map<String, Object> map = new HashMap<>();
+			
 			RealTimeMonitoringDTO realTimeMonitoringDTO = new RealTimeMonitoringDTO();
 			
 			realTimeMonitoringDTO.setTime(format.format(time));
@@ -144,7 +146,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 			realTimeMonitoringDTO.setSchemas(schemaInfoDTOList);
 			map.put("schemas", schemas);
 			
-			messagingTemplate.convertAndSend("/sendData/schedulerM", map);
+			
 			RealTimeMonitoringEntity realTimeMonitoringEntity = realTimeMonitoringEntityBuilder(realTimeMonitoringDTO);
 			
 			System.out.println(realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime()));
@@ -166,11 +168,13 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 //				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
 				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95) {
 					outlierDataMongoRepo.insert(outlierDataEntityBuilder(format.format(time), oracleStatusDTO.getDatabaseCpuTimeRatio()));
+					outlier = true;
 				}
 				realTimeMonitoringEntity = null;
 			}
+			map.put("outlier", outlier);
+			messagingTemplate.convertAndSend("/sendData/schedulerM", map);
 		}
-
 	}
 
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {
