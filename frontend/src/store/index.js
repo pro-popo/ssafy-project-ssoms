@@ -28,14 +28,16 @@ export default new Vuex.Store({
     time: 0,
     timeList: [],
     selectedRealTime: 0, // 시점의 인덱스 값으로 저장
-    selectedTooltip: ""
+    selectedTooltip: "",
+    outlierLog:[]
   },
   getters: {
     getRealTime: (state) => state.time,
     getRealTimeList: (state) => state.timeList,
     getIsSelected: (state) => state.isSelected,
     selectedRealTime: (state) => state.selectedRealTime,
-    selectedTooltip: (state) => state.selectedTooltip
+    selectedTooltip: (state) => state.selectedTooltip,
+    getOutlierLog: (state) => state.outlierLog,
   },
   mutations: {
     SET_REALTIME(state, data) {
@@ -59,9 +61,20 @@ export default new Vuex.Store({
     },
     SET_SELECTED_TOOLTIP(state, data) {
       state.selectedTooltip = data;
+    },
+    SET_OUTLIER_LOG(state, data){
+        state.outlierLog = data;
     }
   },
   actions: {
+    getOutlierData({ commit }, { start, end }){
+        axios.get(SERVER.URL + SERVER.ROUTES.getOutlierData + `${start}${end}`)
+        .then((res) => {
+            commit("SET_OUTLIER_LOG", res.map);
+            console.log("이상");
+            console.log(res.data);
+        });
+    },
     initRealTimeData({ commit }) {
       axios.get(SERVER.URL + SERVER.ROUTES.getRealTimeData).then((res) => {
         const realTimeHistoricalDataList = res.data.map.realTimeMonitoringList;

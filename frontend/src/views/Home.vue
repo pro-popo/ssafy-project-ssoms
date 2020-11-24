@@ -41,7 +41,7 @@ import axios from "axios";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 
-import { mapMutations, mapGetters } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -62,6 +62,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["getOutlierData"]),
     checkIsAdmin() {
       axios
         .get(
@@ -114,6 +115,11 @@ export default {
           frame;
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             const realTimeData = JSON.parse(res.body);
+            if(realTimeData.outlier){
+                let today = new Date();
+                let start = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDay();
+                this.getOutlierData({ start: start, end: start });
+            }
             if (this.getRealTime !== realTimeData.time) {
               if (this.getDatabaseCpuTimeRatioList.length >= 12) {
                 this.addRealtimeData(realTimeData);

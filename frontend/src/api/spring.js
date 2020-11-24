@@ -30,6 +30,7 @@ export default {
     scheduleStatus: "/admin/realtime/status",
 
     getRealTimeData: "/data/realtime",
-    getPastData: "/data/past"
+    getPastData: "/data/past",
+    getOutlierData: "/data/past/outlier"
   }
 };

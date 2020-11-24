@@ -68,21 +68,25 @@ export default {
   },
   methods: {
       makebtn(){
+          let list = [];
           if(this.$route.name == 'RealTimeMonitoring'){
               this.toPdf[0].forEach(element => {
                 if (element == "allSchemaTopQuery"){
-                    this.makePDF([document.getElementById('allSchemaTopQueryTable').firstElementChild.firstElementChild], element)
+                    list.push(document.getElementById('allSchemaTopQueryTable').firstElementChild.firstElementChild);
                 }else{
-                    this.makePDF([document.getElementById(element)], element)
+                    list.push(document.getElementById(element));
                 }
+                this.makePDF(list, 'RealTimeMonitoring');
               });
           }else if(this.$route.name == 'SchemaMonitoring'){
               this.toPdf[1].forEach(element => {
               if(element == "pastMonitering"){
-                this.makePDF([document.getElementById('SchemaWhole'), document.getElementById('SchemaDetail')], element)
+                  list.push(document.getElementById('SchemaWhole'));
+                  list.push(document.getElementById('SchemaDetail'));
               }else if(element == "SchemaQuerys"){
-                this.makePDF([document.getElementById('SchemaQuerys').firstElementChild.firstElementChild], element)
+                  list.push(document.getElementById('SchemaQuerys').firstElementChild.firstElementChild);
               }
+                this.makePDF(list, 'SchemaMonitoring');
             });
           }
           
@@ -98,12 +102,17 @@ export default {
             ele.forEach(element => {
                 let canvas = pdf.canvas
                 const pageWidth = 210 //캔버스 너비 mm
+                const pageHeight = 297
                 canvas.width = pageWidth
                 let width = element.offsetWidth // 셀렉트한 요소의 px 너비
                 let height = element.offsetHeight // 셀렉트한 요소의 px 높이
                 let imgHeight = pageWidth * height/width // 이미지 높이값 px to mm 변환
                 html2canvas(element).then(canvas => {
                     let imgData = canvas.toDataURL('image/png');
+                    if(pageHeight <= beforeheight + imgHeight){
+                        pdf.addPage();
+                        beforeheight = 0;
+                    }
                     pdf.addImage(imgData, 'png', 0, beforeheight, pageWidth, imgHeight, 'image'+String(idx), 'FAST');
                     if(idx == ele.length - 1){
                         let date = new Date();
