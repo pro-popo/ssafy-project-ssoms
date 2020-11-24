@@ -721,23 +721,6 @@ export default {
         200
       );
     }
-
-    // changeAxis(index, params) {
-    //   console.log("왜이래", index, params);
-    //   if (index === 3) {
-    //     if (params.seriesData[0] !== undefined)
-    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
-    //   } else if (index === 4) {
-    //     if (params.seriesData[0] !== undefined)
-    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
-    //   }
-    // }
-    // changeChart(type) {
-    //   if (type === "line") {
-    //   } else if (type === "pie") {
-    // }
   },
   computed: {
     ...mapGetters("Schema", [
@@ -757,7 +740,6 @@ export default {
   },
   watch: {
     selectedRealTime: function() {
-      console.log("seleted RealTime");
       const select = this.selectedRealTime;
       for (var i = 0; i < this.getRealTimeSchemaList2.length; i++) {
         this.option1_pie.series[0].data[i].value = this.getRealTimeSchemaList1[
