@@ -9,7 +9,6 @@
     >
       <v-navigation-drawer
         class="side-navbar-right"
-        overlay-color="red"
         :expand-on-hover="fixedMini"
         :mini-variant.sync="mini"
         :width="260"
@@ -39,7 +38,12 @@
         </div>
         <v-card
           elevation="8"
-          style="height: 100%; margin-left: 15px"
+          style="
+            height: 100%;
+            margin-left: 15px;
+            display: flex;
+            flex-direction: column;
+          "
           v-if="!mini"
           class="animate__animated animate__fadeInRight"
         >
@@ -94,8 +98,34 @@
               <v-tab @click="moveScroll(2)">All Schema Top Query</v-tab>
             </v-tabs>
           </template>
+          <div style="margin: auto 20px 0px auto; padding-bottom: 70px">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  elevation="2"
+                  color="secondary"
+                  fab
+                  small
+                  dark
+                  class="ml-3"
+                  @click="
+                    dialog = true;
+                    mini = true;
+                  "
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon> mdi-file-pdf </v-icon>
+                </v-btn>
+              </template>
+              <span>Report</span>
+            </v-tooltip>
+          </div>
         </v-card>
       </v-navigation-drawer>
+      <v-dialog v-model="dialog" max-width="600px">
+        <ReportModal @kill-modal="dialog = false" />
+      </v-dialog>
       <h3>
         Real-Time Monitorting
         <v-dialog v-model="dialog" max-width="600px">
@@ -113,7 +143,6 @@
               <v-icon> mdi-file-pdf </v-icon>
             </v-btn>
           </template>
-          <ReportModal @kill-modal="dialog = false" />
         </v-dialog>
       </h3>
     </div>
@@ -142,11 +171,8 @@ export default {
     return {
       dialog: false,
       tab: 0,
-      drawer: true,
-      model: 0,
       mini: true,
       fixedMini: true,
-      slowlyTab: true,
     };
   },
   components: {
@@ -171,7 +197,7 @@ export default {
       var node = null;
       switch (index) {
         case 0:
-          node = document.getElementById("oracleStatus");
+          node = document.getElementById("app-main");
           break;
         case 1:
           node = document.getElementById("allSchemaStatics");

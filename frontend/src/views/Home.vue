@@ -178,6 +178,6 @@ export default {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 50px 80px 0px 130px;
+  padding: 0px 80px 0px 130px;
 }
 </style>

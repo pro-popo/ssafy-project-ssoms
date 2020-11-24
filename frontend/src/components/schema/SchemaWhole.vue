@@ -3,13 +3,11 @@
     <v-col cols="6">
       <v-card elevation="2" height="350px">
         <v-card-subtitle align="center"
-          ><h3 style="color:#333333; font-size:20px">
-            Oracle DB CPU Time
-          </h3>
+          ><h3 style="color: #333333; font-size: 20px">Oracle DB CPU Time</h3>
         </v-card-subtitle>
         <v-divider></v-divider>
-        <v-card-text style="width:100%; height:85%; ">
-          <div @click="clickOracleChart" style="width:100%; height:100%">
+        <v-card-text style="width: 100%; height: 85%">
+          <div @click="clickOracleChart" style="width: 100%; height: 100%">
             <IEcharts :option="chart1" :resizable="true" />
           </div>
         </v-card-text>
@@ -18,12 +16,10 @@
     <v-col cols="6">
       <v-card elevation="2" height="350px">
         <v-card-subtitle align="center"
-          ><h3 style="color:#333333; font-size:20px">
-            All Schema's Status
-          </h3>
+          ><h3 style="color: #333333; font-size: 20px">All Schema's Status</h3>
         </v-card-subtitle>
         <v-divider></v-divider>
-        <v-card-text style="width:100%; height:85%">
+        <v-card-text style="width: 100%; height: 85%">
           <IEcharts :option="chart2" :resizable="true" />
         </v-card-text>
       </v-card>
@@ -41,7 +37,7 @@ import echarts from "echarts/lib/echarts";
 export default {
   name: "SchemaWhole",
   components: {
-    IEcharts
+    IEcharts,
   },
   computed: {
     ...mapGetters("Schema", ["getTimeAndCpuList"]),
@@ -49,12 +45,12 @@ export default {
     chart1() {
       return {
         grid: {
-          top: 20
+          top: 20,
         },
         tooltip: {
           trigger: "axis",
           triggerOn: "click",
-          position: function(pt) {
+          position: function (pt) {
             return [pt[0], "10%"];
           },
           //
@@ -64,12 +60,12 @@ export default {
               background: "#000000",
               show: true,
               snap: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.setPastTimeData(params.value);
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         // title: {
         //   left: "center",
@@ -82,24 +78,24 @@ export default {
           data: this.getTimeAndCpuList.time,
           axisLine: {
             lineStyle: {
-              color: "#303030"
-            }
+              color: "#303030",
+            },
           },
           axisPointer: {
             handle: {
               show: true,
-              size: [0, 0]
-            }
+              size: [0, 0],
+            },
             // value: this.selectedRealTime
-          }
+          },
         },
         yAxis: {
           type: "value",
-          boundaryGap: [0, "100%"]
+          boundaryGap: [0, "100%"],
         },
         dataZoom: [
           {
-            type: "inside"
+            type: "inside",
           },
           {
             handleIcon:
@@ -109,10 +105,10 @@ export default {
               shadowBlur: 3,
               shadowColor: "rgba(0, 0, 0, 0.6)",
               shadowOffsetX: 2,
-              shadowOffsetY: 2
+              shadowOffsetY: 2,
             },
-            bottom: 0
-          }
+            bottom: 0,
+          },
         ],
         series: [
           {
@@ -121,23 +117,23 @@ export default {
             smooth: true,
             sampling: "average",
             itemStyle: {
-              color: "#1e88df"
+              color: "#1e88df",
             },
             areaStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: "#2196F3"
+                  color: "#2196F3",
                 },
                 {
                   offset: 1,
-                  color: "#280d8c"
-                }
-              ])
+                  color: "#280d8c",
+                },
+              ]),
             },
-            data: this.getTimeAndCpuList.cpu
-          }
-        ]
+            data: this.getTimeAndCpuList.cpu,
+          },
+        ],
       };
     },
     chart2() {
@@ -147,7 +143,7 @@ export default {
 
         legend: {
           data: this.getPastTimeData.schemaList,
-          bottom: 5
+          bottom: 5,
         },
         // title: {
         //   text: "All Schema's Status",
@@ -165,38 +161,38 @@ export default {
               color: "#fff",
               backgroundColor: "#999",
               borderRadius: 5,
-              padding: [5, 7]
-            }
+              padding: [5, 7],
+            },
           },
           indicator: [
             { name: "BufferGetsAvg" },
             { name: "CpuTimeAvg" },
             { name: "CpuTimeMax" },
             { name: "CpuTimeTot" },
-            { name: "SqlCnt" }
-          ]
+            { name: "SqlCnt" },
+          ],
         },
         series: [
           {
             name: "Schema status",
             type: "radar",
             // areaStyle: {normal: {}},
-            data: this.getPastTimeData.radarchart
-          }
-        ]
+            data: this.getPastTimeData.radarchart,
+          },
+        ],
       };
-    }
+    },
   },
   methods: {
     ...mapActions("Schema", ["setPastTimeData"]),
     ...mapMutations("Schema", [
       "SET_PAST_TIME_DATA",
-      "SET_PAST_TIME_DATA_CHECK"
+      "SET_PAST_TIME_DATA_CHECK",
     ]),
     clickOracleChart() {
       this.SET_PAST_TIME_DATA_CHECK();
-    }
-  }
+    },
+  },
 };
 </script>
 
