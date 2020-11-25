@@ -40,11 +40,11 @@ export default {
   methods: {
     ...mapActions(["getOutlierData"]),
     outlierlog() {
-      let start = new Date().toISOString().substr(0, 10);
-      let end = new Date();
-      end.setDate(end.getDate() + 1);
-      end = end.toISOString().substr(0, 10);
-      this.getOutlierData({ start: "/" + start, end: "/" + end });
+      // let start = new Date().toISOString().substr(0, 10);
+      // let end = new Date();
+      // end.setDate(end.getDate() + 1);
+      // end = end.toISOString().substr(0, 10);
+      // this.getOutlierData({ start: "/" + start, end: "/" + end });
       this.logflag = !this.logflag;
     },
   },
