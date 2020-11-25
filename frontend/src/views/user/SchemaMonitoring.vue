@@ -280,6 +280,14 @@ export default {
       "SET_PAST_TIME_DATA_CHECK",
     ]),
     ...mapActions("Schema", ["setTimeAndCpuList"]),
+    getPositionScroll() {
+      const top = document.getElementById("home-main").scrollTop;
+      if (this.mini) {
+        if (top >= 700) this.tab = 2;
+        else if (top >= 400) this.tab = 1;
+        else this.tab = 0;
+      }
+    },
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"]),
@@ -290,12 +298,6 @@ export default {
   },
 
   mounted() {
-    // document.getElementById(
-    //   "startDate"
-    // ).value = new Date().toISOString().substring(0, 10);
-    // document.getElementById(
-    //   "endDate"
-    // ).value = new Date().toISOString().substring(0, 10);
     this.queryData();
 
     this.tomorrow.setDate(new Date().getDate());

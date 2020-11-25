@@ -2,12 +2,11 @@
   <v-row>
     <v-col cols="12">
       <v-card-subtitle>
-        <h2 style="color:var(--font-main-color);margin-top:10px">
-          {{ SelectedSchema }}'<span style="margin-left:3px" />s Status
+        <h2 style="color: var(--font-main-color); margin-top: 10px">
+          {{ SelectedSchema }}'<span style="margin-left: 3px" />s Status
         </h2>
       </v-card-subtitle>
       <v-card width="100%" elevation="2" outlined>
-        <v-divider></v-divider>
         <v-card-text>
           <table
             width="100%"
@@ -168,11 +167,11 @@ export default {
   components: {},
   computed: {
     ...mapGetters("Schema", ["getPastTimeData"]),
-    ...mapGetters("Schema", ["SelectedSchema"])
+    ...mapGetters("Schema", ["SelectedSchema"]),
   },
   data() {
     return {};
-  }
+  },
 };
 </script>
 

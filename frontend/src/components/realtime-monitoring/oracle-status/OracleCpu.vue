@@ -386,7 +386,7 @@ export default {
                 name: "CpuTime",
               },
             ],
-            radius: "75%",
+            radius: "73%",
             startAngle: 180,
             endAngle: 0,
             splitNumber: 5,
