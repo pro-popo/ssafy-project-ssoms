@@ -1,13 +1,13 @@
 <template>
   <div>
     <div style="display: flex; justify-content: space-between">
-      <div style="display: flex; margin-bottom:10px">
-        <h2 style="font-size:22px;" class="mt-2 mr-3">
-          All Schema'<span style="margin-left:3px" />s Status
+      <div style="display: flex; margin-bottom: 10px">
+        <h2 style="font-size: 22px" class="mt-2 mr-3">
+          All Schema'<span style="margin-left: 3px" />s Status
         </h2>
       </div>
       <v-menu
-        style="z-index:10"
+        style="z-index: 10"
         transition="slide-y-transition"
         :close-on-content-click="false"
       >
@@ -34,26 +34,26 @@
       </v-menu>
     </div>
     <div class="schema-chart-box">
-      <div v-if="items[0].isShow" style="width:49.5%">
+      <div v-if="items[0].isShow" style="width: 49.5%">
         <v-card elevation="2" class="schema-chart-size">
           <v-card-text
-            style="padding:8px 15px; display:flex; align-items:center"
+            style="padding: 8px 15px; display: flex; align-items: center"
           >
             <h3>Executions</h3>
-            <div style="margin-left:auto">
+            <div style="margin-left: auto">
               <v-menu offset-y attach>
                 <template v-slot:activator="{ attrs, on }">
                   <v-btn small icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <div style="background:white">
+                <div style="background: white">
                   <v-btn-toggle
                     group
                     mandatory
                     color="#039BE5"
                     v-model="toggle_exclusive[0]"
-                    style="display:flex;  flex-direction: column;"
+                    style="display: flex; flex-direction: column"
                   >
                     <v-btn small icon @click="changeChart(1, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
@@ -83,26 +83,26 @@
           </v-card-text>
         </v-card>
       </div>
-      <div v-if="items[1].isShow" style="width:49.5%">
+      <div v-if="items[1].isShow" style="width: 49.5%">
         <v-card elevation="2" class="schema-chart-size">
           <v-card-text
-            style="padding:8px 15px; display:flex; align-items:center"
+            style="padding: 8px 15px; display: flex; align-items: center"
           >
             <h3>CpuTimeTotal</h3>
-            <div style="margin-left:auto">
+            <div style="margin-left: auto">
               <v-menu offset-y attach>
                 <template v-slot:activator="{ attrs, on }">
                   <v-btn small icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <div style="background:white">
+                <div style="background: white">
                   <v-btn-toggle
                     group
                     mandatory
                     color="#039BE5"
                     v-model="toggle_exclusive[1]"
-                    style="display:flex;  flex-direction: column;"
+                    style="display: flex; flex-direction: column"
                   >
                     <v-btn small icon @click="changeChart(2, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
@@ -133,26 +133,26 @@
           </v-card-text>
         </v-card>
       </div>
-      <div v-if="items[2].isShow" style="width:49.5%">
+      <div v-if="items[2].isShow" style="width: 49.5%">
         <v-card elevation="2" class="schema-chart-size">
           <v-card-text
-            style="padding:8px 15px; display:flex; align-items:center"
+            style="padding: 8px 15px; display: flex; align-items: center"
           >
             <h3>ElapsedTimeTotal</h3>
-            <div style="margin-left:auto">
+            <div style="margin-left: auto">
               <v-menu offset-y attach>
                 <template v-slot:activator="{ attrs, on }">
                   <v-btn small icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <div style="background:white">
+                <div style="background: white">
                   <v-btn-toggle
                     group
                     mandatory
                     color="#039BE5"
                     v-model="toggle_exclusive[2]"
-                    style="display:flex;  flex-direction: column;"
+                    style="display: flex; flex-direction: column"
                   >
                     <v-btn small icon @click="changeChart(3, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
@@ -183,26 +183,26 @@
           </v-card-text>
         </v-card>
       </div>
-      <div v-if="items[3].isShow" style="width:49.5%">
+      <div v-if="items[3].isShow" style="width: 49.5%">
         <v-card elevation="2" class="schema-chart-size">
           <v-card-text
-            style="padding:8px 15px; display:flex; align-items:center"
+            style="padding: 8px 15px; display: flex; align-items: center"
           >
             <h3>BufferGetsAvg</h3>
-            <div style="margin-left:auto">
+            <div style="margin-left: auto">
               <v-menu offset-y attach>
                 <template v-slot:activator="{ attrs, on }">
                   <v-btn small icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <div style="background:white">
+                <div style="background: white">
                   <v-btn-toggle
                     group
                     mandatory
                     color="#039BE5"
                     v-model="toggle_exclusive[3]"
-                    style="display:flex;  flex-direction: column;"
+                    style="display: flex; flex-direction: column"
                   >
                     <v-btn small icon @click="changeChart(4, 'bar')"
                       ><v-icon>mdi-chart-bar</v-icon></v-btn
@@ -246,7 +246,7 @@ import SERVER from "@/api/spring.js";
 export default {
   name: "AllSchemaStastice",
   components: {
-    IEcharts
+    IEcharts,
   },
   data() {
     return {
@@ -257,26 +257,26 @@ export default {
           title: "Executions",
           isShow: true,
           iconTrue: "mdi-checkbox-marked-circle-outline",
-          iconFalse: "mdi-checkbox-blank-circle-outline"
+          iconFalse: "mdi-checkbox-blank-circle-outline",
         },
         {
           title: "CpuTimeTotal",
           isShow: true,
           iconTrue: "mdi-checkbox-marked-circle-outline",
-          iconFalse: "mdi-checkbox-blank-circle-outline"
+          iconFalse: "mdi-checkbox-blank-circle-outline",
         },
         {
           title: "ElapsedTimeTotal",
           isShow: true,
           iconTrue: "mdi-checkbox-marked-circle-outline",
-          iconFalse: "mdi-checkbox-blank-circle-outline"
+          iconFalse: "mdi-checkbox-blank-circle-outline",
         },
         {
           title: "BufferGetsAvg",
           isShow: true,
           iconTrue: "mdi-checkbox-marked-circle-outline",
-          iconFalse: "mdi-checkbox-blank-circle-outline"
-        }
+          iconFalse: "mdi-checkbox-blank-circle-outline",
+        },
       ],
       option1_line: {
         color: this.getColor(),
@@ -288,24 +288,24 @@ export default {
             label: {
               background: "#ffff",
               show: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.changeXaxis(params, "option1");
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         legend: {
           type: "scroll",
           icon: "roundRect",
-          data: []
+          data: [],
         },
         grid: {
           left: 20,
           right: "35%",
           top: 70,
           bottom: 7,
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: "category",
@@ -313,48 +313,48 @@ export default {
           data: [],
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisPointer: {
             handle: {
               show: true,
-              size: [0, 0]
+              size: [0, 0],
             },
-            value: this.selectedRealTime
-          }
+            value: this.selectedRealTime,
+          },
         },
         yAxis: {
           name: "(count)",
           type: "value",
-          min: function(value) {
+          min: function (value) {
             return (value.min - value.min * 0.05).toFixed(0);
           },
-          max: function(value) {
+          max: function (value) {
             return (value.max + value.max * 0.05).toFixed(0);
           },
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisTick: {
-            show: false
-          }
+            show: false,
+          },
         },
-        series: []
+        series: [],
       },
       option1_pie: {
         color: this.getColor(),
         // color: ["#f72585", "#7209b7", "#3a0ca3", "#4361ee", "#4cc9f0"],
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
         legend: {
           left: "center",
           top: "bottom",
-          data: []
+          data: [],
         },
         series: [
           {
@@ -363,11 +363,11 @@ export default {
             radius: [30, 70],
             roseType: "radius",
             label: {
-              show: false
+              show: false,
             },
-            data: []
-          }
-        ]
+            data: [],
+          },
+        ],
       },
       option2_line: {
         color: this.getColor(),
@@ -378,24 +378,24 @@ export default {
             label: {
               background: "#ffff",
               show: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.changeXaxis(params, "option2");
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         legend: {
           type: "scroll",
           icon: "roundRect",
-          data: []
+          data: [],
         },
         grid: {
           left: 20,
           right: "35%",
           top: 70,
           bottom: 7,
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: "category",
@@ -403,46 +403,46 @@ export default {
           data: [],
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisPointer: {
             handle: {
-              show: true
+              show: true,
             },
-            value: this.selectedRealTime
-          }
+            value: this.selectedRealTime,
+          },
         },
         yAxis: {
           name: "(sec)",
           type: "value",
-          min: function(value) {
-            return (value.min - value.min * 0.3).toFixed(3);
+          min: function (value) {
+            return (value.min - value.min * 0.3).toFixed(2);
           },
-          max: function(value) {
-            return (value.max + value.max * 0.3).toFixed(3);
+          max: function (value) {
+            return (value.max + value.max * 0.3).toFixed(2);
           },
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisTick: {
-            show: false
-          }
+            show: false,
+          },
         },
-        series: []
+        series: [],
       },
       option2_pie: {
         color: this.getColor(),
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
         legend: {
           left: "center",
           top: "bottom",
-          data: []
+          data: [],
         },
         series: [
           {
@@ -451,11 +451,11 @@ export default {
             radius: [30, 70],
             roseType: "radius",
             label: {
-              show: false
+              show: false,
             },
-            data: []
-          }
-        ]
+            data: [],
+          },
+        ],
       },
       option3_line: {
         xAxis: {
@@ -465,15 +465,15 @@ export default {
           data: [],
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisPointer: {
             handle: {
-              show: true
+              show: true,
             },
-            value: this.selectedRealTime
-          }
+            value: this.selectedRealTime,
+          },
         },
         color: this.getColor(),
         tooltip: {
@@ -483,55 +483,55 @@ export default {
             label: {
               background: "#ffff",
               show: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.changeXaxis(params, "option3");
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         legend: {
           type: "scroll",
           icon: "roundRect",
-          data: []
+          data: [],
         },
         grid: {
           left: 20,
           right: "35%",
           top: 70,
           bottom: 7,
-          containLabel: true
+          containLabel: true,
         },
         yAxis: {
           name: "(sec)",
           type: "value",
-          min: function(value) {
-            return (value.min - value.min * 0.3).toFixed(3);
+          min: function (value) {
+            return (value.min - value.min * 0.3).toFixed(2);
           },
-          max: function(value) {
-            return (value.max + value.max * 0.3).toFixed(3);
+          max: function (value) {
+            return (value.max + value.max * 0.3).toFixed(2);
           },
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisTick: {
-            show: false
-          }
+            show: false,
+          },
         },
-        series: []
+        series: [],
       },
       option3_pie: {
         color: this.getColor(),
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
         legend: {
           left: "center",
           top: "bottom",
-          data: []
+          data: [],
         },
         series: [
           {
@@ -540,11 +540,11 @@ export default {
             radius: [30, 70],
             roseType: "radius",
             label: {
-              show: false
+              show: false,
             },
-            data: []
-          }
-        ]
+            data: [],
+          },
+        ],
       },
       option4_line: {
         grid: {
@@ -552,7 +552,7 @@ export default {
           right: "35%",
           top: 70,
           bottom: 7,
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: "category",
@@ -561,15 +561,15 @@ export default {
           data: [],
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisPointer: {
             handle: {
-              show: true
+              show: true,
             },
-            value: this.selectedRealTime
-          }
+            value: this.selectedRealTime,
+          },
         },
         color: this.getColor(),
         tooltip: {
@@ -579,49 +579,49 @@ export default {
             label: {
               background: "#ffff",
               show: true,
-              formatter: function(params) {
+              formatter: function (params) {
                 this.changeXaxis(params, "option4");
                 return params.value;
-              }.bind(this)
-            }
-          }
+              }.bind(this),
+            },
+          },
         },
         legend: {
           type: "scroll",
           icon: "roundRect",
-          data: []
+          data: [],
         },
 
         yAxis: {
           name: "(count)",
           type: "value",
-          min: function(value) {
-            return value.min - value.min * 0.3;
+          min: function (value) {
+            return (value.min - value.min * 0.3).toFixed(2);
           },
-          max: function(value) {
-            return value.max + value.max * 0.3;
+          max: function (value) {
+            return (value.max + value.max * 0.3).toFixed(2);
           },
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
           axisTick: {
-            show: false
-          }
+            show: false,
+          },
         },
-        series: []
+        series: [],
       },
       option4_pie: {
         color: this.getColor(),
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
         legend: {
           left: "center",
           top: "bottom",
-          data: []
+          data: [],
         },
         series: [
           {
@@ -630,12 +630,12 @@ export default {
             radius: [30, 70],
             roseType: "radius",
             label: {
-              show: false
+              show: false,
             },
-            data: []
-          }
-        ]
-      }
+            data: [],
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -645,7 +645,7 @@ export default {
     ...mapMutations([
       "SET_SELECTED_REALTIME",
       "SET_SETTING_SELECTED",
-      "SET_SELECTED_TOOLTIP"
+      "SET_SELECTED_TOOLTIP",
     ]),
     toggleCheckBox(index) {
       if (this.items[index].isShow === true) {
@@ -700,14 +700,14 @@ export default {
     },
     changeXaxis(params, optionText) {
       setTimeout(
-        function() {
+        function () {
           if (this.selectedTooltip == optionText) {
             var setTime = 0;
             if (!this.getIsSelected) {
               setTime = 100;
             }
             setTimeout(
-              function() {
+              function () {
                 if (params.seriesData[0] !== undefined && this.getIsSelected) {
                   this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
                 } else {
@@ -720,7 +720,24 @@ export default {
         }.bind(this),
         200
       );
-    }
+    },
+
+    // changeAxis(index, params) {
+    //   console.log("왜이래", index, params);
+    //   if (index === 3) {
+    //     if (params.seriesData[0] !== undefined)
+    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+    //   } else if (index === 4) {
+    //     if (params.seriesData[0] !== undefined)
+    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
+    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
+    //   }
+    // }
+    // changeChart(type) {
+    //   if (type === "line") {
+    //   } else if (type === "pie") {
+    // }
   },
   computed: {
     ...mapGetters("Schema", [
@@ -728,18 +745,18 @@ export default {
       "getRealTimeSchemaList2",
       "getRealTimeSchemaList3",
       "getRealTimeSchemaList4",
-      "getSchemaList"
+      "getSchemaList",
     ]),
     ...mapGetters([
       "getRealTime",
       "getRealTimeList",
       "getIsSelected",
       "selectedRealTime",
-      "selectedTooltip"
-    ])
+      "selectedTooltip",
+    ]),
   },
   watch: {
-    selectedRealTime: function() {
+    selectedRealTime: function () {
       const select = this.selectedRealTime;
       for (var i = 0; i < this.getRealTimeSchemaList2.length; i++) {
         this.option1_pie.series[0].data[i].value = this.getRealTimeSchemaList1[
@@ -782,7 +799,7 @@ export default {
         }
         this.option1_line.legend.data = legendList;
         this.option1_line.xAxis.data = timeList;
-      }
+      },
     },
     getRealTimeSchemaList2: {
       deep: true,
@@ -806,7 +823,7 @@ export default {
         }
         this.option2_line.legend.data = legendList;
         this.option2_line.xAxis.data = timeList;
-      }
+      },
     },
     getRealTimeSchemaList3: {
       deep: true,
@@ -830,7 +847,7 @@ export default {
         }
         this.option3_line.legend.data = legendList;
         this.option3_line.xAxis.data = timeList;
-      }
+      },
     },
     getRealTimeSchemaList4: {
       deep: true,
@@ -854,8 +871,8 @@ export default {
         }
         this.option4_line.legend.data = legendList;
         this.option4_line.xAxis.data = timeList;
-      }
-    }
+      },
+    },
   },
   created() {
     axios.get(SERVER.URL + SERVER.ROUTES.getSettingsSchema).then((res) => {
@@ -866,48 +883,48 @@ export default {
           // stack: "one",
           areaStyle: null,
           showSymbol: false,
-          data: []
+          data: [],
         });
         this.option1_pie.series[0].data.push({
           value: 0,
-          name: ""
+          name: "",
         });
         this.option2_line.series.push({
           name: "",
           type: "line",
           areaStyle: null,
           showSymbol: false,
-          data: []
+          data: [],
         });
         this.option2_pie.series[0].data.push({
           value: 0,
-          name: ""
+          name: "",
         });
         this.option3_line.series.push({
           name: "",
           type: "line",
           areaStyle: null,
           showSymbol: false,
-          data: []
+          data: [],
         });
         this.option3_pie.series[0].data.push({
           value: 0,
-          name: ""
+          name: "",
         });
         this.option4_line.series.push({
           name: "",
           type: "line",
           areaStyle: null,
           showSymbol: false,
-          data: []
+          data: [],
         });
         this.option4_pie.series[0].data.push({
           value: 0,
-          name: ""
+          name: "",
         });
       }
     });
-  }
+  },
 };
 </script>
 

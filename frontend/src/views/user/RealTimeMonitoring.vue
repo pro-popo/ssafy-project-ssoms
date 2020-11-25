@@ -1,5 +1,5 @@
 <template>
-  <div class="realtime-container">
+  <div class="realtime-container" id="realtime-container">
     <div
       style="
         display: flex;
@@ -7,41 +7,127 @@
         align-items: flex-start;
       "
     >
-      <h3>
-        Real-Time Monitorting
-        <v-dialog v-model="dialog" max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="secondary"
-              fab
-              small
-              dark
-              class="ml-3"
-              v-bind="attrs"
-              v-on="on"
-              @click="moveScrollToTop"
-            >
-              <v-icon> mdi-file-pdf </v-icon>
-            </v-btn>
-          </template>
-          <ReportModal @kill-modal="dialog = false" />
-        </v-dialog>
-      </h3>
-    </div>
-    <div>
-      <!-- <template>
-        <v-tabs
-          vertical
-          background-color="transparent"
-          color="var(--font-sub2-color)"
+      <v-navigation-drawer
+        class="side-navbar-right"
+        :expand-on-hover="fixedMini"
+        :mini-variant.sync="mini"
+        :width="260"
+        permanent
+        absolute
+        right
+        style="height: 100%; margin-top: 48px"
+      >
+        <div
+          v-if="mini"
+          style="
+            height: 100%;
+            margin-left: 1px;
+            display: flex;
+            align-items: center;
+          "
         >
-          <v-tab @click="moveScroll(0)">Oracle DB</v-tab>
-          <v-tab @click="moveScroll(1)">All Schema</v-tab>
-          <v-tab @click="moveScroll(2)">Top Query</v-tab>
-        </v-tabs>
-      </template> -->
+          <v-btn
+            fab
+            x-small
+            outlined
+            elevation="0"
+            color="var(--font-sub-color)"
+          >
+            <v-icon size="25">mdi-menu-left</v-icon>
+          </v-btn>
+        </div>
+        <v-card
+          elevation="8"
+          style="
+            height: 100%;
+            margin-left: 15px;
+            display: flex;
+            flex-direction: column;
+          "
+          v-if="!mini"
+          class="animate__animated animate__fadeInRight"
+        >
+          <v-card-text>
+            <h3 style="margin-bottom: 10px">Real-Time Monitorting</h3>
+            <span
+              v-if="getRealTime !== 0"
+              style="font-size: 14px; margin-right: 35px"
+              ><v-icon size="16">mdi-clock-time-four-outline</v-icon>
+              {{ getRealTime.substring(0, 11) }}
+              {{ getRealTimeList[selectedRealTime] }}</span
+            >
+            <v-tooltip top style="margin-left: auto">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-if="selectedRealTime === getRealTimeList.length - 1"
+                  color="red accent-4"
+                  dark
+                  x-small
+                  elevation="2"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="startRealTime"
+                  >LIVE</v-btn
+                >
+                <v-btn
+                  v-else
+                  color="grey"
+                  x-small
+                  elevation="2"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="startRealTime"
+                  >LIVE</v-btn
+                >
+              </template>
+              <span>Move Last Update</span>
+            </v-tooltip>
+          </v-card-text>
+          <v-divider style="margin-bottom: 20px"></v-divider>
+          <template>
+            <v-tabs
+              vertical
+              background-color="transparent"
+              color="var(--font-sub2-color)"
+              v-model="tab"
+            >
+              <v-tab @click="moveScroll(0)"
+                ><span>Oracle DB Status</span>
+              </v-tab>
+              <v-tab @click="moveScroll(1)">All Schema Status</v-tab>
+              <v-tab @click="moveScroll(2)">All Schema Top Query</v-tab>
+            </v-tabs>
+          </template>
+          <div style="margin: auto 20px 0px auto; padding-bottom: 70px">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  elevation="2"
+                  color="secondary"
+                  fab
+                  small
+                  dark
+                  class="ml-3"
+                  @click="
+                    dialog = true;
+                    mini = true;
+                  "
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon> mdi-file-pdf </v-icon>
+                </v-btn>
+              </template>
+              <span>Report</span>
+            </v-tooltip>
+          </div>
+        </v-card>
+      </v-navigation-drawer>
+      <v-dialog v-model="dialog" max-width="600px">
+        <ReportModal @kill-modal="dialog = false" />
+      </v-dialog>
     </div>
-    <br />
+
     <div id="oracleStatus"><OracleStatus /></div>
 
     <div id="allSchemaStatics">
@@ -59,12 +145,15 @@ import AllSchemaTopQuery from "@/components/realtime-monitoring/query/AllSchemaT
 import AllSchemaStastics from "@/components/realtime-monitoring/schema-status/AllSchemaStastics.vue";
 import ReportModal from "@/components/main/ReportModal";
 
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   name: "RealTimeMonitoring",
   data() {
     return {
       dialog: false,
+      tab: 0,
+      mini: true,
+      fixedMini: true,
     };
   },
   components: {
@@ -75,27 +164,36 @@ export default {
     ReportModal,
   },
   computed: {
-    ...mapGetters(["getRealTime"]),
+    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"]),
   },
+
   methods: {
+    ...mapMutations(["SET_SELECTED_REALTIME"]),
     ...mapActions(["initRealTimeData"]),
+    startRealTime() {
+      this.SET_SELECTED_REALTIME(-1);
+      this.initRealTimeData();
+    },
     moveScroll(index) {
+      var node = null;
       switch (index) {
         case 0:
-          document
-            .getElementById("oracleStatus")
-            .scrollIntoView({ behavior: "smooth" });
+          node = document.getElementById("app-main");
           break;
         case 1:
-          document
-            .getElementById("allSchemaStatics")
-            .scrollIntoView({ behavior: "smooth" });
+          node = document.getElementById("allSchemaStatics");
           break;
         case 2:
-          document
-            .getElementById("allSchemaTopQuery")
-            .scrollIntoView({ behavior: "smooth" });
+          node = document.getElementById("allSchemaTopQuery");
           break;
+      }
+      var yourHeight = 48;
+      node.scrollIntoView(true);
+
+      var scrolledY = window.scrollY;
+
+      if (scrolledY) {
+        window.scroll(0, scrolledY - yourHeight);
       }
     },
     moveScrollToTop() {
@@ -103,9 +201,29 @@ export default {
         .getElementById("allSchemaTopQueryTable")
         .firstElementChild.scrollTo({ top: 0, left: 0, behavior: "auto" });
     },
+    getPositionScroll() {
+      const top = document.getElementById("home-main").scrollTop;
+      if (this.mini) {
+        if (top >= 1220) this.tab = 2;
+        else if (top >= 500) this.tab = 1;
+        else this.tab = 0;
+      }
+    },
   },
+
   created() {
     this.initRealTimeData();
+  },
+
+  mounted() {
+    document
+      .getElementById("home-main")
+      .addEventListener("scroll", this.getPositionScroll);
+  },
+  beforeDestory() {
+    document
+      .getElementById("home-main")
+      .removeEventListener("scroll", this.getPositionScroll);
   },
 };
 </script>
@@ -131,5 +249,17 @@ h4 {
 }
 .realtime-container {
   padding-bottom: 50px;
+}
+.side-navbar-right {
+  z-index: 10;
+  background: transparent !important;
+  border: 0px !important;
+}
+.side-navbar-right .v-navigation-drawer__border {
+  background: transparent !important;
+  border: 0px !important;
+}
+.home-main {
+  scroll-behavior: smooth;
 }
 </style>

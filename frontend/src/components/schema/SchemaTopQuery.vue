@@ -1,26 +1,29 @@
 <template>
   <div>
-    <v-card-subtitle>
-      <h2 style="margin-top: 30px; color: var(--font-main-color)">
-        {{ SelectedSchema }}'<span style="margin-left: 3px" />s Top Query
-      </h2>
-    </v-card-subtitle>
-    <v-tabs
-      style="width: 100%; margin: 5px 0px 10px"
-      background-color="rgba(1,1,1,0)"
-      center-active
-      v-model="tab"
-      color="black"
-    >
-      <v-tab
-        style="background: rgba(1, 1, 1, 0)"
-        v-for="item in items"
-        :key="item.tab"
+    <div id="SchemaQuerysTitle">
+      <v-card-subtitle>
+        <h2 style="margin-top: 30px; color: var(--font-main-color)">
+          {{ SelectedSchema }}'<span style="margin-left: 3px" />s Top Query
+        </h2>
+      </v-card-subtitle>
+      <v-tabs
+        style="width: 100%; margin: 5px 0px 10px"
+        background-color="rgba(1,1,1,0)"
+        center-active
+        v-model="tab"
+        color="black"
       >
-        {{ item.tab }}
-      </v-tab>
-    </v-tabs>
-    <div>
+        <v-tab
+          style="background: rgba(1, 1, 1, 0)"
+          v-for="item in items"
+          :key="item.tab"
+        >
+          {{ item.tab }}
+        </v-tab>
+      </v-tabs>
+    </div>
+
+    <div id="SchemaQuerys">
       <v-tabs-items v-model="tab">
         <v-tab-item>
           <v-simple-table

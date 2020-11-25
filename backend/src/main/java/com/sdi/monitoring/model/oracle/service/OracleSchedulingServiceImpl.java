@@ -34,14 +34,14 @@ import com.sdi.monitoring.model.oracle.repository.OutlierDataMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.RealTimeMonitoringMongoRepo;
 import com.sdi.monitoring.model.oracle.repository.SixHoursMonitoringMongoRepo;
 import com.sdi.monitoring.util.JsonParser;
-import com.sdi.monitoring.util.Scheduler;
+import com.sdi.monitoring.util.OracleScheduler;
 
 @Service
 public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 	private static int cnt = 0;
 	private static int periodCnt = 0;
 	@Autowired
-	Scheduler scheduler;
+	OracleScheduler oracleScheduler;
 
 	@Autowired
 	private OracleRepoImpl oracleRepoImpl;
@@ -70,25 +70,26 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 
 	@Override
 	public boolean hasScheduler() {
-		return scheduler.hasScheduler();
+		return oracleScheduler.hasScheduler();
 	}
 
 	@Override
 	public boolean start() {
 		cnt = 0;
 		periodCnt = 0;
-		return scheduler.startScheduler();
+		return oracleScheduler.startScheduler();
 	}
 
 	@Override
 	public boolean stop() {
 		cnt = 0;
 		periodCnt = 0;
-		return scheduler.stopScheduler();
+		return oracleScheduler.stopScheduler();
 	}
 
 	@Override
-	public void sampleMethod() {
+	public void oracleGetDataScheduler() {
+		System.out.println(new Date());
 		cnt++;
 		periodCnt++;
 //		StopWatch stopWatch = new StopWatch();

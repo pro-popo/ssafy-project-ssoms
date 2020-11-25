@@ -1,5 +1,5 @@
 <template>
-  <div class="app-main">
+  <div class="app-main" id="app-main">
     <router-view />
   </div>
 </template>
@@ -9,15 +9,15 @@ import { mapGetters } from "vuex";
 export default {
   name: "AppMain",
   computed: {
-    ...mapGetters
+    ...mapGetters,
   },
   props: {
-    isAdmin: Boolean
+    isAdmin: Boolean,
   },
   watch: {
-    isAdmin: function() {
+    isAdmin: function () {
       this.moveMainPage();
-    }
+    },
   },
   created() {
     this.moveMainPage();
@@ -32,8 +32,8 @@ export default {
           this.$router.push({ name: "RealTimeMonitoring" });
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -41,5 +41,6 @@ export default {
 .app-main {
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 </style>

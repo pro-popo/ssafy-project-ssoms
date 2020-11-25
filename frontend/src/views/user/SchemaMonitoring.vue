@@ -1,6 +1,99 @@
 <template>
   <div id="pastMonitering" class="schema-monitoring-container">
+    <v-navigation-drawer
+      v-if="getTimeAndCpuList.check && !getTimeAndCpuList.isEmpty"
+      class="side-navbar-right"
+      :expand-on-hover="fixedMini"
+      :mini-variant.sync="mini"
+      :width="260"
+      permanent
+      absolute
+      right
+      style="height: 100%; margin-top: 48px"
+    >
+      <div
+        v-if="mini"
+        style="
+          height: 100%;
+          margin-left: 1px;
+          display: flex;
+          align-items: center;
+        "
+      >
+        <v-btn fab x-small outlined elevation="0" color="var(--font-sub-color)">
+          <v-icon size="25">mdi-menu-left</v-icon>
+        </v-btn>
+      </div>
+      <v-card
+        elevation="8"
+        style="
+          height: 100%;
+          margin-left: 15px;
+          display: flex;
+          flex-direction: column;
+        "
+        v-if="!mini"
+        class="animate__animated animate__fadeInRight"
+      >
+        <v-card-text>
+          <h3 style="margin-bottom: 10px">Database Monitorting</h3>
+          <span style="font-size: 14px"
+            ><v-icon size="16" style="margin-top: -2px"
+              >mdi-clock-time-four-outline</v-icon
+            >
+            {{ dates[0] }} ~ {{ dates[1] }}</span
+          >
+          <br />
+          <span style="font-size: 14px"
+            ><v-icon size="16" style="margin-top: -2px">mdi-database</v-icon>
+            {{ SelectedSchema }}</span
+          >
+        </v-card-text>
+
+        <v-divider style="margin-bottom: 20px"></v-divider>
+        <template>
+          <v-tabs
+            vertical
+            background-color="transparent"
+            color="var(--font-sub2-color)"
+            v-model="tab"
+          >
+            <v-tab @click="moveScroll(0)"><span>Database Status</span> </v-tab>
+            <v-tab @click="moveScroll(1)">Schema Status</v-tab>
+            <v-tab @click="moveScroll(2)">Schema Top Query</v-tab>
+          </v-tabs>
+        </template>
+        <div style="margin: auto 20px 0px auto; padding-bottom: 70px">
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                elevation="2"
+                color="secondary"
+                fab
+                small
+                dark
+                class="ml-3"
+                @click="
+                  dialog = true;
+                  mini = true;
+                "
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon> mdi-file-pdf </v-icon>
+              </v-btn>
+            </template>
+            <span>Report</span>
+          </v-tooltip>
+        </div>
+      </v-card>
+    </v-navigation-drawer>
+
+    <v-dialog v-model="dialog" max-width="600px">
+      <ReportModal @kill-modal="dialog = false" />
+    </v-dialog>
     <div
+      id="schema-monitoring-top"
       style="
         display: flex;
         height: 60px;
@@ -56,34 +149,7 @@
         <span>Data Search</span>
       </v-tooltip>
     </div>
-    <!-- <v-container fluid>
-      <div
-        class="text-right"
-        style="width:100%"
-        v-bind:class="{ float_right: getTimeAndCpuList.ani_flag }"
-      >
-        <input
-          class="solid-black py-1 px-1 mx-2 mb-3 ani_sm_f"
-          v-bind:class="{ ani_sm: !getTimeAndCpuList.ani_flag }"
-          type="date"
-          id="startDate"
-        />
-        <input
-          class="solid-black py-1 px-1 mx-2 mb-3 ani_sm_f"
-          v-bind:class="{ ani_sm: !getTimeAndCpuList.ani_flag }"
-          type="date"
-          id="endDate"
-        />
-        <button
-          class="solid-black py-1 px-1 mx-auto ani_sm_f"
-          v-bind:class="{ ani_sm_btn: !getTimeAndCpuList.ani_flag }"
-          @click="queryData"
-        >
-          조회
-        </button>
-      </div>
-    </v-container>
-    -->
+
     <div v-if="!getTimeAndCpuList.check">
       <Loading class="mt-10" />
     </div>
@@ -107,7 +173,7 @@
     >
       <SchemaWhole id="SchemaWhole" class="mb-2" />
       <SchemaDetail id="SchemaDetail" class="mb-2" />
-      <SchemaTopQuery id="SchemaQuerys" />
+      <SchemaTopQuery />
     </v-container>
   </div>
 </template>
@@ -118,9 +184,9 @@ import SchemaTopQuery from "@/components/schema/SchemaTopQuery.vue";
 import SchemaDetail from "@/components/schema/SchemaDetail.vue";
 import Loading from "@/components/schema/Loading.vue";
 import NotExistData from "@/components/schema/NotExistData.vue";
-//import SERVER from "@/api/spring.js";
+import ReportModal from "@/components/main/ReportModal.vue";
+
 import { mapActions, mapMutations, mapGetters } from "vuex";
-//import axios from "axios";
 
 export default {
   name: "QueryMonitoring",
@@ -135,6 +201,10 @@ export default {
       menu: false,
       modal: false,
       menu2: false,
+      tab: 0,
+      mini: true,
+      fixedMini: true,
+      dialog: false,
     };
   },
   components: {
@@ -143,6 +213,7 @@ export default {
     SchemaDetail,
     Loading,
     NotExistData,
+    ReportModal,
   },
   watch: {
     dates: function () {
@@ -157,6 +228,28 @@ export default {
     },
   },
   methods: {
+    moveScroll(index) {
+      var node = null;
+      switch (index) {
+        case 0:
+          node = document.getElementById("app-main");
+          break;
+        case 1:
+          node = document.getElementById("SchemaDetail");
+          break;
+        case 2:
+          node = document.getElementById("SchemaQuerys");
+          break;
+      }
+      var yourHeight = 48;
+      node.scrollIntoView(true);
+
+      var scrolledY = window.scrollY;
+
+      if (scrolledY) {
+        window.scroll(0, scrolledY - yourHeight);
+      }
+    },
     queryData() {
       this.getTimeAndCpuList.ani_flag = true;
       this.SET_TIME_AND_CPU_LIST_CHECK(false);
@@ -187,6 +280,14 @@ export default {
       "SET_PAST_TIME_DATA_CHECK",
     ]),
     ...mapActions("Schema", ["setTimeAndCpuList"]),
+    getPositionScroll() {
+      const top = document.getElementById("home-main").scrollTop;
+      if (this.mini) {
+        if (top >= 700) this.tab = 2;
+        else if (top >= 400) this.tab = 1;
+        else this.tab = 0;
+      }
+    },
   },
   computed: {
     ...mapGetters("Schema", ["SelectedSchema"]),
@@ -195,17 +296,21 @@ export default {
       return this.dates.join(" ~ ");
     },
   },
+
   mounted() {
-    // document.getElementById(
-    //   "startDate"
-    // ).value = new Date().toISOString().substring(0, 10);
-    // document.getElementById(
-    //   "endDate"
-    // ).value = new Date().toISOString().substring(0, 10);
     this.queryData();
 
     this.tomorrow.setDate(new Date().getDate());
     this.tomorrow = this.tomorrow.toISOString().substring(0, 10);
+    document
+      .getElementById("home-main")
+      .addEventListener("scroll", this.getPositionScroll);
+  },
+
+  beforeDestory() {
+    document
+      .getElementById("home-main")
+      .removeEventListener("scroll", this.getPositionScroll);
   },
 };
 </script>

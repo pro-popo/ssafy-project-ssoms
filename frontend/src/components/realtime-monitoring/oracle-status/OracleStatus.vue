@@ -1,7 +1,11 @@
 <template>
-  <div style="height: 72vh; margin-bottom:15px">
+  <div style="height: 72vh; margin-bottom: 15px">
     <h2
-      style="font-size:22px; margin-bottom:15px; color:var(--font-main-color);"
+      style="
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: var(--font-main-color);
+      "
     >
       Oracle DB Status
       <div style="float: right">
@@ -45,7 +49,7 @@
     </h2>
 
     <div :class="{ mainCpu: isMainView, notMainCpu: !isMainView }">
-      <OracleCpu @changeMainView="changeMainView" :isMainView="isMainView" />
+      <OracleCpu @change-main-view="changeMainView" :isMainView="isMainView" />
     </div>
     <div style="display: flex; height: 32vh" v-show="!isMainView">
       <div
@@ -87,7 +91,7 @@ export default {
   name: "OracleStatus",
   data() {
     return {
-      isMainView: false
+      isMainView: false,
     };
   },
   components: {
@@ -95,7 +99,7 @@ export default {
     OracleMemory,
     OracleProcess,
     OracleProcessExecution,
-    OracleStorage
+    OracleStorage,
   },
 
   methods: {
@@ -107,11 +111,11 @@ export default {
     startRealTime() {
       this.SET_SELECTED_REALTIME(-1);
       this.initRealTimeData();
-    }
+    },
   },
   computed: {
-    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"])
-  }
+    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"]),
+  },
 };
 </script>
 

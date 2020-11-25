@@ -4,5 +4,5 @@ public interface OracleSchedulingService {
 	public boolean hasScheduler();
 	public boolean start();
 	public boolean stop();
-	public void sampleMethod();
+	public void oracleGetDataScheduler();
 }

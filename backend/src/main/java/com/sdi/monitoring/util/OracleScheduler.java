@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 
 @Component
-public class Scheduler {
+public class OracleScheduler {
 	private ThreadPoolTaskScheduler scheduler;
 	 
 	@Autowired
@@ -46,7 +46,7 @@ public class Scheduler {
  
     private Runnable getRunnable(){
         return () -> {
-        	oss.sampleMethod();
+        	oss.oracleGetDataScheduler();
         };
     }
  

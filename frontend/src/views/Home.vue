@@ -8,7 +8,7 @@
         <app-navbar />
       </div>
 
-      <div class="home-main">
+      <div class="home-main" id="home-main">
         <MyProfile
           v-if="requestProfile"
           @close-profile="closeProfile"
@@ -51,14 +51,14 @@ export default {
     AppSidebar,
 
     MyProfile,
-    EditUser
+    EditUser,
   },
   data() {
     return {
       isAdmin: null,
       requestProfile: false,
       requestEditUser: false,
-      profile: ""
+      profile: "",
     };
   },
   methods: {
@@ -128,7 +128,7 @@ export default {
                 // this.SET_SELECTED_REALTIME(-1);
               } else {
                 setTimeout(
-                  function() {
+                  function () {
                     this.addRealtimeData(realTimeData);
                     // this.SET_SELECTED_REALTIME(-1);
                   }.bind(this),
@@ -148,16 +148,17 @@ export default {
     ...mapMutations("Oracle", ["SET_ORACLE_STATUS_LIST"]),
     ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
     ...mapMutations(["SET_REALTIME", "SET_SELECTED_REALTIME"]),
-    ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"])
+    ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"]),
   },
   created() {
     this.checkIsAdmin();
     this.connect();
   },
+
   computed: {
     ...mapGetters(["getRealTime", "getIsSelected"]),
-    ...mapGetters("Oracle", ["getDatabaseCpuTimeRatioList"])
-  }
+    ...mapGetters("Oracle", ["getDatabaseCpuTimeRatioList"]),
+  },
 };
 </script>
 
@@ -185,6 +186,6 @@ export default {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 50px 80px 0px 130px;
+  padding: 0px 80px 0px 130px;
 }
 </style>

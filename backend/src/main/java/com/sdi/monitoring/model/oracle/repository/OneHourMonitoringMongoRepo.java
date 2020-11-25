@@ -10,4 +10,5 @@ import com.sdi.monitoring.model.oracle.entity.OneHourMonitoringEntity;
 public interface OneHourMonitoringMongoRepo extends MongoRepository<OneHourMonitoringEntity, String>{
 	List<OneHourMonitoringEntity> findByTimeBetween(String timeGT, String timeLT);
 	Optional<OneHourMonitoringEntity> findByTime(String time);
+	Long deleteByTimeBetween(String timeGT, String timeLT);
 }
