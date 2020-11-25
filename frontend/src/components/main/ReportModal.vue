@@ -122,10 +122,10 @@ export default {
                     console.log(err)
                 });
           });
-      });
-      this.$emit("kill-modal");
+          
+        this.$emit("kill-modal");
+      }
     },
-  },
   mounted() {},
 };
 </script>
