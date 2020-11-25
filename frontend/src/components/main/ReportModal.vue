@@ -173,10 +173,10 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      });
-      this.$emit("kill-modal");
+          
+        this.$emit("kill-modal");
+      }
     },
-  },
   mounted() {},
 };
 </script>

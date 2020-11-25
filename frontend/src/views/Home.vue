@@ -116,9 +116,11 @@ export default {
           this.stompClient.subscribe("/sendData/schedulerM", (res) => {
             const realTimeData = JSON.parse(res.body);
             if(realTimeData.outlier){
-                let today = new Date();
-                let start = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDay();
-                this.getOutlierData({ start: start, end: start });
+                let start = new Date().toISOString().substr(0, 10);
+                let end = new Date();
+                end.setDate(end.getDate()+1);
+                end = end.toISOString().substr(0, 10);
+                this.getOutlierData({ start: '/' +start, end: '/' +end });
             }
             if (this.getRealTime !== realTimeData.time) {
               if (this.getDatabaseCpuTimeRatioList.length >= 12) {

@@ -70,7 +70,7 @@ export default new Vuex.Store({
     getOutlierData({ commit }, { start, end }){
         axios.get(SERVER.URL + SERVER.ROUTES.getOutlierData + `${start}${end}`)
         .then((res) => {
-            commit("SET_OUTLIER_LOG", res.map);
+            commit("SET_OUTLIER_LOG", res.data.map.timeAndCpuList.reverse());
             console.log("이상");
             console.log(res.data);
         });
