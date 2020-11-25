@@ -51,7 +51,7 @@
           </div>
 
           <div style="height: 100%; width: 70%">
-            <div style="height: 100%" @click="clickChart">
+            <div style="height: 95%; padding-top: 20px" @click="clickChart">
               <IEcharts
                 :option="option"
                 style="padding-top: 5px"
@@ -59,7 +59,7 @@
               />
             </div>
           </div>
-          <div style="height: 95%; width: 30%">
+          <div style="height: 95%; width: 30%; margin-top: 10px">
             <IEcharts
               :option="gauge"
               style="margin-top: 30px"
@@ -285,7 +285,7 @@ export default {
           right: 20,
           left: 50,
           bottom: 25,
-          top: 65,
+          top: 60,
         },
         // title: { text: "CPU Time" },
         xAxis: {
@@ -394,8 +394,8 @@ export default {
               show: true,
               lineStyle: {
                 color: [
-                  [0.4, "#e34a6d"],
-                  [0.8, "#4358c3"],
+                  [0.4, "#D50000"],
+                  [0.8, "#075aff"],
                   [1, "#67abf6"],
                 ],
               },
@@ -463,6 +463,7 @@ export default {
         },
         tooltip: {
           trigger: "axis",
+          position: ["-80%", "-50px"],
           axisPointer: {
             type: "none",
           },
@@ -503,6 +504,7 @@ export default {
         },
         tooltip: {
           trigger: "axis",
+          position: ["-50%", "-50px"],
           axisPointer: {
             type: "none",
           },
