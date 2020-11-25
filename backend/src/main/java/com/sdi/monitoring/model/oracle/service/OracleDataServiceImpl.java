@@ -85,7 +85,7 @@ public class OracleDataServiceImpl implements OracleDataService {
 	
 	@Override
 	public List<TimeAndCpuDTO> findOutlerDataTimeAndCpuDTO(String startDate, String endDate) {
-		return outlierDataEntityToTimeAndCpuDTO(outlierDataMongoRepo.findByTimeBetween(startDate, endDate));
+		return outlierDataEntityToTimeAndCpuDTO(outlierDataMongoRepo.findByTimeBetween(startDate, endDateCheck(startDate, endDate)));
 	}
 	
 	private List<RealTimeMonitoringDTO> realTimeMontoringEntityListToDTOList(Page<RealTimeMonitoringEntity> realTimeMonitoringEntityList) {
@@ -185,5 +185,22 @@ public class OracleDataServiceImpl implements OracleDataService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private String endDateCheck(String startDate, String endDate) {
+		if(startDate.equals(endDate)) {
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date end;
+			try {
+				end = transFormat.parse(endDate);
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(end);
+				calendar.add(Calendar.DATE, 1);
+				return transFormat.format(calendar.getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return endDate;
 	}
 }
