@@ -133,8 +133,7 @@ export default {
         let width = element.offsetWidth; // 셀렉트한 요소의 px 너비
         let height = element.offsetHeight; // 셀렉트한 요소의 px 높이
         let imgHeight = (pageWidth * height) / width; // 이미지 높이값 px to mm 변환
-        html2canvas(element)
-          .then((canvas) => {
+        html2canvas(element).then((canvas) => {
             let imgData = canvas.toDataURL("image/png");
             if (pageHeight <= beforeheight + imgHeight) {
               pdf.addPage();
@@ -173,10 +172,10 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-          
+        });
         this.$emit("kill-modal");
       }
-    },
+  },
   mounted() {},
 };
 </script>
