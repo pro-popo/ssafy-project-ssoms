@@ -3,7 +3,6 @@ package com.sdi.monitoring.model.user.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
 import com.sdi.monitoring.model.user.entity.UserEntity;
 
 public interface UserMongoRepo extends MongoRepository<UserEntity, String>{

@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,17 +37,16 @@ public class UserController {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 //		System.out.println("========== logout entered... ==========");
-		System.out.println("email : " + email);
-//		HttpSession httpSession = httpServletRequest.getSession();
-//		if (email.equals(httpSession.getAttribute("loginSession"))) {
-//			httpSession.setAttribute("loginSession", null);
-//			System.out.println((String) httpSession.getAttribute("lgoinSession"));
-//		} else if (!email.equals((String) httpSession.getAttribute("loginSession"))) {
-//			result.status = true;
-//			result.result = "fail";
-//			response = new ResponseEntity<>(result, HttpStatus.OK);
-//			return response;
-//		}
+//		System.out.println("email : " + email);
+		HttpSession httpSession = httpServletRequest.getSession();
+		if (email.equals(httpSession.getAttribute("loginSession"))) {
+			httpSession.setAttribute("loginSession", null);
+		} else if (!email.equals((String) httpSession.getAttribute("loginSession"))) {
+			result.status = true;
+			result.result = "fail";
+			response = new ResponseEntity<>(result, HttpStatus.OK);
+			return response;
+		}
 //		oss.stop();
 		result.status = true;
 		result.result = "success";

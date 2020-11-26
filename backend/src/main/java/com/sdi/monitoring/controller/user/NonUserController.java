@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,7 +22,6 @@ import com.sdi.monitoring.model.user.service.NonUserService;
 public class NonUserController {
 	@Autowired
 	private NonUserService nonUserService;
-//	
 //	@Autowired
 //	private OracleSchedulingService oss;
 	
@@ -74,7 +72,7 @@ public class NonUserController {
 //			oss.start();
 			result.result = "success";
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
-			System.out.println((String) httpSession.getAttribute("loginSession"));
+//			System.out.println((String) httpSession.getAttribute("loginSession"));
 		} else {
 			result.result = "fail";
 		}
