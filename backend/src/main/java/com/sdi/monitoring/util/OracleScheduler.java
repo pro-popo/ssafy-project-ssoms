@@ -37,7 +37,6 @@ public class OracleScheduler {
     	if(scheduler == null) {
     		scheduler = new ThreadPoolTaskScheduler();
     		scheduler.initialize();
-    		// 스케쥴러가 시작되는 부분 
     		scheduler.schedule(getRunnable(), getTrigger());
     		return true;
     	}
@@ -52,7 +51,6 @@ public class OracleScheduler {
  
     private Trigger getTrigger() {
         // 작업 주기 설정 
-//    	return (Trigger) new FixedDelay(5000);
-        return new PeriodicTrigger(10, TimeUnit.SECONDS);
+        return new PeriodicTrigger(1, TimeUnit.MINUTES);
     }
 }
