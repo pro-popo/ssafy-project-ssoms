@@ -6,18 +6,20 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" href="favicon.ico">
+<link rel="icon" href="SSOMS.ico">
 <title>SSOMS</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-<link href="css/app.4c4ba5a1.css" rel="preload" as="style">
-<link href="css/chunk-vendors.cc2fd4ad.css" rel="preload"
+<link href="js/chunk-2d216214.8db2bc27.js" rel="prefetch">
+<link href="js/chunk-61e7d382.cc835cdf.js" rel="prefetch">
+<link href="css/app.976131c3.css" rel="preload" as="style">
+<link href="css/chunk-vendors.cb7b56cf.css" rel="preload"
 	as="style">
-<link href="js/app.bed17630.js" rel="preload" as="script">
-<link href="js/chunk-vendors.ad1ceeb9.js" rel="preload"
+<link href="js/app.ff82dcd5.js" rel="preload" as="script">
+<link href="js/chunk-vendors.fe52a256.js" rel="preload"
 	as="script">
-<link href="css/chunk-vendors.cc2fd4ad.css" rel="stylesheet">
-<link href="css/app.4c4ba5a1.css" rel="stylesheet">
+<link href="css/chunk-vendors.cb7b56cf.css" rel="stylesheet">
+<link href="css/app.976131c3.css" rel="stylesheet">
 </head>
 <body>
 	<noscript>
@@ -25,7 +27,7 @@
 			without JavaScript enabled. Please enable it to continue.</strong>
 	</noscript>
 	<div id="app"></div>
-	<script src="js/chunk-vendors.ad1ceeb9.js"></script>
-	<script src="js/app.bed17630.js"></script>
+	<script src="js/chunk-vendors.fe52a256.js"></script>
+	<script src="js/app.ff82dcd5.js"></script>
 </body>
 </html>

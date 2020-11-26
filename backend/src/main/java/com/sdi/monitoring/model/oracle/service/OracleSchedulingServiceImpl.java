@@ -60,7 +60,7 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 
 	@Autowired
 	private OutlierDataMongoRepo outlierDataMongoRepo;
-	
+
 	private SimpMessagingTemplate messagingTemplate;
 
 	@Autowired
@@ -99,35 +99,34 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 
 		System.out.println("========== Oracle 전체 상태 ==========");
 		OracleStatusDTO oracleStatusDTO = oracleRepoImpl.findOracleStastics();
-		System.out.println(periodCnt);
-		System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
+//		System.out.println(periodCnt);
+//		System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
 		Map<String, Object> map = new HashMap<>();
 		boolean outlier = false;
 //		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()
 //				|| periodCnt % 5 == 0) {
-		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95
-				|| periodCnt % 5 == 0) {
+		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95 || periodCnt % 5 == 0) {
 			periodCnt = periodCnt == 5 ? 0 : periodCnt;
-			System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
-			System.out.println(periodCnt);
+//			System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
+//			System.out.println(periodCnt);
 			List<String> schemaList = JsonParser.getSchemaInfo();
-			
+
 			RealTimeMonitoringDTO realTimeMonitoringDTO = new RealTimeMonitoringDTO();
-			
+
 			realTimeMonitoringDTO.setTime(format.format(time));
 			map.put("time", realTimeMonitoringDTO.getTime());
-			
+
 			realTimeMonitoringDTO.setOracleStatus(oracleStatusDTO);
 			map.put("oracleStatus", realTimeMonitoringDTO.getOracleStatus());
-			
+
 //		System.out.println("========== 전체 스키마 정보 ==========");
 			realTimeMonitoringDTO.setAllSchemaStastics(oracleRepoImpl.findAllSchemaStastics(schemaList));
 			map.put("allSchemaStastics", realTimeMonitoringDTO.getAllSchemaStastics());
-			
+
 //		System.out.println("========== cpu 기준 전체 스키마 top query ==========");
 			realTimeMonitoringDTO.setAllSchemaQueryInfo(oracleRepoImpl.findAllSchemaQueryInfo(schemaList));
 			map.put("allSchemaQueryInfo", realTimeMonitoringDTO.getAllSchemaQueryInfo());
-			
+
 			Map<String, Object> schemas = new HashMap<>();
 			List<SchemaInfoDTO> schemaInfoDTOList = new ArrayList<SchemaInfoDTO>();
 			for (String schemaName : schemaList) {
@@ -141,41 +140,37 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 				schemaInfoDTOList.add(schemaInfoDTO);
 				schemas.put(schemaName, schemaInfoDTO);
 			}
-			
+
 //        	stopWatch.stop();
 //			System.out.println(stopWatch.getTotalTimeSeconds());
 			realTimeMonitoringDTO.setSchemas(schemaInfoDTOList);
 			map.put("schemas", schemas);
-			
-			
+
 			RealTimeMonitoringEntity realTimeMonitoringEntity = realTimeMonitoringEntityBuilder(realTimeMonitoringDTO);
-			
-			System.out.println(realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime()));
-			if (!realTimeMonitoringMongoRepo.existsByTime(realTimeMonitoringDTO.getTime())) {
-				realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
-				if (cnt % (12) == 0) {
-					oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));
-					// 1시간 저장 logic
-				}
-				if (cnt % (12 * 6) == 0) {
-					sixHoursMonitoringMongoRepo.insert(sixHoursMonitoringEntityBuilder(realTimeMonitoringEntity));
-					// 6시간 저장 logic
-				}
-				if (cnt % (12 * 6 * 4) == 0) {
-					cnt = 0;
-					oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
-					// 1일 저장 logic
-				}
-//				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
-				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95) {
-					outlierDataMongoRepo.insert(outlierDataEntityBuilder(format.format(time), oracleStatusDTO.getDatabaseCpuTimeRatio()));
-					outlier = true;
-				}
-				realTimeMonitoringEntity = null;
+
+			realTimeMonitoringMongoRepo.insert(realTimeMonitoringEntity);
+			if (cnt % (12) == 0) {
+				oneHourMonitoringMongoRepo.insert(oneHourMonitoringEntityBuilder(realTimeMonitoringEntity));
+				// 1시간 저장 logic
 			}
-			map.put("outlier", outlier);
-			messagingTemplate.convertAndSend("/sendData/schedulerM", map);
+			if (cnt % (12 * 6) == 0) {
+				sixHoursMonitoringMongoRepo.insert(sixHoursMonitoringEntityBuilder(realTimeMonitoringEntity));
+				// 6시간 저장 logic
+			}
+			if (cnt % (12 * 6 * 4) == 0) {
+				cnt = 0;
+				oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
+				// 1일 저장 logic
+			}
+//				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
+			if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95) {
+				outlierDataMongoRepo.insert(
+						outlierDataEntityBuilder(format.format(time), oracleStatusDTO.getDatabaseCpuTimeRatio()));
+				outlier = true;
+			}
 		}
+		map.put("outlier", outlier);
+		messagingTemplate.convertAndSend("/sendData/schedulerM", map);
 	}
 
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {
@@ -290,9 +285,8 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 				.allSchemaStastics(realTimeMonitoringEntity.getAllSchemaStastics())
 				.allSchemaQueryInfo(realTimeMonitoringEntity.getAllSchemaQueryInfo()).build();
 	}
-	
+
 	private OutlierDataEntity outlierDataEntityBuilder(String time, double databaseCpuTimeRatio) {
-		return OutlierDataEntity.builder().time(time)
-				.databaseCpuTimeRatio(databaseCpuTimeRatio).build();
+		return OutlierDataEntity.builder().time(time).databaseCpuTimeRatio(databaseCpuTimeRatio).build();
 	}
 }
