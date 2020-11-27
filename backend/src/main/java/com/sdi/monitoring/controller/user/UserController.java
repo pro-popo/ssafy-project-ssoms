@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdi.monitoring.domain.SuccessResponse;
+import com.sdi.monitoring.model.admin.service.AdminService;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateDTO;
@@ -29,8 +31,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-//	@Autowired
-//	private OracleSchedulingService oss;
+	@Autowired
+	private AdminService adminService;
 	
 	@GetMapping("/logout/{email}")
 	public ResponseEntity logout(@PathVariable(name = "email") String email, HttpServletRequest httpServletRequest) {
@@ -102,6 +104,26 @@ public class UserController {
 		boolean isDelete = userService.deleteUser(userPrimitiveDTO);
 		result.status = true;
 		result.result = isDelete ? "success" : "fail";
+		response = new ResponseEntity<>(result, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/settings/schema")
+	public ResponseEntity getSettingsSchema() {
+		ResponseEntity response = null;
+		final SuccessResponse result = new SuccessResponse();
+		
+		JSONObject settings = adminService.getSettings();
+		if(settings == null) {
+			result.status = true;
+			result.result = "fail";
+		}else {
+			Map<String, Object> map = new HashMap<>();
+			map.put("schema", settings.get("schema"));
+			result.status = true;
+			result.result = "success";
+			result.map = map;
+		}
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}

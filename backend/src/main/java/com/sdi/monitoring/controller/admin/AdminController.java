@@ -115,25 +115,25 @@ public class AdminController {
 		return response;
 	}
 	
-	@GetMapping("/settings/schema")
-	public ResponseEntity getSettingsSchema() {
-		ResponseEntity response = null;
-		final SuccessResponse result = new SuccessResponse();
-		
-		JSONObject settings = adminService.getSettings();
-		if(settings == null) {
-			result.status = true;
-			result.result = "fail";
-		}else {
-			Map<String, Object> map = new HashMap<>();
-			map.put("schema", settings.get("schema"));
-			result.status = true;
-			result.result = "success";
-			result.map = map;
-		}
-		response = new ResponseEntity<>(result, HttpStatus.OK);
-		return response;
-	}
+//	@GetMapping("/settings/schema")
+//	public ResponseEntity getSettingsSchema() {
+//		ResponseEntity response = null;
+//		final SuccessResponse result = new SuccessResponse();
+//		
+//		JSONObject settings = adminService.getSettings();
+//		if(settings == null) {
+//			result.status = true;
+//			result.result = "fail";
+//		}else {
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("schema", settings.get("schema"));
+//			result.status = true;
+//			result.result = "success";
+//			result.map = map;
+//		}
+//		response = new ResponseEntity<>(result, HttpStatus.OK);
+//		return response;
+//	}
 	
 	@PostMapping("/settings/schema/save")
 	public ResponseEntity setSettingsSchema(@RequestBody String userID) {

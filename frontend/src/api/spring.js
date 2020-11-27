@@ -20,7 +20,7 @@ export default {
     setSettingsOracleDB: "/admin/settings/oracledb/save",
     setSettingsSchema: "/admin/settings/schema/save",
     getSettingsOracleDB: "/admin/settings/oracledb",
-    getSettingsSchema: "/admin/settings/schema",
+    getSettingsSchema: "/user/settings/schema",
     checkConOracleDB: "/admin/settings/oracledb/check",
     checkSettingsSchema: "/admin/settings/schema/check",
     getAllSchemaList: "/admin/settings/schema/all",
