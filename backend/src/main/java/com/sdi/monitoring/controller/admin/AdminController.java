@@ -27,6 +27,7 @@ import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
 import com.sdi.monitoring.model.oracle.service.OracleSchedulingService;
 import com.sdi.monitoring.model.user.dto.UserDTO;
 import com.sdi.monitoring.model.user.dto.UserUpdateAdminDTO;
+import com.sdi.monitoring.util.AES256Cipher;
 
 @CrossOrigin("*")
 @RequestMapping("/admin")
@@ -75,13 +76,14 @@ public class AdminController {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		
-		JSONObject settings = adminService.getSettings();
+		JSONObject settings = (JSONObject) adminService.getSettings().get("oracleDB");
+		settings.replace("oraclePassword", AES256Cipher.AESDecode((String)settings.get("oraclePassword")));
 		if(settings == null) {
 			result.status = true;
 			result.result = "fail";
 		}else {
 			Map<String, Object> map = new HashMap<>();
-			map.put("oracleDB", settings.get("oracleDB"));
+			map.put("oracleDB", settings);
 			result.status = true;
 			result.result = "success";
 			result.map = map;

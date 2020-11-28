@@ -36,7 +36,6 @@ public class JsonParser {
 			String sid = (String) jsonObject.get("oracleSID");
 			String id = (String) jsonObject.get("oracleID");
 			String pw = (String) jsonObject.get("oraclePassword");
-
 			oracleHostInfo = new OracleHostInfo(url, sid, id, pw);
 			return oracleHostInfo;
 		} catch (JSONException | IOException | ParseException e) {

@@ -18,7 +18,7 @@ public class DBUtil {
 			String urlInfo = oracleHostInfo.getUrl();
 			String editionInfo = oracleHostInfo.getEdition();
 			String id = oracleHostInfo.getId();
-			String pw = oracleHostInfo.getPw();
+			String pw = AES256Cipher.AESDecode(oracleHostInfo.getPw());
 			String url = "jdbc:oracle:thin:@" + urlInfo + ":" + editionInfo;
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			

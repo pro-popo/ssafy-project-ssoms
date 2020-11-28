@@ -16,14 +16,13 @@ import com.sdi.monitoring.domain.SuccessResponse;
 import com.sdi.monitoring.model.user.dto.UserPrimitiveDTO;
 import com.sdi.monitoring.model.user.dto.UserSignUpDTO;
 import com.sdi.monitoring.model.user.service.NonUserService;
+import com.sdi.monitoring.util.AES256Cipher;
 
 @RequestMapping("/nonuser")
 @RestController
 public class NonUserController {
 	@Autowired
 	private NonUserService nonUserService;
-//	@Autowired
-//	private OracleSchedulingService oss;
 	
 	@GetMapping("/existence/admin")
 	public ResponseEntity authorization() {

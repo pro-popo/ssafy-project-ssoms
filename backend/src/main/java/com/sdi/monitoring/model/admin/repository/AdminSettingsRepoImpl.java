@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.sdi.monitoring.model.oracle.dto.OracleDBSettingsDTO;
+import com.sdi.monitoring.util.AES256Cipher;
 import com.sdi.monitoring.util.DBUtil;
 
 @Repository
@@ -38,7 +39,7 @@ public class AdminSettingsRepoImpl implements AdminSettingsRepo{
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("oracleURL", OracleData.getOracleURL());
 		jsonObject.put("oracleID", OracleData.getOracleID());
-		jsonObject.put("oraclePassword", OracleData.getOraclePassword());
+		jsonObject.put("oraclePassword", AES256Cipher.AESEncode(OracleData.getOraclePassword()));
 		jsonObject.put("oracleSID", OracleData.getOracleSID());
 		obj.put("oracleDB",jsonObject);
 		FileWriter file = new FileWriter(SetupPath+"/settings.json");
