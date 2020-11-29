@@ -3,7 +3,6 @@
     <div class="admin-container-left">
       <div align="center">
         <h1>Admin 회원가입</h1>
-        <p>설명 부분</p>
       </div>
     </div>
     <div class="admin-container-right">
@@ -18,13 +17,13 @@ import SignUpForm from "@/components/non-account/SignUpForm.vue";
 export default {
   name: "SignUpAdmin",
   components: {
-    SignUpForm
+    SignUpForm,
   },
   data() {
     return {
-      isAdmin: true
+      isAdmin: true,
     };
-  }
+  },
 };
 </script>
 

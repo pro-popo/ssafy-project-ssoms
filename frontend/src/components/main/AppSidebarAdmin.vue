@@ -35,7 +35,7 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <v-divider style="margin:10px 0px;"></v-divider>
+      <v-divider style="margin: 10px 0px"></v-divider>
       <v-list-item link>
         <v-list-item-icon>
           <v-icon>mdi-account-group</v-icon>
@@ -47,7 +47,7 @@
       </v-list-item>
     </v-list-item-group>
 
-    <v-divider style="margin:10px 0px;"></v-divider>
+    <v-divider style="margin: 10px 0px"></v-divider>
 
     <v-list-item link @click="RealTimeShow = !RealTimeShow">
       <v-list-item-icon>
@@ -78,27 +78,27 @@
 <script>
 import RealTime from "@/views/admin/RealTime.vue";
 export default {
-  name: "AppAdminSidebar",
+  name: "AppSidebarAdmin",
   props: {
-    mini: Boolean
+    mini: Boolean,
   },
   data() {
     return {
       model: 0,
       menuShow: true,
       RealTimeShow: false,
-      page: ["Setting", "OracleDB", "Schema", "Member"]
+      page: ["Setting", "OracleDB", "Schema", "Member"],
     };
   },
   components: {
-    RealTime
+    RealTime,
   },
 
   watch: {
-    model: function() {
+    model: function () {
       this.$router.push({ name: this.page[this.model] });
-    }
-  }
+    },
+  },
 };
 </script>
 

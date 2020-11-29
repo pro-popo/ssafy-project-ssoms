@@ -44,7 +44,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
-  name: "AppUserSidebar",
+  name: "AppSidebarUser",
 
   data() {
     return {
@@ -59,7 +59,6 @@ export default {
       if (this.model == 0) {
         this.$router.push({ name: "RealTimeMonitoring" });
       }
-      // this.$router.push({ name: "RealTimeMonitoring" });
     },
   },
   created() {

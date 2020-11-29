@@ -61,8 +61,8 @@
         </v-list>
         <v-divider></v-divider>
         <v-list dense>
-          <AppAdminSidebar v-if="isAdmin" :mini="mini" />
-          <AppUserSidebar v-if="!isAdmin" />
+          <AppSidebarAdmin v-if="isAdmin" :mini="mini" />
+          <AppSidebarUser v-if="!isAdmin" />
         </v-list>
       </div>
       <div class="logout" title="로그아웃">
@@ -80,8 +80,8 @@
 </template>
 
 <script>
-import AppAdminSidebar from "@/components/main/AppAdminSidebar.vue";
-import AppUserSidebar from "@/components/main/AppUserSidebar.vue";
+import AppSidebarAdmin from "@/components/main/AppSidebarAdmin.vue";
+import AppSidebarUser from "@/components/main/AppSidebarUser.vue";
 
 import { mapActions } from "vuex";
 import "animate.css";
@@ -102,8 +102,8 @@ export default {
     };
   },
   components: {
-    AppAdminSidebar,
-    AppUserSidebar,
+    AppSidebarAdmin,
+    AppSidebarUser,
     MyProfile,
   },
   props: {
