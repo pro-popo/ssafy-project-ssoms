@@ -208,7 +208,7 @@ export default {
     getPositionScroll() {
       const top = document.getElementById("home-main").scrollTop;
       if (this.mini) {
-        if (top >= 1220) this.tab = 2;
+        if (top >= 1110) this.tab = 2;
         else if (top >= 500) this.tab = 1;
         else this.tab = 0;
       }

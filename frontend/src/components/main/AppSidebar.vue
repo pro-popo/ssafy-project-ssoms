@@ -15,9 +15,12 @@
           <v-list-item style="margin-left: -6px">
             <v-btn
               class="animate__animated"
-              :class="{animate__fadeOutRight : !fixedMini, animate__fadeInRight: fixedMini}"
+              :class="{
+                animate__fadeOutRight: !fixedMini,
+                animate__fadeInRight: fixedMini,
+              }"
               icon
-              :disabled=!fixedMini
+              :disabled="!fixedMini"
               @click.stop="
                 mini = false;
                 fixedMini = false;
@@ -29,8 +32,11 @@
             <v-btn
               icon
               class="animate__animated"
-              :class="{animate__fadeOutLeft: fixedMini, animate__fadeInLeft: !fixedMini}"
-              :disabled=fixedMini
+              :class="{
+                animate__fadeOutLeft: fixedMini,
+                animate__fadeInLeft: !fixedMini,
+              }"
+              :disabled="fixedMini"
               @click.stop="
                 mini = true;
                 fixedMini = true;
@@ -65,20 +71,40 @@
         >
       </div>
     </div>
+    <MyProfile
+      v-if="requestProfile"
+      @close-profile="requestProfile = false"
+      @edit-profile="requestEditUser = true"
+    />
   </v-navigation-drawer>
 </template>
 
 <script>
 import AppAdminSidebar from "@/components/main/AppAdminSidebar.vue";
 import AppUserSidebar from "@/components/main/AppUserSidebar.vue";
+
 import { mapActions } from "vuex";
 import "animate.css";
 
+import MyProfile from "@/components/account/MyProfile.vue";
+
 export default {
   name: "AppSidebar",
+  data() {
+    return {
+      email: sessionStorage.getItem("loginSession"),
+      drawer: true,
+      model: 0,
+      mini: true,
+      fixedMini: true,
+      requestProfile: false,
+      profile: "",
+    };
+  },
   components: {
     AppAdminSidebar,
     AppUserSidebar,
+    MyProfile,
   },
   props: {
     isAdmin: Boolean,
@@ -93,17 +119,8 @@ export default {
       }
     },
     getMyProfile() {
-      if (!this.mini) this.$emit("user-profile");
+      if (!this.mini) this.requestProfile = true;
     },
-  },
-  data() {
-    return {
-      email: sessionStorage.getItem("loginSession"),
-      drawer: true,
-      model: 0,
-      mini: true,
-      fixedMini: true,
-    };
   },
 };
 </script>

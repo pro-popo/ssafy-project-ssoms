@@ -23,10 +23,8 @@
 
       <v-card align="center">
         <v-card-title class="edit-headline">
-          <v-btn icon @click="backProfile">
-            <v-icon>mdi-arrow-left</v-icon>
-          </v-btn>
-          <span style="margin-left: 5px; color: var(--font-sub2-color)"
+          <span></span>
+          <span style="margin-left: 30px; color: var(--font-sub2-color)"
             >Edit Profile</span
           >
           <v-btn icon @click="dialog = !dialog">
@@ -192,7 +190,13 @@ export default {
           .then((res) => {
             if (res.data.result == "success") {
               this.editSuccess = true;
-              setTimeout(this.backProfile, 2000);
+              setTimeout(
+                function () {
+                  this.dialog = false;
+                  this.$emit("edit-profile-success");
+                }.bind(this),
+                2000
+              );
             } else if (res.data.result == "fail") {
               console.log("실패");
               this.loginSuccess = false;
@@ -200,10 +204,6 @@ export default {
           })
           .catch((err) => console.log(err));
       }
-    },
-    backProfile() {
-      this.dialog = false;
-      this.$emit("open-profile");
     },
   },
   props: {
@@ -250,7 +250,6 @@ export default {
   top: 0;
   height: 40px;
   padding: 8px 12px 40px 12px !important;
-  /* margin-bottom: 12px; */
   border-bottom: 1px solid #d8d8d8;
   background: #fff;
   z-index: 2;

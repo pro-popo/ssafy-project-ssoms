@@ -9,7 +9,12 @@
           <span style="color: white">Profile</span>
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" @click="editUser">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="requestEditUser = true"
+              >
                 <v-icon color="white" size="23">mdi-cog</v-icon>
               </v-btn>
             </template>
@@ -45,12 +50,20 @@
         </div>
       </v-card>
     </v-dialog>
+    <EditUser
+      v-if="requestEditUser"
+      :profile="profile"
+      @close-edit-profile="requestEditUser = false"
+      @edit-profile-success="getUserProfile"
+    />
   </v-row>
 </template>
 
 <script>
 import axios from "axios";
 import SERVER from "@/api/spring.js";
+import EditUser from "@/components/account/EditUser.vue";
+
 export default {
   name: "MyProfile",
   data() {
@@ -63,7 +76,11 @@ export default {
         name: "",
         phoneNumber: "",
       },
+      requestEditUser: false,
     };
+  },
+  components: {
+    EditUser,
   },
   watch: {
     dialog: function () {
@@ -71,24 +88,23 @@ export default {
     },
   },
   created() {
-    axios
-      .get(
-        SERVER.URL +
-          SERVER.ROUTES.getMyProfile +
-          sessionStorage.getItem("loginSession")
-      )
-      .then((res) => {
-        this.profile = res.data.map.userProfile.info;
-        this.profile.email = res.data.map.userProfile.email;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getUserProfile();
   },
   methods: {
-    editUser() {
-      this.dialog = false;
-      this.$emit("edit-profile", this.profile);
+    getUserProfile() {
+      axios
+        .get(
+          SERVER.URL +
+            SERVER.ROUTES.getMyProfile +
+            sessionStorage.getItem("loginSession")
+        )
+        .then((res) => {
+          this.profile = res.data.map.userProfile.info;
+          this.profile.email = res.data.map.userProfile.email;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

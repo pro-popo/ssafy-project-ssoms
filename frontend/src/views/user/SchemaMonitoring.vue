@@ -283,8 +283,8 @@ export default {
     getPositionScroll() {
       const top = document.getElementById("home-main").scrollTop;
       if (this.mini) {
-        if (top >= 700) this.tab = 2;
-        else if (top >= 400) this.tab = 1;
+        if (top >= 600) this.tab = 2;
+        else if (top >= 270) this.tab = 1;
         else this.tab = 0;
       }
     },

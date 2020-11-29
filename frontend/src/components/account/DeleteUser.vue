@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
       <v-card-title class="delete-headline">
-        <span style="margin-left:5px; color:var(--font-sub2-color)"
+        <span style="margin-left: 5px; color: var(--font-sub2-color)"
           >Delete Your Account
         </span>
         <v-btn icon @click="dialog = !dialog">
@@ -10,8 +10,8 @@
         </v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text style="padding-top:30px;">
-        <span style="font-size:18px; padding-top:20px;">
+      <v-card-text style="padding-top: 30px">
+        <span style="font-size: 18px; padding-top: 20px">
           To delete your account:
         </span>
         <span>Please enter your email and password.</span>
@@ -65,13 +65,13 @@ export default {
       dialog: false,
       account: {
         email: "",
-        pw: ""
+        pw: "",
       },
       confirmPw: "",
       rules: {
-        required: (v) => !!v || "Required."
+        required: (v) => !!v || "Required.",
       },
-      deleteSuccess: true
+      deleteSuccess: true,
     };
   },
   computed: {
@@ -82,22 +82,22 @@ export default {
     },
     pwConfirmRules() {
       return this.account.pw === this.confirmPw || "Password do not match.";
-    }
+    },
   },
   props: {
-    deleteDialog: Boolean
+    deleteDialog: Boolean,
   },
   watch: {
-    deleteDialog: function() {
+    deleteDialog: function () {
       this.dialog = true;
     },
-    dialog: function() {
-      this.$refs.form.resetValidation();
+    dialog: function () {
+      if (this.$refs.form != null) this.$refs.form.resetValidation();
       if (this.account.email != "" || this.account.pw != "") {
         this.$refs.form.reset();
         this.deleteSuccess = true;
       }
-    }
+    },
   },
 
   methods: {
@@ -115,8 +115,8 @@ export default {
             }
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
