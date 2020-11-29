@@ -38,7 +38,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getOutlierData"]),
+    ...mapActions("Realtime", ["getOutlierData"]),
     outlierlog() {
       // let start = new Date().toISOString().substr(0, 10);
       // let end = new Date();
@@ -49,7 +49,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getOutlierLog"]),
+    ...mapGetters("Realtime", ["getOutlierLog"]),
   },
 };
 </script>

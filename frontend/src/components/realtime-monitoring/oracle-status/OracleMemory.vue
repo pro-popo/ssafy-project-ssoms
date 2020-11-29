@@ -3,10 +3,10 @@
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
-          <div style="display:flex">
+          <div style="display: flex">
             <h4 class="oracle-status-name">Block Gets</h4>
           </div>
-          <div style="display:flex;">
+          <div style="display: flex">
             <h1>
               {{ getDbBlockGetsPerSec[selectedRealTime] }}
               <span class="oracle-unit">block</span>
@@ -24,12 +24,8 @@
             v-else
             :class="changedDbBlockGets > 0 ? 'data-increase' : 'data-decrease'"
           >
-            <v-icon v-if="changedDbBlockGets > 0">
-              mdi-menu-up
-            </v-icon>
-            <v-icon v-if="changedDbBlockGets <= 0">
-              mdi-menu-down
-            </v-icon>
+            <v-icon v-if="changedDbBlockGets > 0"> mdi-menu-up </v-icon>
+            <v-icon v-if="changedDbBlockGets <= 0"> mdi-menu-down </v-icon>
             <span>{{ changedDbBlockGets }}</span>
           </div>
         </div>
@@ -49,11 +45,11 @@
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
-          <div style="display:flex">
+          <div style="display: flex">
             <h4 class="oracle-status-name">Logical Reads</h4>
           </div>
 
-          <div style="display:flex;">
+          <div style="display: flex">
             <h1>
               {{ getLogicalReadsPerSec[selectedRealTime] }}
               <span class="oracle-unit">reads</span>
@@ -71,12 +67,8 @@
             v-else
             :class="changedLogicalReads > 0 ? 'data-increase' : 'data-decrease'"
           >
-            <v-icon v-if="changedLogicalReads > 0">
-              mdi-menu-up
-            </v-icon>
-            <v-icon v-if="changedLogicalReads <= 0">
-              mdi-menu-down
-            </v-icon>
+            <v-icon v-if="changedLogicalReads > 0"> mdi-menu-up </v-icon>
+            <v-icon v-if="changedLogicalReads <= 0"> mdi-menu-down </v-icon>
             <span>{{ changedLogicalReads }}</span>
           </div>
         </div>
@@ -96,10 +88,10 @@
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
-          <div style="display:flex">
+          <div style="display: flex">
             <h4 class="oracle-status-name">Redo Generated</h4>
           </div>
-          <div style="display:flex;">
+          <div style="display: flex">
             <h1>
               {{ getRedoGeneratedPerSec[selectedRealTime] }}
               <span class="oracle-unit">byte</span>
@@ -119,12 +111,8 @@
               changedRedoGenerated > 0 ? 'data-increase' : 'data-decrease'
             "
           >
-            <v-icon v-if="changedRedoGenerated > 0">
-              mdi-menu-up
-            </v-icon>
-            <v-icon v-if="changedRedoGenerated <= 0">
-              mdi-menu-down
-            </v-icon>
+            <v-icon v-if="changedRedoGenerated > 0"> mdi-menu-up </v-icon>
+            <v-icon v-if="changedRedoGenerated <= 0"> mdi-menu-down </v-icon>
             <span>{{ changedRedoGenerated }}</span>
           </div>
         </div>
@@ -156,10 +144,10 @@ export default {
     ...mapGetters("Oracle", [
       "getDbBlockGetsPerSec",
       "getLogicalReadsPerSec",
-      "getRedoGeneratedPerSec"
+      "getRedoGeneratedPerSec",
     ]),
-    ...mapGetters(["getRealTimeList", "selectedRealTime"]),
-    changedDbBlockGets: function() {
+    ...mapGetters("Realtime", ["getRealTimeList", "selectedRealTime"]),
+    changedDbBlockGets: function () {
       if (this.selectedRealTime <= 1) return 0;
 
       return (
@@ -167,30 +155,30 @@ export default {
         this.getDbBlockGetsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
-    changedLogicalReads: function() {
+    changedLogicalReads: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getLogicalReadsPerSec[this.selectedRealTime] -
         this.getLogicalReadsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
-    changedRedoGenerated: function() {
+    changedRedoGenerated: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getRedoGeneratedPerSec[this.selectedRealTime] -
         this.getRedoGeneratedPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
-    }
+    },
   },
   watch: {
-    getDbBlockGetsPerSec: function() {
+    getDbBlockGetsPerSec: function () {
       this.option1.xAxis.data = this.getRealTimeList;
       this.option2.xAxis.data = this.getRealTimeList;
       this.option3.xAxis.data = this.getRealTimeList;
       this.option1.series[0].data = this.getDbBlockGetsPerSec;
       this.option2.series[0].data = this.getLogicalReadsPerSec;
       this.option3.series[0].data = this.getRedoGeneratedPerSec;
-    }
+    },
   },
   data() {
     return {
@@ -203,29 +191,29 @@ export default {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -234,38 +222,38 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
       option2: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -274,38 +262,38 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
       option3: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -314,12 +302,12 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
-      }
+            areaStyle: "",
+          },
+        ],
+      },
     };
-  }
+  },
 };
 </script>
 

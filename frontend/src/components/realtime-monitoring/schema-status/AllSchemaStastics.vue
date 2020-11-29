@@ -642,7 +642,7 @@ export default {
     getColor() {
       return this.$store.state.graphColor;
     },
-    ...mapMutations([
+    ...mapMutations("Realtime", [
       "SET_SELECTED_REALTIME",
       "SET_SETTING_SELECTED",
       "SET_SELECTED_TOOLTIP",
@@ -721,23 +721,6 @@ export default {
         200
       );
     },
-
-    // changeAxis(index, params) {
-    //   console.log("왜이래", index, params);
-    //   if (index === 3) {
-    //     if (params.seriesData[0] !== undefined)
-    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
-    //   } else if (index === 4) {
-    //     if (params.seriesData[0] !== undefined)
-    //       this.SET_SELECTED_REALTIME(params.seriesData[0].dataIndex);
-    //     else this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
-    //   }
-    // }
-    // changeChart(type) {
-    //   if (type === "line") {
-    //   } else if (type === "pie") {
-    // }
   },
   computed: {
     ...mapGetters("Schema", [
@@ -747,7 +730,7 @@ export default {
       "getRealTimeSchemaList4",
       "getSchemaList",
     ]),
-    ...mapGetters([
+    ...mapGetters("Realtime", [
       "getRealTime",
       "getRealTimeList",
       "getIsSelected",

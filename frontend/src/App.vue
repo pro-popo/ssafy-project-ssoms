@@ -1,9 +1,6 @@
 <template>
   <v-app>
-    <div class="main-container">
-      <!-- <div v-if="!isExistedAdmin" class="main-container">
-        <SignUpAdmin />
-      </div> -->
+    <div class="app-container">
       <div>
         <transition name="fade" mode="out-in">
           <router-view></router-view>
@@ -19,11 +16,11 @@ import { mapActions } from "vuex";
 export default {
   name: "App",
   methods: {
-    ...mapActions("Account", ["checkExistedAdmin"])
+    ...mapActions("Account", ["checkExistedAdmin"]),
   },
   created() {
     this.checkExistedAdmin();
-  }
+  },
 };
 </script>
 
@@ -36,17 +33,17 @@ export default {
   --font-sub-color: #9e9e9e;
   --font-sub2-color: #636363;
 }
-.main-container {
+.app-container {
   width: 100%;
   height: 100%;
 }
 html {
   overflow: hidden !important;
-  /* -ms-overflow-style: none; */
 }
 #app {
   background: #fbfdfd;
 }
+
 /* 스크롤 바 넓이 16px */
 ::-webkit-scrollbar {
   width: 10px;
@@ -64,11 +61,4 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgb(134, 134, 134);
 }
-/* 스크롤 상하단 버튼 넓이와 색상 */
-/* ::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment {
-  width: 10px;
-  height: 10px;
-  background-color: mediumpurple;
-} */
 </style>

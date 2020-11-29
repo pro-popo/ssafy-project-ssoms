@@ -136,7 +136,7 @@ export default {
       this.SET_SELECTED_TOOLTIP("oracle");
       this.SET_SETTING_SELECTED(true);
     },
-    ...mapMutations([
+    ...mapMutations("Realtime", [
       "SET_SELECTED_REALTIME",
       "SET_SETTING_SELECTED",
       "SET_SELECTED_TOOLTIP",
@@ -188,7 +188,6 @@ export default {
     },
 
     changeChart(type) {
-      console.log(type);
       let areaStyle = null;
       if (type == "areaspline") {
         areaStyle = "";
@@ -220,7 +219,7 @@ export default {
       "getResponesTimePerTxn",
       "getActiveSerialSessions",
     ]),
-    ...mapGetters([
+    ...mapGetters("Realtime", [
       "getRealTimeList",
       "selectedRealTime",
       "getIsSelected",
@@ -305,14 +304,6 @@ export default {
             },
             value: this.selectedRealTime,
           },
-          // triggerEvent: true
-          // formatter: function(params, callback) {
-          //   console.log(callback);
-          //   this.test(params);
-          // }.bind(this)
-          // axisTick: {
-          //   show: false
-          // }
         },
         yAxis: {
           name: "(%)",

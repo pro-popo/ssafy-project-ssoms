@@ -61,14 +61,14 @@ export default {
         email: "",
         employeeId: "",
         name: "",
-        phoneNumber: ""
-      }
+        phoneNumber: "",
+      },
     };
   },
   watch: {
-    dialog: function() {
+    dialog: function () {
       this.$emit("close-profile");
-    }
+    },
   },
   created() {
     axios
@@ -78,7 +78,6 @@ export default {
           sessionStorage.getItem("loginSession")
       )
       .then((res) => {
-        console.log(res);
         this.profile = res.data.map.userProfile.info;
         this.profile.email = res.data.map.userProfile.email;
       })
@@ -90,8 +89,8 @@ export default {
     editUser() {
       this.dialog = false;
       this.$emit("edit-profile", this.profile);
-    }
-  }
+    },
+  },
 };
 </script>
 

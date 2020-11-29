@@ -41,7 +41,6 @@ const Account = {
             commit("SET_EXISTED_ADMIN", false);
             router.push({ name: "SignUpAdmin" });
           }
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -51,8 +50,8 @@ const Account = {
       axios
         .get(
           SERVER.URL +
-            SERVER.ROUTES.logout +
-            sessionStorage.getItem("loginSession")
+          SERVER.ROUTES.logout +
+          sessionStorage.getItem("loginSession")
         )
         .then((res) => {
           if (res.data.result == "success") {

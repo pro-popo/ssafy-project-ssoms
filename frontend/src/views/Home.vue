@@ -38,10 +38,7 @@ import EditUser from "@/components/account/EditUser.vue";
 import SERVER from "@/api/spring.js";
 import axios from "axios";
 
-import Stomp from "webstomp-client";
-import SockJS from "sockjs-client";
-
-import { mapActions, mapMutations, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "Home",
@@ -62,7 +59,8 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getOutlierData"]),
+    ...mapActions("Socket", ["connectSocket"]),
+
     checkIsAdmin() {
       axios
         .get(
@@ -94,70 +92,10 @@ export default {
     closeEditUser() {
       this.requestEditUser = false;
     },
-    addRealtimeData(realTimeData) {
-      if (!this.getIsSelected) {
-        this.SET_ORACLE_STATUS_LIST(realTimeData.oracleStatus);
-        this.SET_TOPQUERY_LIST(realTimeData.allSchemaQueryInfo);
-
-        this.SET_REALTIME(realTimeData.time);
-        this.SET_REALTIME_SCHEMA_LIST(realTimeData.allSchemaStastics);
-      }
-    },
-    connect() {
-      const serverURL = "http://localhost:8080/ssoms/stomp";
-      let socket = new SockJS(serverURL);
-      this.stompClient = Stomp.over(socket);
-      // console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
-      this.stompClient.connect(
-        {},
-        (frame) => {
-          this.connected = true;
-          frame;
-          this.stompClient.subscribe("/sendData/schedulerM", (res) => {
-            const realTimeData = JSON.parse(res.body);
-            if(realTimeData.outlier){
-                let start = new Date().toISOString().substr(0, 10);
-                let end = new Date();
-                end.setDate(end.getDate()+1);
-                end = end.toISOString().substr(0, 10);
-                this.getOutlierData({ start: '/' +start, end: '/' +end });
-            }
-            if (this.getRealTime !== realTimeData.time) {
-              if (this.getDatabaseCpuTimeRatioList.length >= 12) {
-                this.addRealtimeData(realTimeData);
-                // this.SET_SELECTED_REALTIME(-1);
-              } else {
-                setTimeout(
-                  function () {
-                    this.addRealtimeData(realTimeData);
-                    // this.SET_SELECTED_REALTIME(-1);
-                  }.bind(this),
-                  1000
-                );
-              }
-            }
-          });
-        },
-        (error) => {
-          // 소켓 연결 실패
-          console.log("소켓 연결 실패", error);
-          this.connected = false;
-        }
-      );
-    },
-    ...mapMutations("Oracle", ["SET_ORACLE_STATUS_LIST"]),
-    ...mapMutations("TopQuery", ["SET_TOPQUERY_LIST"]),
-    ...mapMutations(["SET_REALTIME", "SET_SELECTED_REALTIME"]),
-    ...mapMutations("Schema", ["SET_REALTIME_SCHEMA_LIST"]),
   },
   created() {
     this.checkIsAdmin();
-    this.connect();
-  },
-
-  computed: {
-    ...mapGetters(["getRealTime", "getIsSelected"]),
-    ...mapGetters("Oracle", ["getDatabaseCpuTimeRatioList"]),
+    this.connectSocket();
   },
 };
 </script>

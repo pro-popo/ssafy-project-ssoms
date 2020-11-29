@@ -3,10 +3,10 @@
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
-          <div style="display:flex">
+          <div style="display: flex">
             <h4 class="oracle-status-name">Total Parse Count</h4>
           </div>
-          <div style="display:flex;">
+          <div style="display: flex">
             <h1>
               {{ getTotalParseCountPerSec[selectedRealTime] }}
               <span class="oracle-unit">count</span>
@@ -27,12 +27,8 @@
               changedTotalParseCount > 0 ? 'data-increase' : 'data-decrease'
             "
           >
-            <v-icon v-if="changedTotalParseCount > 0">
-              mdi-menu-up
-            </v-icon>
-            <v-icon v-if="changedTotalParseCount <= 0">
-              mdi-menu-down
-            </v-icon>
+            <v-icon v-if="changedTotalParseCount > 0"> mdi-menu-up </v-icon>
+            <v-icon v-if="changedTotalParseCount <= 0"> mdi-menu-down </v-icon>
             <span>{{ changedTotalParseCount }}</span>
           </div>
         </div>
@@ -52,10 +48,10 @@
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
-          <div style="display:flex">
+          <div style="display: flex">
             <h4 class="oracle-status-name">Open Cursors</h4>
           </div>
-          <div style="display:flex;">
+          <div style="display: flex">
             <h1>
               {{ getOpenCursorsPerSec[selectedRealTime] }}
               <span class="oracle-unit">cursor</span>
@@ -73,12 +69,8 @@
             v-else
             :class="changedOpenCursors > 0 ? 'data-increase' : 'data-decrease'"
           >
-            <v-icon v-if="changedOpenCursors > 0">
-              mdi-menu-up
-            </v-icon>
-            <v-icon v-if="changedOpenCursors <= 0">
-              mdi-menu-down
-            </v-icon>
+            <v-icon v-if="changedOpenCursors > 0"> mdi-menu-up </v-icon>
+            <v-icon v-if="changedOpenCursors <= 0"> mdi-menu-down </v-icon>
             <span>{{ changedOpenCursors }}</span>
           </div>
         </div>
@@ -98,10 +90,10 @@
     <v-card elevation="2">
       <v-card-text class="oracle-data">
         <div>
-          <div style="display:flex">
+          <div style="display: flex">
             <h4 class="oracle-status-name">User Commit</h4>
           </div>
-          <div style="display:flex;">
+          <div style="display: flex">
             <h1>
               {{ getUserCommitsPerSec[selectedRealTime] }}
               <span class="oracle-unit">commit</span>
@@ -119,12 +111,8 @@
             v-else
             :class="changedUserCommits > 0 ? 'data-increase' : 'data-decrease'"
           >
-            <v-icon v-if="changedUserCommits > 0">
-              mdi-menu-up
-            </v-icon>
-            <v-icon v-if="changedUserCommits <= 0">
-              mdi-menu-down
-            </v-icon>
+            <v-icon v-if="changedUserCommits > 0"> mdi-menu-up </v-icon>
+            <v-icon v-if="changedUserCommits <= 0"> mdi-menu-down </v-icon>
             <span>{{ changedUserCommits }}</span>
           </div>
         </div>
@@ -158,40 +146,40 @@ export default {
       "getExecutionsPerSec",
       "getTotalParseCountPerSec",
       "getOpenCursorsPerSec",
-      "getUserCommitsPerSec"
+      "getUserCommitsPerSec",
     ]),
-    ...mapGetters(["getRealTimeList", "selectedRealTime"]),
-    changedExecutions: function() {
+    ...mapGetters("Realtime", ["getRealTimeList", "selectedRealTime"]),
+    changedExecutions: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getExecutionsPerSec[this.selectedRealTime] -
         this.getExecutionsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
-    changedTotalParseCount: function() {
+    changedTotalParseCount: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getTotalParseCountPerSec[this.selectedRealTime] -
         this.getTotalParseCountPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
-    changedOpenCursors: function() {
+    changedOpenCursors: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getOpenCursorsPerSec[this.selectedRealTime] -
         this.getOpenCursorsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
     },
-    changedUserCommits: function() {
+    changedUserCommits: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getUserCommitsPerSec[this.selectedRealTime - 1] -
         this.getUserCommitsPerSec[this.selectedRealTime]
       ).toFixed(2);
-    }
+    },
   },
   watch: {
-    getExecutionsPerSec: function() {
+    getExecutionsPerSec: function () {
       this.option1.xAxis.data = this.getRealTimeList;
       this.option2.xAxis.data = this.getRealTimeList;
       this.option3.xAxis.data = this.getRealTimeList;
@@ -201,7 +189,7 @@ export default {
       this.option2.series[0].data = this.getTotalParseCountPerSec;
       this.option3.series[0].data = this.getOpenCursorsPerSec;
       this.option4.series[0].data = this.getUserCommitsPerSec;
-    }
+    },
   },
   data() {
     return {
@@ -214,29 +202,29 @@ export default {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -245,9 +233,9 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
 
       option2: {
@@ -255,29 +243,29 @@ export default {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -286,38 +274,38 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
       option3: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -326,38 +314,38 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
+            areaStyle: "",
+          },
+        ],
       },
       option4: {
         grid: {
           right: 10,
           left: 10,
           bottom: 0,
-          top: 15
+          top: 15,
         },
         xAxis: {
           type: "category",
           boundaryGap: false,
           data: [],
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         yAxis: {
           type: "value",
           splitLine: {
-            show: false
+            show: false,
           },
-          show: false
+          show: false,
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "none"
-          }
+            type: "none",
+          },
         },
         series: [
           {
@@ -366,12 +354,12 @@ export default {
             type: "line",
             color: "#B39DDB",
             showSymbol: false,
-            areaStyle: ""
-          }
-        ]
-      }
+            areaStyle: "",
+          },
+        ],
+      },
     };
-  }
+  },
 };
 </script>
 

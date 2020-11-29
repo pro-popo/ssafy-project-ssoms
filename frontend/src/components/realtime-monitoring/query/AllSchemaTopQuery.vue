@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 style="font-size:22px;" class="mb-3 mt-3">
-      All Schema'<span style="margin-left:3px" />s CPU Top Query
+    <h2 style="font-size: 22px" class="mb-3 mt-3">
+      All Schema'<span style="margin-left: 3px" />s CPU Top Query
     </h2>
     <v-simple-table
       fixed-header
@@ -12,18 +12,10 @@
       <template v-slot:default>
         <thead style="border-radiu">
           <tr>
-            <th class="text-center topquery-table-th">
-              Rank
-            </th>
-            <th class="text-left topquery-table-th">
-              SQL ID
-            </th>
-            <th class="text-left topquery-table-th">
-              SQL
-            </th>
-            <th class="text-left topquery-table-th">
-              Schema Name
-            </th>
+            <th class="text-center topquery-table-th">Rank</th>
+            <th class="text-left topquery-table-th">SQL ID</th>
+            <th class="text-left topquery-table-th">SQL</th>
+            <th class="text-left topquery-table-th">Schema Name</th>
           </tr>
         </thead>
         <tbody>
@@ -33,7 +25,7 @@
             @click="getQueryDetail(selectedRealTime, index)"
             class="real-query-hover"
           >
-            <td class="text-center" style="width:70px">{{ index + 1 }}</td>
+            <td class="text-center" style="width: 70px">{{ index + 1 }}</td>
             <td>{{ query.sqlId }}</td>
             <td align="left" class="query-table-sql">
               {{ query.sql }}
@@ -54,11 +46,11 @@ import AllSchemaTopQueryDetail from "@/components/realtime-monitoring/query/AllS
 export default {
   name: "AllSchemaTopQuery",
   components: {
-    AllSchemaTopQueryDetail
+    AllSchemaTopQueryDetail,
   },
   data() {
     return {
-      clickRow: -1
+      clickRow: -1,
     };
   },
 
@@ -77,27 +69,27 @@ export default {
     },
     ...mapMutations("TopQuery", [
       "SET_TOPQUERY_DETAIL",
-      "SET_TOPQUERY_DETAIL_EMPTY"
-    ])
+      "SET_TOPQUERY_DETAIL_EMPTY",
+    ]),
   },
   computed: {
     ...mapGetters("TopQuery", ["getTopQueryList"]),
     ...mapState("TopQuery", ["watch"]),
-    ...mapGetters(["selectedRealTime"])
+    ...mapGetters("Realtime", ["selectedRealTime"]),
   },
   watch: {
-    getTopQueryList: function() {
+    getTopQueryList: function () {
       this.getQueryDetail(this.selectedRealTime, this.clickRow);
     },
-    selectedRealTime: function() {
+    selectedRealTime: function () {
       const trList = document
         .getElementById("allSchemaTopQueryTable")
         .getElementsByTagName("tr");
       if (this.clickRow != -1)
         trList[this.clickRow + 1].classList.remove("real-query-click-tr");
       this.SET_TOPQUERY_DETAIL_EMPTY();
-    }
-  }
+    },
+  },
 };
 </script>
 

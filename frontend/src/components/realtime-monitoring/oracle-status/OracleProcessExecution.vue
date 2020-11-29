@@ -1,25 +1,23 @@
 <template>
-  <v-card elevation="2" style="height:100%; margin-right:15px">
+  <v-card elevation="2" style="height: 100%; margin-right: 15px">
     <v-card-text class="card-execution">
-      <div style="height:30%; display:flex; flex-direction: column;">
-        <div style="display:flex; align-items:center; margin-top:-5px">
-          <h4 class="oracle-status-name">
-            Executions
-          </h4>
-          <div style="margin-right:-10px">
+      <div style="height: 30%; display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; margin-top: -5px">
+          <h4 class="oracle-status-name">Executions</h4>
+          <div style="margin-right: -10px">
             <v-menu offset-y attach>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn small icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <div style="background:white">
+              <div style="background: white">
                 <v-btn-toggle
                   group
                   mandatory
                   color="#039BE5"
                   v-model="toggle_exclusive"
-                  style="display:flex;  flex-direction: column;"
+                  style="display: flex; flex-direction: column"
                 >
                   <v-btn small icon @click="changeChart('bar')"
                     ><v-icon>mdi-chart-bar</v-icon></v-btn
@@ -35,7 +33,7 @@
             </v-menu>
           </div>
         </div>
-        <div style="display:flex;" class="oracle-data">
+        <div style="display: flex" class="oracle-data">
           <h1>
             {{ getExecutionsPerSec[selectedRealTime] }}
             <span class="oracle-unit">count</span>
@@ -50,16 +48,12 @@
           v-else
           :class="changedExecutions > 0 ? 'data-increase' : 'data-decrease'"
         >
-          <v-icon v-if="changedExecutions > 0">
-            mdi-menu-up
-          </v-icon>
-          <v-icon v-if="changedExecutions <= 0">
-            mdi-menu-down
-          </v-icon>
+          <v-icon v-if="changedExecutions > 0"> mdi-menu-up </v-icon>
+          <v-icon v-if="changedExecutions <= 0"> mdi-menu-down </v-icon>
           <span>{{ changedExecutions }}</span>
         </div>
       </div>
-      <div style="height:70%; width:auto;">
+      <div style="height: 70%; width: auto">
         <IEcharts :option="option" :resizable="true" />
       </div>
     </v-card-text>
@@ -73,12 +67,11 @@ import { mapGetters } from "vuex";
 export default {
   name: "OracleCpu",
   components: {
-    IEcharts
+    IEcharts,
     // OracleStorage
   },
   methods: {
     changeChart(type) {
-      console.log(type);
       let areaStyle = null;
       if (type == "areaspline") {
         areaStyle = "";
@@ -97,25 +90,25 @@ export default {
         element.areaStyle = areaStyle;
         element.color = this.option.color[cnt++];
       });
-    }
+    },
   },
   computed: {
     ...mapGetters("Oracle", ["getExecutionsPerSec"]),
-    ...mapGetters(["getRealTimeList", "selectedRealTime"]),
+    ...mapGetters("Realtime", ["getRealTimeList", "selectedRealTime"]),
 
-    changedExecutions: function() {
+    changedExecutions: function () {
       if (this.selectedRealTime <= 1) return 0;
       return (
         this.getExecutionsPerSec[this.selectedRealTime] -
         this.getExecutionsPerSec[this.selectedRealTime - 1]
       ).toFixed(2);
-    }
+    },
   },
   watch: {
-    getExecutionsPerSec: function() {
+    getExecutionsPerSec: function () {
       this.option.xAxis.data = this.getRealTimeList;
       this.option.series[0].data = this.getExecutionsPerSec;
-    }
+    },
   },
   data() {
     return {
@@ -126,7 +119,7 @@ export default {
         grid: {
           left: 30,
           bottom: 20,
-          top: 40
+          top: 40,
         },
         // title: { text: "CPU Time" },
         xAxis: {
@@ -135,9 +128,9 @@ export default {
           data: [],
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
-          }
+              color: "#ababab",
+            },
+          },
           // axisTick: {
           //   show: false
           // }
@@ -146,26 +139,26 @@ export default {
           type: "value",
           axisLine: {
             lineStyle: {
-              color: "#ababab"
-            }
+              color: "#ababab",
+            },
           },
 
           axisTick: {
-            show: false
+            show: false,
           },
-          max: function(item) {
+          max: function (item) {
             if (item.max > 10) return (item.max.toFixed(0) / 10) * 10 + 10;
             else if (item.max > 1) return 10;
             else return Math.ceil(item.max);
-          }
+          },
         },
 
         tooltip: {
           trigger: "axis",
           position: ["100%", "50%"],
           axisPointer: {
-            type: "line"
-          }
+            type: "line",
+          },
         },
 
         series: [
@@ -174,10 +167,10 @@ export default {
             data: [],
             areaStyle: null,
             type: "line",
-            showSymbol: false
-          }
-        ]
-      }
+            showSymbol: false,
+          },
+        ],
+      },
       // option: {
       //   // title: {
       //   //   text: "Status"
@@ -245,7 +238,7 @@ export default {
       //   ]
       // }
     };
-  }
+  },
 };
 </script>
 

@@ -25,18 +25,12 @@ export default {
       userName: "",
       message: "",
       recvList: [],
-      testList: []
+      testList: [],
     };
   },
   created() {
     // App.vue가 생성되면 소켓 연결을 시도합니다.
     this.connect();
-    axios
-      .get(SERVER.URL + "/Socket/test")
-      .then(() => {
-        console.log("연결");
-      })
-      .catch((err) => console.log(err));
   },
   methods: {
     connect() {
@@ -70,16 +64,16 @@ export default {
         }
       );
     },
-    ...mapMutations("Oracle", ["SET_LIST"])
+    ...mapMutations("Oracle", ["SET_LIST"]),
   },
   watch: {
-    recvList: function() {
+    recvList: function () {
       // this.$store.this.testList.push(
       // this.recvList[this.recvList.length - 1].OracleStastics
       //   .databaseCpuTimeRatio
       // );
       this.SET_LIST(this.recvList[this.recvList.length - 1].OracleStastics);
-    }
-  }
+    },
+  },
 };
 </script>

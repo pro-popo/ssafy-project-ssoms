@@ -9,7 +9,7 @@
     >
     <v-btn
       color="primary"
-      style="margin-top:10px"
+      style="margin-top: 10px"
       outlined
       @click="checkConnectScheduler"
       >실시간 모니터링 상태 확인</v-btn
@@ -23,7 +23,7 @@ import SERVER from "@/api/spring.js";
 export default {
   data() {
     return {
-      scheduler: true
+      scheduler: true,
     };
   },
   created() {
@@ -32,10 +32,8 @@ export default {
       .then((res) => {
         if (res.data.result == "running") {
           this.scheduler = false;
-          console.log("현재 실시간 모니터링이 시작된 상태 입니다.");
         } else if (res.data.result == "end") {
           this.scheduler = true;
-          console.log("현재 실시간 모니터링이 종료된 상태 입니다.");
         }
       })
       .catch((err) => {
@@ -91,8 +89,8 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

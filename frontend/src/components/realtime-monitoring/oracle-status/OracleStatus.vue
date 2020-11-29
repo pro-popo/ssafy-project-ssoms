@@ -106,15 +106,19 @@ export default {
     changeMainView() {
       this.isMainView = !this.isMainView;
     },
-    ...mapMutations(["SET_SELECTED_REALTIME"]),
-    ...mapActions(["initRealTimeData"]),
+    ...mapMutations("Realtime", ["SET_SELECTED_REALTIME"]),
+    ...mapActions(["Realtime", "initRealTimeData"]),
     startRealTime() {
       this.SET_SELECTED_REALTIME(-1);
       this.initRealTimeData();
     },
   },
   computed: {
-    ...mapGetters(["selectedRealTime", "getRealTimeList", "getRealTime"]),
+    ...mapGetters("Realtime", [
+      "selectedRealTime",
+      "getRealTimeList",
+      "getRealTime",
+    ]),
   },
 };
 </script>

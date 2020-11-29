@@ -1,16 +1,25 @@
 <template>
-  <div style="display:flex;">
+  <div style="display: flex">
     <div class="admin-schema-container">
-      <h2 class="mb-3" style="color:var(--font-main-color)">Schema Setting</h2>
+      <h2 class="mb-3" style="color: var(--font-main-color)">Schema Setting</h2>
       <div class="schema-searchbar">
         <div
-          style="width:400px; height:100%; padding-top:25px; margin-bottom:-10px"
+          style="
+            width: 400px;
+            height: 100%;
+            padding-top: 25px;
+            margin-bottom: -10px;
+          "
         ></div>
-        <div style="height:100%; margin-bottom:-8px">
+        <div style="height: 100%; margin-bottom: -8px">
           <v-dialog v-model="dialog" persistent max-width="500">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                style="margin-left:auto; margin-right:10px; margin-bottom:20px;"
+                style="
+                  margin-left: auto;
+                  margin-right: 10px;
+                  margin-bottom: 20px;
+                "
                 fab
                 small
                 elevation="2"
@@ -28,13 +37,13 @@
               <v-list
                 dense
                 elevation="3"
-                style="border-radius:5px;width:500;height: 100%;"
+                style="border-radius: 5px; width: 500; height: 100%"
               >
                 <v-card-text>
-                  <div style="display:flex; justify-content:space-between">
+                  <div style="display: flex; justify-content: space-between">
                     <h3>스키마 목록</h3>
                     <v-btn
-                      style="margin-top:-5px"
+                      style="margin-top: -5px"
                       small
                       icon
                       @click="[(dialog = false), (isCheckAdd = false)]"
@@ -42,7 +51,7 @@
                     >
                   </div>
                   <div>
-                    <small style="color:var(--font-sub-color)">
+                    <small style="color: var(--font-sub-color)">
                       모든 스키마의 목록입니다.
                     </small>
                     <div class="add-schema-form">
@@ -95,32 +104,30 @@
           height="290px"
           color="red"
           dark
-          style="background:transparent"
+          style="background: transparent"
         >
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left" style="padding-left:20px">Schema ID</th>
-                <th class="text-right" style="padding-right:25px">
-                  Action
-                </th>
+                <th class="text-left" style="padding-left: 20px">Schema ID</th>
+                <th class="text-right" style="padding-right: 25px">Action</th>
               </tr>
             </thead>
             <tbody
               class="admin-schema-table-tbody"
-              style="color:var(--font-sub2-color)"
+              style="color: var(--font-sub2-color)"
             >
               <tr v-for="schema in schemaList" :key="schema.userID">
-                <td style="border-bottom:1px solid #d0d0d0;">
+                <td style="border-bottom: 1px solid #d0d0d0">
                   <v-icon
-                    style="margin-bottom:3px; "
+                    style="margin-bottom: 3px"
                     size="22"
                     color="var(--font-sub2-color)"
                     >mdi-database</v-icon
                   >
                   {{ schema.userID }}
                 </td>
-                <td class="text-right" style="border-bottom:1px solid #d0d0d0;">
+                <td class="text-right" style="border-bottom: 1px solid #d0d0d0">
                   <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
@@ -159,7 +166,7 @@ export default {
       userID: "",
       isCheckAdd: false,
       findSchemaName: "",
-      findSchemaList: []
+      findSchemaList: [],
     };
   },
   // watch: {
@@ -185,7 +192,7 @@ export default {
     deleteSchema(schemaId) {
       var deleteConfirm = confirm("정말 삭제하시겠습니까?");
       if (deleteConfirm) {
-        const itemToFind = this.schemaList.find(function(item) {
+        const itemToFind = this.schemaList.find(function (item) {
           return item.userID === schemaId;
         });
         const idx = this.schemaList.indexOf(itemToFind);
@@ -195,7 +202,6 @@ export default {
         axios
           .post(SERVER.URL + SERVER.ROUTES.setSettingsSchema, this.schemaList)
           .then((res) => {
-            console.log(res.data.result);
             if (res.data.result === "saveSuccess") {
               alert("스키마가 성공적으로 삭제되었습니다.");
             }
@@ -225,10 +231,9 @@ export default {
       // 중복 및 존재여부 확인
       axios
         .post(SERVER.URL + SERVER.ROUTES.checkSettingsSchema, {
-          userID: this.userID
+          userID: this.userID,
         })
         .then((res) => {
-          console.log("1", res.data.result);
           if (res.data.result === "duplicate") {
             alert("이미 추가된 스키마 ID 입니다.");
           } else if (res.data.result === "notExist") {
@@ -263,11 +268,11 @@ export default {
           this.findSchemaName = "";
         })
         .catch((err) => console.log(err));
-    }
+    },
   },
   created() {
     this.getSettingsSchema();
-  }
+  },
 };
 </script>
 

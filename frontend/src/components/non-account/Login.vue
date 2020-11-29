@@ -45,12 +45,12 @@ export default {
       show1: false,
       account: {
         email: "",
-        pw: ""
+        pw: "",
       },
       rules: {
-        required: (v) => !!v || "Required."
+        required: (v) => !!v || "Required.",
       },
-      loginSuccess: true
+      loginSuccess: true,
     };
   },
   computed: {
@@ -58,18 +58,17 @@ export default {
       return (
         this.loginSuccess || "The email and password you entered don't match"
       );
-    }
+    },
   },
   methods: {
     login() {
       this.loginSuccess = true;
       setTimeout(
-        function() {
+        function () {
           if (this.$refs.form.validate()) {
             axios
               .post(SERVER.URL + SERVER.ROUTES.signin, this.account)
               .then((res) => {
-                console.log(res);
                 if (res.data.result == "success") {
                   sessionStorage.setItem("loginSession", this.account.email);
                   this.$refs.form.reset();
@@ -88,8 +87,8 @@ export default {
     },
     openSignUp() {
       this.$emit("open-signup");
-    }
-  }
+    },
+  },
 };
 </script>
 

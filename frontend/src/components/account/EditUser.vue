@@ -134,7 +134,7 @@ import DeleteUser from "@/components/account/DeleteUser.vue";
 export default {
   name: "EditUser",
   components: {
-    DeleteUser
+    DeleteUser,
   },
   data() {
     return {
@@ -153,9 +153,9 @@ export default {
       editSuccess: false,
 
       rules: {
-        required: (v) => !!v || "Required."
+        required: (v) => !!v || "Required.",
         // min: (v) => v.length >= 8 || "Min 8 characters",
-      }
+      },
     };
   },
   computed: {
@@ -166,17 +166,17 @@ export default {
       return (
         this.loginSuccess || "The email and password you entered don't match"
       );
-    }
+    },
   },
 
   watch: {
-    dialog: function() {
+    dialog: function () {
       this.$emit("close-edit-profile");
     },
-    isChangePw: function() {
+    isChangePw: function () {
       this.newPw = "";
       this.confirmPw = "";
-    }
+    },
   },
   methods: {
     editUser() {
@@ -190,7 +190,6 @@ export default {
         axios
           .put(SERVER.URL + SERVER.ROUTES.updateUser, this.account)
           .then((res) => {
-            console.log(this.account);
             if (res.data.result == "success") {
               this.editSuccess = true;
               setTimeout(this.backProfile, 2000);
@@ -198,7 +197,6 @@ export default {
               console.log("실패");
               this.loginSuccess = false;
             }
-            console.log(res);
           })
           .catch((err) => console.log(err));
       }
@@ -206,11 +204,11 @@ export default {
     backProfile() {
       this.dialog = false;
       this.$emit("open-profile");
-    }
+    },
   },
   props: {
-    profile: Object
-  }
+    profile: Object,
+  },
 };
 </script>
 
