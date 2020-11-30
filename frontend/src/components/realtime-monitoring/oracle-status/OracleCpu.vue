@@ -6,12 +6,9 @@
         'oracle-cpu-card1-extend': isMainView,
       }"
     >
-      <v-card elevation="2">
+      <v-card elevation="2" id="oracle-cputime-card">
         <v-card-text style="height: 100%; display: flex">
           <div class="oracle-title-icon">
-            <!-- <v-icon id="chart-title-icon" size="18" dark
-              >mdi-desktop-classic</v-icon
-            > -->
             <h3 class="oracle-status-name">CPU & Wait Time</h3>
             <div style="margin: 0px 25px 0px auto">
               <v-btn icon small @click="$emit('change-main-view')">
@@ -156,20 +153,27 @@ export default {
                   if (
                     this.getDatabaseCpuTimeRatioList[
                       params.seriesData[0].dataIndex
-                    ] < 30
+                    ] < 50
                   ) {
                     this.gauge.series[0].detail.color = "#D50000";
                     this.option.color = ["#FF8A80", "#D50000"];
+                    console.log(document.getElementById("oracle-cputime-card"));
+                    document.getElementById(
+                      "oracle-cputime-card"
+                    ).style.border = "2px solid #D50000";
                   } else {
                     this.gauge.series[0].detail.color = "#6440e3";
                     this.option.color = ["#b1d3ff", "#075aff"];
+                    document.getElementById(
+                      "oracle-cputime-card"
+                    ).style.border = "0px";
                   }
                 } else {
                   this.SET_SELECTED_REALTIME(this.getRealTimeList.length - 1);
                   if (
                     this.getDatabaseCpuTimeRatioList[
                       this.getRealTimeList.length - 1
-                    ] < 30
+                    ] < 50
                   ) {
                     this.gauge.series[0].detail.color = "#D50000";
                     // this.option.color = ["#FF8A80", "#D50000"];
@@ -240,26 +244,19 @@ export default {
       if (
         this.getDatabaseCpuTimeRatioList[
           this.getDatabaseCpuTimeRatioList.length - 1
-        ] < 30
+        ] < 50
       ) {
         this.gauge.series[0].detail.color = "#D50000";
         this.option.color = ["#FF8A80", "#D50000"];
+        document.getElementById("oracle-cputime-card").style.border =
+          "2px solid #D50000";
       } else {
         this.gauge.series[0].detail.color = "#6440e3";
         this.option.color = ["#b1d3ff", "#075aff"];
+        document.getElementById("oracle-cputime-card").style.border = "0px";
       }
       this.option.series[0].data = this.getDatabaseCpuTimeRatioList;
       this.option.series[1].data = this.getDatabaseWaitTimeRatio;
-      // this.gauge.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
-      //   this.getDatabaseCpuTimeRatioList.length - 1
-      // ];
-
-      // this.pie.series[0].data[0].value = this.getDatabaseCpuTimeRatioList[
-      //   this.getDatabaseCpuTimeRatioList.length - 1
-      // ];
-      // this.pie.series[0].data[1].value = this.getDatabaseWaitTimeRatio[
-      //   this.getDatabaseWaitTimeRatio.length - 1
-      // ];
 
       this.option.xAxis.data = this.getRealTimeList;
       this.small1.xAxis.data = this.getRealTimeList;
@@ -286,7 +283,6 @@ export default {
           bottom: 25,
           top: 60,
         },
-        // title: { text: "CPU Time" },
         xAxis: {
           type: "category",
           boundaryGap: false,

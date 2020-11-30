@@ -48,7 +48,9 @@
                     SelectedSchema
                   ].cpuUsed"
                   :key="index"
-                  @click="getCPUQueryDetail('schemaTopQueryTable1', index)"
+                  @click="
+                    getTopQueryDetail('cpu', 'schemaTopQueryTable1', index)
+                  "
                   class="real-query-hover"
                 >
                   <td class="text-center" style="width: 70px">
@@ -81,6 +83,66 @@
             </template>
           </v-simple-table>
         </v-tab-item>
+
+        <v-tab-item>
+          <v-simple-table
+            fixed-header
+            height="285px"
+            class="elevation-2 realtime-top-query"
+            id="schemaTopQueryTable3"
+            v-if="getPastTimeData.schemas[SelectedSchema] != null"
+          >
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center topquery-table-th">Rank</th>
+                  <th class="text-left topquery-table-th">SQL ID</th>
+                  <th class="text-left topquery-table-th">SQL</th>
+                  <th class="text-left topquery-table-th">Buffer Gets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(query, index) in getPastTimeData.schemas[
+                    SelectedSchema
+                  ].bufferGets"
+                  :key="index"
+                  @click="
+                    getTopQueryDetail('buffer', 'schemaTopQueryTable3', index)
+                  "
+                  class="real-query-hover"
+                >
+                  <td class="text-center" style="width: 70px">
+                    {{ index + 1 }}
+                  </td>
+                  <td style="width: 250px">{{ query.sqlId }}</td>
+                  <td align="left" class="query-table-sql">{{ query.sql }}</td>
+                  <td>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 85px;
+                      "
+                    >
+                      <span>{{ query.bufferGetsRatio }} %</span>
+                      <v-progress-circular
+                        v-if="query.bufferGetsRatio != 0"
+                        style="margin-left: 10px"
+                        :value="query.bufferGetsRatio"
+                        :size="20"
+                        :width="5"
+                        color="#6440e3 "
+                      ></v-progress-circular>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+
         <v-tab-item>
           <v-simple-table
             fixed-header
@@ -104,7 +166,9 @@
                     SelectedSchema
                   ].elapsedTime"
                   :key="index"
-                  @click="getElapsedQueryDetail('schemaTopQueryTable2', index)"
+                  @click="
+                    getTopQueryDetail('elapsed', 'schemaTopQueryTable2', index)
+                  "
                   class="real-query-hover"
                 >
                   <td class="text-center" style="width: 70px">
@@ -138,64 +202,7 @@
             </template>
           </v-simple-table>
         </v-tab-item>
-        <v-tab-item>
-          <v-simple-table
-            fixed-header
-            height="285px"
-            class="elevation-2 realtime-top-query"
-            id="schemaTopQueryTable3"
-            v-if="getPastTimeData.schemas[SelectedSchema] != null"
-          >
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-center topquery-table-th">Rank</th>
-                  <th class="text-left topquery-table-th">SQL ID</th>
-                  <th class="text-left topquery-table-th">SQL</th>
-                  <th class="text-left topquery-table-th">Buffer Gets</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(query, index) in getPastTimeData.schemas[
-                    SelectedSchema
-                  ].bufferGets"
-                  :key="index"
-                  @click="getBufferQueryDetail('schemaTopQueryTable3', index)"
-                  class="real-query-hover"
-                >
-                  <td class="text-center" style="width: 70px">
-                    {{ index + 1 }}
-                  </td>
-                  <td style="width: 250px">{{ query.sqlId }}</td>
-                  <td align="left" class="query-table-sql">{{ query.sql }}</td>
-                  <td>
-                    <div
-                      style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 85px;
-                      "
-                    >
-                      <span>{{ query.bufferGetsRatio }} %</span>
-                      <v-progress-circular
-                        v-if="query.bufferGetsRatio != 0"
-                        style="margin-left: 10px"
-                        :value="query.bufferGetsRatio"
-                        :size="20"
-                        :width="5"
-                        color="#6440e3 "
-                      ></v-progress-circular>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </v-tab-item>
       </v-tabs-items>
-
       <!-- Top Query Detail -->
       <v-card
         elevation="2"
@@ -247,9 +254,7 @@
                 <h3 class="query-detail-title" style="margin: 10px 0px -5px">
                   CpuTime
                 </h3>
-                <!-- <div class="query-detail-text">
-                  {{ detailData.cpuTimeRatio }}
-                </div> -->
+
                 <div class="schema-query-detail-pie">
                   <IEcharts :option="option2" :resizable="true" />
                 </div>
@@ -258,9 +263,7 @@
                 <h3 class="query-detail-title" style="margin: 10px 0px -5px">
                   BufferGets
                 </h3>
-                <!-- <div class="query-detail-text">
-                  {{ detailData.bufferGetsRatio }}
-                </div> -->
+
                 <div class="schema-query-detail-pie">
                   <IEcharts :option="option1" :resizable="true" />
                 </div>
@@ -270,17 +273,11 @@
                 <h3 class="query-detail-title" style="margin: 10px 0px -5px">
                   ElapsedTime
                 </h3>
-                <!-- <div class="query-detail-text">
-                  {{ detailData.elapsedTimeRatio }}
-                </div> -->
+
                 <div class="schema-query-detail-pie">
                   <IEcharts :option="option3" :resizable="true" />
                 </div>
               </div>
-              <!--<div class="query-detail-title">module</div>
-            <div class="query-detail-text">
-            {{ detailData.module }}
-            </div>-->
             </div>
           </div>
         </v-card-text>
@@ -317,13 +314,10 @@ export default {
       tab: null,
       items: [
         { tab: "CPU Time", content: "" },
-        { tab: "Elapsed Time", content: "" },
         { tab: "Buffer Gets", content: "" },
+        { tab: "Elapsed Time", content: "" },
       ],
       option1: {
-        // title: {
-        //   text: "Status"
-        // },
         grid: {
           width: "100%",
           height: "100%",
@@ -375,9 +369,6 @@ export default {
         ],
       },
       option2: {
-        // title: {
-        //   text: "Status"
-        // },
         grid: {
           width: "100%",
           height: "100%",
@@ -429,9 +420,6 @@ export default {
         ],
       },
       option3: {
-        // title: {
-        //   text: "Status"
-        // },
         grid: {
           width: "100%",
           height: "100%",
@@ -515,43 +503,30 @@ export default {
       this.clickRow = index;
       this.selectedTableId = tableId;
     },
-    getCPUQueryDetail(tableId, index) {
+    getTopQueryDetail(type, tableId, index) {
       this.tableSelect(tableId, index);
-      this.detailData = this.getPastTimeData.schemas[
-        this.SelectedSchema
-      ].cpuUsed[index];
+      switch (type) {
+        case "cpu":
+          this.detailData = this.getPastTimeData.schemas[
+            this.SelectedSchema
+          ].cpuUsed[index];
+          break;
+        case "buffer":
+          this.detailData = this.getPastTimeData.schemas[
+            this.SelectedSchema
+          ].bufferGets[index];
+          break;
+        case "elapsed":
+          this.detailData = this.getPastTimeData.schemas[
+            this.SelectedSchema
+          ].elapsedTime[index];
+          break;
+      }
+
       this.option2.series[0].data[0].value = this.detailData.cpuTimeRatio;
       this.option2.series[0].data[0].name = "CpuTime";
 
       this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
-      this.option1.series[0].data[0].name = "BufferGets";
-
-      this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
-      this.option3.series[0].data[0].name = "ElapsedTime";
-    },
-    getElapsedQueryDetail(tableIndex, index) {
-      this.tableSelect(tableIndex, index);
-      this.detailData = this.getPastTimeData.schemas[
-        this.SelectedSchema
-      ].elapsedTime[index];
-      this.option2.series[0].data[0].value = this.detailData.cpuTimeRatio;
-      this.option2.series[0].data[0].name = "CpuTime";
-
-      this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
-      this.option1.series[0].data[0].name = "BufferGets";
-
-      this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
-      this.option3.series[0].data[0].name = "ElapsedTime";
-    },
-    getBufferQueryDetail(tableIndex, index) {
-      this.tableSelect(tableIndex, index);
-      this.detailData = this.getPastTimeData.schemas[
-        this.SelectedSchema
-      ].bufferGets[index];
-      this.option1.series[0].data[0].value = this.detailData.bufferGetsRatio;
-      this.option2.series[0].data[0].value = this.detailData.cpuTimeRatio;
-      this.option2.series[0].data[0].name = "CpuTime";
-
       this.option1.series[0].data[0].name = "BufferGets";
 
       this.option3.series[0].data[0].value = this.detailData.elapsedTimeRatio;
