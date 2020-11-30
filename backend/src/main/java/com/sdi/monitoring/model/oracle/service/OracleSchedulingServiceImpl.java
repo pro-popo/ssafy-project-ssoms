@@ -103,10 +103,10 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 //		System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
 		Map<String, Object> map = new HashMap<>();
 		boolean outlier = false;
-//		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()
-//				|| periodCnt % 5 == 0) {
-		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95 || periodCnt % 5 == 0) {
-			periodCnt = periodCnt == 5 ? 0 : periodCnt;
+		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()
+				|| periodCnt % 5 == 0) {
+//		if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95 || periodCnt % 5 == 0) {
+//			periodCnt = periodCnt == 5 ? 0 : periodCnt;
 //			System.out.println(oracleStatusDTO.getDatabaseCpuTimeRatio());
 //			System.out.println(periodCnt);
 			List<String> schemaList = JsonParser.getSchemaInfo();
@@ -162,8 +162,8 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 				oneDayMonitoringMongoRepo.insert(oneDayMonitoringEntityBuilder(realTimeMonitoringEntity));
 				// 1일 저장 logic
 			}
-//				if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
-			if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95) {
+			if(oracleStatusDTO.getDatabaseCpuTimeRatio() <= oracleStatusDTO.getDatabaseWaitTimeRatio()) {
+//			if (oracleStatusDTO.getDatabaseCpuTimeRatio() <= 95) {
 				outlierDataMongoRepo.insert(
 						outlierDataEntityBuilder(format.format(time), oracleStatusDTO.getDatabaseCpuTimeRatio()));
 				outlier = true;
