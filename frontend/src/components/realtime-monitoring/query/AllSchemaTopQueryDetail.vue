@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:10px">
+  <div style="margin-top: 10px">
     <v-card
       elevation="2"
       class="animate__animated animate__fadeIn realtime-query-detail-container"
@@ -8,7 +8,7 @@
       <v-card-text>
         <div>
           <v-icon>mdi-database</v-icon>
-          <b style="font-size:16px">
+          <b style="font-size: 16px">
             {{ getTopQueryDetail.parsingSchemaName }}</b
           >
         </div>
@@ -19,7 +19,7 @@
           </div>
           <div>
             <p>SQL</p>
-            <b style="word-break:normal; width:90%"
+            <b style="word-break: normal; width: 90%"
               >{{ getTopQueryDetail.sql }}
             </b>
           </div>
@@ -78,7 +78,7 @@
       height="200px"
       v-else
     >
-      <v-card-text style="display:flex; justify-content:center">
+      <v-card-text style="display: flex; justify-content: center">
         <h3>Query Detail</h3>
       </v-card-text>
     </v-card>
@@ -91,8 +91,8 @@ import { mapGetters } from "vuex";
 export default {
   name: "AllSchemaTopQueryDetail",
   computed: {
-    ...mapGetters("TopQuery", ["getTopQueryDetail"])
-  }
+    ...mapGetters("TopQuery", ["getTopQueryDetail"]),
+  },
 };
 </script>
 
@@ -125,7 +125,6 @@ export default {
   color: var(--main-point-color);
 }
 .query-detail-title {
-  /* opacity: 0.6; */
   margin-bottom: 5px;
 }
 
@@ -134,7 +133,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   padding: 10px 25px;
-  /* margin: 10px 0px; */
   width: 16.66%;
   border-right: 2px solid rgb(226, 226, 226);
 }

@@ -4,7 +4,7 @@
       <v-row class="fill-height" align-content="center" justify="center">
         <v-col class="subtitle-1 text-center" cols="12">
           <h2
-            style="color:var(--font-sub2-color)"
+            style="color: var(--font-sub2-color)"
             class="animate__animated animate__pulse loading"
           >
             Loading...
@@ -17,23 +17,12 @@
             rounded
             height="6"
           ></v-progress-linear>
-          <p style="margin-top:10px; color:var(--font-sub-color)">
+          <p style="margin-top: 10px; color: var(--font-sub-color)">
             please wait a moment.
           </p>
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- <div class="v-moon v-moon1" v-bind:style="spinnerStyle">
-      <div
-        class="v-moon v-moon2"
-        v-bind:style="[spinnerMoonStyle, animationStyle2]"
-      ></div>
-      <div
-        class="v-moon v-moon3"
-        v-bind:style="[spinnerStyle, animationStyle3]"
-      ></div>
-    </div> -->
   </div>
 </template>
 
@@ -43,32 +32,32 @@ export default {
   props: {
     loading: {
       type: Boolean,
-      default: true
+      default: true,
     },
     color: {
       type: String,
-      default: "#BDBDBD"
+      default: "#BDBDBD",
     },
     size: {
       type: String,
-      default: "120px"
+      default: "120px",
     },
     margin: {
       type: String,
-      default: "2px"
+      default: "2px",
     },
     radius: {
       type: String,
-      default: "100%"
-    }
+      default: "100%",
+    },
   },
   data() {
     return {
       spinnerStyle: {
         height: this.size,
         width: this.size,
-        borderRadius: this.radius
-      }
+        borderRadius: this.radius,
+      },
     };
   },
   computed: {
@@ -79,21 +68,21 @@ export default {
       return {
         height: this.moonSize + "px",
         width: this.moonSize + "px",
-        borderRadius: this.radius
+        borderRadius: this.radius,
       };
     },
     animationStyle2() {
       return {
         top: parseFloat(this.size) / 2 - this.moonSize / 2 + "px",
-        backgroundColor: this.color
+        backgroundColor: this.color,
       };
     },
     animationStyle3() {
       return {
-        border: this.moonSize + "px solid " + this.color
+        border: this.moonSize + "px solid " + this.color,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

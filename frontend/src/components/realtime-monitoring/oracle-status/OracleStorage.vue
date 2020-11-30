@@ -100,7 +100,6 @@ export default {
           bottom: 30,
           top: 65,
         },
-        // title: { text: "CPU Time" },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -110,9 +109,6 @@ export default {
               color: "#ababab",
             },
           },
-          // axisTick: {
-          //   show: false
-          // }
         },
         yAxis: {
           name: "(md)",
@@ -134,8 +130,6 @@ export default {
         },
         legend: {
           data: ["Physical Reads", "Physical Writes"],
-          // icon: "circle",
-          // bottom: 0,
           top: 3,
           textStyle: {
             fontSize: 10,
@@ -171,15 +165,6 @@ export default {
 </script>
 
 <style>
-/* .oracle-storage-chart {
-  width: 50%;
-  height: 300px;
-  border: 1px solid var(--font-sub-color);
-  border-radius: 10px;
-  padding: 15px 10px;
-  margin-bottom: 30px;
-  color: var(--font-sub2-color);
-} */
 .oracle-storage {
   height: 100%;
 }

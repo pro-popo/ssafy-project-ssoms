@@ -261,18 +261,6 @@ export default {
 
       // init top query style
       this.SET_PAST_TIME_DATA_CHECK();
-
-      //  axios
-      //    .get(SERVER.URL + SERVER.ROUTES.getPastData + start + end)
-      //    .then((res) => {
-      //        if(res.data.result === "empty"){
-      //            alert("data not exist");
-      //        }
-      //      else if (res.data.result === "success") {
-      //        this.SET_TIME_AND_CPU_LIST(res.data.map.timeAndCpuList)
-      //      }
-      //    })
-      //    .catch((err) => console.log(err));
     },
     ...mapMutations("Schema", [
       "SET_TIME_AND_CPU_LIST",
@@ -353,17 +341,8 @@ export default {
   transition-duration: 0.5s;
   transition-timing-function: ease-in-out;
 }
-/* .main-query-box {
-  display: grid;
-  grid-template-columns: 50% 10% 40%;
-  grid-template-rows: 90px 20px 200px 180px;
-} */
 
 .query-box2 {
-  /* grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-start: 3;
-  grid-row-end: 4; */
   width: 300px;
   height: 100px;
 }
@@ -371,19 +350,6 @@ export default {
   margin: auto;
   border-radius: 8px;
 }
-/*
-.query-box3 {
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 3;
-  grid-row-end: 4;
-}
-.query-box4 {
-  grid-column-start: 1;
-  grid-column-end: 4;
-  grid-row-start: 4;
-  grid-row-end: 5;
-} */
 
 .query-calendar {
   display: flex;

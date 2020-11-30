@@ -2,9 +2,9 @@
   <div class="oracle-setting-container">
     <h2 class="mb-3">Oracle DB Setting</h2>
     <form>
-      <div style="width:100%; max-width:800px">
+      <div style="width: 100%; max-width: 800px">
         <div>
-          <h4 style="color:var(--font-sub2-color);  margin-bottom:10px">
+          <h4 style="color: var(--font-sub2-color); margin-bottom: 10px">
             <v-icon color="var(--font-sub2-color)">mdi-dns</v-icon> Oracle DB
           </h4>
           <v-card class="oracle-setting-card" elevation="1">
@@ -12,7 +12,7 @@
               <span class="setting-oracle-font">Oracle URL</span>
               <v-text-field
                 color="primary"
-                style="color:primary"
+                style="color: primary"
                 label="연동할 Oracle URL과 포트번호를 입력해주세요."
                 placeholder="ex) OracleServerURL:8080"
                 v-model="oracleData.oracleURL"
@@ -30,8 +30,8 @@
             </div>
           </v-card>
         </div>
-        <div style="margin-top:30px">
-          <h4 style="color:var(--font-sub2-color); margin-bottom:10px">
+        <div style="margin-top: 30px">
+          <h4 style="color: var(--font-sub2-color); margin-bottom: 10px">
             <v-icon color="var(--font-sub2-color)">mdi-account</v-icon> Oracle
             DB 계정
           </h4>
@@ -57,27 +57,16 @@
             </div>
           </v-card>
         </div>
-        <!-- <div class="setting-storage">
-        <span class="setting-right" style="display:inline-block; width: 350px"
-          >데이터 갱신 주기
-          <v-text-field label="아직 X"></v-text-field>
-        </span>
-        <span style="display:inline-block; width: 350px"
-          >데이터 배치 시각
-          <v-text-field label="아직 X"></v-text-field>
-        </span>
-      </div> -->
-        <div style="margin-top:30px; " align="right">
+
+        <div style="margin-top: 30px" align="right">
           <v-btn
             color="success"
             @click="setSettingsOracleDB"
             :disabled="saveDisable"
-            style="margin-right:10px"
+            style="margin-right: 10px"
             >설정사항 저장
           </v-btn>
-          <v-btn color="primary" @click="checkConOracleDB">
-            연결 테스트
-          </v-btn>
+          <v-btn color="primary" @click="checkConOracleDB"> 연결 테스트 </v-btn>
         </div>
       </div>
     </form>
@@ -96,9 +85,9 @@ export default {
         oracleURL: "",
         oracleID: "",
         oraclePassword: "",
-        oracleSID: ""
+        oracleSID: "",
       },
-      testString: ""
+      testString: "",
     };
   },
   watch: {
@@ -106,8 +95,8 @@ export default {
       deep: true,
       handler() {
         this.saveDisable = true;
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -159,11 +148,11 @@ export default {
           })
           .catch((err) => console.log(err));
       }
-    }
+    },
   },
   created() {
     this.getSettingsOracleDB();
-  }
+  },
 };
 </script>
 

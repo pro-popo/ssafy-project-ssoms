@@ -18,7 +18,7 @@
         top
       >
         <v-icon>mdi-check-circle</v-icon>
-        <span style="font-weight:bold; padding-left:10px;"
+        <span style="font-weight: bold; padding-left: 10px"
           >Sign Up Completed!</span
         >
 
@@ -44,7 +44,6 @@
       >
         Sign Up
       </v-btn>
-      <!-- <p class="find-pw-link">Forgot your password?</p> -->
     </div>
 
     <div class="overlay-container" id="overlay">
@@ -54,14 +53,14 @@
             width="80px"
             src="@/assets/SSOMS.png"
             alt=""
-            style="opacity:95%; margin-bottom:10px"
+            style="opacity: 95%; margin-bottom: 10px"
           />
           <h1>SSOMS</h1>
-          <h3 style="margin-bottom:20px; font-size:15px; color:#95b3da">
+          <h3 style="margin-bottom: 20px; font-size: 15px; color: #95b3da">
             <span>S</span>amsung <span>S</span>DI <span>O</span>racle
             <span>M</span>onitoring <span>S</span>olution
           </h3>
-          <p style="margin-top:10px; word-break:keep-all;opacity:80%">
+          <p style="margin-top: 10px; word-break: keep-all; opacity: 80%">
             TOP-DOWN 방식의 실시간 모니터링이 가능한 전문적인 Monitoring
             Solution <br />
           </p>
@@ -79,7 +78,7 @@
         <div class="overlay-panel overlay-right">
           <img width="250px" src="@/assets/SSOMS-long.png" alt="" />
 
-          <p style="margin-top:20px; ">
+          <p style="margin-top: 20px">
             쉽고 빠른 데이터베이스 모니터링 <br />
             SSOMS와 함께하세요.
           </p>
@@ -107,12 +106,12 @@ export default {
   name: "MainLogin",
   data() {
     return {
-      timeout: 2000
+      timeout: 2000,
     };
   },
   components: {
     Login,
-    SignUpUser
+    SignUpUser,
   },
   computed: {
     successSignUp: {
@@ -121,9 +120,9 @@ export default {
       },
       set(value) {
         this.SET_SUCCESS_SIGNUP(value);
-      }
+      },
     },
-    ...mapGetters("Account", ["isSuccessSignUp"])
+    ...mapGetters("Account", ["isSuccessSignUp"]),
   },
   methods: {
     ...mapMutations("Account", ["SET_SUCCESS_SIGNUP"]),
@@ -137,8 +136,8 @@ export default {
     },
     signUpSuccess() {
       this.ChangeSignIn();
-    }
-  }
+    },
+  },
 };
 </script>
 

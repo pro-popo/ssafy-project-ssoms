@@ -31,8 +31,6 @@
 import IEcharts from "vue-echarts-v3/src/full.js";
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import echarts from "echarts/lib/echarts";
-//import SERVER from "@/api/spring.js";
-//import axios from "axios";
 
 export default {
   name: "SchemaWhole",
@@ -67,11 +65,7 @@ export default {
             },
           },
         },
-        // title: {
-        //   left: "center",
-        //   text: "CPU Time",
-        //   padding: [15, 0]
-        // },
+
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -86,7 +80,6 @@ export default {
               show: true,
               size: [0, 0],
             },
-            // value: this.selectedRealTime
           },
         },
         yAxis: {
@@ -145,13 +138,8 @@ export default {
           data: this.getPastTimeData.schemaList,
           bottom: 5,
         },
-        // title: {
-        //   text: "All Schema's Status",
-        //   left: "center",
-        //   padding: [15, 0]
-        // },
+
         radar: {
-          // shape: 'circle',
           radius: "60%",
           splitNumber: 4,
           nameGap: 15,
@@ -176,7 +164,6 @@ export default {
           {
             name: "Schema status",
             type: "radar",
-            // areaStyle: {normal: {}},
             data: this.getPastTimeData.radarchart,
           },
         ],
@@ -200,7 +187,6 @@ export default {
 .whole-box {
   display: flex;
   height: 320px;
-  /* padding-left: 50px; */
 }
 .whole-query-box1 {
   margin: 10px;
@@ -211,19 +197,14 @@ export default {
 
 .width_0p {
   width: 0%;
-  /*transform: scaleX(0%);*/
 }
 .width_100p {
   width: 100%;
-  /*transform: scaleX(100%);*/
 }
 .v_hiden {
   visibility: hidden !important;
 }
 .width_50p {
   width: 50% !important;
-  /*transition-property: all;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in;*/
 }
 </style>

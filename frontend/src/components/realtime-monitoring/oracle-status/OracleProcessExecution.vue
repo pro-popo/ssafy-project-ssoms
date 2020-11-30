@@ -62,13 +62,11 @@
 
 <script>
 import IEcharts from "vue-echarts-v3/src/full.js";
-// import OracleStorage from "@/components/realtime-monitoring/oracle-status/OracleStorage.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "OracleCpu",
   components: {
     IEcharts,
-    // OracleStorage
   },
   methods: {
     changeChart(type) {
@@ -121,7 +119,6 @@ export default {
           bottom: 20,
           top: 40,
         },
-        // title: { text: "CPU Time" },
         xAxis: {
           type: "category",
           boundaryGap: false,
@@ -131,9 +128,6 @@ export default {
               color: "#ababab",
             },
           },
-          // axisTick: {
-          //   show: false
-          // }
         },
         yAxis: {
           type: "value",
@@ -171,72 +165,6 @@ export default {
           },
         ],
       },
-      // option: {
-      //   // title: {
-      //   //   text: "Status"
-      //   // },
-      //   grid: {
-      //     width: "100%",
-      //     height: "100%",
-      //     right: 10,
-      //     left: 10,
-      //     bottom: 0
-      //   },
-
-      //   series: [
-      //     {
-      //       type: "pie",
-      //       radius: ["60%", "90%"],
-      //       label: {
-      //         show: true,
-      //         formatter: function(event) {
-      //           if (event.data.name == "") return "";
-      //           return (
-      //             "{b|" +
-      //             event.data.name +
-      //             "}" +
-      //             "\n {c|" +
-      //             event.data.value +
-      //             "} {d|%}"
-      //           );
-      //         },
-      //         rich: {
-      //           b: {
-      //             color: "gray",
-      //             fontSize: "12",
-      //             fontWeight: "bold"
-      //           },
-      //           c: {
-      //             fontSize: "20",
-      //             fontWeight: "bold",
-      //             padding: [0, 0, 5, 0]
-      //           },
-      //           d: {
-      //             fontSize: "16",
-      //             fontWeight: "bold",
-      //             padding: [0, 0, 5, 0]
-      //           }
-      //         },
-      //         position: "center"
-      //       },
-
-      //       labelLine: {
-      //         show: false
-      //       },
-      //       color: ["#2196F3", "#E0E0E0"],
-      //       data: [
-      //         {
-      //           value: 0,
-      //           name: ""
-      //         },
-      //         {
-      //           value: 100,
-      //           name: ""
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
     };
   },
 };

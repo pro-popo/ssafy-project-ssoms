@@ -169,11 +169,7 @@ export default {
       findSchemaList: [],
     };
   },
-  // watch: {
-  //   findSchemaList: function() {
-  //     this.findSchemaList = this.allSchemaList;
-  //   }
-  // },
+
   methods: {
     findSchema() {
       this.findSchemaList = [];
@@ -223,10 +219,7 @@ export default {
         alert("최대 8개의 Schema까지 등록가능합니다.");
         return;
       }
-      // if (this.userID === "") {
-      //   alert("Schema ID를 입력해주세요.");
-      //   return;
-      // }
+
       this.userID = schema;
       // 중복 및 존재여부 확인
       axios

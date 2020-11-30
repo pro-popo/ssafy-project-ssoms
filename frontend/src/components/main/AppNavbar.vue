@@ -112,32 +112,11 @@ export default {
 </script>
 
 <style>
-.display_hidden {
-  display: none;
-}
 .log_list {
   list-style-type: none;
   padding: 0px !important;
 }
-.log {
-  border-bottom: 1px gray solid;
-  text-align: center;
-}
-.log_div {
-  color: black;
-  position: absolute;
-  top: 48px;
-  right: 0px;
-  width: 200px;
-  max-height: 200px;
-  color: white;
-  opacity: 1;
-  overflow: auto;
-  padding: 0px;
-  margin: 0px;
-  background-color: rgb(41, 41, 42);
-  z-index: 20;
-}
+
 .nav-bar {
   z-index: 10 !important;
   background: rgb(41, 41, 42);

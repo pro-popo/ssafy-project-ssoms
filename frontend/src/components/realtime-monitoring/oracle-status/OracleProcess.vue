@@ -12,10 +12,6 @@
               <span class="oracle-unit">count</span>
               <span class="oracle-status-units"> /sec</span>
             </h1>
-
-            <!-- <div style="height:30%">
-                <IEcharts :option="option2" class="small-chart" />
-              </div> -->
           </div>
           <div v-if="changedTotalParseCount == 0">
             <v-icon>mdi-menu-up</v-icon>
@@ -32,17 +28,6 @@
             <span>{{ changedTotalParseCount }}</span>
           </div>
         </div>
-
-        <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-arrow-decision-outline</v-icon
-                >
-              </template>
-              <span>Process</span>
-            </v-tooltip>
-          </div> -->
       </v-card-text>
     </v-card>
     <v-card elevation="2">
@@ -57,9 +42,6 @@
               <span class="oracle-unit">cursor</span>
               <span class="oracle-status-units"> /sec</span>
             </h1>
-            <!-- <div style="height:30%">
-                <IEcharts :option="option3" class="small-chart" />
-              </div> -->
           </div>
           <div v-if="changedOpenCursors == 0">
             <v-icon>mdi-menu-up</v-icon>
@@ -74,17 +56,6 @@
             <span>{{ changedOpenCursors }}</span>
           </div>
         </div>
-
-        <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-arrow-decision-outline</v-icon
-                >
-              </template>
-              <span>Process</span>
-            </v-tooltip>
-          </div> -->
       </v-card-text>
     </v-card>
     <v-card elevation="2">
@@ -99,9 +70,6 @@
               <span class="oracle-unit">commit</span>
               <span class="oracle-status-units"> /sec</span>
             </h1>
-            <!-- <div style="height:30%">
-                <IEcharts :option="option4" class="small-chart" />
-              </div> -->
           </div>
           <div v-if="changedUserCommits == 0">
             <v-icon>mdi-menu-up</v-icon>
@@ -116,31 +84,17 @@
             <span>{{ changedUserCommits }}</span>
           </div>
         </div>
-
-        <!-- <div class="oracle-title-icon">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" size="25" dark
-                  >mdi-arrow-decision-outline</v-icon
-                >
-              </template>
-              <span>Process</span>
-            </v-tooltip>
-          </div> -->
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-// import IEcharts from "vue-echarts-v3/src/full.js";
 import { mapGetters } from "vuex";
 
 export default {
   name: "OracleProcess",
-  components: {
-    // IEcharts
-  },
+
   computed: {
     ...mapGetters("Oracle", [
       "getExecutionsPerSec",

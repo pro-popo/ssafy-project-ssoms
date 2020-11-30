@@ -236,13 +236,7 @@ export default {
 .realtime-top-query-outer {
   margin-top: 30px;
 }
-/* .top-query-left {
-  width: 70%;
-}
-.top-query-right {
-  width: 28%;
-  margin: auto 0px;
-} */
+
 .v-tap {
   background: transparent;
 }
