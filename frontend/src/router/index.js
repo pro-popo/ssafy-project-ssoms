@@ -79,7 +79,6 @@ const router = new VueRouter({
   }
 });
 router.beforeEach((to, from, next) => {
-  // if (from.name == null) next(false);
   if (to.name == "SignUpAdmin") {
     if (!store.getters["Account/isExistedAdmin"]) next();
     else next({ name: "Home" });
