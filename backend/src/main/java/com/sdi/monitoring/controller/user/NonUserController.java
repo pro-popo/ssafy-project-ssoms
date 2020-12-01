@@ -26,12 +26,10 @@ public class NonUserController {
 	
 	@GetMapping("/existence/admin")
 	public ResponseEntity authorization() {
-//		System.out.println("========== authorization entered... ==========");
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		boolean isAdmin = nonUserService.hasAdmin();
 		result.status = true;
-		System.out.println(isAdmin);
 		result.result = isAdmin ? "yes" : "no";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
@@ -39,8 +37,6 @@ public class NonUserController {
 
 	@PutMapping("/signup")
 	public ResponseEntity signUp(@RequestBody UserSignUpDTO userSignUpDTO) {
-//		System.out.println("========== signUp entered... ==========");
-		System.out.println(userSignUpDTO.toString());
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		boolean checkCanUseEmail = nonUserService.emailDuplicateCheckForSignUp(userSignUpDTO.getEmail());
@@ -58,20 +54,16 @@ public class NonUserController {
 		return response;
 	}
 
-	// Session 처리해주는 부분 추가
 	@PostMapping("/signin")
 	public ResponseEntity login(@RequestBody(required = true) UserPrimitiveDTO userPrimitiveDTO,
 			HttpSession httpSession) {
-//		System.out.println("========== login entered... ==========");
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		boolean checkCanLogin = nonUserService.signIn(userPrimitiveDTO);
 		result.status = true;
 		if (checkCanLogin) {
-//			oss.start();
 			result.result = "success";
 			httpSession.setAttribute("loginSession", userPrimitiveDTO.getEmail());
-//			System.out.println((String) httpSession.getAttribute("loginSession"));
 		} else {
 			result.result = "fail";
 		}

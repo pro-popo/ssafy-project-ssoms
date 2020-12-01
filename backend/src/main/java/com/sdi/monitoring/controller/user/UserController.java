@@ -38,8 +38,6 @@ public class UserController {
 	public ResponseEntity logout(@PathVariable(name = "email") String email, HttpServletRequest httpServletRequest) {
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
-//		System.out.println("========== logout entered... ==========");
-//		System.out.println("email : " + email);
 		HttpSession httpSession = httpServletRequest.getSession();
 		if (email.equals(httpSession.getAttribute("loginSession"))) {
 			httpSession.setAttribute("loginSession", null);
@@ -49,7 +47,6 @@ public class UserController {
 			response = new ResponseEntity<>(result, HttpStatus.OK);
 			return response;
 		}
-//		oss.stop();
 		result.status = true;
 		result.result = "success";
 		response = new ResponseEntity<>(result, HttpStatus.OK);
@@ -67,12 +64,8 @@ public class UserController {
 		return response;
 	}
 
-	// dto null 반환될때 체크
-	// logout 했는데 유저 프로필 정보 잘가져옴 - interceptor 를 안들어감
 	@GetMapping("/profile/{email}")
 	public ResponseEntity getUserProfile(@PathVariable(name = "email") String email) {
-//		System.out.println("========== alluser entered... ==========");
-//		System.out.println("email : " + email);
 		ResponseEntity response = null;
 		final SuccessResponse result = new SuccessResponse();
 		UserDTO userDTO = userService.getUserProfile(email);
@@ -85,7 +78,6 @@ public class UserController {
 		return response;
 	}
 
-	// 권한맞는지 check
 	@PutMapping("/")
 	public ResponseEntity updateUser(@RequestBody(required = true) UserUpdateDTO userUpdateDTO) {
 		ResponseEntity response = null;
