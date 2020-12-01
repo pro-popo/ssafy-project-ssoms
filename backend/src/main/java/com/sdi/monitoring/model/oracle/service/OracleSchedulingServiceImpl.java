@@ -152,9 +152,9 @@ public class OracleSchedulingServiceImpl implements OracleSchedulingService {
 						outlierDataEntityBuilder(format.format(time), oracleStatusDTO.getDatabaseCpuTimeRatio()));
 				outlier = true;
 			}
+			map.put("outlier", outlier);
+			messagingTemplate.convertAndSend("/sendData/schedulerM", map);
 		}
-		map.put("outlier", outlier);
-		messagingTemplate.convertAndSend("/sendData/schedulerM", map);
 	}
 
 	private UsedBySchemaEntity usedBySchemaBuilder(UsedBySchemaDTO usedBySchemaDTO) {
