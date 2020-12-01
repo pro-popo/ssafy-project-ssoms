@@ -174,7 +174,6 @@ public class AdminServiceImpl implements AdminService{
 		} if(adminEntity == null) {
 			return 1;
 		} 
-		System.out.println(adminEntity.getInfo().getPw());
 		if(!cmpPasswordWithEncryptionPassword(form.getPw(), adminEntity.getInfo().getPw())) {
 			return 2;
 		}

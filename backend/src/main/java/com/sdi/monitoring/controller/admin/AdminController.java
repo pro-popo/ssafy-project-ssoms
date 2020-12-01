@@ -43,7 +43,6 @@ public class AdminController {
 	@Autowired
 	private MongoSchedulingService mongoScedulingService;
 	
-	// 이거 권한 맞는지 확인하는 로직 필요함
 	@PutMapping("/change")
 	public ResponseEntity changeAdmin(@RequestBody(required = true) UserUpdateAdminDTO userUpdateAdminDTO) {
 		ResponseEntity response = null;
@@ -56,7 +55,6 @@ public class AdminController {
 		return response;
 	}
 
-	// 리스트 null 반환될때 체크
 	@GetMapping("/alluser")
 	public ResponseEntity getAllUserList() {
 		ResponseEntity response = null;
@@ -116,26 +114,6 @@ public class AdminController {
 		response = new ResponseEntity<>(result, HttpStatus.OK);
 		return response;
 	}
-	
-//	@GetMapping("/settings/schema")
-//	public ResponseEntity getSettingsSchema() {
-//		ResponseEntity response = null;
-//		final SuccessResponse result = new SuccessResponse();
-//		
-//		JSONObject settings = adminService.getSettings();
-//		if(settings == null) {
-//			result.status = true;
-//			result.result = "fail";
-//		}else {
-//			Map<String, Object> map = new HashMap<>();
-//			map.put("schema", settings.get("schema"));
-//			result.status = true;
-//			result.result = "success";
-//			result.map = map;
-//		}
-//		response = new ResponseEntity<>(result, HttpStatus.OK);
-//		return response;
-//	}
 	
 	@PostMapping("/settings/schema/save")
 	public ResponseEntity setSettingsSchema(@RequestBody String userID) {

@@ -22,8 +22,6 @@ public class VerifyAdminInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-//		System.out.println("========== VerifyAdminInterceptor entered... ==========");
-
 		HttpSession httpSession = request.getSession();
 		String sessionEmail = (String)httpSession.getAttribute("loginSession");
 		
@@ -35,7 +33,6 @@ public class VerifyAdminInterceptor implements HandlerInterceptor {
 			throw new BadRequestException("VerifyAdminInterceptor throw Exception(BadRequestException exception)\n" + "This User is not found : " + sessionEmail);
 			
 		if(!userEntity.getInfo().isAdmin())
-//			throw new UnAuthorizationException("VerifyAdminInterceptor throw Exception(UnAuthorizationException exception)\n" + "dont have session info");
 	        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 		
 		return true;
